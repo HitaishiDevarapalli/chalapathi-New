@@ -480,48 +480,21 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══ UPCOMING EVENTS & NEWS SECTION ═══ */}
+      {/* ═══ UPCOMING EVENTS SECTION (CAROUSEL) ═══ */}
       <section className="bg-[#FDFBF7]/30 border-y border-gray-100 py-16 font-[var(--font-poppins)]">
         <div className="max-w-[1440px] mx-auto px-5">
           
-          {/* Section Header with Title and Tabs */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8 border-b border-gray-100 pb-5">
+          {/* Section Header */}
+          <div className="flex justify-between items-end mb-8 border-b border-gray-100 pb-5">
             <div>
               <h2 className="text-2xl lg:text-3xl font-[800] text-[#072A6C] tracking-tight">
                 Upcoming Events
               </h2>
-              <p className="text-[12px] text-gray-400 mt-1 font-light">Explore the latest happenings and updates from across our campus.</p>
+              <p className="text-[12px] text-gray-400 mt-1 font-light">Explore the latest happenings and academic forums from across our campus.</p>
             </div>
-
-            {/* Toggle Tabs */}
-            <div className="flex bg-gray-100 p-1.5 rounded-xl border border-gray-200/60 shadow-inner">
-              <button
-                onClick={() => {
-                  setActiveTab("events");
-                  setCurrentPage(0);
-                }}
-                className={`px-6 py-2.5 rounded-lg text-xs font-bold transition-all ${
-                  activeTab === "events"
-                    ? "bg-[#F97316] text-white shadow-md"
-                    : "bg-[#FDFBF7] text-gray-600 hover:text-gray-900"
-                }`}
-              >
-                Events
-              </button>
-              <button
-                onClick={() => {
-                  setActiveTab("news");
-                  setCurrentPage(0);
-                }}
-                className={`px-6 py-2.5 rounded-lg text-xs font-bold transition-all ${
-                  activeTab === "news"
-                    ? "bg-[#F97316] text-white shadow-md"
-                    : "bg-[#FDFBF7] text-gray-600 hover:text-gray-900"
-                }`}
-              >
-                News
-              </button>
-            </div>
+            <Link to="/news/events" className="text-[12px] font-[700] text-[#D71920] hover:text-[#072A6C] transition-colors flex items-center gap-0.5">
+              View Calendar <ArrowRight size={12} />
+            </Link>
           </div>
 
           {/* Carousel Slider */}
@@ -540,7 +513,7 @@ export default function Home() {
               }}
               onScroll={handleCarouselScroll}
             >
-              {(activeTab === "events" ? HOME_EVENTS : HOME_NEWS).map((item, idx) => (
+              {HOME_EVENTS.map((item, idx) => (
                 <div
                   key={idx}
                   className="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] shrink-0 snap-start snap-always"
@@ -567,7 +540,7 @@ export default function Home() {
                       </div>
                       <div className="pt-4 border-t border-gray-50 mt-4 flex justify-between items-center">
                         <span className="text-[10px] text-gray-400 font-medium">
-                          {activeTab === "events" ? "View Details" : "Read Full Story"}
+                          View Details
                         </span>
                         <ArrowRight size={14} className="text-[#F97316]" />
                       </div>
@@ -580,7 +553,7 @@ export default function Home() {
 
           {/* Pagination Indicators */}
           <div className="flex justify-center gap-1.5 mt-8">
-            {Array.from({ length: Math.ceil((activeTab === "events" ? HOME_EVENTS : HOME_NEWS).length / (window.innerWidth >= 1024 ? 3 : window.innerWidth >= 768 ? 2 : 1)) }).map((_, idx) => (
+            {Array.from({ length: Math.ceil(HOME_EVENTS.length / (window.innerWidth >= 1024 ? 3 : window.innerWidth >= 768 ? 2 : 1)) }).map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => handleDotClick(idx)}
@@ -595,13 +568,100 @@ export default function Home() {
           {/* Centered Action Button */}
           <div className="flex justify-center mt-10">
             <Link
-              to={activeTab === "events" ? "/news/events" : "/news"}
+              to="/news/events"
               className="h-11 px-8 bg-[#854d0e] hover:bg-[#713f12] text-white text-[12px] font-bold rounded-xl inline-flex items-center gap-2 transition-all shadow-md active:scale-95 cursor-pointer uppercase tracking-wider"
             >
-              View More {activeTab === "events" ? "Events" : "News"} <ArrowRight size={12} />
+              View More Events <ArrowRight size={12} />
             </Link>
           </div>
 
+        </div>
+      </section>
+
+      {/* ═══ STANDALONE NEWS SECTION (4 CARDS IN A ROW) ═══ */}
+      <section className="bg-white py-16 font-[var(--font-poppins)] border-b border-gray-100">
+        <div className="max-w-[1440px] mx-auto px-5">
+          {/* Header */}
+          <div className="flex justify-between items-end mb-8 pb-5 border-b border-gray-100">
+            <div>
+              <h2 className="text-2xl lg:text-3xl font-[800] text-[#072A6C]">
+                News @ City Chalapathi
+              </h2>
+              <p className="text-[12px] text-gray-400 mt-1 font-light">Stay updated with the latest milestones, accolades, and events from our institute.</p>
+            </div>
+            <Link to="/news" className="text-[12px] font-[700] text-[#D71920] hover:text-[#072A6C] transition-colors flex items-center gap-0.5">
+              View All <ArrowRight size={12} />
+            </Link>
+          </div>
+
+          {/* Cards Grid: 4 cols on desktop, 2 on tablet, 1 on mobile */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              {
+                title: "AI Research Lab Inaugurated on Campus",
+                date: "12 May 2025",
+                category: "Innovation",
+                excerpt: "In partnership with global tech giants, the new laboratory features advanced machine learning compute nodes for research projects.",
+                image: "/prog_computer.png"
+              },
+              {
+                title: "Engineering Students Win Smart Hackathon 2025",
+                date: "06 May 2025",
+                category: "Achievement",
+                excerpt: "Our team developed a decentralized IoT mesh network algorithm to win first prize at the national technology showcase competition.",
+                image: "/prog_engineering.png"
+              },
+              {
+                title: "MoU Signed with Top Global Corporations for Placements",
+                date: "03 May 2025",
+                category: "Corporate Link",
+                excerpt: "Enabling direct internship allocations, corporate-readiness workshops, and accelerated final semester student placements.",
+                image: "/prog_management.png"
+              },
+              {
+                title: "New Pharmacy Research Formulations Published",
+                date: "28 Apr 2025",
+                category: "Research",
+                excerpt: "Our department has published groundbreaking formulations on nano-carrier systems in high-impact medical journals.",
+                image: "/prog_pharmacy.png"
+              }
+            ].map((newsItem, index) => (
+              <div 
+                key={index} 
+                className="bg-white border border-gray-100 rounded-3xl p-5 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between h-full group"
+              >
+                <div>
+                  {/* Card Image */}
+                  <div className="h-44 w-full rounded-2xl overflow-hidden mb-4 relative">
+                    <img 
+                      src={newsItem.image} 
+                      alt={newsItem.title} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                    />
+                  </div>
+                  {/* Metadata */}
+                  <div className="flex items-center gap-3 text-[10px] text-gray-400 font-semibold mb-2">
+                    <span className="text-[#F97316] uppercase tracking-wider">{newsItem.category}</span>
+                    <span>•</span>
+                    <span>{newsItem.date}</span>
+                  </div>
+                  {/* Title */}
+                  <h4 className="text-sm font-[800] text-[#072A6C] leading-snug line-clamp-2 group-hover:text-[#D71920] transition-colors">
+                    {newsItem.title}
+                  </h4>
+                  {/* Excerpt */}
+                  <p className="text-[12px] text-gray-500 line-clamp-3 font-light mt-1.5 leading-relaxed">
+                    {newsItem.excerpt}
+                  </p>
+                </div>
+                {/* Footer action */}
+                <div className="pt-4 border-t border-gray-50 mt-4 flex items-center justify-between text-[11px] font-bold text-[#072A6C]">
+                  <span>Read Article</span>
+                  <ArrowRight size={12} className="text-[#D71920] group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
