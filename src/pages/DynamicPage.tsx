@@ -501,11 +501,7 @@ const getPageContent = (path: string) => {
         title: "Academic Flexibilities",
         category: "Academics",
         desc: "Autonomous credit choices, minor streams, honors degrees, and student transfers.",
-        body: (
-          <div className="space-y-6 text-gray-600 text-sm">
-            <p>Being an autonomous institution, City Chalapathi offers student-centric choices like the Choice Based Credit System (CBCS), enabling scholars to choose electives across disciplines, enroll in honors streams, or achieve minor specializations in emerging branches.</p>
-          </div>
-        )
+        body: <AcademicFlexibilities />
       };
     }
     if (cleanPath.includes("programmes")) {
@@ -1192,6 +1188,118 @@ function AcademicCalendar() {
             </div>
           </div>
         ))}
+      </div>
+    </div>
+  );
+}
+
+function AcademicFlexibilities() {
+  const [activeItem, setActiveItem] = React.useState<string | null>(null);
+
+  const flexibilities = [
+    {
+      title: "Acceleration and Deceleration",
+      key: "acceleration",
+      desc: "Allows students to adjust their academic pace. Capable students can accelerate their degree program by taking extra credits (up to 28 per semester) to graduate in 3.5 years or opt for deceleration (fewer credits) to spread the load without failing grades.",
+      highlights: ["Fast-track graduation in 3.5 years", "Decelerated paths to manage complex core modules", "Credit load variance between 16 to 28 credits per term"]
+    },
+    {
+      title: "Change of Branch",
+      key: "change-branch",
+      desc: "Offers a second chance to slide into a branch of choice. High-performing students (typically top 10% based on first-year CGPA) with no backlogs can apply for branch transfer after completing their second semester.",
+      highlights: ["Merit-based allocations after Year 1", "CGPA threshold of 8.5 or above", "Zero pending backlogs constraint"]
+    },
+    {
+      title: "Choice Based Credit System (CBCS)",
+      key: "cbcs",
+      desc: "Gives students the freedom to choose their own curriculum paths. Under the Choice Based Credit System, scholars can choose professional core electives, interdisciplinary open electives, and humanities courses across departments.",
+      highlights: ["Choice-driven learning framework", "Interdisciplinary open electives basket", "Syllabus aligned with global Credit accumulation systems"]
+    },
+    {
+      title: "Double Major",
+      key: "double-major",
+      desc: "Enables students to gain multi-disciplinary expertise. An engineering student can earn a Double Major by acquiring additional credits in a second engineering discipline, broadening career horizons significantly.",
+      highlights: ["Degrees in two distinct major categories", "Extended credit scope", "Enhances placement prospects in hybrid sectors"]
+    },
+    {
+      title: "Dual Degree",
+      key: "dual-degree",
+      desc: "Fast-tracks higher education. Students can enroll in integrated dual-degree programs to complete a B.Tech + M.Tech in 5 years or BBA + MBA in a structured, accelerated timeline, saving one full academic year.",
+      highlights: ["B.Tech + M.Tech in 5 years", "Integrated course structures", "Saves time and fee costs"]
+    },
+    {
+      title: "Honors Degree",
+      key: "honors",
+      desc: "Promotes advanced study and research. Outstanding students can opt for an Honors track in their parent department. This requires completing additional advanced theory courses and a minor research dissertation.",
+      highlights: ["Awarded as 'B.Tech (Honours)'", "Dedicated advanced research dissertation", "High eligibility threshold (CGPA > 8.0)"]
+    },
+    {
+      title: "Minor Degree",
+      key: "minor",
+      desc: "Adds a secondary stream of expertise. Students can take a set of 5-6 courses from another department (e.g. ECE student completing minor in CSE) to gain a minor degree along with their primary branch.",
+      highlights: ["Cross-discipline skillset certification", "Prepares students for hybrid jobs (e.g. Bio-informatics)", "Structured credit tracks alongside primary majors"]
+    },
+    {
+      title: "Special Purpose Semesters",
+      key: "special-sem",
+      desc: "Dedicated time for out-of-classroom learning. Students can spend a complete semester (typically in Year 4) doing a full-time Industry Internship, a Semester Abroad Program (SAP) at a global university, or incubating a startup on campus.",
+      highlights: ["6-Month full-time industrial placement", "Semester Abroad programs (SAP) at partner universities", "Campus startup incubator support credits"]
+    },
+    {
+      title: "Specialization",
+      key: "specialization",
+      desc: "Deepens focus in high-demand fields. CSE students can choose targeted specializations (like Cyber Security, Data Science, AI & ML) by taking a set of matching elective courses and lab projects starting in their third year.",
+      highlights: ["Focused tracks within parent branch", "Industry-aligned specific curricula", "Prepares for specialized roles directly out of college"]
+    },
+    {
+      title: "Summer Term Registration",
+      key: "summer-term",
+      desc: "Provides a credit recovery pathway. Conducted during the summer break, this term allows students with backlogs or missed attendance to re-register for courses, complete examinations, and catch up with their cohorts.",
+      highlights: ["Fast-track backlog clearance", "Accelerated credit recovery", "Regular classes and laboratory cycles over 6 weeks"]
+    }
+  ];
+
+  return (
+    <div className="space-y-6">
+      <p className="text-gray-600 text-sm leading-relaxed">
+        City Chalapathi Institute of Technology offers several academic flexibilities for students at both Undergraduate and Postgraduate levels. Click on any of the flexibilities below to view full details:
+      </p>
+
+      <div className="space-y-3">
+        {flexibilities.map((item) => {
+          const isExpanded = activeItem === item.key;
+          return (
+            <div key={item.key} className="bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm hover:shadow transition-shadow">
+              <button
+                onClick={() => setActiveItem(isExpanded ? null : item.key)}
+                className="w-full px-5 py-4 flex items-center justify-between text-xs font-bold text-gray-700 hover:text-[#D71920] bg-white transition-colors text-left outline-none cursor-pointer"
+              >
+                <span>• {item.title}</span>
+                <ChevronDown size={14} className={`transition-transform duration-200 ${isExpanded ? "rotate-180 text-[#D71920]" : "text-gray-400"}`} />
+              </button>
+              
+              {isExpanded && (
+                <div className="px-5 pb-5 pt-3 bg-gray-50/50 border-t border-gray-100 animate-slide-down space-y-4">
+                  <p className="text-xs text-gray-600 leading-relaxed font-light">
+                    {item.desc}
+                  </p>
+                  
+                  <div className="space-y-2">
+                    <span className="text-[10px] text-[#072A6C] font-extrabold uppercase tracking-wider block">Key Highlights:</span>
+                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 pl-1">
+                      {item.highlights.map((h, idx) => (
+                        <li key={idx} className="text-[11.5px] text-gray-500 font-medium flex items-center gap-1.5">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#D71920]" />
+                          {h}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );
