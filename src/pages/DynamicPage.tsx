@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronRight, ChevronDown, Home, Calendar, BookOpen, Landmark, Info, Phone, ShieldCheck, UserPlus, FileText, UploadCloud, CreditCard } from "lucide-react";
+import { ArrowRight, ChevronRight, ChevronDown, Home, Calendar, BookOpen, Landmark, Info, Phone, ShieldCheck, UserPlus, FileText, UploadCloud, CreditCard, Clock, ShieldAlert, UserCheck, Scale, CalendarRange } from "lucide-react";
 import { PROGRAMS_DATA } from "../data/programsData";
 
 
@@ -538,28 +538,12 @@ const getPageContent = (path: string) => {
         body: <AwardOfDegrees />
       };
     }
-    if (cleanPath.includes("electives")) {
-      return {
-        title: "Electives and Options",
-        category: "Academics",
-        desc: "Professional core electives and open inter-disciplinary course selections.",
-        body: (
-          <div className="space-y-6 text-gray-600 text-sm">
-            <p>Choose from a rich basket of open electives spanning humanities, data structures, internet of things, and business leadership courses.</p>
-          </div>
-        )
-      };
-    }
     if (cleanPath.includes("rules")) {
       return {
         title: "Rules & Regulations",
         category: "Academics",
-        desc: "Academic code of conduct, attendance thresholds, and malpractice codes.",
-        body: (
-          <div className="space-y-6 text-gray-600 text-sm">
-            <p>A minimum of 75% attendance is mandatory in each subject. Students must follow the examination and campus code of conduct strictly.</p>
-          </div>
-        )
+        desc: "Academic code of conduct, attendance thresholds, and campus compliance standards.",
+        body: <AcademicRulesRegulations />
       };
     }
     if (cleanPath.includes("teaching")) {
@@ -1643,6 +1627,79 @@ function AwardOfDegrees() {
             </div>
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function AcademicRulesRegulations() {
+  const rules = [
+    {
+      title: "Attendance",
+      desc: "Minimum 75% attendance is compulsory in each subject to qualify for final theory/laboratory exams.",
+      icon: Clock
+    },
+    {
+      title: "Dress Code",
+      desc: "Proper formal attire and mandatory wearing of ID cards at all times inside campus blocks.",
+      icon: UserCheck
+    },
+    {
+      title: "Integrity",
+      desc: "Zero tolerance for cheating, plagiarism, copying lab reports, or possessing prohibited devices in test halls.",
+      icon: ShieldAlert
+    },
+    {
+      title: "Conduct",
+      desc: "Absolute zero-tolerance ragging policy on campus. Offenders face immediate suspension/legal actions.",
+      icon: Scale
+    },
+    {
+      title: "Deadlines",
+      desc: "Course registration and examination enrollments must be completed before the semester commencement deadlines.",
+      icon: CalendarRange
+    }
+  ];
+
+  return (
+    <div className="space-y-8">
+      <div className="text-center max-w-xl mx-auto space-y-2">
+        <h3 className="text-base font-extrabold text-[#072A6C] uppercase tracking-wider">
+          5 Focal Points of Student Compliance
+        </h3>
+        <p className="text-xs text-gray-500 font-light leading-relaxed">
+          Standard academic rules and discipline parameters to be strictly adhered to by all scholars at City Chalapathi Institute.
+        </p>
+      </div>
+
+      {/* 5-Column Grid with Alternating Backgrounds matching the reference layout */}
+      <div className="grid grid-cols-1 md:grid-cols-5 border border-gray-100 rounded-3xl overflow-hidden bg-white shadow-sm">
+        {rules.map((item, idx) => {
+          const IconComponent = item.icon;
+          const bgClass = idx % 2 === 1 ? "bg-gray-50/70 border-x border-gray-100/50" : "bg-white";
+          
+          return (
+            <div
+              key={item.title}
+              className={`flex flex-col items-center p-6 text-center transition-all duration-300 hover:bg-[#072A6C]/5 group ${bgClass}`}
+            >
+              {/* Icon Container with subtle animation */}
+              <div className="w-16 h-16 rounded-full bg-blue-50/80 text-[#072A6C] flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110 group-hover:bg-[#072A6C]/10">
+                <IconComponent size={24} className="stroke-[1.5]" />
+              </div>
+
+              {/* Bold Title */}
+              <h4 className="text-xs font-extrabold text-gray-800 mb-2.5 uppercase tracking-widest group-hover:text-[#D71920] transition-colors">
+                {item.title}
+              </h4>
+
+              {/* Description Sentence */}
+              <p className="text-[11px] text-gray-500 leading-relaxed font-light">
+                {item.desc}
+              </p>
+            </div>
+          );
+        })}
       </div>
     </div>
   );

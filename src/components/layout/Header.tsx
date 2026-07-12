@@ -125,7 +125,6 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
     { label: "Programmes Offered", to: "/academics/programmes" },
     { label: "Grading", to: "/academics/grading" },
     { label: "Award of Degrees", to: "/academics/degrees" },
-    { label: "Electives", to: "/academics/electives" },
     { label: "Rules & Regulations", to: "/academics/rules" },
     { label: "Teaching & Evaluation", to: "/academics/teaching" },
     { label: "BOS Members", to: "/academics/bos" }
@@ -200,7 +199,6 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                             { label: "Flexibilities", to: "/academics/flexibilities" },
                             { label: "Grading System", to: "/academics/grading" },
                             { label: "Award of Degrees", to: "/academics/degrees" },
-                            { label: "Electives and Options", to: "/academics/electives" },
                             { label: "Rules & Regulations", to: "/academics/rules" },
                             { label: "Teaching & Evaluation", to: "/academics/teaching" },
                             { label: "BOS Members", to: "/academics/bos" }
