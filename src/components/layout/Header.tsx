@@ -36,17 +36,17 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
     <>
       <header
         className={`sticky top-0 z-40 w-full bg-white transition-all duration-300 ${
-          scrolled ? "shadow-md h-[110px]" : "h-[135px]"
-        }`}
+          scrolled ? "shadow-md" : ""
+        } h-[80px]`}
         style={{ borderBottom: "1px solid #E8E8E8" }}
       >
         <div className="max-w-[1440px] mx-auto h-full px-5 flex items-center justify-between gap-6">
-          {/* Logo (2x Bigger) */}
+          {/* Logo */}
           <Link to="/" className="flex items-center gap-2 shrink-0 py-1">
             <img
               src="/logo.png"
               alt="City Chalapathi Institute of Technology"
-              className={`${scrolled ? "h-24" : "h-28"} w-auto object-contain transition-all`}
+              className="h-14 w-auto object-contain transition-all"
             />
           </Link>
 
