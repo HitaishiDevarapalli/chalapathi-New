@@ -527,11 +527,7 @@ const getPageContent = (path: string) => {
         title: "Grading System",
         category: "Academics",
         desc: "Cumulative Grade Point Average (CGPA) scale and credit evaluation metrics.",
-        body: (
-          <div className="space-y-6 text-gray-600 text-sm">
-            <p>Students are evaluated on a 10-point letter grading scale. SGPA and CGPA are computed at the end of each semester block based on credit allocations.</p>
-          </div>
-        )
+        body: <AcademicGradingSystem />
       };
     }
     if (cleanPath.includes("degrees")) {
@@ -1300,6 +1296,326 @@ function AcademicFlexibilities() {
             </div>
           );
         })}
+      </div>
+    </div>
+  );
+}
+
+function AcademicGradingSystem() {
+  const [isAdmin, setIsAdmin] = React.useState(false);
+  const [activeTab, setActiveTab] = React.useState("btech");
+
+  const defaultGradingData = {
+    btech: {
+      title: "B.Tech. Grading Schema",
+      absolute: [
+        { perf: "Outstanding", grade: "O", gp: "10", range: "90 - 100" },
+        { perf: "Excellent", grade: "A+", gp: "9", range: "80 - 89" },
+        { perf: "Very Good", grade: "A", gp: "8", range: "70 - 79" },
+        { perf: "Good", grade: "B+", gp: "7", range: "60 - 69" },
+        { perf: "Above Average", grade: "B", gp: "6", range: "50 - 59" },
+        { perf: "Average", grade: "C", gp: "5", range: "46 - 49" },
+        { perf: "Pass", grade: "P", gp: "4", range: "40 - 45" },
+        { perf: "Fail", grade: "F", gp: "0", range: "0 - 39" },
+        { perf: "Absent", grade: "AB", gp: "0", range: "Absent" }
+      ],
+      relative: [
+        { grade: "O", gp: "10", calc: "total marks >= 90% and total marks >= mean + 1.50σ" },
+        { grade: "A+", gp: "9", calc: "µ+0.50σ <= total marks < µ+1.50σ" },
+        { grade: "A", gp: "8", calc: "µ <= total marks < µ+0.50σ" },
+        { grade: "B+", gp: "7", calc: "µ-0.50σ <= total marks < µ" },
+        { grade: "B", gp: "6", calc: "µ-1.00σ <= total marks < µ-0.50σ" },
+        { grade: "C", gp: "5", calc: "µ-1.25σ <= total marks < µ-1.00σ" },
+        { grade: "P", gp: "4", calc: "µ-1.50σ <= total marks < µ-1.25σ or >= 40" },
+        { grade: "F", gp: "0", calc: "total marks < µ-1.50σ or total marks <= 39" },
+        { grade: "AB", gp: "0", calc: "Absent" }
+      ]
+    },
+    pg: {
+      title: "M.Tech, MSc, M.A, MCA, MBA Grading Schema",
+      absolute: [
+        { perf: "Outstanding", grade: "O", gp: "10", range: "90 - 100" },
+        { perf: "Excellent", grade: "A+", gp: "9", range: "80 - 89" },
+        { perf: "Very Good", grade: "A", gp: "8", range: "70 - 79" },
+        { perf: "Good", grade: "B+", gp: "7", range: "60 - 69" },
+        { perf: "Above Average", grade: "B", gp: "6", range: "50 - 59" },
+        { perf: "Fail", grade: "F", gp: "0", range: "0 - 49" },
+        { perf: "Absent", grade: "AB", gp: "0", range: "Absent" }
+      ],
+      relative: [
+        { grade: "O", gp: "10", calc: "total marks >= 90% and total marks >= mean + 1.50σ" },
+        { grade: "A+", gp: "9", calc: "µ+0.50σ <= total marks < µ+1.50σ" },
+        { grade: "A", gp: "8", calc: "µ <= total marks < µ+0.50σ" },
+        { grade: "B+", gp: "7", calc: "µ-0.50σ <= total marks < µ" },
+        { grade: "B", gp: "6", calc: "µ-1.00σ <= total marks < µ-0.50σ" },
+        { grade: "F", gp: "0", calc: "total marks < µ-1.50σ or total marks <= 49" },
+        { grade: "AB", gp: "0", calc: "Absent" }
+      ]
+    },
+    barch: {
+      title: "B.Arch. Grading Schema",
+      absolute: [
+        { perf: "Outstanding", grade: "O", gp: "10", range: "90 - 100" },
+        { perf: "Excellent", grade: "A+", gp: "9", range: "80 - 89" },
+        { perf: "Very Good", grade: "A", gp: "8", range: "70 - 79" },
+        { perf: "Good", grade: "B+", gp: "7", range: "60 - 69" },
+        { perf: "Above Average", grade: "B", gp: "6", range: "56 - 59" },
+        { perf: "Pass", grade: "P", gp: "5", range: "50 - 55" },
+        { perf: "Fail", grade: "F", gp: "0", range: "0 - 49" },
+        { perf: "Absent", grade: "AB", gp: "0", range: "Absent" }
+      ]
+    },
+    bpharm: {
+      title: "B.Pharmacy Grading Schema",
+      absolute: [
+        { perf: "Outstanding", grade: "O", gp: "10", range: "90 - 100" },
+        { perf: "Excellent", grade: "A", gp: "9", range: "80 - 89" },
+        { perf: "Good", grade: "B", gp: "8", range: "70 - 79" },
+        { perf: "Fair", grade: "C", gp: "7", range: "60 - 69" },
+        { perf: "Average", grade: "D", gp: "6", range: "50 - 59" },
+        { perf: "Fail", grade: "F", gp: "0", range: "0 - 49" },
+        { perf: "Absent", grade: "AB", gp: "0", range: "Absent" }
+      ]
+    },
+    bballb: {
+      title: "BBA-LL.B. Grading Schema",
+      relative: [
+        { perf: "Excellent", grade: "X", gp: "10", calc: "Top Tier performance" },
+        { perf: "Very Good", grade: "A", gp: "9", calc: "Highly Commendable" },
+        { perf: "Good", grade: "B", gp: "8", calc: "Competent Standard" },
+        { perf: "Fair", grade: "C", gp: "7", calc: "Average standard" },
+        { perf: "Satisfactory", grade: "D", gp: "6", calc: "Satisfactory standard" },
+        { perf: "Pass", grade: "E", gp: "5", calc: "Passing threshold" },
+        { perf: "Fail", grade: "F", gp: "0", calc: "Failing standard" },
+        { perf: "Absent", grade: "AB", gp: "0", calc: "Absent" }
+      ]
+    }
+  };
+
+  const [gradingData, setGradingData] = React.useState(() => {
+    const saved = localStorage.getItem("chalapathy_grading_config");
+    return saved ? JSON.parse(saved) : defaultGradingData;
+  });
+
+  const handleSave = () => {
+    localStorage.setItem("chalapathy_grading_config", JSON.stringify(gradingData));
+    setIsAdmin(false);
+    alert("Grading parameters successfully persisted to system records!");
+  };
+
+  const handleReset = () => {
+    if (window.confirm("Restore all grading tables to official PDF default parameters?")) {
+      setGradingData(defaultGradingData);
+      localStorage.removeItem("chalapathy_grading_config");
+      setIsAdmin(false);
+    }
+  };
+
+  const updateAbsoluteCell = (program: string, idx: number, field: string, val: string) => {
+    const copy = { ...gradingData };
+    copy[program].absolute[idx][field] = val;
+    setGradingData(copy);
+  };
+
+  const updateRelativeCell = (program: string, idx: number, field: string, val: string) => {
+    const copy = { ...gradingData };
+    copy[program].relative[idx][field] = val;
+    setGradingData(copy);
+  };
+
+  const currentProgram = gradingData[activeTab];
+
+  return (
+    <div className="space-y-6">
+      {/* Top Header Admin Controls */}
+      <div className="flex justify-between items-center bg-gray-50 border border-gray-100 p-4 rounded-2xl">
+        <div className="flex gap-2">
+          {Object.entries(gradingData).map(([key, data]: [string, any]) => (
+            <button
+              key={key}
+              onClick={() => setActiveTab(key)}
+              className={`px-4 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer outline-none ${
+                activeTab === key
+                  ? "bg-[#072A6C] text-white"
+                  : "bg-white text-gray-600 border border-gray-200 hover:border-gray-300"
+              }`}
+            >
+              {key === "btech" && "B.Tech"}
+              {key === "pg" && "PG (M.Tech/MBA/MCA)"}
+              {key === "barch" && "B.Arch"}
+              {key === "bpharm" && "B.Pharmacy"}
+              {key === "bballb" && "BBA-LL.B."}
+            </button>
+          ))}
+        </div>
+        <div className="flex gap-2 shrink-0">
+          {isAdmin ? (
+            <>
+              <button
+                onClick={handleSave}
+                className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-xs font-bold rounded-xl shadow-sm cursor-pointer outline-none"
+              >
+                💾 Save Changes
+              </button>
+              <button
+                onClick={handleReset}
+                className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs font-bold rounded-xl cursor-pointer outline-none"
+              >
+                Reset Default
+              </button>
+            </>
+          ) : (
+            <button
+              onClick={() => setIsAdmin(true)}
+              className="px-4 py-2 bg-[#D71920] hover:bg-[#b71217] text-white text-xs font-bold rounded-xl shadow-sm flex items-center gap-1.5 cursor-pointer outline-none"
+            >
+              🔑 Edit Parameters (Admin Mode)
+            </button>
+          )}
+        </div>
+      </div>
+
+      <div className="space-y-8">
+        <h3 className="text-lg font-extrabold text-[#072A6C]">{currentProgram.title}</h3>
+        
+        {/* Render Absolute Grading if it exists */}
+        {currentProgram.absolute && (
+          <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
+            <div className="flex justify-between items-center mb-4">
+              <span className="text-xs font-extrabold text-[#D71920] uppercase tracking-wider">Absolute Grading System</span>
+              {isAdmin && <span className="text-[10px] text-green-600 font-bold bg-green-50 px-2 py-0.5 rounded border border-green-100">Click any field to edit</span>}
+            </div>
+            <div className="border border-gray-100 rounded-xl overflow-hidden shadow-sm bg-white">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="bg-gray-100/60 border-b border-gray-200/60 text-gray-700 font-bold">
+                    <th className="p-3">Performance</th>
+                    <th className="p-3">Letter Grade</th>
+                    <th className="p-3">Grade Point</th>
+                    <th className="p-3">Percentage of Marks</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {currentProgram.absolute.map((row: any, idx: number) => (
+                    <tr key={idx} className="hover:bg-gray-50/20">
+                      <td className="p-3 font-medium text-gray-800">
+                        {isAdmin ? (
+                          <input
+                            type="text"
+                            value={row.perf}
+                            onChange={(e) => updateAbsoluteCell(activeTab, idx, "perf", e.target.value)}
+                            className="bg-white border border-gray-200 rounded px-2 py-1 text-xs w-full max-w-[150px] focus:ring-1 focus:ring-blue-500 outline-none"
+                          />
+                        ) : (
+                          row.perf
+                        )}
+                      </td>
+                      <td className="p-3 font-semibold text-[#072A6C]">{row.grade}</td>
+                      <td className="p-3 font-semibold text-[#072A6C]">
+                        {isAdmin ? (
+                          <input
+                            type="text"
+                            value={row.gp}
+                            onChange={(e) => updateAbsoluteCell(activeTab, idx, "gp", e.target.value)}
+                            className="bg-white border border-gray-200 rounded px-2 py-1 text-xs w-20 focus:ring-1 focus:ring-blue-500 outline-none"
+                          />
+                        ) : (
+                          row.gp
+                        )}
+                      </td>
+                      <td className="p-3 text-gray-600">
+                        {isAdmin ? (
+                          <input
+                            type="text"
+                            value={row.range}
+                            onChange={(e) => updateAbsoluteCell(activeTab, idx, "range", e.target.value)}
+                            className="bg-white border border-gray-200 rounded px-2 py-1 text-xs w-full focus:ring-1 focus:ring-blue-500 outline-none"
+                          />
+                        ) : (
+                          row.range
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* Render Relative Grading if it exists */}
+        {currentProgram.relative && (
+          <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
+            <div className="flex justify-between items-center mb-4">
+              <span className="text-xs font-extrabold text-[#072A6C] uppercase tracking-wider">Relative Grading System</span>
+              {isAdmin && <span className="text-[10px] text-green-600 font-bold bg-green-50 px-2 py-0.5 rounded border border-green-100">Click any field to edit</span>}
+            </div>
+            <div className="border border-gray-100 rounded-xl overflow-hidden shadow-sm bg-white">
+              <table className="w-full text-left text-xs border-collapse">
+                <thead>
+                  <tr className="bg-gray-100/60 border-b border-gray-200/60 text-gray-700 font-bold">
+                    {activeTab === "bballb" && <th className="p-3">Performance</th>}
+                    <th className="p-3">Letter Grade</th>
+                    <th className="p-3">Grade Point</th>
+                    <th className="p-3">{activeTab === "bballb" ? "Descriptor" : "Grade Calculation Formula"}</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-100">
+                  {currentProgram.relative.map((row: any, idx: number) => (
+                    <tr key={idx} className="hover:bg-gray-50/20">
+                      {activeTab === "bballb" && (
+                        <td className="p-3 font-medium text-gray-800">
+                          {isAdmin ? (
+                            <input
+                              type="text"
+                              value={row.perf}
+                              onChange={(e) => updateRelativeCell(activeTab, idx, "perf", e.target.value)}
+                              className="bg-white border border-gray-200 rounded px-2 py-1 text-xs w-full max-w-[150px] focus:ring-1 focus:ring-blue-500 outline-none"
+                            />
+                          ) : (
+                            row.perf
+                          )}
+                        </td>
+                      )}
+                      <td className="p-3 font-semibold text-[#072A6C]">{row.grade}</td>
+                      <td className="p-3 font-semibold text-[#072A6C]">
+                        {isAdmin ? (
+                          <input
+                            type="text"
+                            value={row.gp}
+                            onChange={(e) => updateRelativeCell(activeTab, idx, "gp", e.target.value)}
+                            className="bg-white border border-gray-200 rounded px-2 py-1 text-xs w-20 focus:ring-1 focus:ring-blue-500 outline-none"
+                          />
+                        ) : (
+                          row.gp
+                        )}
+                      </td>
+                      <td className="p-3 text-gray-600 font-mono text-[11px]">
+                        {isAdmin ? (
+                          <input
+                            type="text"
+                            value={row.calc}
+                            onChange={(e) => updateRelativeCell(activeTab, idx, "calc", e.target.value)}
+                            className="bg-white border border-gray-200 rounded px-2 py-1 text-xs w-full focus:ring-1 focus:ring-blue-500 outline-none"
+                          />
+                        ) : (
+                          row.calc
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+      </div>
+
+      <div className="bg-yellow-50 border-l-4 border-yellow-500 p-4 rounded-r-xl text-[11px] text-yellow-900 font-light leading-relaxed">
+        <strong>Definitions:</strong>
+        <br />• <strong>Mean (µ):</strong> The average score of all passing students in the specific subject class.
+        <br />• <strong>Standard Deviation (σ):</strong> Represents the variance / score distribution of the student cohort.
+        <br />• <strong>Relative Grading:</strong> Used selectively for large core classes to ensure a fair normal distribution curve across multiple branches.
       </div>
     </div>
   );
