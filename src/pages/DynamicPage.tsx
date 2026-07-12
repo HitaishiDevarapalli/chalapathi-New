@@ -535,11 +535,7 @@ const getPageContent = (path: string) => {
         title: "Award of Degrees",
         category: "Academics",
         desc: "Eligibility conditions for degree distributions, graduation convocations, and transcripts.",
-        body: (
-          <div className="space-y-6 text-gray-600 text-sm">
-            <p>Degrees are awarded to candidates who secure the minimum required credits with no active backlogs, complying with university regulations.</p>
-          </div>
-        )
+        body: <AwardOfDegrees />
       };
     }
     if (cleanPath.includes("electives")) {
@@ -1497,6 +1493,156 @@ function AcademicGradingSystem() {
         <br />• <strong>Mean (µ):</strong> The average score of all passing students in the specific subject class.
         <br />• <strong>Standard Deviation (σ):</strong> Represents the variance / score distribution of the student cohort.
         <br />• <strong>Relative Grading:</strong> Used selectively for large core classes to ensure a fair normal distribution curve across multiple branches.
+      </div>
+    </div>
+  );
+}
+
+function AwardOfDegrees() {
+  const [activeCategory, setActiveCategory] = React.useState("btech");
+  const [testCgpa, setTestCgpa] = React.useState<number>(7.5);
+
+  const categories = {
+    btech: {
+      title: "B.Tech., B.Sc., B.Com., BBA, BCA",
+      desc: "Degree classification requirements for undergraduate streams:",
+      grades: [
+        { min: 5.25, max: 5.75, class: "Pass Class", color: "bg-gray-50 border-gray-200 text-gray-700", glow: "hover:bg-gray-100/50 hover:border-gray-300" },
+        { min: 5.75, max: 6.75, class: "Second Class", color: "bg-blue-50/40 border-blue-100 text-blue-800", glow: "hover:bg-blue-50 hover:border-blue-300" },
+        { min: 6.75, max: 7.75, class: "First Class", color: "bg-indigo-50/40 border-indigo-100 text-indigo-800", glow: "hover:bg-indigo-50 hover:border-indigo-300" },
+        { min: 7.75, max: 10.0, class: "First Class with Distinction", color: "bg-rose-50/40 border-rose-100 text-[#D71920]", glow: "hover:bg-rose-50 hover:border-[#D71920]", note: "Fulfill all program requirements in specified minimum years duration and pass all courses in first attempt." }
+      ]
+    },
+    barch: {
+      title: "B.Arch. (Bachelor of Architecture)",
+      desc: "Degree classification requirements for architectural courses:",
+      grades: [
+        { min: 5.75, max: 6.25, class: "Pass Class", color: "bg-gray-50 border-gray-200 text-gray-700", glow: "hover:bg-gray-100/50 hover:border-gray-300" },
+        { min: 6.25, max: 6.75, class: "Second Class", color: "bg-blue-50/40 border-blue-100 text-blue-800", glow: "hover:bg-blue-50 hover:border-blue-300" },
+        { min: 6.75, max: 7.75, class: "First Class", color: "bg-indigo-50/40 border-indigo-100 text-indigo-800", glow: "hover:bg-indigo-50 hover:border-indigo-300" },
+        { min: 7.75, max: 10.0, class: "First Class with Distinction", color: "bg-rose-50/40 border-rose-100 text-[#D71920]", glow: "hover:bg-rose-50 hover:border-[#D71920]", note: "Fulfill all program requirements in specified minimum years duration and pass all courses in first attempt." }
+      ]
+    },
+    pg: {
+      title: "M.Tech., M.Sc., M.A., MCA, MBA",
+      desc: "Degree classification requirements for all postgraduate programs:",
+      grades: [
+        { min: 5.5, max: 5.75, class: "Pass Class", color: "bg-gray-50 border-gray-200 text-gray-700", glow: "hover:bg-gray-100/50 hover:border-gray-300" },
+        { min: 5.75, max: 6.75, class: "Second Class", color: "bg-blue-50/40 border-blue-100 text-blue-800", glow: "hover:bg-blue-50 hover:border-blue-300" },
+        { min: 6.75, max: 7.75, class: "First Class", color: "bg-indigo-50/40 border-indigo-100 text-indigo-800", glow: "hover:bg-indigo-50 hover:border-indigo-300" },
+        { min: 7.75, max: 10.0, class: "First Class with Distinction", color: "bg-rose-50/40 border-rose-100 text-[#D71920]", glow: "hover:bg-rose-50 hover:border-[#D71920]", note: "Fulfill all program requirements in specified minimum years duration and pass all courses in first attempt." }
+      ]
+    }
+  };
+
+  const selectedData = categories[activeCategory as keyof typeof categories];
+
+  // Helper to determine active range based on slider CGPA value
+  const getActiveGradeIndex = () => {
+    return selectedData.grades.findIndex(
+      (g) => testCgpa >= g.min && testCgpa < g.max
+    );
+  };
+
+  const activeGradeIndex = getActiveGradeIndex();
+
+  return (
+    <div className="space-y-6">
+      {/* Category Tabs */}
+      <div className="flex gap-2 pb-2 border-b border-gray-100">
+        {Object.entries(categories).map(([key, value]) => (
+          <button
+            key={key}
+            onClick={() => setActiveCategory(key)}
+            className={`px-4 py-2 text-xs font-bold rounded-full transition-all cursor-pointer outline-none ${
+              activeCategory === key
+                ? "bg-[#072A6C] text-white shadow-sm"
+                : "bg-white text-gray-600 border border-gray-200 hover:border-gray-300"
+            }`}
+          >
+            {key === "btech" && "UG (B.Tech, B.Sc, B.Com, BBA, BCA)"}
+            {key === "barch" && "B.Arch"}
+            {key === "pg" && "PG (M.Tech, MBA, MCA, M.Sc)"}
+          </button>
+        ))}
+      </div>
+
+      <div className="space-y-4">
+        <h4 className="text-xs font-extrabold text-[#072A6C] uppercase tracking-wider">
+          {selectedData.title}
+        </h4>
+        <p className="text-xs text-gray-500 font-light leading-relaxed">{selectedData.desc}</p>
+      </div>
+
+      {/* Degree Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {selectedData.grades.map((grade, index) => {
+          const isActive = index === activeGradeIndex;
+          return (
+            <div
+              key={grade.class}
+              className={`p-5 rounded-2xl border-2 transition-all duration-300 select-none ${grade.color} ${grade.glow} ${
+                isActive
+                  ? "ring-4 ring-offset-2 ring-[#072A6C] border-[#072A6C] scale-[1.02] shadow-md"
+                  : "scale-100 shadow-sm"
+              }`}
+            >
+              <div className="flex justify-between items-start mb-3">
+                <span className="text-xs font-extrabold tracking-wide block uppercase">
+                  {grade.class}
+                </span>
+                <span className="text-[10px] font-bold bg-white/70 px-2 py-0.5 rounded border border-gray-200">
+                  {grade.min} ≤ CGPA &lt; {grade.max === 10.0 ? "10.00" : grade.max}
+                </span>
+              </div>
+              <p className="text-[11.5px] leading-relaxed text-gray-600 font-light">
+                Awarded to students finishing all academic credits and clearing modules with a cumulative GPA of {grade.min} to {grade.max}.
+              </p>
+              {grade.note && (
+                <div className="mt-3 pt-3 border-t border-red-200/50 text-[10px] text-red-600 font-medium leading-relaxed">
+                  ⚠️ <strong>Note:</strong> {grade.note}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Interactive CGPA Classification Slider */}
+      <div className="bg-[#072A6C]/5 border border-[#072A6C]/10 rounded-2xl p-5 shadow-sm space-y-4 mt-6">
+        <h5 className="text-xs font-extrabold text-[#072A6C] uppercase tracking-wider">
+          🎓 Interactive Degree Classifier
+        </h5>
+        <p className="text-[11.5px] text-gray-500 font-light">
+          Drag the slider to select a target CGPA and view your expected graduation classification.
+        </p>
+        
+        <div className="flex flex-col md:flex-row items-center gap-6">
+          <div className="w-full md:w-3/5 space-y-2">
+            <input
+              type="range"
+              min="5.0"
+              max="10.0"
+              step="0.05"
+              value={testCgpa}
+              onChange={(e) => setTestCgpa(parseFloat(e.target.value))}
+              className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-[#D71920]"
+            />
+            <div className="flex justify-between text-[10px] font-bold text-gray-400">
+              <span>5.0 CGPA</span>
+              <span>7.5 CGPA</span>
+              <span>10.0 CGPA</span>
+            </div>
+          </div>
+
+          <div className="w-full md:w-2/5 bg-white border border-gray-100 rounded-xl p-4 text-center shadow-sm">
+            <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block mb-1">Target CGPA</span>
+            <div className="text-[26px] font-[800] text-[#072A6C] leading-none mb-2">{testCgpa.toFixed(2)}</div>
+            <div className="inline-block px-3 py-1 bg-[#D71920]/10 text-[#D71920] text-[10.5px] font-extrabold rounded-full uppercase tracking-wider">
+              {activeGradeIndex !== -1 ? selectedData.grades[activeGradeIndex].class : "Does Not Qualify"}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
