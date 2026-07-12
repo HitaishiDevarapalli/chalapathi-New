@@ -57,7 +57,6 @@ const NEWS_DATA = [
 ];
 
 export default function Events() {
-  const [activeTab, setActiveTab] = useState<"events" | "news">("events");
   const [currentPage, setCurrentPage] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const carouselRef = useRef<HTMLDivElement | null>(null);
@@ -66,7 +65,7 @@ export default function Events() {
     document.title = "Upcoming Events | City Chalapathi Institute of Technology";
   }, []);
 
-  const currentData = activeTab === "events" ? EVENTS_DATA : NEWS_DATA;
+  const currentData = EVENTS_DATA;
 
   // Autoplay handler
   useEffect(() => {
@@ -75,7 +74,7 @@ export default function Events() {
       handleNext();
     }, 4000);
     return () => clearInterval(interval);
-  }, [isHovered, activeTab, currentPage]);
+  }, [isHovered, currentPage]);
 
   const handlePrev = () => {
     if (!carouselRef.current) return;
@@ -128,43 +127,13 @@ export default function Events() {
       {/* Main Section */}
       <section className="max-w-[1440px] mx-auto px-5 mt-16">
         
-        {/* Header containing Title & Tabs */}
+        {/* Header containing Title */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8 border-b border-gray-200/80 pb-6">
           <div>
             <h2 className="text-3xl font-[800] text-[#072A6C] tracking-tight">
               Upcoming Events
             </h2>
             <p className="text-xs text-gray-400 mt-1 font-light">Swipe through the slides to view all items.</p>
-          </div>
-
-          {/* Orange/Beige Tabs */}
-          <div className="flex bg-[#FDFBF7] p-1 rounded-xl border border-gray-200 shadow-sm">
-            <button
-              onClick={() => {
-                setActiveTab("events");
-                setCurrentPage(0);
-              }}
-              className={`px-6 py-2.5 rounded-lg text-xs font-bold transition-all ${
-                activeTab === "events"
-                  ? "bg-[#F97316] text-white shadow-sm"
-                  : "bg-transparent text-gray-500 hover:text-gray-900"
-              }`}
-            >
-              Events
-            </button>
-            <button
-              onClick={() => {
-                setActiveTab("news");
-                setCurrentPage(0);
-              }}
-              className={`px-6 py-2.5 rounded-lg text-xs font-bold transition-all ${
-                activeTab === "news"
-                  ? "bg-[#F97316] text-white shadow-sm"
-                  : "bg-transparent text-gray-500 hover:text-gray-900"
-              }`}
-            >
-              News
-            </button>
           </div>
         </div>
 
@@ -213,7 +182,7 @@ export default function Events() {
                       </h4>
                     </div>
                     <div className="pt-4 border-t border-gray-50 mt-5 flex justify-between items-center text-xs font-bold text-[#072A6C]">
-                      <span>{activeTab === "events" ? "View Details" : "Read Article"}</span>
+                      <span>View Details</span>
                       <ArrowRight size={14} className="text-[#F97316]" />
                     </div>
                   </div>
@@ -254,10 +223,10 @@ export default function Events() {
         {/* Centered CTA button (View More Events) */}
         <div className="flex justify-center mt-12">
           <Link
-            to={activeTab === "events" ? "/news/events" : "/news"}
+            to="/news/events"
             className="h-11 px-8 bg-[#854d0e] hover:bg-[#713f12] text-white text-[12px] font-bold rounded-xl inline-flex items-center gap-2 shadow-md active:scale-95 transition-all cursor-pointer uppercase tracking-wider"
           >
-            View More {activeTab === "events" ? "Events" : "News"} <ArrowRight size={12} />
+            View More Events <ArrowRight size={12} />
           </Link>
         </div>
 
