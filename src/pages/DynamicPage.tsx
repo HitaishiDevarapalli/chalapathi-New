@@ -813,27 +813,10 @@ const getPageContent = (path: string) => {
   if (cleanPath.startsWith("/management")) {
     if (cleanPath.includes("board-members")) {
       return {
-        title: "Board of Directors",
+        title: "Board of Governors",
         category: "Management",
         desc: "Meet the visionary trustees and governing council driving Chalapathi's strategic excellence.",
-        body: (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
-            {[
-              { name: "Sri Y. V. Anjaneyulu", role: "Chairman & President", desc: "Visionary leader driving the growth and standards of Chalapathi educational institutions." },
-              { name: "Sri Y. Sujit Kumar", role: "Vice Chairman", desc: "Overseeing operations, strategic partnerships, and structural modernization programs." },
-              { name: "Smt. Y. Samrajyam", role: "Director", desc: "Promoting community learning and student-centric academic scholarship programs." }
-            ].map((member, i) => (
-              <div key={i} className="bg-white border border-gray-100 rounded-[20px] p-6 shadow-sm text-center">
-                <div className="w-16 h-16 bg-[#072A6C]/5 rounded-full mx-auto mb-4 flex items-center justify-center font-bold text-lg text-[#072A6C]">
-                  {member.name.split(" ").slice(-1)[0][0]}
-                </div>
-                <h4 className="font-extrabold text-[#072A6C] text-sm">{member.name}</h4>
-                <p className="text-xs text-[#D71920] font-semibold mt-1">{member.role}</p>
-                <p className="text-xs text-gray-500 mt-3 leading-relaxed">{member.desc}</p>
-              </div>
-            ))}
-          </div>
-        )
+        body: <UniversityGovernance />
       };
     }
     if (cleanPath.includes("faculty")) {
@@ -2547,6 +2530,308 @@ const FACULTY_DATA: Record<string, {
     ]
   }
 };
+
+function UniversityGovernance() {
+  const [activeSection, setActiveSection] = React.useState<string | null>(null);
+
+  return (
+    <div className="flex flex-col items-center space-y-4 w-full mt-6 text-center font-[var(--font-poppins)]">
+      
+      {/* ======================================================== */}
+      {/* 🌟 TOP LEVEL EXECUTIVE HIERARCHY                          */}
+      {/* ======================================================== */}
+      
+      {/* Board of Governors */}
+      <div className="bg-[#072A6C] text-white w-full max-w-[320px] p-5 rounded-2xl shadow-lg border border-[#D4AF37] hover:scale-[1.02] transition-transform duration-300">
+        <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-widest block mb-1">Governing Council</span>
+        <h4 className="font-extrabold text-sm md:text-base">Board of Governors</h4>
+        <p className="text-[10px] text-gray-300 mt-1 leading-relaxed">Supreme policy-making and strategic planning body of the university.</p>
+      </div>
+      
+      {/* Connector */}
+      <div className="w-0.5 h-8 bg-gray-300"></div>
+
+      {/* Chancellor */}
+      <div className="bg-[#072A6C] text-white w-full max-w-[300px] p-4 rounded-xl shadow-md border border-[#D4AF37]/80 hover:scale-[1.02] transition-transform duration-300">
+        <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-widest block mb-1">Executive Head</span>
+        <h4 className="font-extrabold text-xs md:text-sm">Chancellor</h4>
+        <p className="text-[10px] text-gray-300 mt-0.5">Sri Y. V. Anjaneyulu</p>
+      </div>
+
+      {/* Connector */}
+      <div className="w-0.5 h-8 bg-gray-300"></div>
+
+      {/* Pro Chancellor */}
+      <div className="bg-[#072A6C] text-white w-full max-w-[300px] p-4 rounded-xl shadow-md border border-[#D4AF37]/80 hover:scale-[1.02] transition-transform duration-300">
+        <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-widest block mb-1">University Sponsor Representative</span>
+        <h4 className="font-extrabold text-xs md:text-sm">Pro Chancellor</h4>
+        <p className="text-[10px] text-gray-300 mt-0.5">Sri Y. Sujit Kumar</p>
+      </div>
+
+      {/* Connector */}
+      <div className="w-0.5 h-8 bg-gray-300"></div>
+
+      {/* Vice Chancellor */}
+      <div className="bg-[#072A6C] text-white w-full max-w-[300px] p-4 rounded-xl shadow-md border-2 border-[#D4AF37] hover:scale-[1.02] transition-transform duration-300">
+        <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-widest block mb-1">Principal Academic & Executive</span>
+        <h4 className="font-extrabold text-xs md:text-sm">Vice Chancellor</h4>
+        <p className="text-[10px] text-gray-300 mt-0.5">Dr. K. Prasad Rao</p>
+      </div>
+
+      {/* Connector */}
+      <div className="w-full flex flex-col items-center">
+        <div className="w-0.5 h-8 bg-gray-300"></div>
+        {/* Horizontal span connecting VC to parallel admins */}
+        <div className="w-[85%] border-t-2 border-dashed border-gray-300 h-2"></div>
+      </div>
+
+      {/* ======================================================== */}
+      {/* 🌟 SECOND LEVEL: PARALLEL ADMINISTRATIVE HEADS            */}
+      {/* ======================================================== */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full text-left mt-2">
+        
+        {/* Registrar Card */}
+        <div className="bg-white border border-gray-100 rounded-[20px] p-5 shadow-sm hover:border-[#072A6C] hover:shadow-md transition-all relative flex flex-col justify-between">
+          <div>
+            <h5 className="font-black text-[#072A6C] text-xs uppercase tracking-wider">Registrar</h5>
+            <p className="text-[10px] text-gray-400 font-bold mt-0.5">Prof. T. Sivaramaiah</p>
+            <p className="text-[10px] text-gray-500 mt-2 leading-relaxed">Administration head, legal compliance, custodian of records, and statutory affairs.</p>
+          </div>
+          <button 
+            onClick={() => setActiveSection(activeSection === "registrar" ? null : "registrar")}
+            className="mt-4 w-full bg-slate-50 hover:bg-[#072A6C]/5 text-[#072A6C] border border-gray-100 text-[10px] font-extrabold py-2 px-3 rounded-lg flex items-center justify-between transition-colors cursor-pointer"
+          >
+            <span>{activeSection === "registrar" ? "Hide Division Units" : "View Division Units"}</span>
+            <ChevronDown size={12} className={`transition-transform duration-300 ${activeSection === "registrar" ? "rotate-180" : ""}`} />
+          </button>
+          
+          {/* Sub Units Tree */}
+          {activeSection === "registrar" && (
+            <div className="mt-3 pl-3 border-l-2 border-dashed border-gray-200 space-y-2 text-[10px] text-gray-600 font-bold animate-fade-in">
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">General Administration</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Human Resources</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Public Relations Office</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Purchase & Stores</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Estate & Maintenance</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Transport Office</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Security</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Health Centre</div>
+            </div>
+          )}
+        </div>
+
+        {/* Dean - Academic Affairs Card */}
+        <div className="bg-white border border-gray-100 rounded-[20px] p-5 shadow-sm hover:border-[#072A6C] hover:shadow-md transition-all relative flex flex-col justify-between">
+          <div>
+            <h5 className="font-black text-[#072A6C] text-xs uppercase tracking-wider">Dean – Academic Affairs</h5>
+            <p className="text-[10px] text-gray-500 mt-2 leading-relaxed">Curriculum design, academic schedules, examinations coordination, and Outcome-Based Education (OBE).</p>
+          </div>
+          <button 
+            onClick={() => setActiveSection(activeSection === "academics" ? null : "academics")}
+            className="mt-4 w-full bg-slate-50 hover:bg-[#072A6C]/5 text-[#072A6C] border border-gray-100 text-[10px] font-extrabold py-2 px-3 rounded-lg flex items-center justify-between transition-colors cursor-pointer"
+          >
+            <span>{activeSection === "academics" ? "Hide Schools List" : "View Schools List"}</span>
+            <ChevronDown size={12} className={`transition-transform duration-300 ${activeSection === "academics" ? "rotate-180" : ""}`} />
+          </button>
+          
+          {/* Sub Units Tree */}
+          {activeSection === "academics" && (
+            <div className="mt-3 pl-3 border-l-2 border-dashed border-gray-200 space-y-3.5 text-[10px] text-gray-600 font-bold animate-fade-in">
+              {[
+                "School of Computer Science & Engineering",
+                "School of Artificial Intelligence & Data Science",
+                "School of Information Technology",
+                "School of Electronics & Communication Engineering",
+                "School of Electrical & Electronics Engineering",
+                "School of Mechanical Engineering",
+                "School of Civil Engineering",
+                "School of Management Studies",
+                "School of Basic Sciences & Humanities"
+              ].map((school, sIdx) => (
+                <div key={sIdx} className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">
+                  <span className="text-[#072A6C] font-extrabold block">{school}</span>
+                  <div className="pl-3 mt-1 border-l border-gray-200 text-[9px] text-gray-400 space-y-0.5">
+                    <div>↓ Head of Department (HOD)</div>
+                    <div>↓ Faculty Members</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Dean - Research & Innovation Card */}
+        <div className="bg-white border border-gray-100 rounded-[20px] p-5 shadow-sm hover:border-[#072A6C] hover:shadow-md transition-all relative flex flex-col justify-between">
+          <div>
+            <h5 className="font-black text-[#072A6C] text-xs uppercase tracking-wider">Dean – Research & Innovation</h5>
+            <p className="text-[10px] text-gray-500 mt-2 leading-relaxed">Fostering university research pipelines, patent filings, sponsored grants, and start-up incubation.</p>
+          </div>
+          <button 
+            onClick={() => setActiveSection(activeSection === "research" ? null : "research")}
+            className="mt-4 w-full bg-slate-50 hover:bg-[#072A6C]/5 text-[#072A6C] border border-gray-100 text-[10px] font-extrabold py-2 px-3 rounded-lg flex items-center justify-between transition-colors cursor-pointer"
+          >
+            <span>{activeSection === "research" ? "Hide Research Wings" : "View Research Wings"}</span>
+            <ChevronDown size={12} className={`transition-transform duration-300 ${activeSection === "research" ? "rotate-180" : ""}`} />
+          </button>
+          
+          {/* Sub Units Tree */}
+          {activeSection === "research" && (
+            <div className="mt-3 pl-3 border-l-2 border-dashed border-gray-200 space-y-2 text-[10px] text-gray-600 font-bold animate-fade-in">
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Research & Development Cell</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Centre of Excellence</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Innovation & Incubation Centre</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Intellectual Property Rights (IPR) Cell</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Sponsored Research Projects</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Consultancy Cell</div>
+            </div>
+          )}
+        </div>
+
+        {/* Dean - Student Affairs Card */}
+        <div className="bg-white border border-gray-100 rounded-[20px] p-5 shadow-sm hover:border-[#072A6C] hover:shadow-md transition-all relative flex flex-col justify-between">
+          <div>
+            <h5 className="font-black text-[#072A6C] text-xs uppercase tracking-wider">Dean – Student Affairs</h5>
+            <p className="text-[10px] text-gray-500 mt-2 leading-relaxed">Student welfare systems, professional clubs, alumni relations, hostels, and sports committees.</p>
+          </div>
+          <button 
+            onClick={() => setActiveSection(activeSection === "students" ? null : "students")}
+            className="mt-4 w-full bg-slate-50 hover:bg-[#072A6C]/5 text-[#072A6C] border border-gray-100 text-[10px] font-extrabold py-2 px-3 rounded-lg flex items-center justify-between transition-colors cursor-pointer"
+          >
+            <span>{activeSection === "students" ? "Hide Student Cells" : "View Student Cells"}</span>
+            <ChevronDown size={12} className={`transition-transform duration-300 ${activeSection === "students" ? "rotate-180" : ""}`} />
+          </button>
+          
+          {/* Sub Units Tree */}
+          {activeSection === "students" && (
+            <div className="mt-3 pl-3 border-l-2 border-dashed border-gray-200 space-y-2 text-[10px] text-gray-600 font-bold animate-fade-in">
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Student Welfare Cell</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Guidance & Counselling Cell</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">NSS Unit</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Sports</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Clubs & Professional Societies</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Cultural Activities</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">International Student Cell</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Alumni Relations</div>
+            </div>
+          )}
+        </div>
+
+        {/* Dean - Faculty Affairs Card */}
+        <div className="bg-white border border-gray-100 rounded-[20px] p-5 shadow-sm hover:border-[#072A6C] hover:shadow-md transition-all relative flex flex-col justify-between">
+          <div>
+            <h5 className="font-black text-[#072A6C] text-xs uppercase tracking-wider">Dean – Faculty Affairs</h5>
+            <p className="text-[10px] text-gray-500 mt-2 leading-relaxed">Faculty recruitment, promotions, performance metrics, and professional development programs.</p>
+          </div>
+          <div className="mt-4 p-2 bg-gray-50 rounded-lg text-center text-[9px] text-gray-400 font-bold uppercase tracking-wider border border-gray-100">
+            Strategic Faculty Management
+          </div>
+        </div>
+
+        {/* Dean - Admissions Card */}
+        <div className="bg-white border border-gray-100 rounded-[20px] p-5 shadow-sm hover:border-[#072A6C] hover:shadow-md transition-all relative flex flex-col justify-between">
+          <div>
+            <h5 className="font-black text-[#072A6C] text-xs uppercase tracking-wider">Dean – Admissions</h5>
+            <p className="text-[10px] text-gray-500 mt-2 leading-relaxed">Overseeing general enrollment procedures, scholarship validations, and global applications.</p>
+          </div>
+          <button 
+            onClick={() => setActiveSection(activeSection === "admissions" ? null : "admissions")}
+            className="mt-4 w-full bg-slate-50 hover:bg-[#072A6C]/5 text-[#072A6C] border border-gray-100 text-[10px] font-extrabold py-2 px-3 rounded-lg flex items-center justify-between transition-colors cursor-pointer"
+          >
+            <span>{activeSection === "admissions" ? "Hide Admission Units" : "View Admission Units"}</span>
+            <ChevronDown size={12} className={`transition-transform duration-300 ${activeSection === "admissions" ? "rotate-180" : ""}`} />
+          </button>
+          
+          {/* Sub Units Tree */}
+          {activeSection === "admissions" && (
+            <div className="mt-3 pl-3 border-l-2 border-dashed border-gray-200 space-y-2 text-[10px] text-gray-600 font-bold animate-fade-in">
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Admissions Office</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Scholarships</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">International Admissions</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Student Help Desk</div>
+            </div>
+          )}
+        </div>
+
+        {/* Dean - Placements & Relations Card */}
+        <div className="bg-white border border-gray-100 rounded-[20px] p-5 shadow-sm hover:border-[#072A6C] hover:shadow-md transition-all relative flex flex-col justify-between">
+          <div>
+            <h5 className="font-black text-[#072A6C] text-xs uppercase tracking-wider">Dean – Placements & Relations</h5>
+            <p className="text-[10px] text-gray-500 mt-2 leading-relaxed">Corporate relations, training/placement camps, career counselling, and industry MoUs.</p>
+          </div>
+          <button 
+            onClick={() => setActiveSection(activeSection === "placements" ? null : "placements")}
+            className="mt-4 w-full bg-slate-50 hover:bg-[#072A6C]/5 text-[#072A6C] border border-gray-100 text-[10px] font-extrabold py-2 px-3 rounded-lg flex items-center justify-between transition-colors cursor-pointer"
+          >
+            <span>{activeSection === "placements" ? "Hide Placement Units" : "View Placement Units"}</span>
+            <ChevronDown size={12} className={`transition-transform duration-300 ${activeSection === "placements" ? "rotate-180" : ""}`} />
+          </button>
+          
+          {/* Sub Units Tree */}
+          {activeSection === "placements" && (
+            <div className="mt-3 pl-3 border-l-2 border-dashed border-gray-200 space-y-2 text-[10px] text-gray-600 font-bold animate-fade-in">
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Training & Placement Cell</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Career Development Centre</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Corporate Relations</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Internship Cell</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Industry Collaborations</div>
+            </div>
+          )}
+        </div>
+
+        {/* Finance Officer Card */}
+        <div className="bg-white border border-gray-100 rounded-[20px] p-5 shadow-sm hover:border-[#072A6C] hover:shadow-md transition-all relative flex flex-col justify-between">
+          <div>
+            <h5 className="font-black text-[#072A6C] text-xs uppercase tracking-wider">Finance Officer</h5>
+            <p className="text-[10px] text-gray-500 mt-2 leading-relaxed">Budget planning, accounts statements, payroll logs, and financial audit files.</p>
+          </div>
+          <button 
+            onClick={() => setActiveSection(activeSection === "finance" ? null : "finance")}
+            className="mt-4 w-full bg-slate-50 hover:bg-[#072A6C]/5 text-[#072A6C] border border-gray-100 text-[10px] font-extrabold py-2 px-3 rounded-lg flex items-center justify-between transition-colors cursor-pointer"
+          >
+            <span>{activeSection === "finance" ? "Hide Finance Wings" : "View Finance Wings"}</span>
+            <ChevronDown size={12} className={`transition-transform duration-300 ${activeSection === "finance" ? "rotate-180" : ""}`} />
+          </button>
+          
+          {/* Sub Units Tree */}
+          {activeSection === "finance" && (
+            <div className="mt-3 pl-3 border-l-2 border-dashed border-gray-200 space-y-2 text-[10px] text-gray-600 font-bold animate-fade-in">
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Finance & Accounts</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Budget Planning</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Payroll</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Audit</div>
+            </div>
+          )}
+        </div>
+
+        {/* Controller of Examinations Card */}
+        <div className="bg-white border border-gray-100 rounded-[20px] p-5 shadow-sm hover:border-[#072A6C] hover:shadow-md transition-all relative flex flex-col justify-between">
+          <div>
+            <h5 className="font-black text-[#072A6C] text-xs uppercase tracking-wider">Controller of Examinations</h5>
+            <p className="text-[10px] text-gray-500 mt-2 leading-relaxed">Conduction of exams, paper evaluations, degree certifications, and grade sheet publications.</p>
+          </div>
+          <button 
+            onClick={() => setActiveSection(activeSection === "exams" ? null : "exams")}
+            className="mt-4 w-full bg-slate-50 hover:bg-[#072A6C]/5 text-[#072A6C] border border-gray-100 text-[10px] font-extrabold py-2 px-3 rounded-lg flex items-center justify-between transition-colors cursor-pointer"
+          >
+            <span>{activeSection === "exams" ? "Hide Exam Units" : "View Exam Units"}</span>
+            <ChevronDown size={12} className={`transition-transform duration-300 ${activeSection === "exams" ? "rotate-180" : ""}`} />
+          </button>
+          
+          {/* Sub Units Tree */}
+          {activeSection === "exams" && (
+            <div className="mt-3 pl-3 border-l-2 border-dashed border-gray-200 space-y-2 text-[10px] text-gray-600 font-bold animate-fade-in">
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Examination Cell</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Evaluation Cell</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Result Processing</div>
+              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Degree Certification</div>
+            </div>
+          )}
+        </div>
+
+      </div>
+    </div>
+  );
+}
 
 function FacultyDirectory() {
   const [selectedDept, setSelectedDept] = React.useState("Computer Science & Engineering");
