@@ -136,15 +136,15 @@ export default function Events() {
             {currentData.map((item, idx) => (
               <div
                 key={idx}
-                className="w-full shrink-0 snap-start snap-always"
+                className="w-full shrink-0 snap-start snap-always px-4"
               >
-                <div className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col h-full">
-                  {/* Image */}
-                  <div className="h-52 overflow-hidden bg-slate-900 relative">
+                <div className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col h-full max-w-3xl mx-auto">
+                  {/* Image (Increased height, decreased card length) */}
+                  <div className="h-[380px] md:h-[460px] overflow-hidden bg-slate-900 relative">
                     <img
                       src={item.image}
                       alt={item.title}
-                      className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover object-center hover:scale-105 transition-transform duration-500"
                       draggable="false"
                     />
                   </div>
