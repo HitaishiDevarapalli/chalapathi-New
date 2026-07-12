@@ -58,16 +58,32 @@ export default function App() {
     return !visited;
   });
 
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+
   useEffect(() => {
     if (showSplash) {
       document.body.style.overflow = "hidden";
+      
+      // Safety fallback: dismiss splash screen after 4.5s in case of slow loading or browser play blocks
+      const fallbackTimer = setTimeout(() => {
+        setShowSplash(false);
+      }, 4500);
+
+      // Attempt programmatic play to bypass stricter mobile browser restrictions
+      if (videoRef.current) {
+        videoRef.current.play().catch((err) => {
+          console.log("Autoplay blocked or video error, fallback active:", err);
+        });
+      }
+
+      return () => {
+        clearTimeout(fallbackTimer);
+        document.body.style.overflow = "";
+      };
     } else {
       document.body.style.overflow = "";
       sessionStorage.setItem("chalapathy_visited", "true");
     }
-    return () => {
-      document.body.style.overflow = "";
-    };
   }, [showSplash]);
 
   const [showEnquiryModal, setShowEnquiryModal] = useState(false);
@@ -162,10 +178,12 @@ export default function App() {
             exit={{ opacity: 0, transition: { duration: 0.6, ease: "easeInOut" } }}
           >
             <video
+              ref={videoRef}
               src="/videodisplay.mp4"
               autoPlay
               muted
               playsInline
+              preload="auto"
               onEnded={() => setShowSplash(false)}
               className="w-full h-full object-cover"
             />
