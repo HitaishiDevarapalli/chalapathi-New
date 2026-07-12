@@ -1302,7 +1302,7 @@ function AcademicFlexibilities() {
 }
 
 function AcademicGradingSystem() {
-  const [isAdmin, setIsAdmin] = React.useState(false);
+  const isAdmin = false;
   const [activeTab, setActiveTab] = React.useState("btech");
 
   const defaultGradingData = {
@@ -1396,39 +1396,12 @@ function AcademicGradingSystem() {
     const saved = localStorage.getItem("chalapathy_grading_config");
     return saved ? JSON.parse(saved) : defaultGradingData;
   });
-
-  const handleSave = () => {
-    localStorage.setItem("chalapathy_grading_config", JSON.stringify(gradingData));
-    setIsAdmin(false);
-    alert("Grading parameters successfully persisted to system records!");
-  };
-
-  const handleReset = () => {
-    if (window.confirm("Restore all grading tables to official PDF default parameters?")) {
-      setGradingData(defaultGradingData);
-      localStorage.removeItem("chalapathy_grading_config");
-      setIsAdmin(false);
-    }
-  };
-
-  const updateAbsoluteCell = (program: string, idx: number, field: string, val: string) => {
-    const copy = { ...gradingData };
-    copy[program].absolute[idx][field] = val;
-    setGradingData(copy);
-  };
-
-  const updateRelativeCell = (program: string, idx: number, field: string, val: string) => {
-    const copy = { ...gradingData };
-    copy[program].relative[idx][field] = val;
-    setGradingData(copy);
-  };
-
   const currentProgram = gradingData[activeTab];
 
   return (
     <div className="space-y-6">
-      {/* Top Header Admin Controls */}
-      <div className="flex justify-between items-center bg-gray-50 border border-gray-100 p-4 rounded-2xl">
+      {/* Top Header Controls */}
+      <div className="flex justify-start items-center bg-gray-50 border border-gray-100 p-4 rounded-2xl">
         <div className="flex gap-2">
           {Object.entries(gradingData).map(([key, data]: [string, any]) => (
             <button
@@ -1447,31 +1420,6 @@ function AcademicGradingSystem() {
               {key === "bballb" && "BBA-LL.B."}
             </button>
           ))}
-        </div>
-        <div className="flex gap-2 shrink-0">
-          {isAdmin ? (
-            <>
-              <button
-                onClick={handleSave}
-                className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-xs font-bold rounded-xl shadow-sm cursor-pointer outline-none"
-              >
-                💾 Save Changes
-              </button>
-              <button
-                onClick={handleReset}
-                className="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs font-bold rounded-xl cursor-pointer outline-none"
-              >
-                Reset Default
-              </button>
-            </>
-          ) : (
-            <button
-              onClick={() => setIsAdmin(true)}
-              className="px-4 py-2 bg-[#D71920] hover:bg-[#b71217] text-white text-xs font-bold rounded-xl shadow-sm flex items-center gap-1.5 cursor-pointer outline-none"
-            >
-              🔑 Edit Parameters (Admin Mode)
-            </button>
-          )}
         </div>
       </div>
 
@@ -1498,43 +1446,10 @@ function AcademicGradingSystem() {
                 <tbody className="divide-y divide-gray-100">
                   {currentProgram.absolute.map((row: any, idx: number) => (
                     <tr key={idx} className="hover:bg-gray-50/20">
-                      <td className="p-3 font-medium text-gray-800">
-                        {isAdmin ? (
-                          <input
-                            type="text"
-                            value={row.perf}
-                            onChange={(e) => updateAbsoluteCell(activeTab, idx, "perf", e.target.value)}
-                            className="bg-white border border-gray-200 rounded px-2 py-1 text-xs w-full max-w-[150px] focus:ring-1 focus:ring-blue-500 outline-none"
-                          />
-                        ) : (
-                          row.perf
-                        )}
-                      </td>
+                      <td className="p-3 font-medium text-gray-800">{row.perf}</td>
                       <td className="p-3 font-semibold text-[#072A6C]">{row.grade}</td>
-                      <td className="p-3 font-semibold text-[#072A6C]">
-                        {isAdmin ? (
-                          <input
-                            type="text"
-                            value={row.gp}
-                            onChange={(e) => updateAbsoluteCell(activeTab, idx, "gp", e.target.value)}
-                            className="bg-white border border-gray-200 rounded px-2 py-1 text-xs w-20 focus:ring-1 focus:ring-blue-500 outline-none"
-                          />
-                        ) : (
-                          row.gp
-                        )}
-                      </td>
-                      <td className="p-3 text-gray-600">
-                        {isAdmin ? (
-                          <input
-                            type="text"
-                            value={row.range}
-                            onChange={(e) => updateAbsoluteCell(activeTab, idx, "range", e.target.value)}
-                            className="bg-white border border-gray-200 rounded px-2 py-1 text-xs w-full focus:ring-1 focus:ring-blue-500 outline-none"
-                          />
-                        ) : (
-                          row.range
-                        )}
-                      </td>
+                      <td className="p-3 font-semibold text-[#072A6C]">{row.gp}</td>
+                      <td className="p-3 text-gray-600">{row.range}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -1548,7 +1463,6 @@ function AcademicGradingSystem() {
           <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
             <div className="flex justify-between items-center mb-4">
               <span className="text-xs font-extrabold text-[#072A6C] uppercase tracking-wider">Relative Grading System</span>
-              {isAdmin && <span className="text-[10px] text-green-600 font-bold bg-green-50 px-2 py-0.5 rounded border border-green-100">Click any field to edit</span>}
             </div>
             <div className="border border-gray-100 rounded-xl overflow-hidden shadow-sm bg-white">
               <table className="w-full text-left text-xs border-collapse">
@@ -1564,44 +1478,11 @@ function AcademicGradingSystem() {
                   {currentProgram.relative.map((row: any, idx: number) => (
                     <tr key={idx} className="hover:bg-gray-50/20">
                       {activeTab === "bballb" && (
-                        <td className="p-3 font-medium text-gray-800">
-                          {isAdmin ? (
-                            <input
-                              type="text"
-                              value={row.perf}
-                              onChange={(e) => updateRelativeCell(activeTab, idx, "perf", e.target.value)}
-                              className="bg-white border border-gray-200 rounded px-2 py-1 text-xs w-full max-w-[150px] focus:ring-1 focus:ring-blue-500 outline-none"
-                            />
-                          ) : (
-                            row.perf
-                          )}
-                        </td>
+                        <td className="p-3 font-medium text-gray-800">{row.perf}</td>
                       )}
                       <td className="p-3 font-semibold text-[#072A6C]">{row.grade}</td>
-                      <td className="p-3 font-semibold text-[#072A6C]">
-                        {isAdmin ? (
-                          <input
-                            type="text"
-                            value={row.gp}
-                            onChange={(e) => updateRelativeCell(activeTab, idx, "gp", e.target.value)}
-                            className="bg-white border border-gray-200 rounded px-2 py-1 text-xs w-20 focus:ring-1 focus:ring-blue-500 outline-none"
-                          />
-                        ) : (
-                          row.gp
-                        )}
-                      </td>
-                      <td className="p-3 text-gray-600 font-mono text-[11px]">
-                        {isAdmin ? (
-                          <input
-                            type="text"
-                            value={row.calc}
-                            onChange={(e) => updateRelativeCell(activeTab, idx, "calc", e.target.value)}
-                            className="bg-white border border-gray-200 rounded px-2 py-1 text-xs w-full focus:ring-1 focus:ring-blue-500 outline-none"
-                          />
-                        ) : (
-                          row.calc
-                        )}
-                      </td>
+                      <td className="p-3 font-semibold text-[#072A6C]">{row.gp}</td>
+                      <td className="p-3 text-gray-600 font-mono text-[11px]">{row.calc}</td>
                     </tr>
                   ))}
                 </tbody>
