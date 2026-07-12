@@ -1149,7 +1149,7 @@ function AcademicCalendar() {
                 const uniqueKey = `${selectedYear}-${course.key}`;
                 const isExpanded = activeCourse === uniqueKey;
                 return (
-                  <div key={course.key} className="border border-gray-100 rounded-xl overflow-hidden shadow-sm">
+                  <div key={course.key} className="border border-gray-100 rounded-xl overflow-hidden shadow-sm hover:-translate-y-0.5 hover:shadow-md hover:border-blue-100 transition-all duration-300">
                     <button
                       onClick={() => setActiveCourse(isExpanded ? null : uniqueKey)}
                       className="w-full px-4 py-3 flex items-center justify-between text-xs font-bold text-gray-700 hover:text-[#D71920] bg-white transition-colors text-left outline-none cursor-pointer"
@@ -1245,7 +1245,7 @@ function AcademicFlexibilities() {
         {flexibilities.map((item) => {
           const isExpanded = activeItem === item.key;
           return (
-            <div key={item.key} className="bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm hover:shadow transition-shadow">
+            <div key={item.key} className="bg-white border border-gray-100 rounded-xl overflow-hidden shadow-sm hover:-translate-y-0.5 hover:shadow-md hover:border-[#D71920]/20 transition-all duration-300">
               <button
                 onClick={() => setActiveItem(isExpanded ? null : item.key)}
                 className="w-full px-5 py-4 flex items-center justify-between text-xs font-bold text-gray-700 hover:text-[#D71920] bg-white transition-colors text-left outline-none cursor-pointer"
@@ -1565,7 +1565,7 @@ function AwardOfDegrees() {
           return (
             <div
               key={grade.class}
-              className={`p-5 rounded-2xl border-2 transition-all duration-300 select-none ${grade.color} ${grade.glow} ${
+              className={`p-5 rounded-2xl border-2 transition-all duration-300 select-none hover:-translate-y-1 hover:shadow-md ${grade.color} ${grade.glow} ${
                 isActive
                   ? "ring-4 ring-offset-2 ring-[#072A6C] border-[#072A6C] scale-[1.02] shadow-md"
                   : "scale-100 shadow-sm"
@@ -1672,16 +1672,16 @@ function AcademicRulesRegulations() {
         </p>
       </div>
 
-      {/* 5-Column Grid with Alternating Backgrounds matching the reference layout */}
-      <div className="grid grid-cols-1 md:grid-cols-5 border border-gray-100 rounded-3xl overflow-hidden bg-white shadow-sm">
+      {/* 5-Column Grid with Individual hover-raising cards */}
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
         {rules.map((item, idx) => {
           const IconComponent = item.icon;
-          const bgClass = idx % 2 === 1 ? "bg-gray-50/70 border-x border-gray-100/50" : "bg-white";
+          const bgClass = idx % 2 === 1 ? "bg-gray-50/80" : "bg-white";
           
           return (
             <div
               key={item.title}
-              className={`flex flex-col items-center p-6 text-center transition-all duration-300 hover:bg-[#072A6C]/5 group ${bgClass}`}
+              className={`flex flex-col items-center p-6 text-center border border-gray-100 rounded-3xl transition-all duration-300 hover:-translate-y-2 hover:shadow-md hover:border-[#D71920]/30 group ${bgClass}`}
             >
               {/* Icon Container with subtle animation */}
               <div className="w-16 h-16 rounded-full bg-blue-50/80 text-[#072A6C] flex items-center justify-center mb-5 transition-transform duration-300 group-hover:scale-110 group-hover:bg-[#072A6C]/10">
