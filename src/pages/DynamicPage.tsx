@@ -670,6 +670,115 @@ const getPageContent = (path: string) => {
     };
   }
 
+  // Management Pages
+  if (cleanPath.startsWith("/management")) {
+    if (cleanPath.includes("board-members")) {
+      return {
+        title: "Board of Directors",
+        category: "Management",
+        desc: "Meet the visionary trustees and governing council driving Chalapathi's strategic excellence.",
+        body: (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-6">
+            {[
+              { name: "Sri Y. V. Anjaneyulu", role: "Chairman & President", desc: "Visionary leader driving the growth and standards of Chalapathi educational institutions." },
+              { name: "Sri Y. Sujit Kumar", role: "Vice Chairman", desc: "Overseeing operations, strategic partnerships, and structural modernization programs." },
+              { name: "Smt. Y. Samrajyam", role: "Director", desc: "Promoting community learning and student-centric academic scholarship programs." }
+            ].map((member, i) => (
+              <div key={i} className="bg-white border border-gray-100 rounded-[20px] p-6 shadow-sm text-center">
+                <div className="w-16 h-16 bg-[#072A6C]/5 rounded-full mx-auto mb-4 flex items-center justify-center font-bold text-lg text-[#072A6C]">
+                  {member.name.split(" ").slice(-1)[0][0]}
+                </div>
+                <h4 className="font-extrabold text-[#072A6C] text-sm">{member.name}</h4>
+                <p className="text-xs text-[#D71920] font-semibold mt-1">{member.role}</p>
+                <p className="text-xs text-gray-500 mt-3 leading-relaxed">{member.desc}</p>
+              </div>
+            ))}
+          </div>
+        )
+      };
+    }
+    if (cleanPath.includes("faculty")) {
+      return {
+        title: "Our Esteemed Faculty",
+        category: "Management",
+        desc: "Experienced professors, industry scholars, and dedicated research guides.",
+        body: (
+          <div className="space-y-6 text-gray-600 text-sm">
+            <p>Our professors bring a rich blend of research publications, patents, and industrial consultancy experience to guide student achievements.</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                { name: "Dr. K. Chandrasekhar", dept: "Principal & Professor (CSE)", edu: "Ph.D. in Computer Science & Engineering" },
+                { name: "Prof. P. V. Ramana", dept: "Dean Academics & Head of CSE", edu: "M.Tech, Ph.D. Scholar" },
+                { name: "Dr. M. Sridhar", dept: "Professor (ECE)", edu: "Ph.D. in Signal Processing" },
+                { name: "Dr. T. Anuradha", dept: "Professor (Pharmacy)", edu: "Ph.D. in Pharmaceutics" }
+              ].map((faculty, i) => (
+                <div key={i} className="bg-white border border-gray-100 p-4 rounded-xl shadow-sm flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-[#D71920]/5 flex items-center justify-center text-[#D71920] font-bold text-xs">
+                    Prof
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-[#072A6C] text-xs">{faculty.name}</h5>
+                    <p className="text-[10px] text-gray-500 font-semibold mt-0.5">{faculty.dept}</p>
+                    <p className="text-[9px] text-gray-400 font-medium">{faculty.edu}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      };
+    }
+    if (cleanPath.includes("staff")) {
+      return {
+        title: "Administrative & Technical Staff",
+        category: "Management",
+        desc: "Our supportive team ensuring smooth administrative operations and advanced laboratory maintenance.",
+        body: (
+          <div className="space-y-6 text-gray-600 text-sm">
+            <p>From admissions counselors to expert lab technicians, our staff ensures a secure, resource-rich, and smooth daily learning environment.</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {[
+                { name: "Sri M. Srinivasa Rao", role: "Registrar / Office Head" },
+                { name: "Smt. G. Swathi", role: "Librarian & Catalog Administrator" },
+                { name: "Sri K. Venkatesh", role: "System Administrator & Network Engineer" },
+                { name: "Sri T. Prasad", role: "Senior Laboratory Assistant" }
+              ].map((staff, i) => (
+                <div key={i} className="bg-white border border-gray-100 p-4 rounded-xl shadow-sm flex items-center justify-between">
+                  <div>
+                    <h5 className="font-bold text-[#072A6C] text-xs">{staff.name}</h5>
+                    <p className="text-[10px] text-gray-500 font-semibold mt-0.5">{staff.role}</p>
+                  </div>
+                  <span className="text-[9px] bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full font-bold uppercase">Staff</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      };
+    }
+    return {
+      title: "Management Directory",
+      category: "Management",
+      desc: "Access details regarding Chalapathi's governing body, faculty members, and campus administrative staff.",
+      body: (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
+          <Link to="/management/board-members" className="bg-white border border-gray-100 p-6 rounded-[16px] shadow-sm flex flex-col justify-between min-h-[140px] hover:translate-y-[-2px] transition-transform text-left">
+            <h4 className="font-bold text-[#072A6C] text-sm">Board Members</h4>
+            <span className="text-xs text-[#D71920] flex items-center gap-1">Governing council trustees <ArrowRight size={12} /></span>
+          </Link>
+          <Link to="/management/faculty" className="bg-white border border-gray-100 p-6 rounded-[16px] shadow-sm flex flex-col justify-between min-h-[140px] hover:translate-y-[-2px] transition-transform text-left">
+            <h4 className="font-bold text-[#072A6C] text-sm">Faculty Members</h4>
+            <span className="text-xs text-[#D71920] flex items-center gap-1">Professors & researchers <ArrowRight size={12} /></span>
+          </Link>
+          <Link to="/management/staff" className="bg-white border border-gray-100 p-6 rounded-[16px] shadow-sm flex flex-col justify-between min-h-[140px] hover:translate-y-[-2px] transition-transform text-left">
+            <h4 className="font-bold text-[#072A6C] text-sm">Administrative Staff</h4>
+            <span className="text-xs text-[#D71920] flex items-center gap-1">Technical & office support <ArrowRight size={12} /></span>
+          </Link>
+        </div>
+      )
+    };
+  }
+
   // Placements Pages
   if (cleanPath.startsWith("/placements")) {
     return {

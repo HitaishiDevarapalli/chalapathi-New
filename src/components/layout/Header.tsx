@@ -8,6 +8,8 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
   const [searchOpen, setSearchOpen] = useState(false);
   const [academicsOpen, setAcademicsOpen] = useState(false);
   const [mobileAcademicsOpen, setMobileAcademicsOpen] = useState(false);
+  const [managementOpen, setManagementOpen] = useState(false);
+  const [mobileManagementOpen, setMobileManagementOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -19,10 +21,11 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
   useEffect(() => {
     setMobileOpen(false);
     setMobileAcademicsOpen(false);
+    setMobileManagementOpen(false);
   }, [location.pathname]);
 
   const navLinks = [
-    "About Us", "Academics", "Admissions", "Research",
+    "About Us", "Academics", "Admissions", "Research", "Management",
     "Campus Life", "Placements", "News", "Events", "Contact",
   ];
 
@@ -31,6 +34,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
     "Academics": "/academics",
     "Admissions": "/admissions",
     "Research": "/research",
+    "Management": "/management",
     "Campus Life": "/campus-life",
     "Placements": "/placements",
     "News": "/news",
@@ -49,6 +53,12 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
     { label: "Rules & Regulations", to: "/academics/rules" },
     { label: "Teaching & Evaluation", to: "/academics/teaching" },
     { label: "BOS Members", to: "/academics/bos" }
+  ];
+
+  const managementItems = [
+    { label: "Board Members", to: "/management/board-members" },
+    { label: "Faculty", to: "/management/faculty" },
+    { label: "Staff", to: "/management/staff" }
   ];
 
   return (
@@ -87,12 +97,12 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                       {name} <ChevronDown size={14} className={`transition-transform duration-200 ${academicsOpen ? "rotate-180" : ""}`} />
                     </button>
                     {academicsOpen && (
-                      <div className="absolute top-full left-0 mt-0 w-[240px] bg-white border border-gray-200/80 rounded-[12px] shadow-lg py-2.5 z-50 flex flex-col gap-0.5 animate-fade-in">
+                      <div className="absolute top-full left-0 mt-0 w-[240px] bg-white border border-gray-200/80 rounded-[12px] shadow-lg py-2.5 z-50 flex flex-col gap-0.5 animate-fade-in font-[var(--font-poppins)]">
                         {academicsItems.map((item) => (
                           <Link
                             key={item.label}
                             to={item.to}
-                            className="px-4 py-2 text-[13px] font-medium text-[#222222] hover:text-[#D71920] hover:bg-[#D71920]/5 transition-all font-[var(--font-poppins)]"
+                            className="px-4 py-2 text-[13px] font-medium text-[#222222] hover:text-[#D71920] hover:bg-[#D71920]/5 transition-all"
                             onClick={() => setAcademicsOpen(false)}
                           >
                             {item.label}
@@ -103,6 +113,39 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                   </div>
                 );
               }
+
+              if (name === "Management") {
+                return (
+                  <div
+                    key={name}
+                    className="relative"
+                    onMouseEnter={() => setManagementOpen(true)}
+                    onMouseLeave={() => setManagementOpen(false)}
+                  >
+                    <button
+                      type="button"
+                      className="px-3.5 py-2 text-[14px] font-medium text-[#222222] hover:text-[#D71920] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
+                    >
+                      {name} <ChevronDown size={14} className={`transition-transform duration-200 ${managementOpen ? "rotate-180" : ""}`} />
+                    </button>
+                    {managementOpen && (
+                      <div className="absolute top-full left-0 mt-0 w-[180px] bg-white border border-gray-200/80 rounded-[12px] shadow-lg py-2.5 z-50 flex flex-col gap-0.5 animate-fade-in font-[var(--font-poppins)]">
+                        {managementItems.map((item) => (
+                          <Link
+                            key={item.label}
+                            to={item.to}
+                            className="px-4 py-2 text-[13px] font-medium text-[#222222] hover:text-[#D71920] hover:bg-[#D71920]/5 transition-all"
+                            onClick={() => setManagementOpen(false)}
+                          >
+                            {item.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
               return (
                 <Link
                   key={name}
@@ -189,6 +232,36 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                 </div>
               );
             }
+
+            if (name === "Management") {
+              return (
+                <div key={name} className="flex flex-col border-b border-gray-100 py-3">
+                  <button
+                    type="button"
+                    onClick={() => setMobileManagementOpen(!mobileManagementOpen)}
+                    className="w-full flex items-center justify-between text-[15px] font-semibold text-[#222222] hover:text-[#D71920] transition-colors font-[var(--font-poppins)] text-left outline-none cursor-pointer"
+                  >
+                    <span>{name}</span>
+                    <ChevronDown size={16} className={`transition-transform duration-200 ${mobileManagementOpen ? "rotate-180" : ""}`} />
+                  </button>
+                  {mobileManagementOpen && (
+                    <div className="pl-4 flex flex-col gap-2 mt-2 pt-2 border-t border-gray-50">
+                      {managementItems.map((item) => (
+                        <Link
+                          key={item.label}
+                          to={item.to}
+                          className="text-[13px] font-medium text-gray-600 hover:text-[#D71920] py-1.5 transition-colors font-[var(--font-poppins)]"
+                          onClick={() => setMobileOpen(false)}
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+
             return (
               <Link
                 key={name}

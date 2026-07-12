@@ -181,6 +181,12 @@ export default function App() {
             <Route path="/research/publications" element={<DynamicPage />} />
             <Route path="/research/patents" element={<DynamicPage />} />
 
+            {/* Management Routes */}
+            <Route path="/management" element={<DynamicPage />} />
+            <Route path="/management/board-members" element={<DynamicPage />} />
+            <Route path="/management/faculty" element={<DynamicPage />} />
+            <Route path="/management/staff" element={<DynamicPage />} />
+
             {/* Campus Life Routes */}
             <Route path="/campus-life" element={<DynamicPage />} />
             <Route path="/campus-life/hostels" element={<DynamicPage />} />
