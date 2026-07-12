@@ -192,9 +192,9 @@ export default function App() {
               className="w-full h-full object-cover"
             />
             {/* Elegant Skip Button */}
-            <button
+             <button
               onClick={() => setShowSplash(false)}
-              className="absolute bottom-8 right-8 px-5 py-2.5 bg-black/60 hover:bg-black/80 text-white text-[11px] font-extrabold rounded-full border border-white/20 backdrop-blur-md transition-all active:scale-95 cursor-pointer outline-none tracking-widest uppercase animate-pulse"
+              className="absolute bottom-[72px] right-[40px] px-6 py-3.5 bg-black hover:bg-black/90 text-white text-[11px] font-extrabold rounded-full border border-white/20 shadow-2xl transition-all active:scale-95 cursor-pointer outline-none tracking-widest uppercase"
             >
               Skip Intro ➔
             </button>
