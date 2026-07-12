@@ -7,6 +7,21 @@ import {
   GraduationCap, Users, ArrowRight, Play, Trophy, Handshake, Landmark,
   Compass, FileText, Award, Phone, MapPin, Mail, Sparkles, Building2, HelpCircle, Search, Globe
 } from "lucide-react";
+import { useRef } from "react";
+
+const HOME_EVENTS = [
+  { title: "International Conference on AI & Robotics", date: "20 Jul 2026", image: "/prog_computer.png" },
+  { title: "Annual Tech Fest 2026", date: "25 Jul 2026", image: "/prog_engineering.png" },
+  { title: "Global Education Fair & Career Expo", date: "05 Aug 2026", image: "/prog_management.png" },
+  { title: "Smart Systems Hackathon Sprint", date: "12 Oct 2026", image: "/students_admission.png" }
+];
+
+const HOME_NEWS = [
+  { title: "City Chalapathi Institute of Technology Launches AI Research Center", date: "12 May 2025", image: "/prog_computer.png" },
+  { title: "Students Win National Level Hackathon 2025 in Delhi", date: "06 May 2025", image: "/prog_diploma.png" },
+  { title: "MoU Signed with Global Fortune 500 Industry Leaders", date: "03 May 2025", image: "/prog_management.png" },
+  { title: "Annual Convocation Ceremony Celebrating Master Graduates", date: "28 Apr 2025", image: "/students_admission.png" }
+];
 
 /* ── animation helpers ────────────────────────── */
 const fadeUp = {
@@ -31,6 +46,46 @@ const scaleIn = {
 
 export default function Home() {
   const [directionsFrom, setDirectionsFrom] = useState("");
+  const [activeTab, setActiveTab] = useState<"events" | "news">("events");
+  const [currentPage, setCurrentPage] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+
+  // Handle Autoplay scroll
+  useEffect(() => {
+    if (isHovered) return;
+    const interval = setInterval(() => {
+      if (!carouselRef.current) return;
+      const el = carouselRef.current;
+      const cardWidth = el.offsetWidth;
+      const totalWidth = el.scrollWidth;
+      const currentScroll = el.scrollLeft;
+
+      if (currentScroll + cardWidth >= totalWidth - 5) {
+        el.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        el.scrollTo({ left: currentScroll + cardWidth, behavior: "smooth" });
+      }
+    }, 4000);
+
+    return () => clearInterval(interval);
+  }, [isHovered, activeTab]);
+
+  const handleCarouselScroll = () => {
+    if (!carouselRef.current) return;
+    const el = carouselRef.current;
+    const scrollWidth = el.scrollWidth - el.clientWidth;
+    if (scrollWidth <= 0) return;
+    const scrolledRatio = el.scrollLeft / el.clientWidth;
+    setCurrentPage(Math.round(scrolledRatio));
+  };
+
+  const handleDotClick = (index: number) => {
+    if (!carouselRef.current) return;
+    const el = carouselRef.current;
+    el.scrollTo({ left: index * el.clientWidth, behavior: "smooth" });
+    setCurrentPage(index);
+  };
 
   const handleDirections = (e: React.FormEvent) => {
     e.preventDefault();
@@ -425,166 +480,128 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══ NEWS, RANKINGS & EVENTS ═══ */}
-      <section className="bg-gray-50 border-y border-gray-100 py-16">
-        <div className="max-w-[1440px] mx-auto px-5 grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Latest News */}
-          <motion.div
-            className="lg:col-span-4 bg-white border border-gray-200/60 rounded-[16px] p-6 shadow-sm flex flex-col justify-between"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <div className="flex justify-between items-center border-b border-gray-100 pb-3 mb-4">
-              <h3 className="text-[13px] font-[800] uppercase tracking-wider text-[#072A6C]">
-                LATEST NEWS
-              </h3>
-              <Link to="/news" className="text-[11px] font-[700] text-[#072A6C] hover:text-[#D71920] flex items-center gap-0.5">
-                View All <ArrowRight size={10} />
-              </Link>
+      {/* ═══ UPCOMING EVENTS & NEWS SECTION ═══ */}
+      <section className="bg-[#FDFBF7]/30 border-y border-gray-100 py-16 font-[var(--font-poppins)]">
+        <div className="max-w-[1440px] mx-auto px-5">
+          
+          {/* Section Header with Title and Tabs */}
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8 border-b border-gray-100 pb-5">
+            <div>
+              <h2 className="text-2xl lg:text-3xl font-[800] text-[#072A6C] tracking-tight">
+                Upcoming Events
+              </h2>
+              <p className="text-[12px] text-gray-400 mt-1 font-light">Explore the latest happenings and updates from across our campus.</p>
             </div>
 
-            <div className="space-y-4">
-              {[
-                { d: "12", m: "MAY", title: "City Chalapathi Institute of Technology Launches AI Research Center" },
-                { d: "06", m: "MAY", title: "Students Win National Level Hackathon 2025" },
-                { d: "03", m: "MAY", title: "MoU Signed with Global Industry Leaders" }
-              ].map((n, idx) => (
-                <motion.div key={idx} className="flex gap-4 items-start" variants={fadeUp}>
-                  <div className="w-12 h-12 shrink-0 rounded-[8px] bg-[#D71920] text-white text-center flex flex-col items-center justify-center shadow-sm">
-                    <span className="block text-[14px] font-[800] leading-none">{n.d}</span>
-                    <span className="block text-[8px] font-[700] tracking-wider mt-0.5">{n.m}</span>
+            {/* Toggle Tabs */}
+            <div className="flex bg-gray-100 p-1.5 rounded-xl border border-gray-200/60 shadow-inner">
+              <button
+                onClick={() => {
+                  setActiveTab("events");
+                  setCurrentPage(0);
+                }}
+                className={`px-6 py-2.5 rounded-lg text-xs font-bold transition-all ${
+                  activeTab === "events"
+                    ? "bg-[#F97316] text-white shadow-md"
+                    : "bg-[#FDFBF7] text-gray-600 hover:text-gray-900"
+                }`}
+              >
+                Events
+              </button>
+              <button
+                onClick={() => {
+                  setActiveTab("news");
+                  setCurrentPage(0);
+                }}
+                className={`px-6 py-2.5 rounded-lg text-xs font-bold transition-all ${
+                  activeTab === "news"
+                    ? "bg-[#F97316] text-white shadow-md"
+                    : "bg-[#FDFBF7] text-gray-600 hover:text-gray-900"
+                }`}
+              >
+                News
+              </button>
+            </div>
+          </div>
+
+          {/* Carousel Slider */}
+          <div 
+            className="relative"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            <div
+              ref={carouselRef}
+              className="flex gap-6 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory pb-4 select-none"
+              style={{
+                scrollbarWidth: "none",
+                msOverflowStyle: "none",
+                scrollSnapType: "x mandatory"
+              }}
+              onScroll={handleCarouselScroll}
+            >
+              {(activeTab === "events" ? HOME_EVENTS : HOME_NEWS).map((item, idx) => (
+                <div
+                  key={idx}
+                  className="w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] shrink-0 snap-start snap-always"
+                >
+                  <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col h-full">
+                    {/* Featured Image */}
+                    <div className="h-48 overflow-hidden bg-slate-900 relative">
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                        draggable="false"
+                      />
+                    </div>
+                    {/* Content Card Body */}
+                    <div className="p-5 flex-1 flex flex-col justify-between">
+                      <div className="space-y-2">
+                        <span className="text-[11px] font-extrabold text-[#F97316] uppercase tracking-wider block">
+                          {item.date}
+                        </span>
+                        <h4 className="text-sm font-extrabold text-[#072A6C] leading-snug line-clamp-2">
+                          {item.title}
+                        </h4>
+                      </div>
+                      <div className="pt-4 border-t border-gray-50 mt-4 flex justify-between items-center">
+                        <span className="text-[10px] text-gray-400 font-medium">
+                          {activeTab === "events" ? "View Details" : "Read Full Story"}
+                        </span>
+                        <ArrowRight size={14} className="text-[#F97316]" />
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="text-[12px] font-[700] text-gray-800 leading-snug">{n.title}</h4>
-                    <Link to="/news" className="text-[10px] font-[700] text-[#072A6C] hover:underline mt-1 inline-block">
-                      Read More →
-                    </Link>
-                  </div>
-                </motion.div>
+                </div>
               ))}
             </div>
-          </motion.div>
+          </div>
 
-          {/* Rankings */}
-          <motion.div
-            className="lg:col-span-4 bg-white border border-gray-200/60 rounded-[16px] p-6 shadow-sm"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <div className="flex justify-between items-center border-b border-gray-100 pb-3 mb-6">
-              <h3 className="text-[13px] font-[800] uppercase tracking-wider text-[#072A6C]">
-                RANKINGS & ACCREDITATIONS
-              </h3>
-              <Link to="/about" className="text-[11px] font-[700] text-[#072A6C] hover:text-[#D71920] flex items-center gap-0.5">
-                View All <ArrowRight size={10} />
-              </Link>
-            </div>
+          {/* Pagination Indicators */}
+          <div className="flex justify-center gap-1.5 mt-8">
+            {Array.from({ length: Math.ceil((activeTab === "events" ? HOME_EVENTS : HOME_NEWS).length / (window.innerWidth >= 1024 ? 3 : window.innerWidth >= 768 ? 2 : 1)) }).map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => handleDotClick(idx)}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  currentPage === idx ? "w-8 bg-[#F97316]" : "w-2 bg-gray-200"
+                }`}
+                aria-label={`Go to slide ${idx + 1}`}
+              />
+            ))}
+          </div>
 
-            <div className="grid grid-cols-3 gap-y-6 gap-x-4">
-              {/* NAAC A+ */}
-              <motion.div className="flex flex-col items-center text-center" variants={fadeUp}>
-                <div className="h-10 flex items-center justify-center mb-1">
-                  <span className="text-[20px] font-[900] text-[#D71920] tracking-tight">NAAC <span className="text-[22px]">A+</span></span>
-                </div>
-                <span className="text-[10px] text-gray-400 font-[600] uppercase tracking-wider">Accredited</span>
-              </motion.div>
+          {/* Centered Action Button */}
+          <div className="flex justify-center mt-10">
+            <Link
+              to={activeTab === "events" ? "/news/events" : "/news"}
+              className="h-11 px-8 bg-[#854d0e] hover:bg-[#713f12] text-white text-[12px] font-bold rounded-xl inline-flex items-center gap-2 transition-all shadow-md active:scale-95 cursor-pointer uppercase tracking-wider"
+            >
+              View More {activeTab === "events" ? "Events" : "News"} <ArrowRight size={12} />
+            </Link>
+          </div>
 
-              {/* NIRF */}
-              <motion.div className="flex flex-col items-center text-center" variants={fadeUp}>
-                <div className="h-10 flex flex-col items-center justify-center mb-1">
-                  <span className="text-[20px] font-[900] text-[#072A6C] tracking-tight">
-                    n<span className="text-[#D71920]">i</span>rf
-                  </span>
-                  <div className="w-8 h-0.5 bg-[#D71920] -mt-0.5" />
-                </div>
-                <span className="text-[10px] text-gray-400 font-[600] uppercase tracking-wider">Ranked</span>
-              </motion.div>
-
-              {/* NBA */}
-              <motion.div className="flex flex-col items-center text-center" variants={fadeUp}>
-                <div className="h-10 flex items-center justify-center mb-1">
-                  <span className="text-[20px] font-[900] text-transparent tracking-widest uppercase" style={{ WebkitTextStroke: "1.2px #0284C7" }}>
-                    NBA
-                  </span>
-                </div>
-                <span className="text-[10px] text-gray-400 font-[600] uppercase tracking-wider">Accredited</span>
-              </motion.div>
-
-              {/* ARIIA */}
-              <motion.div className="flex flex-col items-center text-center" variants={fadeUp}>
-                <div className="h-10 flex items-center justify-center gap-0.5 mb-1">
-                  <svg className="w-5 h-5 text-[#B45309]" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 2L2 22h20L12 2zm0 4l6.5 13h-13L12 6z" />
-                  </svg>
-                  <span className="text-[13px] font-[900] text-[#78350F] tracking-wide">ARIIA</span>
-                </div>
-                <span className="text-[10px] text-gray-400 font-[600] uppercase tracking-wider">Top Performer</span>
-              </motion.div>
-
-              {/* ISO */}
-              <motion.div className="flex flex-col items-center text-center" variants={fadeUp}>
-                <div className="h-10 flex items-center justify-center mb-1">
-                  <div className="w-8 h-8 rounded-full bg-[#072A6C] flex items-center justify-center">
-                    <span className="text-white text-[9px] font-[900] tracking-wider">ISO</span>
-                  </div>
-                </div>
-                <span className="text-[10px] text-gray-400 font-[600] uppercase tracking-wider">Certified</span>
-              </motion.div>
-
-              {/* Approved */}
-              <motion.div className="flex flex-col items-center text-center" variants={fadeUp}>
-                <div className="h-10 flex items-center justify-center mb-1">
-                  <div className="w-8 h-8 rounded-full border-2 border-[#D4AF37] bg-[#F59E0B]/10 flex items-center justify-center">
-                    <svg className="w-4 h-4 text-[#D4AF37]" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                    </svg>
-                  </div>
-                </div>
-                <span className="text-[10px] text-gray-400 font-[600] uppercase tracking-wider">Approved</span>
-              </motion.div>
-            </div>
-          </motion.div>
-
-          {/* Upcoming Events */}
-          <motion.div
-            className="lg:col-span-4 bg-white border border-gray-200/60 rounded-[16px] p-6 shadow-sm flex flex-col justify-between"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={staggerContainer}
-          >
-            <div className="flex justify-between items-center border-b border-gray-100 pb-3 mb-4">
-              <h3 className="text-[13px] font-[800] uppercase tracking-wider text-[#072A6C]">
-                UPCOMING EVENTS
-              </h3>
-              <Link to="/news" className="text-[11px] font-[700] text-[#072A6C] hover:text-[#D71920] flex items-center gap-0.5">
-                View Calendar <ArrowRight size={10} />
-              </Link>
-            </div>
-
-            <div className="space-y-4">
-              {[
-                { d: "20", m: "MAY", title: "International Conference on AI & Robotics", time: "10:00 AM Onwards" },
-                { d: "25", m: "MAY", title: "Annual Tech Fest 2025", time: "09:00 AM Onwards" },
-                { d: "05", m: "JUN", title: "Global Education Fair", time: "11:00 AM Onwards" }
-              ].map((e, idx) => (
-                <motion.div key={idx} className="flex gap-4 items-start" variants={fadeUp}>
-                  <div className="w-12 h-12 shrink-0 rounded-[8px] bg-[#D71920] text-white text-center flex flex-col items-center justify-center shadow-sm">
-                    <span className="block text-[14px] font-[800] leading-none">{e.d}</span>
-                    <span className="block text-[8px] font-[700] tracking-wider mt-0.5">{e.m}</span>
-                  </div>
-                  <div>
-                    <h4 className="text-[12px] font-[700] text-gray-800 leading-snug">{e.title}</h4>
-                    <span className="block text-[10px] text-gray-400 font-[500] mt-1">{e.time}</span>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
         </div>
       </section>
 
