@@ -1070,51 +1070,195 @@ function AcademicCalendar() {
     }
   });
 
-  const getCalendarTable = (key: string, year: string) => {
-    const yStart = year.split("-")[0];
-    const yEnd = "20" + year.split("-")[1];
-    
-    const events = [
-      { event: "Commencement of Classwork", date: `July 15, ${yStart}` },
-      { event: "First Mid-Term Examinations", date: `September 04 – 09, ${yStart}` },
-      { event: "Second Mid-Term Examinations", date: `November 12 – 18, ${yStart}` },
-      { event: "Practical Examinations", date: `December 02 – 07, ${yStart}` },
-      { event: "End Semester Theory Exams", date: `December 09 – 22, ${yStart}` },
-      { event: "Commencement of Next Semester", date: `January 05, ${yEnd}` }
-    ];
+function InteractiveCalendarWidget({ year, courseKey }: { year: string; courseKey: string }) {
+  const monthsData = [
+    { name: "July", yearOffset: 0, startDay: 2, totalDays: 31, events: { 15: "Commencement of Classwork" } },
+    { name: "August", yearOffset: 0, startDay: 5, totalDays: 31, events: {} },
+    { name: "September", yearOffset: 0, startDay: 1, totalDays: 30, events: { 5: "First Mid-Term Examinations" } },
+    { name: "October", yearOffset: 0, startDay: 3, totalDays: 31, events: {} },
+    { name: "November", yearOffset: 0, startDay: 6, totalDays: 30, events: { 14: "Second Mid-Term Examinations" } },
+    { name: "December", yearOffset: 0, startDay: 1, totalDays: 31, events: { 3: "Practical Examinations", 15: "End Semester Theory Exams" } },
+    { name: "January", yearOffset: 1, startDay: 4, totalDays: 31, events: { 5: "Commencement of Next Semester" } }
+  ];
 
-    return (
-      <div className="p-4 bg-gray-50/70 border-t border-gray-100 animate-slide-down">
-        <div className="flex justify-between items-center mb-3">
-          <span className="text-[10px] font-bold text-[#072A6C] uppercase tracking-wider">Calendar Details for {year}</span>
-          <button 
-            onClick={() => alert(`Academic Calendar PDF for ${year} is queued for download.`)}
-            className="text-[10px] font-bold text-[#D71920] hover:text-[#072A6C] transition-colors"
-          >
-            📥 Download Calendar PDF
-          </button>
+  const [monthIndex, setMonthIndex] = React.useState(0);
+  const [selectedDay, setSelectedDay] = React.useState<number | null>(15);
+
+  const currentMonth = monthsData[monthIndex];
+  
+  const yStart = parseInt(year.split("-")[0]);
+  const yEnd = parseInt("20" + year.split("-")[1]);
+  const displayYear = currentMonth.yearOffset === 0 ? yStart : yEnd;
+
+  const prevMonth = () => {
+    setMonthIndex((prev) => (prev > 0 ? prev - 1 : monthsData.length - 1));
+    setSelectedDay(null);
+  };
+
+  const nextMonth = () => {
+    setMonthIndex((prev) => (prev < monthsData.length - 1 ? prev + 1 : 0));
+    setSelectedDay(null);
+  };
+
+  // Generate day cells including empty offsets
+  const dayCells = [];
+  for (let i = 0; i < currentMonth.startDay; i++) {
+    dayCells.push(null);
+  }
+  for (let i = 1; i <= currentMonth.totalDays; i++) {
+    dayCells.push(i);
+  }
+
+  // Get active event for selected day
+  const activeEvent = selectedDay && currentMonth.events[selectedDay as keyof typeof currentMonth.events];
+
+  return (
+    <div className="p-4 bg-gray-50/70 border-t border-gray-100 animate-slide-down">
+      <div className="flex justify-between items-center mb-3">
+        <span className="text-[10px] font-bold text-[#072A6C] uppercase tracking-wider">Visual Academic Calendar ({year})</span>
+        <button 
+          onClick={() => alert(`Academic Calendar PDF for ${year} is queued for download.`)}
+          className="text-[10px] font-bold text-[#D71920] hover:text-[#072A6C] transition-colors"
+        >
+          📥 Download Calendar PDF
+        </button>
+      </div>
+
+      {/* Main split box matching reference visual styling */}
+      <div className="flex flex-col md:flex-row rounded-3xl border border-gray-200 overflow-hidden shadow-md">
+        {/* Left Side: Calendar Grid */}
+        <div className="w-full md:w-3/5 bg-[#B2C9CE] p-6 flex flex-col justify-between min-h-[320px]">
+          {/* Header Month/Year Selection */}
+          <div className="flex justify-between items-center mb-6">
+            <span className="text-[10px] font-bold text-red-500 uppercase tracking-widest">{displayYear - 1}</span>
+            <h5 className="text-sm font-extrabold text-[#2C3E50] uppercase tracking-widest">
+              {currentMonth.name}, {displayYear}
+            </h5>
+            <span className="text-[10px] font-bold text-red-500 uppercase tracking-widest">{displayYear + 1}</span>
+          </div>
+
+          {/* Weekday headers */}
+          <div className="grid grid-cols-7 gap-y-2 text-center text-[10px] font-bold text-[#4B6584] uppercase mb-4 tracking-wider">
+            <span>Sun</span>
+            <span>Mon</span>
+            <span>Tue</span>
+            <span>Wed</span>
+            <span>Thur</span>
+            <span>Fri</span>
+            <span>Sat</span>
+          </div>
+
+          {/* Grid Cells */}
+          <div className="grid grid-cols-7 gap-y-2 text-center items-center relative">
+            {/* Left Month navigation arrow */}
+            <button 
+              onClick={prevMonth}
+              className="absolute left-[-16px] top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white/80 hover:bg-white flex items-center justify-center shadow-sm text-gray-600 hover:text-red-500 transition-colors cursor-pointer outline-none"
+            >
+              ◀
+            </button>
+
+            {dayCells.map((day, idx) => {
+              if (day === null) return <div key={`empty-${idx}`} />;
+              
+              const hasEvent = currentMonth.events[day as keyof typeof currentMonth.events] !== undefined;
+              const isSelected = selectedDay === day;
+
+              return (
+                <button
+                  key={`day-${day}`}
+                  onClick={() => setSelectedDay(day)}
+                  className={`w-8 h-8 mx-auto rounded-full flex flex-col items-center justify-center text-xs font-bold transition-all relative cursor-pointer outline-none ${
+                    isSelected 
+                      ? "bg-[#D71920] text-white shadow-sm scale-110" 
+                      : "text-[#2C3E50] hover:bg-white/40"
+                  }`}
+                >
+                  <span>{day}</span>
+                  {/* Underline matching reference screenshot */}
+                  {hasEvent && (
+                    <span className={`w-3.5 h-[2px] rounded absolute bottom-1.5 ${isSelected ? "bg-white" : "bg-[#D71920]"}`} />
+                  )}
+                </button>
+              );
+            })}
+
+            {/* Right Month navigation arrow */}
+            <button 
+              onClick={nextMonth}
+              className="absolute right-[-16px] top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white/80 hover:bg-white flex items-center justify-center shadow-sm text-gray-600 hover:text-red-500 transition-colors cursor-pointer outline-none"
+            >
+              ▶
+            </button>
+          </div>
+
+          {/* Bottom actions */}
+          <div className="flex gap-2 mt-6">
+            <button 
+              onClick={() => alert(`Full events roster for ${currentMonth.name} is displayed on the sidebar.`)}
+              className="flex-1 py-2 bg-[#2C3E50] hover:bg-[#1A252F] text-white text-[9.5px] font-bold rounded-lg tracking-widest uppercase transition-colors outline-none cursor-pointer"
+            >
+              See Planned Events
+            </button>
+            <button 
+              onClick={() => alert("Notification reminder has been registered successfully.")}
+              className="flex-1 py-2 bg-[#2C3E50] hover:bg-[#1A252F] text-white text-[9.5px] font-bold rounded-lg tracking-widest uppercase transition-colors outline-none cursor-pointer"
+            >
+              Set Reminder
+            </button>
+          </div>
         </div>
-        <div className="border border-gray-100 rounded-xl overflow-hidden bg-white shadow-sm">
-          <table className="w-full text-left text-xs border-collapse">
-            <thead>
-              <tr className="bg-gray-100/60 border-b border-gray-200/60 text-gray-700 font-bold">
-                <th className="p-3">Academic Event</th>
-                <th className="p-3">Dates</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {events.map((e, idx) => (
-                <tr key={idx} className="hover:bg-gray-50/30">
-                  <td className="p-3 font-semibold text-[#072A6C]">{e.event}</td>
-                  <td className="p-3 text-gray-600">{e.date}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+
+        {/* Right Side: Slate Events Panel */}
+        <div className="w-full md:w-2/5 bg-[#2B3542] p-6 text-white flex flex-col justify-between min-h-[320px]">
+          <div>
+            <span className="text-[10px] font-extrabold text-red-400 uppercase tracking-widest block mb-1">Schedule</span>
+            <h5 className="text-xs font-extrabold uppercase tracking-widest pb-2 border-b border-white/10 mb-4">
+              Events
+            </h5>
+
+            <div className="space-y-4">
+              {/* Display specific event if selected date has one */}
+              {activeEvent ? (
+                <div className="space-y-1.5 animate-slide-down">
+                  <div className="text-[#00FCFF] text-[11px] font-extrabold uppercase tracking-wider leading-snug">
+                    {activeEvent}
+                  </div>
+                  <div className="w-16 h-[2px] bg-[#00FCFF] rounded" />
+                  <div className="text-[9.5px] text-gray-400 font-light">
+                    Scheduled on {currentMonth.name} {selectedDay}, {displayYear}
+                  </div>
+                </div>
+              ) : selectedDay ? (
+                <div className="text-gray-400 text-xs font-light italic">
+                  No academic events scheduled on {currentMonth.name} {selectedDay}.
+                </div>
+              ) : (
+                <div className="text-gray-400 text-xs font-light italic">
+                  Click a highlighted date in the calendar to view scheduled milestones.
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="pt-4 border-t border-white/5 space-y-2">
+            <span className="text-[9px] font-bold text-gray-500 uppercase tracking-widest block">Month Summary:</span>
+            {Object.keys(currentMonth.events).length > 0 ? (
+              Object.entries(currentMonth.events).map(([day, evName]) => (
+                <div key={day} className="text-[10px] text-gray-300 flex items-center justify-between">
+                  <span>• {evName}</span>
+                  <span className="text-gray-500 shrink-0 ml-2">{currentMonth.name.substring(0, 3)} {day}</span>
+                </div>
+              ))
+            ) : (
+              <div className="text-[10px] text-gray-500 italic">No events scheduled in {currentMonth.name}.</div>
+            )}
+          </div>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
+}
 
   return (
     <div className="space-y-6">
@@ -1158,7 +1302,7 @@ function AcademicCalendar() {
                       <span>• {course.label}</span>
                       <ChevronDown size={14} className={`transition-transform duration-200 ${isExpanded ? "rotate-180 text-[#D71920]" : "text-gray-400"}`} />
                     </button>
-                    {isExpanded && getCalendarTable(course.key, selectedYear)}
+                    {isExpanded && <InteractiveCalendarWidget year={selectedYear} courseKey={course.key} />}
                   </div>
                 );
               })}
