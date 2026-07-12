@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronRight, ChevronDown, Home, Calendar, BookOpen, Landmark, Info, Phone, ShieldCheck, UserPlus, FileText, UploadCloud, CreditCard, Clock, ShieldAlert, UserCheck, Scale, CalendarRange, GraduationCap, Mail, User, X } from "lucide-react";
+import { ArrowRight, ChevronRight, ChevronDown, Home, Calendar, BookOpen, Landmark, Info, Phone, ShieldCheck, UserPlus, FileText, UploadCloud, CreditCard, Clock, ShieldAlert, UserCheck, Scale, CalendarRange, GraduationCap, Mail, User, X, Globe } from "lucide-react";
 import { PROGRAMS_DATA } from "../data/programsData";
 
 
@@ -816,7 +816,7 @@ const getPageContent = (path: string) => {
         title: "Board of Governors",
         category: "Management",
         desc: "Meet the visionary trustees and governing council driving Chalapathi's strategic excellence.",
-        body: <UniversityGovernance />
+        body: <BoardDirectory />
       };
     }
     if (cleanPath.includes("faculty")) {
@@ -832,27 +832,7 @@ const getPageContent = (path: string) => {
         title: "Administrative & Technical Staff",
         category: "Management",
         desc: "Our supportive team ensuring smooth administrative operations and advanced laboratory maintenance.",
-        body: (
-          <div className="space-y-6 text-gray-600 text-sm">
-            <p>From admissions counselors to expert lab technicians, our staff ensures a secure, resource-rich, and smooth daily learning environment.</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {[
-                { name: "Sri M. Srinivasa Rao", role: "Registrar / Office Head" },
-                { name: "Smt. G. Swathi", role: "Librarian & Catalog Administrator" },
-                { name: "Sri K. Venkatesh", role: "System Administrator & Network Engineer" },
-                { name: "Sri T. Prasad", role: "Senior Laboratory Assistant" }
-              ].map((staff, i) => (
-                <div key={i} className="bg-white border border-gray-100 p-4 rounded-xl shadow-sm flex items-center justify-between">
-                  <div>
-                    <h5 className="font-bold text-[#072A6C] text-xs">{staff.name}</h5>
-                    <p className="text-[10px] text-gray-500 font-semibold mt-0.5">{staff.role}</p>
-                  </div>
-                  <span className="text-[9px] bg-gray-100 text-gray-600 px-2 py-0.5 rounded-full font-bold uppercase">Staff</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )
+        body: <StaffDirectory />
       };
     }
     return {
@@ -2219,6 +2199,58 @@ interface FacultyMember {
   department: string;
 }
 
+const getAvatarUrl = (initials: string): string => {
+  const avatarMap: Record<string, string> = {
+    "YVA": "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop&crop=face",
+    "YSK": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop&crop=face",
+    "KPR": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+    "TS": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+    "PVR": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face",
+    "AKK": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop&crop=face",
+    "KJ": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop&crop=face",
+    "BS": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&crop=face",
+    "DSR": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face",
+    "KC": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop&crop=face",
+    "SV": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+    "PR": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+    "SK": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop&crop=face",
+    "MH": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face",
+    "GM": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=400&fit=crop&crop=face",
+    "RK": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop&crop=face",
+    "YVK": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&h=400&fit=crop&crop=face",
+    "TA": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&crop=face",
+    "VS": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+    "SKR": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+    "NL": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=400&h=400&fit=crop&crop=face",
+    "LRK": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face",
+    "SL": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop&crop=face",
+    "PSM": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop&crop=face",
+    "GR": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+    "MSR": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face",
+    "KR": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+    "VP": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop&crop=face",
+    "GS": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&crop=face",
+    "PN": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+    "KSR": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face",
+    "KA": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop&crop=face",
+    "MR": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+    "PK": "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=400&h=400&fit=crop&crop=face",
+    "KHP": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop&crop=face",
+    "KS": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=400&fit=crop&crop=face",
+    "TK": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+    "KV": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+    "MRK": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop&crop=face",
+    "BR": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=400&fit=crop&crop=face",
+    "PSR": "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop&crop=face",
+    "KN": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face",
+    "TP": "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&h=400&fit=crop&crop=face",
+    "SR": "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop&crop=face",
+    "KP": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop&crop=face"
+  };
+
+  return avatarMap[initials] || `https://eu.ui-avatars.com/api/?name=${encodeURIComponent(initials)}&background=072A6C&color=fff&size=256&font-size=0.35&bold=true`;
+};
+
 const FACULTY_DATA: Record<string, {
   hod: FacultyMember;
   others: Array<FacultyMember>;
@@ -2531,304 +2563,1137 @@ const FACULTY_DATA: Record<string, {
   }
 };
 
-function UniversityGovernance() {
-  const [activeSection, setActiveSection] = React.useState<string | null>(null);
+const BOARD_DEPARTMENTS = [
+  "Governing Council",
+  "Chancellor",
+  "Pro Chancellor",
+  "Vice Chancellor",
+  "Registrar",
+  "Dean – Academic Affairs",
+  "Dean – Research & Innovation",
+  "Dean – Student Affairs",
+  "Dean – Faculty Affairs",
+  "Dean – Admissions",
+  "Dean – Placements & Relations",
+  "Finance Officer",
+  "Controller of Examinations"
+];
+
+const BOARD_DATA: Record<string, {
+  hod: FacultyMember;
+  others: Array<FacultyMember>;
+}> = {
+  "Governing Council": {
+    hod: {
+      name: "Sri Y. V. Anjaneyulu",
+      title: "Chairman & President",
+      edu: "Graduate in Engineering & Humanities",
+      interests: "Administration, institutional strategy, policy planning, and infrastructure development.",
+      phone: "0863 2345401",
+      email: "chairman@city.ac.in",
+      avatar: "YVA",
+      age: "65 Years",
+      experience: "35 Years of Administrative Leadership",
+      idNo: "CUB-GC-001",
+      department: "Governing Council"
+    },
+    others: []
+  },
+  "Chancellor": {
+    hod: {
+      name: "Sri Y. V. Anjaneyulu",
+      title: "Chancellor",
+      edu: "Renowned Educationist & Founder Sponsor Representative",
+      interests: "Strategic leadership, academic governance, public relations, and legal policies.",
+      phone: "0863 2345401",
+      email: "chancellor@city.ac.in",
+      avatar: "YVA",
+      age: "65 Years",
+      experience: "35 Years",
+      idNo: "CUB-CH-001",
+      department: "Office of the Chancellor"
+    },
+    others: []
+  },
+  "Pro Chancellor": {
+    hod: {
+      name: "Sri Y. Sujit Kumar",
+      title: "Pro Chancellor",
+      edu: "M.Tech & MBA - Executive Education",
+      interests: "Institutional progress planning, modernization initiatives, and industry collaborations.",
+      phone: "0863 2345402",
+      email: "prochan@city.ac.in",
+      avatar: "YSK",
+      age: "42 Years",
+      experience: "18 Years",
+      idNo: "CUB-PC-001",
+      department: "Office of the Pro Chancellor"
+    },
+    others: []
+  },
+  "Vice Chancellor": {
+    hod: {
+      name: "Dr. K. Prasad Rao",
+      title: "Vice Chancellor",
+      edu: "Ph.D., Former Senior Professor - Administration & Research",
+      interests: "Curriculum planning coordination, academic excellence, and international relations.",
+      phone: "0863 2345403",
+      email: "vc@city.ac.in",
+      avatar: "KPR",
+      age: "58 Years",
+      experience: "30 Years",
+      idNo: "CUB-VC-001",
+      department: "Office of the Vice Chancellor"
+    },
+    others: []
+  },
+  "Registrar": {
+    hod: {
+      name: "Prof. T. Sivaramaiah",
+      title: "Registrar",
+      edu: "M.Tech, Ph.D. - Computer Networks",
+      interests: "General administration, statutory records management, and legal affairs compliance.",
+      phone: "0863 2345404",
+      email: "registrar@city.ac.in",
+      avatar: "TS",
+      age: "53 Years",
+      experience: "25 Years",
+      idNo: "CUB-RG-001",
+      department: "Registrar Office"
+    },
+    others: []
+  },
+  "Dean – Academic Affairs": {
+    hod: {
+      name: "Prof. P. V. Ramana",
+      title: "Dean – Academic Affairs",
+      edu: "Ph.D - Indian Institute of Technology Madras, India",
+      interests: "Academic planning, curriculum development, and examinations coordination.",
+      phone: "0863 2345432",
+      email: "dean.academics@city.ac.in",
+      avatar: "PVR",
+      age: "52 Years",
+      experience: "24 Years",
+      idNo: "CUB-DA-001",
+      department: "Academic Affairs Office"
+    },
+    others: []
+  },
+  "Dean – Research & Innovation": {
+    hod: {
+      name: "Dr. K. Chandrasekhar",
+      title: "Dean – Research & Innovation",
+      edu: "Ph.D - Indian Institute of Technology Delhi, India",
+      interests: "Research ecosystem governance, patent filing, sponsored grants, and innovations.",
+      phone: "0863 2345430",
+      email: "dean.research@city.ac.in",
+      avatar: "KC",
+      age: "48 Years",
+      experience: "20 Years",
+      idNo: "CUB-DR-001",
+      department: "Research & Development Cell"
+    },
+    others: []
+  },
+  "Dean – Student Affairs": {
+    hod: {
+      name: "Dr. G. Madhavi",
+      title: "Dean – Student Affairs",
+      edu: "Ph.D - Andhra University",
+      interests: "Student welfare guidelines, professional clubs, and hostel supervision.",
+      phone: "0863 2345460",
+      email: "dean.students@city.ac.in",
+      avatar: "GM",
+      age: "42 Years",
+      experience: "15 Years",
+      idNo: "CUB-DS-001",
+      department: "Student Affairs Cell"
+    },
+    others: []
+  },
+  "Dean – Faculty Affairs": {
+    hod: {
+      name: "Dr. T. Anuradha",
+      title: "Dean – Faculty Affairs",
+      edu: "Ph.D - BITS Pilani",
+      interests: "Faculty recruitment, performance reviews, and professional development programs.",
+      phone: "0863 2345470",
+      email: "dean.faculty@city.ac.in",
+      avatar: "TA",
+      age: "47 Years",
+      experience: "18 Years",
+      idNo: "CUB-DF-001",
+      department: "Faculty Affairs Office"
+    },
+    others: []
+  },
+  "Dean – Admissions": {
+    hod: {
+      name: "Dr. L. Rama Krishna",
+      title: "Dean – Admissions",
+      edu: "Ph.D - Osmania University",
+      interests: "Admissions operations, merit scholarships, and student enrollment support.",
+      phone: "0863 2345480",
+      email: "dean.admissions@city.ac.in",
+      avatar: "LRK",
+      age: "51 Years",
+      experience: "22 Years",
+      idNo: "CUB-DAD-001",
+      department: "Admissions Office"
+    },
+    others: []
+  },
+  "Dean – Placements & Relations": {
+    hod: {
+      name: "Dr. R. Karthik",
+      title: "Dean – Placements & Relations",
+      edu: "Ph.D - NIT Trichy",
+      interests: "Industry relations, placements campaigns, and placement coordinates.",
+      phone: "0863 2345461",
+      email: "dean.placements@city.ac.in",
+      avatar: "RK",
+      age: "40 Years",
+      experience: "13 Years",
+      idNo: "CUB-DP-001",
+      department: "Placement Office"
+    },
+    others: []
+  },
+  "Finance Officer": {
+    hod: {
+      name: "Sri G. Ravindra",
+      title: "Finance Officer",
+      edu: "MBA & Chartered Accountant",
+      interests: "Finance supervision, budgeting audits, cash logs, and payroll systems.",
+      phone: "0863 2345483",
+      email: "finance@city.ac.in",
+      avatar: "GR",
+      age: "33 Years",
+      experience: "8 Years",
+      idNo: "CUB-FO-001",
+      department: "Finance & Accounts Department"
+    },
+    others: []
+  },
+  "Controller of Examinations": {
+    hod: {
+      name: "Dr. V. Satish",
+      title: "Controller of Examinations",
+      edu: "Ph.D - JNTU Hyderabad",
+      interests: "Examinations conduction, grading papers, and degree certification.",
+      phone: "0863 2345471",
+      email: "coe@city.ac.in",
+      avatar: "VS",
+      age: "38 Years",
+      experience: "11 Years",
+      idNo: "CUB-COE-001",
+      department: "Examination Cell"
+    },
+    others: []
+  }
+};
+
+const BOARD_MODAL_DETAILS: Record<string, {
+  office: string;
+  specialization: string;
+  officeLocation: string;
+  leadershipSince: string;
+  reportingOffice: string;
+  about: string;
+  responsibilities: string[];
+  initiatives: string[];
+}> = {
+  "Governing Council": {
+    office: "Apex Governance Suite, CCU Admin Block",
+    specialization: "Educational Leadership & Strategic Management",
+    officeLocation: "Suite 501, 5th Floor, Main Building",
+    leadershipSince: "2018",
+    reportingOffice: "Supreme Governing Body",
+    about: "The Governing Council is the apex policy-making body of City Chalapathi University, responsible for defining the institution's long-term vision, governance framework, academic excellence, financial oversight, and strategic growth. The council ensures that the university maintains the highest standards in education, research, innovation, industry collaboration, and social responsibility while aligning with national and international higher education practices.",
+    responsibilities: ["Strategic Planning", "University Governance", "Financial Oversight", "Policy Development", "Institutional Expansion", "Stakeholder Relations", "Regulatory Compliance", "Accreditation Oversight"],
+    initiatives: ["Accreditation Milestones", "Infrastructure Modernization", "Financial Sustainability Plan"]
+  },
+  "Chancellor": {
+    office: "Chancellor's Secretariat, CCU Campus",
+    specialization: "Corporate Governance & Higher Education Strategy",
+    officeLocation: "Executive Wing, Ground Floor, Admin Block",
+    leadershipSince: "2018",
+    reportingOffice: "Board of Trustees",
+    about: "The Chancellor serves as the ceremonial head and guiding authority of City Chalapathi University, providing strategic leadership and preserving the institution's vision and values. The Chancellor inspires academic excellence, innovation, ethical governance, and global collaborations while supporting the university's mission of creating future-ready graduates and advancing impactful research.",
+    responsibilities: ["Academic Leadership", "Strategic Visioning", "Preservation of Values", "Global Collaborations", "Ethical Governance", "Honorary Degrees Approval", "Convocation Presiding", "Institutional Advisory"],
+    initiatives: ["Global Partnerships Alliance", "Research Endowment Fund", "Green Campus Master Plan"]
+  },
+  "Pro Chancellor": {
+    office: "Office of the Pro Chancellor",
+    specialization: "Academic Administration & Institutional Growth",
+    officeLocation: "Executive Wing, 1st Floor, Admin Block",
+    leadershipSince: "2019",
+    reportingOffice: "Chancellor's Office",
+    about: "The Pro Chancellor assists the Chancellor in steering the university's long-term development and institutional expansion. Working closely with university leadership, the Pro Chancellor promotes academic innovation, infrastructure growth, industry partnerships, and international collaborations while ensuring that the university continues to achieve excellence in higher education.",
+    responsibilities: ["Infrastructure Growth", "Industry Partnerships", "Strategic Expansion Liaison", "Academic Innovation Advocacy", "Leadership Support", "Policy Implementation Coordination", "Development Projects Review"],
+    initiatives: ["Smart Classroom Initiative", "Industry-Immersion Labs", "Alumni Connect Drive"]
+  },
+  "Vice Chancellor": {
+    office: "Vice Chancellor's Office",
+    specialization: "Institutional Leadership & Research Planning",
+    officeLocation: "First Floor, Admin Block",
+    leadershipSince: "2020",
+    reportingOffice: "Chancellor / Governing Council",
+    about: "The Vice Chancellor is the chief executive and academic leader of City Chalapathi University, responsible for the overall administration, academic planning, research initiatives, faculty development, and institutional governance. The Vice Chancellor leads the university toward academic distinction by fostering innovation, interdisciplinary learning, quality assurance, and global engagement.",
+    responsibilities: ["Overall Administration", "Academic Planning", "Research Ecosystem Promotion", "Faculty Development", "Institutional Governance Leadership", "Interdisciplinary Learning Advocacy", "Quality Assurance", "Internationalization"],
+    initiatives: ["Curriculum Revamp (OBE)", "Center for AI Innovation", "Faculty Research Grant Program"]
+  },
+  "Registrar": {
+    office: "Registrar Secretariat",
+    specialization: "Statutory Governance & Compliance Management",
+    officeLocation: "Ground Floor, Registrar Wing, Admin Block",
+    leadershipSince: "2020",
+    reportingOffice: "Vice Chancellor",
+    about: "The Registrar oversees the administrative and statutory operations of the university while ensuring compliance with academic regulations and government policies. The office manages institutional records, university communications, legal documentation, governance processes, examinations administration, and student services to maintain efficient and transparent university operations.",
+    responsibilities: ["Statutory Compliance Operations", "University Records Custodian", "Legal Affairs Management", "Administrative Coordination", "Academic Registries Oversight", "Communications and Publications", "Official Seal Custody"],
+    initiatives: ["Digital Paperless Administration", "Legal Framework Overhaul", "Statutory Archive Portal"]
+  },
+  "Dean – Academic Affairs": {
+    office: "Academic Affairs Cell",
+    specialization: "Curriculum Design & Quality Assurance",
+    officeLocation: "Academic Wing, 2nd Floor, Main Block",
+    leadershipSince: "2021",
+    reportingOffice: "Vice Chancellor",
+    about: "The Dean of Academic Affairs is responsible for curriculum planning, academic regulations, teaching quality, Outcome-Based Education (OBE), examination coordination, and continuous academic improvement. The office ensures that all academic programs meet national accreditation standards while delivering a modern, industry-oriented learning experience.",
+    responsibilities: ["Curriculum Development", "Academic Calendar Management", "Teaching Quality Auditing", "Outcome-Based Education Framework", "Accreditation Alignment (NAAC/NBA)", "Board of Studies Coordination", "Academic Audit Processes"],
+    initiatives: ["Outcome-Based Assessment Model", "Multi-Disciplinary Electives Program", "Digital Exam Management Suite"]
+  },
+  "Dean – Research & Innovation": {
+    office: "Research & Development Center",
+    specialization: "IPR, Technology Transfer & Sponsored Research",
+    officeLocation: "R&D Block, 3rd Floor",
+    leadershipSince: "2021",
+    reportingOffice: "Vice Chancellor",
+    about: "The Dean of Research & Innovation leads the university's research ecosystem by encouraging interdisciplinary research, sponsored projects, patents, technology transfer, entrepreneurship, innovation, and incubation activities. The office actively supports faculty and students in creating impactful research that addresses real-world challenges.",
+    responsibilities: ["Research Ecosystem Guidance", "IPR & Patent Filing", "Sponsored Projects Funding", "Start-up Incubation Mentorship", "Seed Grant Approvals", "Ethics Committee Convener", "Journal Indexing Standards"],
+    initiatives: ["Patent Incubation Lab", "Interdisciplinary Research Clusters", "Research Incentive Framework"]
+  },
+  "Dean – Student Affairs": {
+    office: "Student Welfare Office",
+    specialization: "Student Development & Community Engagement",
+    officeLocation: "Student Center, Room 102",
+    leadershipSince: "2022",
+    reportingOffice: "Vice Chancellor",
+    about: "The Dean of Student Affairs oversees student welfare, leadership development, cultural activities, sports, professional societies, clubs, hostels, counselling services, and alumni engagement. The office is committed to creating a vibrant campus environment that supports holistic development beyond academics.",
+    responsibilities: ["Student Welfare Coordination", "Cultural and Sports Events Coordination", "Professional Clubs Guidance", "Hostel Management Coordination", "Anti-Ragging Compliance", "Counselling and Support Services", "Alumni Association Engagement"],
+    initiatives: ["Annual Tech-Cultural Fest", "Campus Wellness & Fitness Initiative", "Alumni Mentorship Network"]
+  },
+  "Dean – Faculty Affairs": {
+    office: "Faculty Welfare & Development Wing",
+    specialization: "Talent Acquisition & Performance Metrics",
+    officeLocation: "Admin Block, Suite 203",
+    leadershipSince: "2021",
+    reportingOffice: "Vice Chancellor",
+    about: "The Dean of Faculty Affairs manages faculty recruitment, professional development, performance evaluation, promotions, research support, and academic leadership initiatives. The office works toward building a highly qualified faculty community dedicated to excellence in teaching, research, innovation, and mentorship.",
+    responsibilities: ["Faculty Recruitment Drives", "Performance Evaluation Framework", "Professional Development Camps", "Faculty Welfare Schemes", "Research Fellowships Allocation", "Conflict Resolution", "Academic Promotions Advisory"],
+    initiatives: ["Faculty Induction Program", "Pedagogical Training Camps", "Dean's Excellence Awards"]
+  },
+  "Dean – Admissions": {
+    office: "Admissions Center",
+    specialization: "Enrollment Management & Outreach Campaigns",
+    officeLocation: "Ground Floor, Entrance Wing, Admin Block",
+    leadershipSince: "2021",
+    reportingOffice: "Vice Chancellor",
+    about: "The Dean of Admissions supervises the university's admission process, scholarship programs, student enrollment, counseling activities, international admissions, and outreach initiatives. The office ensures a transparent, merit-based admission system while attracting talented students from across India and abroad.",
+    responsibilities: ["Admissions Strategy & Campaigns", "Enrollment Processing", "Scholarship Allocation Schemes", "Outreach Program Coordination", "International Applications Counseling", "Merit List Computations", "Helpdesk Operations Support"],
+    initiatives: ["National Admissions Expo Tour", "Merit Scholarship Portal", "Instant Verification Desks"]
+  },
+  "Dean – Placements & Relations": {
+    office: "Placement & Corporate Relations Cell",
+    specialization: "Corporate Engagement, Placement Drives & Soft Skills Training",
+    officeLocation: "Placement Block, 2nd Floor",
+    leadershipSince: "2022",
+    reportingOffice: "Vice Chancellor",
+    about: "The Dean of Placements & Corporate Relations develops strong partnerships with industries, multinational companies, startups, and research organizations. The office coordinates internships, campus recruitment drives, career guidance, skill development programs, industry interactions, and placement training to enhance student employability.",
+    responsibilities: ["Placement Campaigns & Recruitment Drive Coordination", "Industry MoUs & Strategic Alliances", "Career Guidance Support", "Soft Skills Training Programs", "Internship Drives Coordination", "Alumni Network Placements Link", "Employability Assessment Tools"],
+    initiatives: ["Mega Campus Hiring Fair", "Corporate Advisory Committee", "Pre-Placement Bootcamps"]
+  },
+  "Finance Officer": {
+    office: "Finance Office",
+    specialization: "Fiscal Planning, Audits & Regulatory Accounts",
+    officeLocation: "Accounts Wing, Ground Floor, Admin Block",
+    leadershipSince: "2023",
+    reportingOffice: "Vice Chancellor / Registrar",
+    about: "The Finance Officer manages the university's financial planning, budgeting, auditing, accounting operations, payroll administration, procurement oversight, and regulatory compliance. The office ensures responsible financial governance while supporting the university's academic, research, and infrastructure development goals.",
+    responsibilities: ["Annual Budget Formulation", "Accounting Operations Oversight", "Regulatory Accounts Auditing", "Payroll Processing Coordination", "Procurement Committee Audit", "Fund Management & Investments", "Grant Funding Compliance"],
+    initiatives: ["ERP-based Financial Operations", "Online Student Fees Portal", "Energy-Cost Rationalization Audit"]
+  },
+  "Controller of Examinations": {
+    office: "Office of the COE",
+    specialization: "Confidential Assessment Systems & Grading Frameworks",
+    officeLocation: "COE Block, Secured Wing",
+    leadershipSince: "2023",
+    reportingOffice: "Vice Chancellor",
+    about: "The Controller of Examinations is responsible for conducting examinations, evaluation processes, result publication, academic records, degree certifications, transcripts, and examination policies. The office ensures confidentiality, transparency, fairness, and efficiency throughout the university's assessment and certification system.",
+    responsibilities: ["Examinations Conduction Oversight", "Evaluation Coordination & Processing", "Result Publication Framework", "Grade Sheets & Degree Certificates Delivery", "Assessment Standards Control", "Confidential Printing Operations", "Student Evaluation Grievance Desk"],
+    initiatives: ["Secure Digital Evaluation Portal", "Quick Grade Card Dispatch", "CCTV Examination Surveillance Suite"]
+  }
+};
+
+function BoardDirectory() {
+  const [selectedDept, setSelectedDept] = React.useState("Governing Council");
+  const [selectedFaculty, setSelectedFaculty] = React.useState<FacultyMember | null>(null);
+  
+  const activeDept = BOARD_DATA[selectedDept] || BOARD_DATA["Governing Council"];
 
   return (
-    <div className="flex flex-col items-center space-y-4 w-full mt-6 text-center font-[var(--font-poppins)]">
-      
-      {/* ======================================================== */}
-      {/* 🌟 TOP LEVEL EXECUTIVE HIERARCHY                          */}
-      {/* ======================================================== */}
-      
-      {/* Board of Governors */}
-      <div className="bg-[#072A6C] text-white w-full max-w-[320px] p-5 rounded-2xl shadow-lg border border-[#D4AF37] hover:scale-[1.02] transition-transform duration-300">
-        <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-widest block mb-1">Governing Council</span>
-        <h4 className="font-extrabold text-sm md:text-base">Board of Governors</h4>
-        <p className="text-[10px] text-gray-300 mt-1 leading-relaxed">Supreme policy-making and strategic planning body of the university.</p>
-      </div>
-      
-      {/* Connector */}
-      <div className="w-0.5 h-8 bg-gray-300"></div>
-
-      {/* Chancellor */}
-      <div className="bg-[#072A6C] text-white w-full max-w-[300px] p-4 rounded-xl shadow-md border border-[#D4AF37]/80 hover:scale-[1.02] transition-transform duration-300">
-        <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-widest block mb-1">Executive Head</span>
-        <h4 className="font-extrabold text-xs md:text-sm">Chancellor</h4>
-        <p className="text-[10px] text-gray-300 mt-0.5">Sri Y. V. Anjaneyulu</p>
-      </div>
-
-      {/* Connector */}
-      <div className="w-0.5 h-8 bg-gray-300"></div>
-
-      {/* Pro Chancellor */}
-      <div className="bg-[#072A6C] text-white w-full max-w-[300px] p-4 rounded-xl shadow-md border border-[#D4AF37]/80 hover:scale-[1.02] transition-transform duration-300">
-        <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-widest block mb-1">University Sponsor Representative</span>
-        <h4 className="font-extrabold text-xs md:text-sm">Pro Chancellor</h4>
-        <p className="text-[10px] text-gray-300 mt-0.5">Sri Y. Sujit Kumar</p>
-      </div>
-
-      {/* Connector */}
-      <div className="w-0.5 h-8 bg-gray-300"></div>
-
-      {/* Vice Chancellor */}
-      <div className="bg-[#072A6C] text-white w-full max-w-[300px] p-4 rounded-xl shadow-md border-2 border-[#D4AF37] hover:scale-[1.02] transition-transform duration-300">
-        <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-widest block mb-1">Principal Academic & Executive</span>
-        <h4 className="font-extrabold text-xs md:text-sm">Vice Chancellor</h4>
-        <p className="text-[10px] text-gray-300 mt-0.5">Dr. K. Prasad Rao</p>
-      </div>
-
-      {/* Connector */}
-      <div className="w-full flex flex-col items-center">
-        <div className="w-0.5 h-8 bg-gray-300"></div>
-        {/* Horizontal span connecting VC to parallel admins */}
-        <div className="w-[85%] border-t-2 border-dashed border-gray-300 h-2"></div>
-      </div>
-
-      {/* ======================================================== */}
-      {/* 🌟 SECOND LEVEL: PARALLEL ADMINISTRATIVE HEADS            */}
-      {/* ======================================================== */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full text-left mt-2">
-        
-        {/* Registrar Card */}
-        <div className="bg-white border border-gray-100 rounded-[20px] p-5 shadow-sm hover:border-[#072A6C] hover:shadow-md transition-all relative flex flex-col justify-between">
-          <div>
-            <h5 className="font-black text-[#072A6C] text-xs uppercase tracking-wider">Registrar</h5>
-            <p className="text-[10px] text-gray-400 font-bold mt-0.5">Prof. T. Sivaramaiah</p>
-            <p className="text-[10px] text-gray-500 mt-2 leading-relaxed">Administration head, legal compliance, custodian of records, and statutory affairs.</p>
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start font-[var(--font-poppins)] text-left w-full mt-4">
+      {/* Left Sidebar */}
+      <div className="lg:col-span-4 flex flex-col border border-gray-200 bg-white rounded-2xl shadow-sm overflow-hidden divide-y divide-gray-100 p-2 min-h-[580px] justify-between">
+        <div>
+          <h4 className="text-xs font-black text-[#072A6C] tracking-widest uppercase p-4 border-b border-gray-100">UNIVERSITY BOARD</h4>
+          <div className="flex flex-col gap-1 mt-2">
+            {BOARD_DEPARTMENTS.map((dept) => {
+              const isActive = dept === selectedDept;
+              return (
+                <button
+                  key={dept}
+                  onClick={() => setSelectedDept(dept)}
+                  className={`w-full text-left px-5 py-3.5 text-xs font-extrabold transition-all outline-none cursor-pointer flex items-center justify-between border-l-4 rounded-xl ${
+                    isActive 
+                      ? "bg-[#D71920]/5 text-[#D71920] border-[#D4AF37] shadow-sm" 
+                      : "text-[#072A6C] hover:bg-gray-50 border-transparent"
+                  }`}
+                >
+                  <span>{dept}</span>
+                  <ChevronRight size={14} className={isActive ? "text-[#D4AF37]" : "text-gray-300"} />
+                </button>
+              );
+            })}
           </div>
-          <button 
-            onClick={() => setActiveSection(activeSection === "registrar" ? null : "registrar")}
-            className="mt-4 w-full bg-slate-50 hover:bg-[#072A6C]/5 text-[#072A6C] border border-gray-100 text-[10px] font-extrabold py-2 px-3 rounded-lg flex items-center justify-between transition-colors cursor-pointer"
-          >
-            <span>{activeSection === "registrar" ? "Hide Division Units" : "View Division Units"}</span>
-            <ChevronDown size={12} className={`transition-transform duration-300 ${activeSection === "registrar" ? "rotate-180" : ""}`} />
-          </button>
-          
-          {/* Sub Units Tree */}
-          {activeSection === "registrar" && (
-            <div className="mt-3 pl-3 border-l-2 border-dashed border-gray-200 space-y-2 text-[10px] text-gray-600 font-bold animate-fade-in">
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">General Administration</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Human Resources</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Public Relations Office</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Purchase & Stores</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Estate & Maintenance</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Transport Office</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Security</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Health Centre</div>
-            </div>
-          )}
         </div>
+        <div className="p-4 bg-gray-50/50 rounded-xl text-[10px] text-gray-400 font-bold uppercase tracking-wider text-center border-t border-gray-100">
+          Board of Governors Directory
+        </div>
+      </div>
 
-        {/* Dean - Academic Affairs Card */}
-        <div className="bg-white border border-gray-100 rounded-[20px] p-5 shadow-sm hover:border-[#072A6C] hover:shadow-md transition-all relative flex flex-col justify-between">
-          <div>
-            <h5 className="font-black text-[#072A6C] text-xs uppercase tracking-wider">Dean – Academic Affairs</h5>
-            <p className="text-[10px] text-gray-500 mt-2 leading-relaxed">Curriculum design, academic schedules, examinations coordination, and Outcome-Based Education (OBE).</p>
+      {/* Right Content */}
+      <div className="lg:col-span-8 flex flex-col items-center justify-start min-h-[500px]">
+        {activeDept.hod && (
+          <div className="space-y-4 flex flex-col items-center w-full">
+            <h4 className="text-xs font-extrabold text-[#D4AF37] uppercase tracking-wider text-center">Board Profile</h4>
+            <div 
+              onClick={() => setSelectedFaculty(activeDept.hod)}
+              className="bg-white border-2 border-[#D4AF37] rounded-[20px] p-8 shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 flex flex-col items-center justify-center text-center cursor-pointer relative group w-full max-w-[480px] min-h-[480px]"
+            >
+              <div className="absolute top-4 right-4 bg-[#D4AF37] text-gray-900 font-extrabold text-[9px] uppercase tracking-widest px-3 py-1 rounded-full shadow-sm">
+                Board Member
+              </div>
+
+              <div className="w-72 h-72 rounded-xl border-2 border-gray-100 bg-[#072A6C]/5 flex items-center justify-center font-black text-5xl text-[#072A6C] shadow-inner mb-6 group-hover:border-[#D4AF37] transition-all select-none overflow-hidden">
+                <img src={getAvatarUrl(activeDept.hod.avatar)} alt={activeDept.hod.name} className="w-full h-full object-cover" />
+              </div>
+
+              <h5 className="font-extrabold text-[#072A6C] text-base md:text-lg leading-snug tracking-tight">
+                {activeDept.hod.name}
+              </h5>
+              <span className="text-xs text-[#D71920] font-bold uppercase tracking-wider mt-1.5 block">
+                {activeDept.hod.title}
+              </span>
+
+              {/* Yellow shade description box */}
+              <div className="mt-4 bg-amber-50/70 border border-amber-200/60 p-4.5 rounded-xl text-[12px] text-gray-700 font-medium leading-relaxed text-left w-full shadow-inner">
+                {activeDept.hod.interests}
+              </div>
+            </div>
           </div>
-          <button 
-            onClick={() => setActiveSection(activeSection === "academics" ? null : "academics")}
-            className="mt-4 w-full bg-slate-50 hover:bg-[#072A6C]/5 text-[#072A6C] border border-gray-100 text-[10px] font-extrabold py-2 px-3 rounded-lg flex items-center justify-between transition-colors cursor-pointer"
+        )}
+      </div>
+
+      {/* Profile Details Modal */}
+      {selectedFaculty && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in"
+          onClick={() => setSelectedFaculty(null)}
+        >
+          <div 
+            className="bg-white w-full max-w-[500px] rounded-[24px] overflow-hidden shadow-2xl relative flex flex-col text-left border border-gray-100"
+            onClick={(e) => e.stopPropagation()}
           >
-            <span>{activeSection === "academics" ? "Hide Schools List" : "View Schools List"}</span>
-            <ChevronDown size={12} className={`transition-transform duration-300 ${activeSection === "academics" ? "rotate-180" : ""}`} />
-          </button>
-          
-          {/* Sub Units Tree */}
-          {activeSection === "academics" && (
-            <div className="mt-3 pl-3 border-l-2 border-dashed border-gray-200 space-y-3.5 text-[10px] text-gray-600 font-bold animate-fade-in">
-              {[
-                "School of Computer Science & Engineering",
-                "School of Artificial Intelligence & Data Science",
-                "School of Information Technology",
-                "School of Electronics & Communication Engineering",
-                "School of Electrical & Electronics Engineering",
-                "School of Mechanical Engineering",
-                "School of Civil Engineering",
-                "School of Management Studies",
-                "School of Basic Sciences & Humanities"
-              ].map((school, sIdx) => (
-                <div key={sIdx} className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">
-                  <span className="text-[#072A6C] font-extrabold block">{school}</span>
-                  <div className="pl-3 mt-1 border-l border-gray-200 text-[9px] text-gray-400 space-y-0.5">
-                    <div>↓ Head of Department (HOD)</div>
-                    <div>↓ Faculty Members</div>
+            <button 
+              onClick={() => setSelectedFaculty(null)}
+              className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center transition-colors cursor-pointer outline-none border-none"
+            >
+              <X size={18} />
+            </button>
+
+            <div className="bg-[#072A6C] text-white py-8 px-6 text-center relative border-b-4 border-[#D4AF37]">
+              <div className="w-20 h-20 rounded-lg border-2 border-[#D4AF37] bg-white text-[#072A6C] flex items-center justify-center font-black text-2xl shadow-md mx-auto mb-3 select-none overflow-hidden">
+                <img src={getAvatarUrl(selectedFaculty.avatar)} alt={selectedFaculty.name} className="w-full h-full object-cover" />
+              </div>
+              <h3 className="text-lg md:text-xl font-black tracking-tight">{selectedFaculty.name}</h3>
+              <p className="text-[10px] text-[#D4AF37] mt-1 font-black uppercase tracking-widest">{selectedFaculty.title}</p>
+            </div>
+
+            <div className="p-6 space-y-4 text-xs text-gray-600">
+              <div className="grid grid-cols-2 gap-y-3 gap-x-4 border-b border-gray-100 pb-4">
+                <div>
+                  <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">University ID</span>
+                  <span className="font-bold text-gray-700">{selectedFaculty.idNo}</span>
+                </div>
+                <div>
+                  <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Department / Office</span>
+                  <span className="font-bold text-gray-700">{selectedFaculty.department}</span>
+                </div>
+                <div>
+                  <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Years of Experience</span>
+                  <span className="font-bold text-gray-700">{selectedFaculty.experience}</span>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Education</span>
+                <p className="font-medium bg-gray-50 p-3 rounded-xl border border-gray-100 leading-relaxed text-[11px] text-gray-700">
+                  {selectedFaculty.edu}
+                </p>
+              </div>
+
+              <div className="space-y-1">
+                <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Responsibilities</span>
+                <p className="font-light bg-amber-50/40 p-3 rounded-xl border border-amber-100/50 leading-relaxed text-[11px] text-gray-700">
+                  {selectedFaculty.interests}
+                </p>
+              </div>
+
+              <div className="pt-2 border-t border-gray-100 flex justify-start items-center text-[11px] text-gray-500 font-semibold">
+                <div className="flex items-center gap-2 truncate">
+                  <Mail size={13} className="text-[#D4AF37] shrink-0" />
+                  <span className="truncate" title={selectedFaculty.email}>{selectedFaculty.email}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-4 border-t border-gray-100 bg-gray-50 flex justify-end">
+              <button 
+                onClick={() => setSelectedFaculty(null)}
+                className="h-9 px-6 bg-[#072A6C] hover:bg-[#072A6C]/90 text-white text-xs font-bold rounded-xl transition-colors cursor-pointer"
+              >
+                Close Profile
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+const STAFF_DEPARTMENTS = [
+  "Registrar Office",
+  "Academic Affairs",
+  "Finance & Accounts",
+  "General Administration",
+  "Establishment",
+  "Admissions Office",
+  "Examination Cell",
+  "Placement Office",
+  "Library",
+  "Computer Centre",
+  "Research Office",
+  "Purchase & Stores",
+  "Estate Office",
+  "Public Relations",
+  "Student Affairs",
+  "Transport",
+  "Health Centre",
+  "Guest House",
+  "Sports Office"
+];
+
+const STAFF_DATA: Record<string, {
+  hod: FacultyMember;
+  others: Array<FacultyMember>;
+}> = {
+  "Registrar Office": {
+    hod: {
+      name: "Sri M. Srinivasa Rao",
+      title: "Assistant Registrar",
+      edu: "M.A. in Public Administration - Andhra University",
+      interests: "General administration, statutory records maintenance, legal compliances support.",
+      phone: "0863 2345530",
+      email: "registrar.office@city.ac.in",
+      avatar: "MSR",
+      age: "48 Years",
+      experience: "18 Years",
+      idNo: "CUS-REG-001",
+      department: "Registrar Office"
+    },
+    others: [
+      {
+        name: "Sri K. Ramu",
+        title: "Section Officer",
+        edu: "B.Com - Acharya Nagarjuna University",
+        interests: "Files registry, letters cataloging, statutory documentation records.",
+        phone: "0863 2345531",
+        email: "ramu.reg@city.ac.in",
+        avatar: "KR",
+        age: "42 Years",
+        experience: "13 Years",
+        idNo: "CUS-REG-002",
+        department: "Registrar Office"
+      },
+      {
+        name: "Smt. G. Mary",
+        title: "Senior Assistant",
+        edu: "B.Sc - JNTU Kakinada",
+        interests: "Inward outward dispatch, student data catalog entries.",
+        phone: "0863 2345532",
+        email: "mary.reg@city.ac.in",
+        avatar: "GM",
+        age: "36 Years",
+        experience: "9 Years",
+        idNo: "CUS-REG-003",
+        department: "Registrar Office"
+      }
+    ]
+  },
+  "Academic Affairs": {
+    hod: {
+      name: "Sri V. Prasad",
+      title: "Academic Coordinator",
+      edu: "M.Tech in CSE",
+      interests: "Academic registers compilation, class logs allocation support.",
+      phone: "0863 2345540",
+      email: "academic.office@city.ac.in",
+      avatar: "VP",
+      age: "40 Years",
+      experience: "12 Years",
+      idNo: "CUS-ACAD-001",
+      department: "Academic Affairs"
+    },
+    others: []
+  },
+  "Finance & Accounts": {
+    hod: {
+      name: "Sri G. Suresh",
+      title: "Accounts Officer",
+      edu: "M.Com & MBA Finance",
+      interests: "Accounts logs entry, financial audits review, cash books.",
+      phone: "0863 2345550",
+      email: "accounts@city.ac.in",
+      avatar: "GS",
+      age: "45 Years",
+      experience: "16 Years",
+      idNo: "CUS-FIN-001",
+      department: "Finance & Accounts"
+    },
+    others: [
+      {
+        name: "Sri P. Naidu",
+        title: "Senior Accountant",
+        edu: "B.Com - ANU",
+        interests: "Bank reconciliation, audit vouchers compilation.",
+        phone: "0863 2345551",
+        email: "naidu.fin@city.ac.in",
+        avatar: "PN",
+        age: "38 Years",
+        experience: "10 Years",
+        idNo: "CUS-FIN-002",
+        department: "Finance & Accounts"
+      }
+    ]
+  },
+  "General Administration": {
+    hod: {
+      name: "Sri T. Satish",
+      title: "Administrative Officer",
+      edu: "M.A. - Public Admin",
+      interests: "Daily campus operations management, logistic arrangements.",
+      phone: "0863 2345560",
+      email: "ao.admin@city.ac.in",
+      avatar: "TS",
+      age: "46 Years",
+      experience: "17 Years",
+      idNo: "CUS-ADM-001",
+      department: "General Administration"
+    },
+    others: []
+  },
+  "Establishment": {
+    hod: {
+      name: "Sri K. Subba Rao",
+      title: "Establishment Head",
+      edu: "M.B.A. HR",
+      interests: "Leaves records entry, promotion database, service logs.",
+      phone: "0863 2345570",
+      email: "estab@city.ac.in",
+      avatar: "KSR",
+      age: "52 Years",
+      experience: "22 Years",
+      idNo: "CUS-EST-001",
+      department: "Establishment"
+    },
+    others: []
+  },
+  "Admissions Office": {
+    hod: {
+      name: "Smt. K. Aruna",
+      title: "Admission Officer",
+      edu: "MBA - Guntur",
+      interests: "Counseling support, digital portal checks, certificate verification.",
+      phone: "0863 2345580",
+      email: "admissions.office@city.ac.in",
+      avatar: "KA",
+      age: "38 Years",
+      experience: "11 Years",
+      idNo: "CUS-ADM-001",
+      department: "Admissions Office"
+    },
+    others: [
+      {
+        name: "Sri M. Ravi",
+        title: "Verification Officer",
+        edu: "B.Tech - JNTU",
+        interests: "Academic marks verification and entry verification.",
+        phone: "0863 2345581",
+        email: "ravi.admissions@city.ac.in",
+        avatar: "MR",
+        age: "33 Years",
+        experience: "7 Years",
+        idNo: "CUS-ADM-002",
+        department: "Admissions Office"
+      }
+    ]
+  },
+  "Examination Cell": {
+    hod: {
+      name: "Sri D. Srinivasa Rao",
+      title: "Assistant COE",
+      edu: "M.Tech - Andhra University",
+      interests: "Grade books processing, certificate logs, seating layouts.",
+      phone: "0863 2345590",
+      email: "exams.office@city.ac.in",
+      avatar: "DSR",
+      age: "43 Years",
+      experience: "14 Years",
+      idNo: "CUS-EXAM-001",
+      department: "Examination Cell"
+    },
+    others: [
+      {
+        name: "Smt. P. Kavitha",
+        title: "Evaluation Assistant",
+        edu: "B.Sc - ANU",
+        interests: "Paper marks entries, dispatch queues, certification database.",
+        phone: "0863 2345591",
+        email: "kavitha.exams@city.ac.in",
+        avatar: "PK",
+        age: "34 Years",
+        experience: "8 Years",
+        idNo: "CUS-EXAM-002",
+        department: "Examination Cell"
+      }
+    ]
+  },
+  "Placement Office": {
+    hod: {
+      name: "Sri K. Hari Prasad",
+      title: "Placement Officer",
+      edu: "M.B.A. HR & Marketing",
+      interests: "Recruiter relations, coordinate placement schedules, training camps.",
+      phone: "0863 2345600",
+      email: "placements.office@city.ac.in",
+      avatar: "KHP",
+      age: "39 Years",
+      experience: "12 Years",
+      idNo: "CUS-PLC-001",
+      department: "Placement Office"
+    },
+    others: [
+      {
+        name: "Smt. G. Swathi",
+        title: "Corporate Relations Executive",
+        edu: "M.A. English - Guntur",
+        interests: "Corporate placement communication, resumes collection support.",
+        phone: "0863 2345601",
+        email: "swathi.plc@city.ac.in",
+        avatar: "GS",
+        age: "31 Years",
+        experience: "6 Years",
+        idNo: "CUS-PLC-002",
+        department: "Placement Office"
+      }
+    ]
+  },
+  "Library": {
+    hod: {
+      name: "Dr. K. Swathi",
+      title: "Chief Librarian",
+      edu: "Ph.D. in Library Sciences",
+      interests: "Index registries compilation, online journal accesses, purchase catalogs.",
+      phone: "0863 2345610",
+      email: "library@city.ac.in",
+      avatar: "KS",
+      age: "47 Years",
+      experience: "18 Years",
+      idNo: "CUS-LIB-001",
+      department: "Library"
+    },
+    others: [
+      {
+        name: "Sri T. Kumar",
+        title: "Library Assistant",
+        edu: "M.Lib.Sc - ANU",
+        interests: "Book registry circulation, digital logs tracking.",
+        phone: "0863 2345611",
+        email: "kumar.lib@city.ac.in",
+        avatar: "TK",
+        age: "35 Years",
+        experience: "9 Years",
+        idNo: "CUS-LIB-002",
+        department: "Library"
+      }
+    ]
+  },
+  "Computer Centre": {
+    hod: {
+      name: "Sri K. Venkatesh",
+      title: "System Administrator",
+      edu: "M.Tech in Computer Networks",
+      interests: "Laboratory support, LAN firewalls, network monitoring.",
+      phone: "0863 2345620",
+      email: "sysadmin@city.ac.in",
+      avatar: "KV",
+      age: "41 Years",
+      experience: "15 Years",
+      idNo: "CUS-COMP-001",
+      department: "Computer Centre"
+    },
+    others: [
+      {
+        name: "Sri M. Ravi Kumar",
+        title: "Network Engineer",
+        edu: "B.Tech in CSE",
+        interests: "Fiber router access points configurations, server updates.",
+        phone: "0863 2345621",
+        email: "network@city.ac.in",
+        avatar: "MRK",
+        age: "32 Years",
+        experience: "6 Years",
+        idNo: "CUS-COMP-002",
+        department: "Computer Centre"
+      }
+    ]
+  },
+  "Research Office": {
+    hod: {
+      name: "Sri S. Venkatesh",
+      title: "Research Coordinator",
+      edu: "M.Tech - Research Associate",
+      interests: "Filing patent archives, project grants tracker coordination.",
+      phone: "0863 2345630",
+      email: "research.office@city.ac.in",
+      avatar: "SV",
+      age: "37 Years",
+      experience: "10 Years",
+      idNo: "CUS-RES-001",
+      department: "Research Office"
+    },
+    others: []
+  },
+  "Purchase & Stores": {
+    hod: {
+      name: "Sri B. Rajesh",
+      title: "Purchase Superintendent",
+      edu: "B.Tech - Mechanical",
+      interests: "Stores ledger tracking, inventory checks, vendor bills log.",
+      phone: "0863 2345640",
+      email: "stores@city.ac.in",
+      avatar: "BR",
+      age: "45 Years",
+      experience: "16 Years",
+      idNo: "CUS-PUR-001",
+      department: "Purchase & Stores"
+    },
+    others: []
+  },
+  "Estate Office": {
+    hod: {
+      name: "Sri P. S. Rao",
+      title: "Estate Officer",
+      edu: "B.Tech in Civil Engineering",
+      interests: "Campus utilities, maintenance supervisor, green cover records.",
+      phone: "0863 2345650",
+      email: "estate@city.ac.in",
+      avatar: "PSR",
+      age: "50 Years",
+      experience: "21 Years",
+      idNo: "CUS-EST-001",
+      department: "Estate Office"
+    },
+    others: []
+  },
+  "Public Relations": {
+    hod: {
+      name: "Sri K. Naidu",
+      title: "PRO Head",
+      edu: "M.A. in Journalism",
+      interests: "Press drafting, news releases, hospitality services logs.",
+      phone: "0863 2345660",
+      email: "pro@city.ac.in",
+      avatar: "KN",
+      age: "44 Years",
+      experience: "15 Years",
+      idNo: "CUS-PR-001",
+      department: "Public Relations"
+    },
+    others: []
+  },
+  "Student Affairs": {
+    hod: {
+      name: "Sri G. Ravindra",
+      title: "Student Welfare Assistant",
+      edu: "MBA - Student Coordinator",
+      interests: "Club registrations support, coordinate sports events, hostel rosters.",
+      phone: "0863 2345670",
+      email: "student.office@city.ac.in",
+      avatar: "GR",
+      age: "36 Years",
+      experience: "8 Years",
+      idNo: "CUS-SA-001",
+      department: "Student Affairs"
+    },
+    others: []
+  },
+  "Transport": {
+    hod: {
+      name: "Sri T. Prasad",
+      title: "Transport Supervisor",
+      edu: "Diploma in Mech Engineering",
+      interests: "Bus driver log records, route planning registers, fuel logs.",
+      phone: "0863 2345680",
+      email: "transport@city.ac.in",
+      avatar: "TP",
+      age: "48 Years",
+      experience: "20 Years",
+      idNo: "CUS-TR-001",
+      department: "Transport"
+    },
+    others: []
+  },
+  "Health Centre": {
+    hod: {
+      name: "Dr. S. Radha",
+      title: "Medical Officer",
+      edu: "M.B.B.S. - GMC",
+      interests: "First-aid, diagnostics logs, medical inventory support.",
+      phone: "0863 2345690",
+      email: "health@city.ac.in",
+      avatar: "SR",
+      age: "42 Years",
+      experience: "14 Years",
+      idNo: "CUS-MED-001",
+      department: "Health Centre"
+    },
+    others: []
+  },
+  "Guest House": {
+    hod: {
+      name: "Sri M. Ravi",
+      title: "Guest House Warden",
+      edu: "B.Sc - Hotel Management",
+      interests: "Room booking entries, inventory audit logs, pantry check.",
+      phone: "0863 2345700",
+      email: "guesthouse@city.ac.in",
+      avatar: "MR",
+      age: "35 Years",
+      experience: "9 Years",
+      idNo: "CUS-GST-001",
+      department: "Guest House"
+    },
+    others: []
+  },
+  "Sports Office": {
+    hod: {
+      name: "Sri K. Prasad",
+      title: "Physical Director",
+      edu: "M.P.Ed - Acharya Nagarjuna University",
+      interests: "Inventory coordinates, athletic roster planning, equipment audit.",
+      phone: "0863 2345710",
+      email: "sports.pd@city.ac.in",
+      avatar: "KP",
+      age: "43 Years",
+      experience: "15 Years",
+      idNo: "CUS-SPO-001",
+      department: "Sports Office"
+    },
+    others: []
+  }
+};
+
+function StaffDirectory() {
+  const [selectedDept, setSelectedDept] = React.useState("Registrar Office");
+  const [selectedFaculty, setSelectedFaculty] = React.useState<FacultyMember | null>(null);
+  
+  const activeDept = STAFF_DATA[selectedDept] || STAFF_DATA["Registrar Office"];
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start font-[var(--font-poppins)] text-left w-full mt-4">
+      {/* Left Sidebar */}
+      <div className="lg:col-span-4 flex flex-col border border-gray-200 bg-white rounded-2xl shadow-sm overflow-hidden divide-y divide-gray-100 p-2 min-h-[580px] justify-between">
+        <div>
+          <h4 className="text-xs font-black text-[#072A6C] tracking-widest uppercase p-4 border-b border-gray-100">Administrative Staff</h4>
+          <div className="flex flex-col gap-1 mt-2">
+            {STAFF_DEPARTMENTS.map((dept) => {
+              const isActive = dept === selectedDept;
+              return (
+                <button
+                  key={dept}
+                  onClick={() => setSelectedDept(dept)}
+                  className={`w-full text-left px-5 py-3 text-xs font-extrabold transition-all outline-none cursor-pointer flex items-center justify-between border-l-4 rounded-xl ${
+                    isActive 
+                      ? "bg-[#D71920]/5 text-[#D71920] border-[#D4AF37] shadow-sm" 
+                      : "text-[#072A6C] hover:bg-gray-50 border-transparent"
+                  }`}
+                >
+                  <span>{dept}</span>
+                  <ChevronRight size={14} className={isActive ? "text-[#D4AF37]" : "text-gray-300"} />
+                </button>
+              );
+            })}
+          </div>
+        </div>
+        <div className="p-4 bg-gray-50/50 rounded-xl text-[10px] text-gray-400 font-bold uppercase tracking-wider text-center border-t border-gray-100">
+          City Chalapathi Staff Directory
+        </div>
+      </div>
+
+      {/* Right Content */}
+      <div className="lg:col-span-8 space-y-8">
+        
+        {/* Unit Head */}
+        {activeDept.hod && (
+          <div className="space-y-4 flex flex-col items-center">
+            <h4 className="text-xs font-extrabold text-[#D4AF37] uppercase tracking-wider text-center">Unit Head</h4>
+            <div 
+              onClick={() => setSelectedFaculty(activeDept.hod)}
+              className="bg-white border-2 border-[#D4AF37] rounded-[16px] p-6 shadow-sm hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center text-center cursor-pointer relative group w-full max-w-[340px] min-h-[300px]"
+            >
+              <div className="absolute top-3 right-3 bg-[#D4AF37] text-gray-900 font-extrabold text-[8px] uppercase tracking-widest px-2.5 py-0.5 rounded-full shadow-sm">
+                Head
+              </div>
+
+              <div className="w-48 h-48 rounded-lg border-2 border-gray-100 bg-[#072A6C]/5 flex items-center justify-center font-black text-4xl text-[#072A6C] shadow-inner mb-4 group-hover:border-[#D4AF37] transition-all select-none overflow-hidden">
+                <img src={getAvatarUrl(activeDept.hod.avatar)} alt={activeDept.hod.name} className="w-full h-full object-cover" />
+              </div>
+
+              <h5 className="font-extrabold text-[#072A6C] text-sm leading-snug tracking-tight">
+                {activeDept.hod.name}
+              </h5>
+              <span className="text-[10px] text-[#D71920] font-bold uppercase tracking-wider mt-1 block">
+                {activeDept.hod.title}
+              </span>
+            </div>
+          </div>
+        )}
+
+        {/* Other Unit Members */}
+        {activeDept.others && activeDept.others.length > 0 && (
+          <div className="space-y-4">
+            <h4 className="text-xs font-extrabold text-[#072A6C] uppercase tracking-wider">Unit Staff Members</h4>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+              {activeDept.others.map((faculty, fIdx) => (
+                <div 
+                  key={fIdx}
+                  onClick={() => setSelectedFaculty(faculty)}
+                  className="bg-white border border-gray-200/80 rounded-[16px] p-6 shadow-sm hover:border-[#D4AF37] hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center text-center cursor-pointer group min-h-[260px]"
+                >
+                  <div className="w-40 h-40 rounded-lg border-2 border-gray-100 bg-[#072A6C]/5 flex items-center justify-center font-black text-3xl text-[#072A6C] shadow-inner mb-4 group-hover:border-[#D4AF37] transition-all select-none overflow-hidden">
+                    <img src={getAvatarUrl(faculty.avatar)} alt={faculty.name} className="w-full h-full object-cover" />
                   </div>
+
+                  <h5 className="font-extrabold text-[#072A6C] text-xs leading-snug tracking-tight">
+                    {faculty.name}
+                  </h5>
+                  <span className="text-[9px] text-[#D71920] font-bold uppercase tracking-wider mt-1 block">
+                    {faculty.title}
+                  </span>
                 </div>
               ))}
             </div>
-          )}
-        </div>
-
-        {/* Dean - Research & Innovation Card */}
-        <div className="bg-white border border-gray-100 rounded-[20px] p-5 shadow-sm hover:border-[#072A6C] hover:shadow-md transition-all relative flex flex-col justify-between">
-          <div>
-            <h5 className="font-black text-[#072A6C] text-xs uppercase tracking-wider">Dean – Research & Innovation</h5>
-            <p className="text-[10px] text-gray-500 mt-2 leading-relaxed">Fostering university research pipelines, patent filings, sponsored grants, and start-up incubation.</p>
           </div>
-          <button 
-            onClick={() => setActiveSection(activeSection === "research" ? null : "research")}
-            className="mt-4 w-full bg-slate-50 hover:bg-[#072A6C]/5 text-[#072A6C] border border-gray-100 text-[10px] font-extrabold py-2 px-3 rounded-lg flex items-center justify-between transition-colors cursor-pointer"
-          >
-            <span>{activeSection === "research" ? "Hide Research Wings" : "View Research Wings"}</span>
-            <ChevronDown size={12} className={`transition-transform duration-300 ${activeSection === "research" ? "rotate-180" : ""}`} />
-          </button>
-          
-          {/* Sub Units Tree */}
-          {activeSection === "research" && (
-            <div className="mt-3 pl-3 border-l-2 border-dashed border-gray-200 space-y-2 text-[10px] text-gray-600 font-bold animate-fade-in">
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Research & Development Cell</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Centre of Excellence</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Innovation & Incubation Centre</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Intellectual Property Rights (IPR) Cell</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Sponsored Research Projects</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Consultancy Cell</div>
-            </div>
-          )}
-        </div>
-
-        {/* Dean - Student Affairs Card */}
-        <div className="bg-white border border-gray-100 rounded-[20px] p-5 shadow-sm hover:border-[#072A6C] hover:shadow-md transition-all relative flex flex-col justify-between">
-          <div>
-            <h5 className="font-black text-[#072A6C] text-xs uppercase tracking-wider">Dean – Student Affairs</h5>
-            <p className="text-[10px] text-gray-500 mt-2 leading-relaxed">Student welfare systems, professional clubs, alumni relations, hostels, and sports committees.</p>
-          </div>
-          <button 
-            onClick={() => setActiveSection(activeSection === "students" ? null : "students")}
-            className="mt-4 w-full bg-slate-50 hover:bg-[#072A6C]/5 text-[#072A6C] border border-gray-100 text-[10px] font-extrabold py-2 px-3 rounded-lg flex items-center justify-between transition-colors cursor-pointer"
-          >
-            <span>{activeSection === "students" ? "Hide Student Cells" : "View Student Cells"}</span>
-            <ChevronDown size={12} className={`transition-transform duration-300 ${activeSection === "students" ? "rotate-180" : ""}`} />
-          </button>
-          
-          {/* Sub Units Tree */}
-          {activeSection === "students" && (
-            <div className="mt-3 pl-3 border-l-2 border-dashed border-gray-200 space-y-2 text-[10px] text-gray-600 font-bold animate-fade-in">
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Student Welfare Cell</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Guidance & Counselling Cell</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">NSS Unit</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Sports</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Clubs & Professional Societies</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Cultural Activities</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">International Student Cell</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Alumni Relations</div>
-            </div>
-          )}
-        </div>
-
-        {/* Dean - Faculty Affairs Card */}
-        <div className="bg-white border border-gray-100 rounded-[20px] p-5 shadow-sm hover:border-[#072A6C] hover:shadow-md transition-all relative flex flex-col justify-between">
-          <div>
-            <h5 className="font-black text-[#072A6C] text-xs uppercase tracking-wider">Dean – Faculty Affairs</h5>
-            <p className="text-[10px] text-gray-500 mt-2 leading-relaxed">Faculty recruitment, promotions, performance metrics, and professional development programs.</p>
-          </div>
-          <div className="mt-4 p-2 bg-gray-50 rounded-lg text-center text-[9px] text-gray-400 font-bold uppercase tracking-wider border border-gray-100">
-            Strategic Faculty Management
-          </div>
-        </div>
-
-        {/* Dean - Admissions Card */}
-        <div className="bg-white border border-gray-100 rounded-[20px] p-5 shadow-sm hover:border-[#072A6C] hover:shadow-md transition-all relative flex flex-col justify-between">
-          <div>
-            <h5 className="font-black text-[#072A6C] text-xs uppercase tracking-wider">Dean – Admissions</h5>
-            <p className="text-[10px] text-gray-500 mt-2 leading-relaxed">Overseeing general enrollment procedures, scholarship validations, and global applications.</p>
-          </div>
-          <button 
-            onClick={() => setActiveSection(activeSection === "admissions" ? null : "admissions")}
-            className="mt-4 w-full bg-slate-50 hover:bg-[#072A6C]/5 text-[#072A6C] border border-gray-100 text-[10px] font-extrabold py-2 px-3 rounded-lg flex items-center justify-between transition-colors cursor-pointer"
-          >
-            <span>{activeSection === "admissions" ? "Hide Admission Units" : "View Admission Units"}</span>
-            <ChevronDown size={12} className={`transition-transform duration-300 ${activeSection === "admissions" ? "rotate-180" : ""}`} />
-          </button>
-          
-          {/* Sub Units Tree */}
-          {activeSection === "admissions" && (
-            <div className="mt-3 pl-3 border-l-2 border-dashed border-gray-200 space-y-2 text-[10px] text-gray-600 font-bold animate-fade-in">
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Admissions Office</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Scholarships</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">International Admissions</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Student Help Desk</div>
-            </div>
-          )}
-        </div>
-
-        {/* Dean - Placements & Relations Card */}
-        <div className="bg-white border border-gray-100 rounded-[20px] p-5 shadow-sm hover:border-[#072A6C] hover:shadow-md transition-all relative flex flex-col justify-between">
-          <div>
-            <h5 className="font-black text-[#072A6C] text-xs uppercase tracking-wider">Dean – Placements & Relations</h5>
-            <p className="text-[10px] text-gray-500 mt-2 leading-relaxed">Corporate relations, training/placement camps, career counselling, and industry MoUs.</p>
-          </div>
-          <button 
-            onClick={() => setActiveSection(activeSection === "placements" ? null : "placements")}
-            className="mt-4 w-full bg-slate-50 hover:bg-[#072A6C]/5 text-[#072A6C] border border-gray-100 text-[10px] font-extrabold py-2 px-3 rounded-lg flex items-center justify-between transition-colors cursor-pointer"
-          >
-            <span>{activeSection === "placements" ? "Hide Placement Units" : "View Placement Units"}</span>
-            <ChevronDown size={12} className={`transition-transform duration-300 ${activeSection === "placements" ? "rotate-180" : ""}`} />
-          </button>
-          
-          {/* Sub Units Tree */}
-          {activeSection === "placements" && (
-            <div className="mt-3 pl-3 border-l-2 border-dashed border-gray-200 space-y-2 text-[10px] text-gray-600 font-bold animate-fade-in">
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Training & Placement Cell</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Career Development Centre</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Corporate Relations</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Internship Cell</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Industry Collaborations</div>
-            </div>
-          )}
-        </div>
-
-        {/* Finance Officer Card */}
-        <div className="bg-white border border-gray-100 rounded-[20px] p-5 shadow-sm hover:border-[#072A6C] hover:shadow-md transition-all relative flex flex-col justify-between">
-          <div>
-            <h5 className="font-black text-[#072A6C] text-xs uppercase tracking-wider">Finance Officer</h5>
-            <p className="text-[10px] text-gray-500 mt-2 leading-relaxed">Budget planning, accounts statements, payroll logs, and financial audit files.</p>
-          </div>
-          <button 
-            onClick={() => setActiveSection(activeSection === "finance" ? null : "finance")}
-            className="mt-4 w-full bg-slate-50 hover:bg-[#072A6C]/5 text-[#072A6C] border border-gray-100 text-[10px] font-extrabold py-2 px-3 rounded-lg flex items-center justify-between transition-colors cursor-pointer"
-          >
-            <span>{activeSection === "finance" ? "Hide Finance Wings" : "View Finance Wings"}</span>
-            <ChevronDown size={12} className={`transition-transform duration-300 ${activeSection === "finance" ? "rotate-180" : ""}`} />
-          </button>
-          
-          {/* Sub Units Tree */}
-          {activeSection === "finance" && (
-            <div className="mt-3 pl-3 border-l-2 border-dashed border-gray-200 space-y-2 text-[10px] text-gray-600 font-bold animate-fade-in">
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Finance & Accounts</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Budget Planning</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Payroll</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Audit</div>
-            </div>
-          )}
-        </div>
-
-        {/* Controller of Examinations Card */}
-        <div className="bg-white border border-gray-100 rounded-[20px] p-5 shadow-sm hover:border-[#072A6C] hover:shadow-md transition-all relative flex flex-col justify-between">
-          <div>
-            <h5 className="font-black text-[#072A6C] text-xs uppercase tracking-wider">Controller of Examinations</h5>
-            <p className="text-[10px] text-gray-500 mt-2 leading-relaxed">Conduction of exams, paper evaluations, degree certifications, and grade sheet publications.</p>
-          </div>
-          <button 
-            onClick={() => setActiveSection(activeSection === "exams" ? null : "exams")}
-            className="mt-4 w-full bg-slate-50 hover:bg-[#072A6C]/5 text-[#072A6C] border border-gray-100 text-[10px] font-extrabold py-2 px-3 rounded-lg flex items-center justify-between transition-colors cursor-pointer"
-          >
-            <span>{activeSection === "exams" ? "Hide Exam Units" : "View Exam Units"}</span>
-            <ChevronDown size={12} className={`transition-transform duration-300 ${activeSection === "exams" ? "rotate-180" : ""}`} />
-          </button>
-          
-          {/* Sub Units Tree */}
-          {activeSection === "exams" && (
-            <div className="mt-3 pl-3 border-l-2 border-dashed border-gray-200 space-y-2 text-[10px] text-gray-600 font-bold animate-fade-in">
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Examination Cell</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Evaluation Cell</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Result Processing</div>
-              <div className="relative pl-3 before:content-[''] before:absolute before:left-0 before:top-2 before:w-2 before:h-0.5 before:bg-gray-300">Degree Certification</div>
-            </div>
-          )}
-        </div>
-
+        )}
       </div>
+
+      {/* Staff Details Modal */}
+      {selectedFaculty && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in"
+          onClick={() => setSelectedFaculty(null)}
+        >
+          <div 
+            className="bg-white w-full max-w-[500px] rounded-[24px] overflow-hidden shadow-2xl relative flex flex-col text-left border border-gray-100"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button 
+              onClick={() => setSelectedFaculty(null)}
+              className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center transition-colors cursor-pointer outline-none border-none"
+            >
+              <X size={18} />
+            </button>
+
+            <div className="bg-[#072A6C] text-white py-8 px-6 text-center relative border-b-4 border-[#D4AF37]">
+              <div className="w-20 h-20 rounded-lg border-2 border-[#D4AF37] bg-white text-[#072A6C] flex items-center justify-center font-black text-2xl shadow-md mx-auto mb-3 select-none overflow-hidden">
+                <img src={getAvatarUrl(selectedFaculty.avatar)} alt={selectedFaculty.name} className="w-full h-full object-cover" />
+              </div>
+              <h3 className="text-lg md:text-xl font-black tracking-tight">{selectedFaculty.name}</h3>
+              <p className="text-[10px] text-[#D4AF37] mt-1 font-black uppercase tracking-widest">{selectedFaculty.title}</p>
+            </div>
+
+            <div className="p-6 space-y-4 text-xs text-gray-600">
+              <div className="grid grid-cols-2 gap-y-3 gap-x-4 border-b border-gray-100 pb-4">
+                <div>
+                  <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Employee ID</span>
+                  <span className="font-bold text-gray-700">{selectedFaculty.idNo}</span>
+                </div>
+                <div>
+                  <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Office Department</span>
+                  <span className="font-bold text-gray-700">{selectedFaculty.department}</span>
+                </div>
+                <div>
+                  <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Experience</span>
+                  <span className="font-bold text-gray-700">{selectedFaculty.experience}</span>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Qualification</span>
+                <p className="font-medium bg-gray-50 p-3 rounded-xl border border-gray-100 leading-relaxed text-[11px] text-gray-700">
+                  {selectedFaculty.edu}
+                </p>
+              </div>
+
+              <div className="space-y-1">
+                <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Responsibilities</span>
+                <p className="font-light bg-amber-50/40 p-3 rounded-xl border border-amber-100/50 leading-relaxed text-[11px] text-gray-700">
+                  {selectedFaculty.interests}
+                </p>
+              </div>
+
+              <div className="pt-2 border-t border-gray-100 flex justify-start items-center text-[11px] text-gray-500 font-semibold">
+                <div className="flex items-center gap-2 truncate">
+                  <Mail size={13} className="text-[#D4AF37] shrink-0" />
+                  <span className="truncate" title={selectedFaculty.email}>{selectedFaculty.email}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-4 border-t border-gray-100 bg-gray-50 flex justify-end">
+              <button 
+                onClick={() => setSelectedFaculty(null)}
+                className="h-9 px-6 bg-[#072A6C] hover:bg-[#072A6C]/90 text-white text-xs font-bold rounded-xl transition-colors cursor-pointer"
+              >
+                Close Profile
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -2888,8 +3753,8 @@ function FacultyDirectory() {
               </div>
 
               {/* Square Avatar Photo Box (3x Bigger) */}
-              <div className="w-48 h-48 rounded-lg border-2 border-gray-100 bg-[#072A6C]/5 flex items-center justify-center font-black text-4xl text-[#072A6C] shadow-inner mb-4 group-hover:border-[#D4AF37] transition-all select-none">
-                {activeDept.hod.avatar}
+              <div className="w-48 h-48 rounded-lg border-2 border-gray-100 bg-[#072A6C]/5 flex items-center justify-center font-black text-4xl text-[#072A6C] shadow-inner mb-4 group-hover:border-[#D4AF37] transition-all select-none overflow-hidden">
+                <img src={getAvatarUrl(activeDept.hod.avatar)} alt={activeDept.hod.name} className="w-full h-full object-cover" />
               </div>
 
               <h5 className="font-extrabold text-[#072A6C] text-sm leading-snug tracking-tight">
@@ -2910,8 +3775,8 @@ function FacultyDirectory() {
                 className="bg-white border border-gray-200/80 rounded-[16px] p-6 shadow-sm hover:border-[#D4AF37] hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center text-center cursor-pointer group min-h-[260px]"
               >
                 {/* Square Avatar Photo Box (3x Bigger) */}
-                <div className="w-40 h-40 rounded-lg border-2 border-gray-100 bg-[#072A6C]/5 flex items-center justify-center font-black text-3xl text-[#072A6C] shadow-inner mb-4 group-hover:border-[#D4AF37] transition-all select-none">
-                  {faculty.avatar}
+                <div className="w-40 h-40 rounded-lg border-2 border-gray-100 bg-[#072A6C]/5 flex items-center justify-center font-black text-3xl text-[#072A6C] shadow-inner mb-4 group-hover:border-[#D4AF37] transition-all select-none overflow-hidden">
+                  <img src={getAvatarUrl(faculty.avatar)} alt={faculty.name} className="w-full h-full object-cover" />
                 </div>
 
                 <h5 className="font-extrabold text-[#072A6C] text-xs leading-snug tracking-tight">
@@ -2948,8 +3813,8 @@ function FacultyDirectory() {
             {/* Header Banner (Navy & Gold Accents) */}
             <div className="bg-[#072A6C] text-white py-8 px-6 text-center relative border-b-4 border-[#D4AF37]">
               {/* Square Avatar Photo */}
-              <div className="w-20 h-20 rounded-lg border-2 border-[#D4AF37] bg-white text-[#072A6C] flex items-center justify-center font-black text-2xl shadow-md mx-auto mb-3 select-none">
-                {selectedFaculty.avatar}
+              <div className="w-20 h-20 rounded-lg border-2 border-[#D4AF37] bg-white text-[#072A6C] flex items-center justify-center font-black text-2xl shadow-md mx-auto mb-3 select-none overflow-hidden">
+                <img src={getAvatarUrl(selectedFaculty.avatar)} alt={selectedFaculty.name} className="w-full h-full object-cover" />
               </div>
               <h3 className="text-lg md:text-xl font-black tracking-tight">{selectedFaculty.name}</h3>
               <p className="text-[10px] text-[#D4AF37] mt-1 font-black uppercase tracking-widest">{selectedFaculty.title}</p>
@@ -2967,10 +3832,6 @@ function FacultyDirectory() {
                 <div>
                   <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Department</span>
                   <span className="font-bold text-gray-700">{selectedFaculty.department}</span>
-                </div>
-                <div>
-                  <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Age</span>
-                  <span className="font-bold text-gray-700">{selectedFaculty.age}</span>
                 </div>
                 <div>
                   <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Experience</span>
@@ -2995,11 +3856,7 @@ function FacultyDirectory() {
               </div>
 
               {/* Contact grid */}
-              <div className="pt-2 border-t border-gray-100 grid grid-cols-2 gap-4 text-[11px] text-gray-500 font-semibold">
-                <div className="flex items-center gap-2">
-                  <Phone size={13} className="text-[#D4AF37] shrink-0" />
-                  <span>{selectedFaculty.phone}</span>
-                </div>
+              <div className="pt-2 border-t border-gray-100 flex justify-start items-center text-[11px] text-gray-500 font-semibold">
                 <div className="flex items-center gap-2 truncate">
                   <Mail size={13} className="text-[#D4AF37] shrink-0" />
                   <span className="truncate" title={selectedFaculty.email}>{selectedFaculty.email}</span>
