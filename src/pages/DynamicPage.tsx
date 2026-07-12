@@ -1561,20 +1561,20 @@ function AcademicGradingSystem() {
             <div className="border border-gray-100 rounded-xl overflow-hidden shadow-sm bg-white">
               <table className="w-full text-left text-xs border-collapse">
                 <thead>
-                  <tr className="bg-gray-100/60 border-b border-gray-200/60 text-gray-700 font-bold">
-                    <th className="p-3">Performance</th>
-                    <th className="p-3">Letter Grade</th>
-                    <th className="p-3">Grade Point</th>
-                    <th className="p-3">Percentage of Marks</th>
+                  <tr className="bg-[#072A6C] text-white font-extrabold border-b-2 border-[#D71920]">
+                    <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Performance</th>
+                    <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Letter Grade</th>
+                    <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Grade Point</th>
+                    <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Percentage of Marks</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {currentProgram.absolute.map((row: any, idx: number) => (
-                    <tr key={idx} className="hover:bg-gray-50/20">
-                      <td className="p-3 font-medium text-gray-800">{row.perf}</td>
-                      <td className="p-3 font-semibold text-[#072A6C]">{row.grade}</td>
-                      <td className="p-3 font-semibold text-[#072A6C]">{row.gp}</td>
-                      <td className="p-3 text-gray-600">{row.range}</td>
+                    <tr key={idx} className="hover:bg-red-50/20 odd:bg-gray-50/40 transition-colors">
+                      <td className="p-3.5 font-medium text-gray-800">{row.perf}</td>
+                      <td className="p-3.5 font-extrabold text-[#D71920] text-sm">{row.grade}</td>
+                      <td className="p-3.5 font-bold text-[#072A6C] text-xs">{row.gp}</td>
+                      <td className="p-3.5 text-gray-500 font-light">{row.range}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -1592,22 +1592,22 @@ function AcademicGradingSystem() {
             <div className="border border-gray-100 rounded-xl overflow-hidden shadow-sm bg-white">
               <table className="w-full text-left text-xs border-collapse">
                 <thead>
-                  <tr className="bg-gray-100/60 border-b border-gray-200/60 text-gray-700 font-bold">
-                    {activeTab === "bballb" && <th className="p-3">Performance</th>}
-                    <th className="p-3">Letter Grade</th>
-                    <th className="p-3">Grade Point</th>
-                    <th className="p-3">{activeTab === "bballb" ? "Descriptor" : "Grade Calculation Formula"}</th>
+                  <tr className="bg-[#072A6C] text-white font-extrabold border-b-2 border-[#D71920]">
+                    {activeTab === "bballb" && <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Performance</th>}
+                    <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Letter Grade</th>
+                    <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Grade Point</th>
+                    <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">{activeTab === "bballb" ? "Descriptor" : "Grade Calculation Formula"}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {currentProgram.relative.map((row: any, idx: number) => (
-                    <tr key={idx} className="hover:bg-gray-50/20">
+                    <tr key={idx} className="hover:bg-red-50/20 odd:bg-gray-50/40 transition-colors">
                       {activeTab === "bballb" && (
-                        <td className="p-3 font-medium text-gray-800">{row.perf}</td>
+                        <td className="p-3.5 font-medium text-gray-800">{row.perf}</td>
                       )}
-                      <td className="p-3 font-semibold text-[#072A6C]">{row.grade}</td>
-                      <td className="p-3 font-semibold text-[#072A6C]">{row.gp}</td>
-                      <td className="p-3 text-gray-600 font-mono text-[11px]">{row.calc}</td>
+                      <td className="p-3.5 font-extrabold text-[#D71920] text-sm">{row.grade}</td>
+                      <td className="p-3.5 font-bold text-[#072A6C] text-xs">{row.gp}</td>
+                      <td className="p-3.5 text-gray-600 font-mono text-[11px]">{row.calc}</td>
                     </tr>
                   ))}
                 </tbody>
