@@ -3,7 +3,7 @@
 import React, { useEffect } from "react";
 import { useLocation, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronRight, ChevronDown, Home, Calendar, BookOpen, Landmark, Info, Phone, ShieldCheck, UserPlus, FileText, UploadCloud, CreditCard, Clock, ShieldAlert, UserCheck, Scale, CalendarRange, GraduationCap, Mail, User } from "lucide-react";
+import { ArrowRight, ChevronRight, ChevronDown, Home, Calendar, BookOpen, Landmark, Info, Phone, ShieldCheck, UserPlus, FileText, UploadCloud, CreditCard, Clock, ShieldAlert, UserCheck, Scale, CalendarRange, GraduationCap, Mail, User, X } from "lucide-react";
 import { PROGRAMS_DATA } from "../data/programsData";
 
 
@@ -2595,15 +2595,15 @@ function FacultyDirectory() {
             <h4 className="text-xs font-extrabold text-[#D4AF37] uppercase tracking-wider text-center">Head of Department</h4>
             <div 
               onClick={() => setSelectedFaculty(activeDept.hod)}
-              className="bg-white border-2 border-[#D4AF37] rounded-[16px] p-6 shadow-sm hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center text-center cursor-pointer relative group w-full max-w-[280px] min-h-[260px]"
+              className="bg-white border-2 border-[#D4AF37] rounded-[16px] p-6 shadow-sm hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center text-center cursor-pointer relative group w-full max-w-[340px] min-h-[300px]"
             >
               {/* HOD Gold Tag */}
               <div className="absolute top-3 right-3 bg-[#D4AF37] text-gray-900 font-extrabold text-[8px] uppercase tracking-widest px-2.5 py-0.5 rounded-full shadow-sm">
                 HOD
               </div>
 
-              {/* Square Avatar Photo Box */}
-              <div className="w-32 h-32 rounded-lg border-2 border-gray-100 bg-[#072A6C]/5 flex items-center justify-center font-black text-3xl text-[#072A6C] shadow-inner mb-4 group-hover:border-[#D4AF37] transition-all select-none">
+              {/* Square Avatar Photo Box (3x Bigger) */}
+              <div className="w-48 h-48 rounded-lg border-2 border-gray-100 bg-[#072A6C]/5 flex items-center justify-center font-black text-4xl text-[#072A6C] shadow-inner mb-4 group-hover:border-[#D4AF37] transition-all select-none">
                 {activeDept.hod.avatar}
               </div>
 
@@ -2622,10 +2622,10 @@ function FacultyDirectory() {
               <div 
                 key={fIdx}
                 onClick={() => setSelectedFaculty(faculty)}
-                className="bg-white border border-gray-200/80 rounded-[16px] p-6 shadow-sm hover:border-[#D4AF37] hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center text-center cursor-pointer group min-h-[220px]"
+                className="bg-white border border-gray-200/80 rounded-[16px] p-6 shadow-sm hover:border-[#D4AF37] hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center text-center cursor-pointer group min-h-[260px]"
               >
-                {/* Square Avatar Photo Box */}
-                <div className="w-24 h-24 rounded-lg border-2 border-gray-100 bg-[#072A6C]/5 flex items-center justify-center font-black text-xl text-[#072A6C] shadow-inner mb-4 group-hover:border-[#D4AF37] transition-all select-none">
+                {/* Square Avatar Photo Box (3x Bigger) */}
+                <div className="w-40 h-40 rounded-lg border-2 border-gray-100 bg-[#072A6C]/5 flex items-center justify-center font-black text-3xl text-[#072A6C] shadow-inner mb-4 group-hover:border-[#D4AF37] transition-all select-none">
                   {faculty.avatar}
                 </div>
 
@@ -2638,6 +2638,104 @@ function FacultyDirectory() {
         </div>
 
       </div>
+
+      {/* ======================================================== */}
+      {/* 🌟 FACULTY DETAILS MODAL POPUP (CENTERED LAYOUT)          */}
+      {/* ======================================================== */}
+      {selectedFaculty && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in"
+          onClick={() => setSelectedFaculty(null)}
+        >
+          <div 
+            className="bg-white w-full max-w-[500px] rounded-[24px] overflow-hidden shadow-2xl relative flex flex-col text-left border border-gray-100"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button 
+              onClick={() => setSelectedFaculty(null)}
+              className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center transition-colors cursor-pointer outline-none border-none"
+              aria-label="Close modal"
+            >
+              <X size={18} />
+            </button>
+
+            {/* Header Banner (Navy & Gold Accents) */}
+            <div className="bg-[#072A6C] text-white py-8 px-6 text-center relative border-b-4 border-[#D4AF37]">
+              {/* Square Avatar Photo */}
+              <div className="w-20 h-20 rounded-lg border-2 border-[#D4AF37] bg-white text-[#072A6C] flex items-center justify-center font-black text-2xl shadow-md mx-auto mb-3 select-none">
+                {selectedFaculty.avatar}
+              </div>
+              <h3 className="text-lg md:text-xl font-black tracking-tight">{selectedFaculty.name}</h3>
+              <p className="text-[10px] text-[#D4AF37] mt-1 font-black uppercase tracking-widest">{selectedFaculty.title}</p>
+            </div>
+
+            {/* Details Content */}
+            <div className="p-6 space-y-4 text-xs text-gray-600">
+              
+              {/* Details Table Grid */}
+              <div className="grid grid-cols-2 gap-y-3 gap-x-4 border-b border-gray-100 pb-4">
+                <div>
+                  <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Department ID</span>
+                  <span className="font-bold text-gray-700">{selectedFaculty.idNo}</span>
+                </div>
+                <div>
+                  <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Department</span>
+                  <span className="font-bold text-gray-700">{selectedFaculty.department}</span>
+                </div>
+                <div>
+                  <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Age</span>
+                  <span className="font-bold text-gray-700">{selectedFaculty.age}</span>
+                </div>
+                <div>
+                  <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Experience</span>
+                  <span className="font-bold text-gray-700">{selectedFaculty.experience}</span>
+                </div>
+              </div>
+
+              {/* Education block */}
+              <div className="space-y-1">
+                <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Education Background</span>
+                <p className="font-medium bg-gray-50 p-3 rounded-xl border border-gray-100 leading-relaxed text-[11px] text-gray-700">
+                  {selectedFaculty.edu}
+                </p>
+              </div>
+
+              {/* Research/Interest block */}
+              <div className="space-y-1">
+                <span className="text-[9px] text-[#D71920] font-black uppercase tracking-wider block">Areas of Interest</span>
+                <p className="font-light bg-amber-50/40 p-3 rounded-xl border border-amber-100/50 leading-relaxed text-[11px] text-gray-700">
+                  {selectedFaculty.interests}
+                </p>
+              </div>
+
+              {/* Contact grid */}
+              <div className="pt-2 border-t border-gray-100 grid grid-cols-2 gap-4 text-[11px] text-gray-500 font-semibold">
+                <div className="flex items-center gap-2">
+                  <Phone size={13} className="text-[#D4AF37] shrink-0" />
+                  <span>{selectedFaculty.phone}</span>
+                </div>
+                <div className="flex items-center gap-2 truncate">
+                  <Mail size={13} className="text-[#D4AF37] shrink-0" />
+                  <span className="truncate" title={selectedFaculty.email}>{selectedFaculty.email}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Close footer button */}
+            <div className="p-4 border-t border-gray-100 bg-gray-50 flex justify-end">
+              <button 
+                onClick={() => setSelectedFaculty(null)}
+                className="h-9 px-6 bg-[#072A6C] hover:bg-[#072A6C]/90 text-white text-xs font-bold rounded-xl transition-colors cursor-pointer"
+              >
+                Close Profile
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
+
     </div>
   );
 }
