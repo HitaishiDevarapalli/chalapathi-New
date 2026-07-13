@@ -4654,15 +4654,15 @@ function LeadershipView() {
           <div className="lg:col-span-7 space-y-6">
             <span className="px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/10 text-xs font-bold uppercase tracking-widest text-[#D4AF37] inline-block">University Leadership</span>
             <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-tight uppercase bg-gradient-to-r from-white via-gray-100 to-[#D4AF37] bg-clip-text text-transparent">
-              Chairman's Message
+              Sri Y. V. Anjaneyulu
             </h1>
             <p className="text-lg md:text-2xl text-blue-200 font-medium italic">
-              "Inspiring Excellence, Integrity & Innovation"
+              Founder Chairman & President
             </p>
             <div className="h-[3px] w-24 bg-[#D4AF37] rounded-full" />
             <div className="space-y-1">
-              <h3 className="text-xl md:text-2xl font-extrabold text-white">Sri Y. V. Anjaneyulu</h3>
-              <p className="text-xs uppercase tracking-wider text-gray-400 font-bold">Founder Chairman & President</p>
+              <h3 className="text-xl md:text-2xl font-extrabold text-white">Chairman's Message</h3>
+              <p className="text-xs uppercase tracking-wider text-gray-400 font-bold">"Inspiring Excellence, Integrity & Innovation"</p>
             </div>
           </div>
         </div>
