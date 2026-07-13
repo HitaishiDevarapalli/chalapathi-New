@@ -320,6 +320,7 @@ export default function App() {
             <Route path="/campus-life/library" element={<DynamicPage />} />
             <Route path="/campus-life/sports" element={<DynamicPage />} />
             <Route path="/campus-life/clubs" element={<DynamicPage />} />
+            <Route path="/campus-life/*" element={<DynamicPage />} />
 
             {/* Placements Routes */}
             <Route path="/placements" element={<DynamicPage />} />
