@@ -408,7 +408,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                             transition: transform 280ms ease;
                           }
                           .campus-menu-item:hover {
-                            background-color: #072A6C !important;
+                            background-color: #D71920 !important;
                             color: white !important;
                             transform: translateX(8px);
                           }
