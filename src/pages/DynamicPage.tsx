@@ -2408,11 +2408,448 @@ export default function DynamicPage() {
   const { pathname } = useLocation();
   const content = getPageContent(pathname);
   const isManagement = pathname.toLowerCase().startsWith("/management");
+  const [selectedImage, setSelectedImage] = React.useState<string | null>(null);
 
   useEffect(() => {
     document.title = `${content.title} | Chalapathi University`;
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [pathname, content.title]);
+
+  const cleanPath = pathname.toLowerCase().replace(/\/$/, "");
+  const isCampusLife = cleanPath.startsWith("/campus-life");
+
+  const campusLifeData: Record<string, {
+    title: string;
+    desc: string;
+    heroImage: string;
+    hasVideo?: boolean;
+    stats?: Array<{ label: string; value: string }>;
+    highlights?: Array<{ title: string; desc: string }>;
+    sections?: Array<{ title: string; desc: string; items?: string[]; image: string }>;
+    gallery: string[];
+  }> = {
+    "/campus-life": {
+      title: "Campus Overview",
+      desc: "Experience the vibrant, modern, and green academic ecosystem of Chalapathi University.",
+      heroImage: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1600&q=80",
+      hasVideo: true,
+      highlights: [
+        { title: "Green Campus", desc: "Eco-friendly infrastructure, solar power grids, and plastic-free zones." },
+        { title: "Modern Infrastructure", desc: "State-of-the-art academic wings, research centers, and sports fields." },
+        { title: "Digital Learning", desc: "Gigabit fiber internet, smart boards, and virtual computer environments." },
+        { title: "Student Experience", desc: "Diverse student-led associations, cultural meets, and development clubs." }
+      ],
+      gallery: [
+        "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1504817342591-1395b53b26f5?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1541252260730-0412e8e2108e?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&w=600&q=80"
+      ]
+    },
+    "/campus-life/library": {
+      title: "Central Library",
+      desc: "Our Central Library is a sanctuary of knowledge equipped with physical books and digital learning spaces.",
+      heroImage: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1600&q=80",
+      stats: [
+        { label: "Physical Books", value: "75,000+" },
+        { label: "Journals", value: "350+" },
+        { label: "E-Resources", value: "8,500+" },
+        { label: "Reading Capacity", value: "1,500+" }
+      ],
+      sections: [
+        { title: "Digital Library & E-Learning", desc: "Access high-speed research databases, IEEE publications, and academic resources through modern terminal workstations.", image: "https://images.unsplash.com/photo-1568667256549-094345857637?auto=format&fit=crop&w=800&q=80" },
+        { title: "Discussion & Collaborative Areas", desc: "Dedicated spaces where student groups brainstorm research designs and collaborate on projects.", image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" }
+      ],
+      gallery: [
+        "https://images.unsplash.com/photo-1507842217343-583bb7270b66?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1495446815901-a7297e63b58d?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=600&q=80"
+      ]
+    },
+    "/campus-life/smart-classrooms": {
+      title: "Smart Classrooms",
+      desc: "Our interactive classrooms are designed to maximize engagement and digital content access.",
+      heroImage: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&w=1600&q=80",
+      sections: [
+        { title: "Interactive Displays", desc: "Every classroom features large multi-touch displays, digital writing boards, and wireless projecting nodes.", image: "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=800&q=80" },
+        { title: "Audio Visual Systems", desc: "Acoustically designed lecture halls equipped with premium mic channels and immersive sound systems.", image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=800&q=80" }
+      ],
+      gallery: [
+        "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1544535830-9df3f5687760?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80"
+      ]
+    },
+    "/campus-life/laboratories": {
+      title: "Laboratories",
+      desc: "Advanced research laboratories for Computer Science, AI, Electronics, and Mechanical Engineering.",
+      heroImage: "https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&w=1600&q=80",
+      sections: [
+        { title: "AI & IoT Computing Labs", desc: "Equipped with high-compute GPU nodes, sensors, microcontrollers, and wireless development systems.", image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80" },
+        { title: "Hardware & Mechanical Labs", desc: "Featuring heavy industrial testing setups, CNC milling nodes, and advanced thermal simulation platforms.", image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80" }
+      ],
+      gallery: [
+        "https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1532187643603-ba119ca4109e?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1518152006812-edab29b069ac?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1554475901-4538ddfbccc2?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1576086213369-97a306d36557?auto=format&fit=crop&w=600&q=80"
+      ]
+    },
+    "/campus-life/hostels": {
+      title: "Hostel Facilities",
+      desc: "A secure, cozy, and home-like atmosphere for our boys and girls campus residents.",
+      heroImage: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=1600&q=80",
+      sections: [
+        { title: "Residential Dining", desc: "Hygienic multi-cuisine dining serving fresh meals, catering to diverse dietary choices.", image: "https://images.unsplash.com/photo-1567529854338-fc097b962123?auto=format&fit=crop&w=800&q=80" },
+        { title: "Recreation & Lounges", desc: "Common rooms with table tennis, TVs, indoor gym setups, and secure laundry zones.", image: "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=800&q=80" }
+      ],
+      gallery: [
+        "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1567529854338-fc097b962123?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1505691938895-1758d7feb511?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1566665797739-1674de7a421a?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1555854877-bab0e564b8d5?auto=format&fit=crop&w=600&q=80"
+      ]
+    },
+    "/campus-life/sports": {
+      title: "Sports & Fitness",
+      desc: "Developing physical fitness and team spirit through modern sports infrastructure.",
+      heroImage: "https://images.unsplash.com/photo-1541252260730-0412e8e2108e?auto=format&fit=crop&w=1600&q=80",
+      sections: [
+        { title: "Outdoor Ground Facilities", desc: "A full-sized football pitch, cricket grounds, athletic tracks, and standard basketball fields.", image: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=800&q=80" },
+        { title: "Indoor Sports Complex", desc: "High-quality badminton courts, table tennis spaces, chess corners, and a fully-equipped gym.", image: "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=800&q=80" }
+      ],
+      gallery: [
+        "https://images.unsplash.com/photo-1541252260730-0412e8e2108e?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1530541930197-ff16ac917b0e?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1543326727-cf6c39e8f84c?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?auto=format&fit=crop&w=600&q=80"
+      ]
+    },
+    "/campus-life/cafeteria": {
+      title: "Cafeteria & Dining",
+      desc: "Our food courts offer diverse dining choices under strict quality and cleanliness guidelines.",
+      heroImage: "https://images.unsplash.com/photo-1567529854338-fc097b962123?auto=format&fit=crop&w=1600&q=80",
+      sections: [
+        { title: "Snacks & Coffee Lounge", desc: "A cozy place for students to connect, relax between lectures, and enjoy light meals.", image: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=800&q=80" }
+      ],
+      gallery: [
+        "https://images.unsplash.com/photo-1567529854338-fc097b962123?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1552566626-52f8b828add9?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1498654896293-37aacf113fd9?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1559925393-8be0ec4767c8?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1508215885880-4e7d4801a9e0?auto=format&fit=crop&w=600&q=80"
+      ]
+    },
+    "/campus-life/transportation": {
+      title: "Transportation",
+      desc: "Our GPS-enabled bus network connects the campus to Guntur, Vijayawada, and adjoining communities.",
+      heroImage: "https://images.unsplash.com/photo-1557223562-6c77ef16210f?auto=format&fit=crop&w=1600&q=80",
+      sections: [
+        { title: "Safe & Regulated Bus Routes", desc: "A vast fleet of regularly maintained transit buses ensuring punctual daily travel.", image: "https://images.unsplash.com/photo-1557223562-6c77ef16210f?auto=format&fit=crop&w=800&q=80" }
+      ],
+      gallery: [
+        "https://images.unsplash.com/photo-1557223562-6c77ef16210f?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1570125909232-eb263c188f7e?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1494515426402-f1980ae7a018?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1485738422979-f5c462d49f74?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1492664738948-2ec93a547e6d?auto=format&fit=crop&w=600&q=80"
+      ]
+    },
+    "/campus-life/wifi": {
+      title: "Wi-Fi Campus Network",
+      desc: "Gigabit-speed wireless connectivity covering all academic corridors and hostels.",
+      heroImage: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1600&q=80",
+      sections: [
+        { title: "Continuous Academic Wi-Fi", desc: "Access study resources, collaborative research portals, and digital libraries instantly.", image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80" }
+      ],
+      gallery: [
+        "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80"
+      ]
+    },
+    "/campus-life/health-centre": {
+      title: "Health Centre",
+      desc: "Our campus clinic is prepared for student medical consults, first aid, and basic healthcare support.",
+      heroImage: "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=1600&q=80",
+      sections: [
+        { title: "24/7 First Aid & Ambulance", desc: "A qualified healthcare team and dedicated emergency transport ready on standby.", image: "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=800&q=80" }
+      ],
+      gallery: [
+        "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1584515901367-f134706efc3c?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1530026405186-ed1ea0ac7a63?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1551076805-e1869033e561?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=600&q=80"
+      ]
+    },
+    "/campus-life/clubs": {
+      title: "Student Clubs & Societies",
+      desc: "Coding challenges, musical events, creative art, and technical clubs to build student leadership.",
+      heroImage: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=1600&q=80",
+      sections: [
+        { title: "Coding, Music & Performing Arts", desc: "Student-run activities spanning technical hackathons, coding tasks, classical music nights, and traditional plays.", image: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80" }
+      ],
+      gallery: [
+        "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1522158673370-3c1466178877?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=600&q=80"
+      ]
+    },
+    "/campus-life/events": {
+      title: "Events & Festivals",
+      desc: "Highlights from our annual technological symposiums, sporting events, and cultural meets.",
+      heroImage: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1600&q=80",
+      gallery: [
+        "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1469488865564-c2de10f69f96?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1506157786151-b8491531f063?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?auto=format&fit=crop&w=600&q=80"
+      ]
+    },
+    "/campus-life/innovation-hub": {
+      title: "Innovation Hub & Incubation",
+      desc: "Nurturing student startups and technological solutions with workspaces and seed funding.",
+      heroImage: "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1600&q=80",
+      gallery: [
+        "https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-152202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1535303311164-664fc9ec6532?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=600&q=80"
+      ]
+    },
+    "/campus-life/safety": {
+      title: "Campus Safety & Security",
+      desc: "Ensuring student safety with 24/7 CCTV surveillance, gate controls, and safety protocols.",
+      heroImage: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1600&q=80",
+      sections: [
+        { title: "Continuous Patrol & Cameras", desc: "Our campus is mapped with CCTV cameras and has emergency rapid assistance setups.", image: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=800&q=80" }
+      ],
+      gallery: [
+        "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1508847154043-be12aee6f22d?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1531297484001-80022131f5a1?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80"
+      ]
+    },
+    "/campus-life/nss-ncc": {
+      title: "NSS & NCC Wings",
+      desc: "Cultivating discipline, community service, and volunteer leadership among our students.",
+      heroImage: "https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=1600&q=80",
+      gallery: [
+        "https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1464979681340-1261d70b083c?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1489710437720-ebb67ec84dd2?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=600&q=80"
+      ]
+    },
+    "/campus-life/grievance-cell": {
+      title: "Student Grievance Cell",
+      desc: "Dedicated mechanism for responding to queries, academic appeals, and support requests.",
+      heroImage: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=1600&q=80",
+      sections: [
+        { title: "Transparent Grievance Resolution", desc: "Submit and follow academic, facility, or administrative queries directly through online and offline modules.", image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" }
+      ],
+      gallery: [
+        "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=80",
+        "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=600&q=80"
+      ]
+    }
+  };
+
+  const campusPage = campusLifeData[cleanPath];
+
+  if (isCampusLife && campusPage) {
+    return (
+      <div className="flex-grow w-full bg-white font-[var(--font-poppins)] overflow-hidden">
+        {/* Hero Banner with University Red Gradient Overlay */}
+        <div 
+          className="relative h-[360px] md:h-[480px] w-full flex items-center justify-start bg-cover bg-center"
+          style={{ backgroundImage: `url(${campusPage.heroImage})` }}
+        >
+          <div className="absolute inset-0 bg-gradient-to-r from-[#D71920]/90 via-[#072A6C]/85 to-transparent z-10" />
+          <div className="max-w-[1440px] mx-auto w-full px-5 relative z-20 text-white flex flex-col justify-center h-full">
+            <span className="text-xs md:text-sm font-bold uppercase tracking-widest text-[#F4B400] mb-2">CAMPUS LIFE</span>
+            <h1 className="text-3xl md:text-5xl font-black mb-4 tracking-tight leading-tight uppercase animate-fade-in">{campusPage.title}</h1>
+            <p className="text-sm md:text-lg max-w-2xl text-white/90 leading-relaxed font-medium">{campusPage.desc}</p>
+          </div>
+        </div>
+
+        <div className="max-w-[1440px] mx-auto px-5 py-12 md:py-20 space-y-16 md:space-y-24">
+          {/* Section 1: Campus Overview Video (if hasVideo is true) */}
+          {campusPage.hasVideo && (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+              <div className="lg:col-span-7 relative group rounded-[20px] overflow-hidden shadow-xl aspect-video bg-gray-900 border border-gray-100">
+                <img 
+                  src="https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?auto=format&fit=crop&w=1000&q=80" 
+                  alt="Video Thumbnail"
+                  className="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 flex items-center justify-center bg-black/30">
+                  <button className="w-16 h-16 rounded-full bg-[#D71920] hover:bg-[#b71217] text-white flex items-center justify-center shadow-lg transition-transform duration-300 transform group-hover:scale-110 cursor-pointer">
+                    <span className="ml-1 text-2xl">▶</span>
+                  </button>
+                </div>
+              </div>
+              <div className="lg:col-span-5 space-y-4">
+                <h2 className="text-2xl md:text-3xl font-extrabold text-[#072A6C] tracking-tight uppercase">EXPERIENCE CHALAPATHI</h2>
+                <p className="text-sm text-gray-500 leading-relaxed font-medium">Take a virtual guided tour of our green campus corridors, advanced pharmacy laboratories, academic buildings, and standard sporting environments that empower ambitious student minds.</p>
+              </div>
+            </div>
+          )}
+
+          {/* Highlights Grid (if highlights are present) */}
+          {campusPage.highlights && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {campusPage.highlights.map((h, i) => (
+                <div key={i} className="bg-white border border-gray-100 rounded-[20px] p-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
+                  <div className="absolute top-0 left-0 w-2 h-full bg-[#D71920]" />
+                  <h3 className="font-extrabold text-[#072A6C] text-sm mb-2 group-hover:text-[#D71920] transition-colors">{h.title}</h3>
+                  <p className="text-xs text-gray-400 leading-relaxed">{h.desc}</p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Stats Bar (if statistics are present) */}
+          {campusPage.stats && (
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 bg-[#072A6C] text-white p-8 rounded-[20px] shadow-lg">
+              {campusPage.stats.map((s, i) => (
+                <div key={i} className="text-center space-y-1">
+                  <div className="text-2xl md:text-4xl font-black text-[#F4B400]">{s.value}</div>
+                  <div className="text-xs text-blue-200 font-bold uppercase tracking-wider">{s.label}</div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Content Sections */}
+          {campusPage.sections && campusPage.sections.map((sect, i) => (
+            <div key={i} className={`grid grid-cols-1 lg:grid-cols-12 gap-8 items-center ${i % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
+              <div className={`lg:col-span-6 ${i % 2 === 1 ? 'lg:order-2' : ''}`}>
+                <img 
+                  src={sect.image} 
+                  alt={sect.title}
+                  className="rounded-[20px] shadow-lg w-full h-[280px] md:h-[360px] object-cover hover:scale-105 transition-transform duration-500" 
+                />
+              </div>
+              <div className="lg:col-span-6 space-y-4">
+                <h3 className="text-xl md:text-2xl font-black text-[#072A6C] uppercase tracking-tight">{sect.title}</h3>
+                <p className="text-xs md:text-sm text-gray-500 leading-relaxed font-medium">{sect.desc}</p>
+              </div>
+            </div>
+          ))}
+
+          {/* Responsive Gallery section with Lightbox */}
+          <div className="space-y-6">
+            <div className="text-center">
+              <h2 className="text-2xl md:text-3xl font-extrabold text-[#072A6C] tracking-tight uppercase">CAMPUS LIFE GALLERY</h2>
+              <p className="text-xs text-gray-400 mt-2 font-medium">Hover to expand and click to view full screen imagery.</p>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {campusPage.gallery.map((imgUrl, i) => (
+                <div 
+                  key={i} 
+                  onClick={() => setSelectedImage(imgUrl)}
+                  className="h-[180px] md:h-[220px] rounded-[20px] overflow-hidden shadow-sm hover:shadow-md cursor-pointer relative group bg-gray-100"
+                >
+                  <img 
+                    src={imgUrl} 
+                    alt={`Gallery ${i}`} 
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-extrabold text-sm">
+                    VIEW IMAGE
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Lightbox Modal */}
+        {selectedImage && (
+          <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4">
+            <button 
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-6 right-6 text-white bg-[#D71920] hover:bg-[#b71217] w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer"
+            >
+              ✕
+            </button>
+            <img src={selectedImage} alt="Expanded View" className="max-w-full max-h-[85vh] rounded-[16px] object-contain shadow-2xl animate-fade-in" />
+          </div>
+        )}
+      </div>
+    );
+  }
 
   // Generate breadcrumb links based on path segments
   const pathSegments = pathname.split("/").filter((x) => x);
