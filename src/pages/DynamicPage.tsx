@@ -2728,7 +2728,7 @@ export default function DynamicPage() {
           {/* Responsive Gallery section with Lightbox */}
           <div className="space-y-6">
             <div className="text-center">
-              <h2 className="text-2xl md:text-3xl font-extrabold text-[#072A6C] tracking-tight uppercase">CAMPUS LIFE GALLERY</h2>
+              <h2 className="text-2xl md:text-3xl font-extrabold text-[#072A6C] tracking-tight uppercase">{campusPage.title} GALLERY</h2>
               <p className="text-xs text-gray-400 mt-2 font-medium">Hover to expand and click to view full screen imagery.</p>
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -2755,14 +2755,22 @@ export default function DynamicPage() {
 
         {/* Lightbox Modal */}
         {selectedImage && (
-          <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4">
+          <div 
+            className="fixed inset-0 z-50 bg-black/20 backdrop-blur-md flex items-center justify-center p-4 cursor-zoom-out"
+            onClick={() => setSelectedImage(null)}
+          >
             <button 
               onClick={() => setSelectedImage(null)}
-              className="absolute top-6 right-6 text-white bg-[#D71920] hover:bg-[#b71217] w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer"
+              className="absolute top-6 right-6 text-white bg-[#D71920] hover:bg-[#b71217] w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer z-10"
             >
               ✕
             </button>
-            <img src={selectedImage} alt="Expanded View" className="max-w-full max-h-[85vh] rounded-[16px] object-contain shadow-2xl animate-fade-in" />
+            <img 
+              src={selectedImage} 
+              alt="Expanded View" 
+              className="max-w-full max-h-[85vh] rounded-[16px] object-contain shadow-2xl animate-fade-in cursor-default" 
+              onClick={(e) => e.stopPropagation()}
+            />
           </div>
         )}
       </div>
