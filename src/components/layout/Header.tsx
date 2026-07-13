@@ -499,38 +499,20 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                       {name} <ChevronDown size={14} className={`transition-transform duration-200 ${campusLifeOpen ? "rotate-180" : ""}`} />
                     </button>
                     {campusLifeOpen && (
-                      <div className="absolute top-full left-0 mt-0 w-[240px] max-h-[380px] overflow-y-auto bg-white border border-gray-200/80 rounded-[12px] shadow-lg py-2.5 z-50 flex flex-col gap-0.5 animate-fade-in font-[var(--font-poppins)]">
-                        <style dangerouslySetInnerHTML={{__html: `
-                          .campus-menu-item {
-                            transition: all 280ms cubic-bezier(0.4, 0, 0.2, 1);
-                            position: relative;
-                            padding-left: 20px;
-                          }
-                          .campus-menu-item::before {
-                            content: '';
-                            position: absolute;
-                            left: 0;
-                            top: 0;
-                            bottom: 0;
-                            width: 3px;
-                            background-color: #D4AF37;
-                            transform: scaleY(0);
-                            transition: transform 280ms ease;
-                          }
-                          .campus-menu-item:hover {
-                            background-color: rgba(215, 25, 32, 0.05) !important;
-                            color: #D71920 !important;
-                            transform: translateX(8px);
-                          }
-                          .campus-menu-item:hover::before {
-                            transform: scaleY(1);
-                          }
-                        `}} />
+                      <div 
+                        className="absolute left-0 mt-0 w-[240px] max-h-[380px] overflow-y-auto bg-white border border-gray-200/80 rounded-[20px] shadow-2xl p-4 z-50 flex flex-col gap-1 animate-fade-in text-left font-[var(--font-poppins)]"
+                        onMouseEnter={() => setCampusLifeOpen(true)}
+                        onMouseLeave={() => setCampusLifeOpen(false)}
+                      >
                         {campusLifeItems.map((item) => (
                           <Link
                             key={item.label}
                             to={item.to}
-                            className="campus-menu-item px-4 py-2 text-[12.5px] font-medium text-[#222222] transition-all"
+                            className={`px-3 py-2 text-[12px] font-bold rounded-lg transition-all ${
+                              location.pathname === item.to
+                                ? "text-[#D71920] bg-[#D71920]/5"
+                                : "text-gray-700 hover:text-[#D71920] hover:bg-gray-50"
+                            }`}
                             onClick={() => setCampusLifeOpen(false)}
                           >
                             {item.label}
