@@ -2290,7 +2290,7 @@ export default function DynamicPage() {
   const isManagement = pathname.toLowerCase().startsWith("/management");
 
   useEffect(() => {
-    document.title = `${content.title} | City Chalapathi Institute of Technology`;
+    document.title = `${content.title} | Chalapathi University`;
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [pathname, content.title]);
 

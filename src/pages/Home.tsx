@@ -98,7 +98,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    document.title = "City Chalapathi Institute of Technology | Autonomous University";
+    document.title = "Chalapathi University | Best Private University in Andhra Pradesh";
   }, []);
 
   return (
