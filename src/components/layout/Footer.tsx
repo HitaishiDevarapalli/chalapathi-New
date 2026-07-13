@@ -141,11 +141,11 @@ export default function Footer() {
       <div className="max-w-[1440px] mx-auto px-5 mt-14 pt-6 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-[10px] text-[#D1D5DB] font-light gap-3">
         <span>© 2025 City Chalapathi Institute of Technology. All Rights Reserved.</span>
         <div className="flex items-center gap-3">
-          <Link to="#" className="hover:text-white transition-colors">Privacy Policy</Link>
+          <Link to="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
           <span>|</span>
-          <Link to="#" className="hover:text-white transition-colors">Terms & Conditions</Link>
+          <Link to="/terms-conditions" className="hover:text-white transition-colors">Terms & Conditions</Link>
           <span>|</span>
-          <Link to="#" className="hover:text-white transition-colors">Sitemap</Link>
+          <Link to="/sitemap" className="hover:text-white transition-colors">Sitemap</Link>
         </div>
       </div>
     </footer>

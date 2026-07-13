@@ -318,43 +318,78 @@ export default function News() {
                   </button>
 
                   {showShareMenu && (
-                    <div className="absolute bottom-12 right-0 bg-white border border-gray-200/80 rounded-xl shadow-xl p-1.5 z-30 flex flex-col gap-0.5 w-44 text-xs font-semibold text-gray-700 animate-fade-in">
+                    <div className="absolute bottom-12 right-0 bg-white border border-gray-200/80 rounded-full shadow-2xl p-2 z-30 flex items-center gap-2 animate-fade-in whitespace-nowrap">
+                      {/* WhatsApp */}
                       <a 
                         href={`https://api.whatsapp.com/send?text=${encodeURIComponent(selectedArticle.title + " " + window.location.origin + "/news#" + selectedArticle.id)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-3 py-2 hover:bg-green-50 hover:text-green-600 rounded-lg transition-colors flex items-center gap-2"
+                        className="w-8 h-8 rounded-full bg-[#25D366] hover:bg-[#20ba59] text-white flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-sm"
                         onClick={() => setShowShareMenu(false)}
+                        title="Share on WhatsApp"
                       >
-                        <span>WhatsApp</span>
+                        <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.49-3.238c1.677.995 3.398 1.493 5.45 1.495 5.518.002 10.005-4.486 10.008-10.007.001-2.673-1.04-5.186-2.932-7.078C17.13 3.28 14.619 2.238 11.944 2.238 6.428 2.238 1.94 6.724 1.937 12.247c-.001 2.098.547 4.148 1.593 5.922L2.544 21.6l3.774-1.002z" /></svg>
                       </a>
+                      {/* Twitter / X */}
                       <a 
                         href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.origin + "/news#" + selectedArticle.id)}&text=${encodeURIComponent(selectedArticle.title)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-3 py-2 hover:bg-sky-50 hover:text-sky-500 rounded-lg transition-colors flex items-center gap-2"
+                        className="w-8 h-8 rounded-full bg-black hover:bg-neutral-800 text-white flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-sm"
                         onClick={() => setShowShareMenu(false)}
+                        title="Share on X"
                       >
-                        <span>Twitter / X</span>
+                        <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
                       </a>
+                      {/* LinkedIn */}
                       <a 
                         href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.origin + "/news#" + selectedArticle.id)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-3 py-2 hover:bg-blue-50 hover:text-blue-600 rounded-lg transition-colors flex items-center gap-2"
+                        className="w-8 h-8 rounded-full bg-[#0077B5] hover:bg-[#00669c] text-white flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-sm"
                         onClick={() => setShowShareMenu(false)}
+                        title="Share on LinkedIn"
                       >
-                        <span>LinkedIn</span>
+                        <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
                       </a>
+                      {/* Facebook */}
                       <a 
                         href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.origin + "/news#" + selectedArticle.id)}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-3 py-2 hover:bg-indigo-50 hover:text-indigo-600 rounded-lg transition-colors flex items-center gap-2"
+                        className="w-8 h-8 rounded-full bg-[#1877F2] hover:bg-[#1466d0] text-white flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-sm"
                         onClick={() => setShowShareMenu(false)}
+                        title="Share on Facebook"
                       >
-                        <span>Facebook</span>
+                        <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                       </a>
+                      {/* Telegram */}
+                      <a 
+                        href={`https://t.me/share/url?url=${encodeURIComponent(window.location.origin + "/news#" + selectedArticle.id)}&text=${encodeURIComponent(selectedArticle.title)}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-8 h-8 rounded-full bg-[#24A1DE] hover:bg-[#208fca] text-white flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-sm"
+                        onClick={() => setShowShareMenu(false)}
+                        title="Share on Telegram"
+                      >
+                        <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M11.944 0C5.352 0 0 5.352 0 12s5.352 12 11.944 12c6.648 0 12-5.352 12-12S18.592 0 11.944 0zm5.82 8.016c-.156 1.488-.816 5.376-1.152 7.176-.144.756-.42 1.008-.684 1.032-.588.06-1.032-.384-1.608-.756-.888-.588-1.392-.948-2.256-1.512-1.008-.648-.36-1.008.216-1.596.156-.156 2.856-2.616 2.904-2.82.012-.048.012-.228-.096-.324-.108-.096-.264-.06-.384-.036-.168.036-2.844 1.8-8.028 5.292-.756.516-1.44.768-2.052.756-.672-.012-1.968-.372-2.928-.684-1.176-.384-2.124-.588-2.04-1.248.048-.336.504-.684 1.38-1.032 5.4-2.352 9-3.9 10.8-4.656 5.136-2.148 6.204-2.52 6.9-2.532.156 0 .504.036.732.228.192.156.24.372.252.528 0 .096-.012.336-.024.456z"/></svg>
+                      </a>
+                      {/* ChatGPT */}
+                      <a 
+                        href="https://chatgpt.com"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-8 h-8 rounded-full bg-[#10a37f] hover:bg-[#0e8f6f] text-white flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-sm"
+                        onClick={() => {
+                          navigator.clipboard.writeText(`${window.location.origin}/news#${selectedArticle.id}`);
+                          alert("Link copied! Open ChatGPT to paste and share.");
+                          setShowShareMenu(false);
+                        }}
+                        title="Copy & Open ChatGPT"
+                      >
+                        <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M21.74 11.03a4.93 4.93 0 0 0-1.87-3.87 5.08 5.08 0 0 0-1.25-4.88 5.16 5.16 0 0 0-4.87-1.25 4.92 4.92 0 0 0-7.75 3.75 5.07 5.07 0 0 0-1.25 4.88 5.16 5.16 0 0 0 4.87 1.25 4.92 4.92 0 0 0 7.75-3.75c.13-.02.26-.03.38-.03zm-7.61-9.15c.98 0 1.93.38 2.63 1.07.69.7 1.07 1.65 1.07 2.63v4.61l-1.92-1.11V4.58c0-.46-.18-.9-.5-1.22a1.72 1.72 0 0 0-2.44 0L9.12 5.56 7.2 4.45l4.28-2.47c.75-.43 1.58-.65 2.41-.65zM5.3 5.86c.69-.7 1.64-1.08 2.63-1.08h4.61l-1.92 1.11H5.97c-.46 0-.9.18-1.22.5a1.72 1.72 0 0 0 0 2.44l3.99 2.3-1.92 1.11L2.55 9.77c-.75-.43-1.34-1.07-1.7-1.82a4.89 4.89 0 0 1 .47-5.26 5.12 5.12 0 0 1 3.98-2.2zm-.96 8.37l1.92-1.11 3.98 2.3c.4.23.86.35 1.33.35.47 0 .93-.12 1.33-.35l3.98-2.3 1.92 1.11-4.28 2.47a5.16 5.16 0 0 1-5.26 0L3.13 16.7c-.75-.43-1.35-1.07-1.71-1.82a4.89 4.89 0 0 1 .47-5.26 5.12 5.12 0 0 1 2.45-1.39zm12.38 3.91a5.12 5.12 0 0 1-2.63 1.08h-4.61l1.92-1.11h4.65c.46 0 .9-.18 1.22-.5a1.72 1.72 0 0 0 0-2.44l-3.99-2.3 1.92-1.11 4.28 2.47c.75.43 1.34 1.07 1.7 1.82a4.89 4.89 0 0 1-.47 5.26 5.12 5.12 0 0 1-3.98 2.2zm2.96-8.37l-1.92 1.11-3.98-2.3a2.66 2.66 0 0 0-2.66 0l-3.98 2.3-1.92-1.11 4.28-2.47a5.16 5.16 0 0 1 5.26 0L21.2 9.77c.75.43 1.35 1.07 1.71 1.82a4.89 4.89 0 0 1-.47 5.26 5.12 5.12 0 0 1-2.45 1.39zm-6.2-1.11l-3.98-2.3-1.92-1.11 4.28-2.47a5.16 5.16 0 0 1 5.26 0l4.28 2.47-1.92 1.11-3.98 2.3z"/></svg>
+                      </a>
+                      {/* Copy Link */}
                       <button 
                         type="button"
                         onClick={() => {
@@ -362,9 +397,10 @@ export default function News() {
                           alert("Link copied to clipboard!");
                           setShowShareMenu(false);
                         }}
-                        className="w-full text-left px-3 py-2 hover:bg-gray-100 rounded-lg transition-colors flex items-center gap-2 cursor-pointer font-semibold"
+                        className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-250 text-gray-700 flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-sm cursor-pointer border border-gray-200/50"
+                        title="Copy Link"
                       >
-                        <span>Copy Link</span>
+                        <svg className="w-3.5 h-3.5 stroke-current" viewBox="0 0 24 24" fill="none" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></svg>
                       </button>
                     </div>
                   )}

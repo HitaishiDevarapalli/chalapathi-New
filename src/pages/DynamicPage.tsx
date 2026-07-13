@@ -646,6 +646,40 @@ const getPageContent = (path: string) => {
 
   // Admissions Pages
   if (cleanPath.startsWith("/admissions")) {
+    if (cleanPath.includes("undergraduate")) {
+      return {
+        title: "Undergraduate Admissions (B.Tech / B.Pharm)",
+        category: "Admissions",
+        desc: "Build a solid engineering or pharmacy foundation with our premium 4-year undergraduate programs.",
+        body: (
+          <div className="space-y-6 text-gray-600 text-sm mt-4">
+            <p>We offer undergraduate programs designed to cultivate critical thinking, technical expertise, and leadership skills.</p>
+            <div className="bg-white border border-gray-100 p-5 rounded-2xl shadow-sm">
+              <h4 className="font-extrabold text-[#072A6C] mb-2">Eligibility Criteria</h4>
+              <p className="text-xs text-gray-500 leading-relaxed">Candidates must have completed 10+2 with Physics, Chemistry, and Mathematics (or Biology for Pharmacy) with a minimum of 50% marks. Admissions are based on merit ranks in state-level or national engineering/pharmacy entrance exams.</p>
+            </div>
+            <Link to="/admissions/apply" className="h-10 px-6 bg-[#D71920] hover:bg-[#b71217] text-white text-xs font-bold rounded-xl inline-flex items-center gap-2 shadow-sm transition-all w-fit">Apply Online <ArrowRight size={14} /></Link>
+          </div>
+        )
+      };
+    }
+    if (cleanPath.includes("postgraduate")) {
+      return {
+        title: "Postgraduate Admissions (M.Tech / MBA / MCA)",
+        category: "Admissions",
+        desc: "Specialize and accelerate your career with our industry-aligned PG curricula.",
+        body: (
+          <div className="space-y-6 text-gray-600 text-sm mt-4">
+            <p>Advance your professional journey with our tailored postgraduate engineering, computer application, and business management courses.</p>
+            <div className="bg-white border border-gray-100 p-5 rounded-2xl shadow-sm">
+              <h4 className="font-extrabold text-[#072A6C] mb-2">Eligibility Criteria</h4>
+              <p className="text-xs text-gray-500 leading-relaxed">A Bachelor's degree (B.Tech, BCA, B.Sc, B.Com, or B.A) in relevant streams with at least 50% marks is required. Admission is granted based on qualifying scores in national or university-level PG entrance tests.</p>
+            </div>
+            <Link to="/admissions/apply" className="h-10 px-6 bg-[#D71920] hover:bg-[#b71217] text-white text-xs font-bold rounded-xl inline-flex items-center gap-2 shadow-sm transition-all w-fit">Apply Online <ArrowRight size={14} /></Link>
+          </div>
+        )
+      };
+    }
     if (cleanPath.includes("apply")) {
       return {
         title: "Apply Online",
@@ -902,13 +936,105 @@ const getPageContent = (path: string) => {
 
   // Campus Life Pages
   if (cleanPath.startsWith("/campus-life")) {
+    if (cleanPath.includes("hostels")) {
+      return {
+        title: "University Hostels & Accommodation",
+        category: "Campus Life",
+        desc: "Comfortable, safe, and modern residential facilities for students.",
+        body: (
+          <div className="space-y-6 text-gray-600 text-sm mt-4">
+            <p>City Chalapathi University provides excellent residential facilities with home-like comfort, strict security, and nutritious dining options.</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-white border border-gray-100 p-5 rounded-2xl shadow-sm">
+                <h4 className="font-extrabold text-[#072A6C] mb-2">Boys Hostel</h4>
+                <p className="text-xs text-gray-500 leading-relaxed">Spacious rooms, high-speed Wi-Fi, recreation hall, and dedicated warden. Gym and sports facilities are situated nearby.</p>
+              </div>
+              <div className="bg-white border border-gray-100 p-5 rounded-2xl shadow-sm">
+                <h4 className="font-extrabold text-[#072A6C] mb-2">Girls Hostel</h4>
+                <p className="text-xs text-gray-500 leading-relaxed">24/7 security surveillance, cozy study spaces, laundry services, and healthcare facilities with an on-call doctor.</p>
+              </div>
+            </div>
+          </div>
+        )
+      };
+    }
+    if (cleanPath.includes("library")) {
+      return {
+        title: "Central Library & Information Center",
+        category: "Campus Life",
+        desc: "A vast repository of knowledge featuring digital archives, journals, and study wings.",
+        body: (
+          <div className="space-y-6 text-gray-600 text-sm mt-4">
+            <p>Our state-of-the-art Central Library spans multiple floors and hosts thousands of print books, national/international journals, and digital research databases.</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="bg-white border border-gray-100 p-4 rounded-xl shadow-sm text-center">
+                <h5 className="font-bold text-[#072A6C] text-lg">50,000+</h5>
+                <p className="text-xs text-gray-400">Printed Volumes</p>
+              </div>
+              <div className="bg-white border border-gray-100 p-4 rounded-xl shadow-sm text-center">
+                <h5 className="font-bold text-[#072A6C] text-lg">200+</h5>
+                <p className="text-xs text-gray-400">Journal Subscriptions</p>
+              </div>
+              <div className="bg-white border border-gray-100 p-4 rounded-xl shadow-sm text-center">
+                <h5 className="font-bold text-[#072A6C] text-lg">1,500+</h5>
+                <p className="text-xs text-gray-400">E-Journals (IEEE/Elsevier)</p>
+              </div>
+            </div>
+          </div>
+        )
+      };
+    }
+    if (cleanPath.includes("sports")) {
+      return {
+        title: "Sports & Physical Education",
+        category: "Campus Life",
+        desc: "Nurturing fitness, teamwork, and athletic excellence through state-of-the-art sports facilities.",
+        body: (
+          <div className="space-y-6 text-gray-600 text-sm mt-4">
+            <p>We encourage student fitness with indoor and outdoor complexes, expert coaching staff, and regular inter-college tournaments.</p>
+            <div className="bg-white border border-gray-100 p-5 rounded-2xl shadow-sm">
+              <h4 className="font-extrabold text-[#072A6C] mb-2">Our Sports Facilities Include:</h4>
+              <ul className="list-disc list-inside space-y-2 text-xs text-gray-500">
+                <li>Athletic Track & Football Ground</li>
+                <li>Standard Basketball & Tennis Courts</li>
+                <li>Cricket Practice Nets</li>
+                <li>Indoor Badminton courts & Table Tennis Arena</li>
+                <li>Modern Gymnasium with certified trainers</li>
+              </ul>
+            </div>
+          </div>
+        )
+      };
+    }
+    if (cleanPath.includes("clubs")) {
+      return {
+        title: "Student Clubs & Societies",
+        category: "Campus Life",
+        desc: "Fostering creativity, leadership, and personal growth outside the classroom.",
+        body: (
+          <div className="space-y-6 text-gray-600 text-sm mt-4">
+            <p>From technical coding clubs to vibrant theater and art societies, students have many options to express their passions and develop leadership skills.</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-white border border-gray-100 p-4 rounded-xl shadow-sm">
+                <h5 className="font-bold text-[#072A6C] text-xs">Coding & Robotics Club</h5>
+                <p className="text-[11px] text-gray-400 mt-1">Hackathons, build competitions, and artificial intelligence workshops.</p>
+              </div>
+              <div className="bg-white border border-gray-100 p-4 rounded-xl shadow-sm">
+                <h5 className="font-bold text-[#072A6C] text-xs">Cultural & Arts Association</h5>
+                <p className="text-[11px] text-gray-400 mt-1">Music bands, traditional dance groups, theater clubs, and annual festival organization.</p>
+              </div>
+            </div>
+          </div>
+        )
+      };
+    }
     return {
       title: "Campus Life & Amenities",
       category: "Campus Life",
       desc: "Explore details of hostels, libraries, dining halls, and student activity clubs.",
       body: (
-        <div className="space-y-6 text-gray-600 text-sm">
-          <p>A balanced academic life requires dynamic extracurricular involvement. We feature multi-court sports facilities and comfortable hostel options.</p>
+        <div className="space-y-6 text-gray-600 text-sm mt-4">
+          <p>A balanced academic life requires dynamic extracurricular involvement. We feature hostels, dining amenities, athletic playgrounds, and student association programs.</p>
         </div>
       )
     };
@@ -937,6 +1063,80 @@ const getPageContent = (path: string) => {
               allowFullScreen={false}
               loading="lazy"
             ></iframe>
+          </div>
+        </div>
+      )
+    };
+  }
+
+  // Legal / Policy Pages
+  if (cleanPath.startsWith("/privacy-policy")) {
+    return {
+      title: "Privacy Policy",
+      category: "Legal & Policies",
+      desc: "City Chalapathi University's policies on data protection and student privacy.",
+      body: (
+        <div className="space-y-4 text-gray-600 text-sm mt-4 leading-relaxed">
+          <p>City Chalapathi University is committed to protecting the privacy of its students, faculty, staff, and visitors. This Privacy Policy details how we collect, use, and safeguard personal information.</p>
+          <h4 className="font-extrabold text-[#072A6C] text-sm mt-4">1. Data Collection</h4>
+          <p className="text-xs">We collect academic, enrollment, contact, and portal login logs strictly to provide university services, admissions counseling, and educational resources.</p>
+          <h4 className="font-extrabold text-[#072A6C] text-sm mt-4">2. Security Compliance</h4>
+          <p className="text-xs">All database transmissions utilize secure socket layer encryption (SSL/TLS) and are hosted within state-compliant data centers to ensure zero breach vulnerabilities.</p>
+        </div>
+      )
+    };
+  }
+
+  if (cleanPath.startsWith("/terms-conditions")) {
+    return {
+      title: "Terms & Conditions",
+      category: "Legal & Policies",
+      desc: "Governing terms, codes of conduct, and terms of service for university portals.",
+      body: (
+        <div className="space-y-4 text-gray-600 text-sm mt-4 leading-relaxed">
+          <p>By accessing the portals and digital platforms of City Chalapathi University, users agree to comply with the following regulations.</p>
+          <h4 className="font-extrabold text-[#072A6C] text-sm mt-4">1. Academic Conduct</h4>
+          <p className="text-xs">All online submissions, grading assessments, and student actions must align with our academic integrity and anti-plagiarism framework.</p>
+          <h4 className="font-extrabold text-[#072A6C] text-sm mt-4">2. Usage Limitations</h4>
+          <p className="text-xs">University network assets, computing resources, and campus portal access must not be used for unauthorized downloading or third-party credential distribution.</p>
+        </div>
+      )
+    };
+  }
+
+  if (cleanPath.startsWith("/sitemap")) {
+    return {
+      title: "University Sitemap",
+      category: "Navigation",
+      desc: "An index structure of all accessible academic, administrative, and research directories.",
+      body: (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4 text-xs font-[var(--font-poppins)]">
+          <div className="space-y-2">
+            <h4 className="font-extrabold text-[#072A6C] uppercase">About</h4>
+            <ul className="space-y-1 text-gray-500 font-medium">
+              <li><Link to="/about" className="hover:text-[#D71920]">About Us</Link></li>
+              <li><Link to="/about/history" className="hover:text-[#D71920]">History & Heritage</Link></li>
+              <li><Link to="/about/vision" className="hover:text-[#D71920]">Vision & Mission</Link></li>
+              <li><Link to="/about/leadership" className="hover:text-[#D71920]">University Leadership</Link></li>
+            </ul>
+          </div>
+          <div className="space-y-2">
+            <h4 className="font-extrabold text-[#072A6C] uppercase">Academics</h4>
+            <ul className="space-y-1 text-gray-500 font-medium">
+              <li><Link to="/academics" className="hover:text-[#D71920]">Programs Portal</Link></li>
+              <li><Link to="/academics/computer-science" className="hover:text-[#D71920]">Computer Science & Eng</Link></li>
+              <li><Link to="/academics/artificial-intelligence" className="hover:text-[#D71920]">AI & Machine Learning</Link></li>
+              <li><Link to="/academics/data-science" className="hover:text-[#D71920]">Data Science</Link></li>
+            </ul>
+          </div>
+          <div className="space-y-2">
+            <h4 className="font-extrabold text-[#072A6C] uppercase">Admissions</h4>
+            <ul className="space-y-1 text-gray-500 font-medium">
+              <li><Link to="/admissions" className="hover:text-[#D71920]">Admissions Portal</Link></li>
+              <li><Link to="/admissions/fees" className="hover:text-[#D71920]">Academic Fee Structure</Link></li>
+              <li><Link to="/admissions/scholarships" className="hover:text-[#D71920]">Scholarships & Waivers</Link></li>
+              <li><Link to="/admissions/apply" className="hover:text-[#D71920]">Apply Registration Form</Link></li>
+            </ul>
           </div>
         </div>
       )

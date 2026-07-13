@@ -277,6 +277,11 @@ export default function App() {
 
             {/* Contact Route */}
             <Route path="/contact" element={<DynamicPage />} />
+
+            {/* Legal / Policy Routes */}
+            <Route path="/privacy-policy" element={<DynamicPage />} />
+            <Route path="/terms-conditions" element={<DynamicPage />} />
+            <Route path="/sitemap" element={<DynamicPage />} />
           </Routes>
         </main>
         <Footer />

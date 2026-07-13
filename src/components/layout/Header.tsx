@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Search, Menu, X, ChevronDown } from "lucide-react";
 
 const UNDERGRADUATE_GROUPS = {
@@ -78,12 +78,63 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [academicsOpen, setAcademicsOpen] = useState(false);
   const [mobileAcademicsOpen, setMobileAcademicsOpen] = useState(false);
   const [managementOpen, setManagementOpen] = useState(false);
   const [mobileManagementOpen, setMobileManagementOpen] = useState(false);
   const [activeLevel, setActiveLevel] = useState("Undergraduate (UG)");
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleSearchSubmit = () => {
+    if (!searchQuery.trim()) return;
+    const q = searchQuery.toLowerCase();
+
+    if (q.includes("computer") || q.includes("cse") || q.includes("software") || q.includes("b.tech")) {
+      navigate("/academics/computer-science");
+    } else if (q.includes("ai") || q.includes("ml") || q.includes("artificial") || q.includes("intelligence")) {
+      navigate("/academics/artificial-intelligence");
+    } else if (q.includes("data") || q.includes("ds")) {
+      navigate("/academics/data-science");
+    } else if (q.includes("program") || q.includes("course") || q.includes("academic")) {
+      navigate("/academics");
+    } else if (q.includes("faculty") || q.includes("teacher") || q.includes("professor") || q.includes("hod")) {
+      navigate("/management/faculty");
+    } else if (q.includes("staff") || q.includes("admin") || q.includes("clerk")) {
+      navigate("/management/staff");
+    } else if (q.includes("board") || q.includes("governing") || q.includes("chancellor") || q.includes("registrar")) {
+      navigate("/management/board-members");
+    } else if (q.includes("event") || q.includes("news") || q.includes("announcement")) {
+      navigate("/news");
+    } else if (q.includes("undergrad") || q.includes("ug")) {
+      navigate("/admissions/undergraduate");
+    } else if (q.includes("postgrad") || q.includes("pg") || q.includes("mba") || q.includes("mca")) {
+      navigate("/admissions/postgraduate");
+    } else if (q.includes("fee") || q.includes("cost") || q.includes("tuition")) {
+      navigate("/admissions/fees");
+    } else if (q.includes("scholarship") || q.includes("waiver")) {
+      navigate("/admissions/scholarships");
+    } else if (q.includes("apply") || q.includes("registration") || q.includes("enrol")) {
+      navigate("/admissions/apply");
+    } else if (q.includes("hostel") || q.includes("room") || q.includes("accommodation") || q.includes("dorm")) {
+      navigate("/campus-life/hostels");
+    } else if (q.includes("library") || q.includes("book") || q.includes("study")) {
+      navigate("/campus-life/library");
+    } else if (q.includes("sports") || q.includes("gym") || q.includes("play") || q.includes("cricket")) {
+      navigate("/campus-life/sports");
+    } else if (q.includes("club") || q.includes("society") || q.includes("extracurricular")) {
+      navigate("/campus-life/clubs");
+    } else if (q.includes("contact") || q.includes("phone") || q.includes("email") || q.includes("map") || q.includes("address")) {
+      navigate("/contact");
+    } else if (q.includes("admission")) {
+      navigate("/admissions");
+    } else {
+      navigate("/academics");
+    }
+    setSearchQuery("");
+    setSearchOpen(false);
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -338,16 +389,21 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
           </div>
         </div>
 
-        {/* Search overlay */}
         {searchOpen && (
           <div className="absolute top-full left-0 w-full bg-[#072A6C] p-4 shadow-xl z-50 animate-slide-down">
             <div className="max-w-2xl mx-auto flex gap-2">
               <input
                 type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleSearchSubmit()}
                 placeholder="Search programs, faculty, events..."
                 className="flex-1 bg-white/10 text-white border border-white/20 rounded-[12px] px-4 py-2.5 text-sm focus:outline-none focus:border-[#D71920] placeholder:text-white/50 font-[var(--font-poppins)]"
               />
-              <button className="bg-[#D71920] text-white font-bold px-6 py-2.5 rounded-[12px] text-sm hover:bg-[#b71217] transition-colors font-[var(--font-poppins)]">
+              <button 
+                onClick={handleSearchSubmit}
+                className="bg-[#D71920] text-white font-bold px-6 py-2.5 rounded-[12px] text-sm hover:bg-[#b71217] transition-colors font-[var(--font-poppins)]"
+              >
                 Search
               </button>
             </div>
