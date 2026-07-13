@@ -408,8 +408,8 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                             transition: transform 280ms ease;
                           }
                           .campus-menu-item:hover {
-                            background-color: #D71920 !important;
-                            color: white !important;
+                            background-color: rgba(215, 25, 32, 0.05) !important;
+                            color: #D71920 !important;
                             transform: translateX(8px);
                           }
                           .campus-menu-item:hover::before {
