@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useLocation, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronRight, ChevronDown, Home, Calendar, BookOpen, Landmark, Info, Phone, ShieldCheck, UserPlus, FileText, UploadCloud, CreditCard, Clock, ShieldAlert, UserCheck, Scale, CalendarRange, GraduationCap, Mail, User, X, Globe, QrCode, Award, ChevronLeft } from "lucide-react";
@@ -2690,7 +2691,7 @@ export default function DynamicPage() {
                 <div key={i} className="bg-white border border-gray-100 rounded-[20px] p-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
                   <div className="absolute top-0 left-0 w-2 h-full bg-[#D71920]" />
                   <h3 className="font-extrabold text-[#072A6C] text-sm mb-2 group-hover:text-[#D71920] transition-colors">{h.title}</h3>
-                  <p className="text-xs text-gray-400 leading-relaxed">{h.desc}</p>
+                  <p className="text-xs text-black font-semibold leading-relaxed">{h.desc}</p>
                 </div>
               ))}
             </div>
@@ -2735,7 +2736,11 @@ export default function DynamicPage() {
               {campusPage.gallery.map((imgUrl, i) => (
                 <div 
                   key={i} 
-                  onClick={() => setSelectedImage(imgUrl)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setSelectedImage(imgUrl);
+                  }}
                   className="h-[180px] md:h-[220px] rounded-[20px] overflow-hidden shadow-sm hover:shadow-md cursor-pointer relative group bg-gray-100"
                 >
                   <img 
@@ -2743,8 +2748,20 @@ export default function DynamicPage() {
                     alt={`Gallery ${i}`} 
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     loading="lazy"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setSelectedImage(imgUrl);
+                    }}
                   />
-                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-extrabold text-sm">
+                  <div 
+                    className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-extrabold text-sm"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setSelectedImage(imgUrl);
+                    }}
+                  >
                     VIEW IMAGE
                   </div>
                 </div>
@@ -2754,9 +2771,9 @@ export default function DynamicPage() {
         </div>
 
         {/* Lightbox Modal */}
-        {selectedImage && (
+        {selectedImage && createPortal(
           <div 
-            className="fixed inset-0 z-50 bg-black/20 backdrop-blur-md flex items-center justify-center p-4 cursor-zoom-out"
+            className="fixed inset-0 z-[9999] bg-black/20 backdrop-blur-md flex items-center justify-center p-4 cursor-zoom-out"
             onClick={() => setSelectedImage(null)}
           >
             <button 
@@ -2771,7 +2788,8 @@ export default function DynamicPage() {
               className="max-w-full max-h-[85vh] rounded-[16px] object-contain shadow-2xl animate-fade-in cursor-default" 
               onClick={(e) => e.stopPropagation()}
             />
-          </div>
+          </div>,
+          document.body
         )}
       </div>
     );
@@ -4649,10 +4667,10 @@ function LeadershipView() {
               {/* 3D Glass Frame bezel */}
               <div className="relative w-[320px] h-[320px] md:w-[400px] md:h-[400px] rounded-full p-2.5 bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl overflow-hidden transition-transform duration-500 hover:rotate-2 hover:scale-[1.02]">
                 <img 
-                  src="/chairman_v2.png" 
+                  src="/chairman_v4.png" 
                   alt="Chairman" 
-                  className="w-full h-full object-cover rounded-full filter saturate-110 scale-[1.2]"
-                  style={{ mixBlendMode: "normal", objectPosition: "50% 12%" }}
+                  className="w-full h-full object-cover rounded-full filter saturate-110"
+                  style={{ mixBlendMode: "normal", objectPosition: "50% 20%" }}
                 />
               </div>
             </div>
@@ -4718,7 +4736,7 @@ function LeadershipView() {
               <div key={i} className="bg-white border border-gray-100 rounded-[24px] p-6 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 relative group overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-[#D71920] to-[#D4AF37] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
                 <h3 className="font-extrabold text-[#072A6C] text-base mb-2 group-hover:text-[#D71920] transition-colors">{v.title}</h3>
-                <p className="text-xs text-gray-400 leading-relaxed">{v.desc}</p>
+                <p className="text-xs text-black font-semibold leading-relaxed">{v.desc}</p>
               </div>
             ))}
           </div>
@@ -4737,40 +4755,6 @@ function LeadershipView() {
         </div>
       </section>
 
-      {/* SECTION 5 – MESSAGE HIGHLIGHTS (Modern feature cards) */}
-      <section className="py-16 max-w-[1440px] mx-auto px-5">
-        <div className="text-center mb-12">
-          <h2 className="text-2xl md:text-3xl font-black text-[#072A6C] tracking-tight uppercase">STRATEGIC FOCUS AREAS</h2>
-          <div className="h-1 w-16 bg-[#D71920] mx-auto mt-3 rounded-full" />
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            { title: "Student-First Paradigm", desc: "Academic pathways tailored to nurture personal development, creative leadership, and career readiness." },
-            { title: "Research & Development", desc: "Collaborating with global institutions to build patents, research papers, and domain advancements." },
-            { title: "Ethics & Integrity", desc: "Preserving core humanitarian values, transparency in governance, and societal contribution." }
-          ].map((h, i) => (
-            <div key={i} className="bg-white border border-gray-100 rounded-[20px] p-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-              <div className="absolute top-0 left-0 w-1.5 h-full bg-[#D71920]" />
-              <h3 className="font-extrabold text-[#072A6C] text-sm mb-2 group-hover:text-[#D71920] transition-colors">{h.title}</h3>
-              <p className="text-xs text-gray-400 leading-relaxed">{h.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* SECTION 6 – CLOSING STATEMENT */}
-      <section className="py-20 bg-gray-50 border-t border-gray-100 text-center rounded-t-[40px] px-5">
-        <div className="max-w-[600px] mx-auto space-y-6">
-          <img src="/logo.png" alt="University Logo" className="h-12 mx-auto filter saturate-100" />
-          <h3 className="text-xl md:text-2xl font-black text-[#072A6C] uppercase tracking-tight">SHAPING INDEPENDENT FUTURES</h3>
-          <p className="text-xs text-gray-500 leading-relaxed">We welcome you to become a part of our legacy and contribute to our technological progress.</p>
-          <div className="pt-6 border-t border-gray-200">
-            <h4 className="font-extrabold text-sm text-[#D71920]">Sri Y. V. Anjaneyulu</h4>
-            <p className="text-[10px] uppercase tracking-wider text-gray-400 mt-0.5">Chancellor & Chairman, Chalapathi University</p>
-          </div>
-        </div>
-      </section>
 
     </div>
   );
@@ -4801,7 +4785,7 @@ function HistoryView() {
               <div className="absolute top-0 left-0 w-full h-1 bg-gray-200 group-hover:bg-[#D71920] transition-colors" />
               <span className="text-[#D71920] text-xl font-black block mb-2">{milestone.year}</span>
               <h4 className="font-bold text-[#072A6C] text-sm mb-1.5">{milestone.title}</h4>
-              <p className="text-xs text-gray-400 font-light leading-normal">{milestone.desc}</p>
+              <p className="text-xs text-black font-semibold leading-normal">{milestone.desc}</p>
             </div>
           ))}
         </div>
@@ -5855,14 +5839,14 @@ function PlacementsView() {
   ];
 
   const RECRUITERS = [
-    { name: "TCS", logo: "https://logo.clearbit.com/tcs.com" },
-    { name: "Infosys", logo: "https://logo.clearbit.com/infosys.com" },
-    { name: "Mindtree", logo: "https://logo.clearbit.com/ltimindtree.com" },
-    { name: "L&T", logo: "https://logo.clearbit.com/larsentoubro.com" },
-    { name: "HCL", logo: "https://logo.clearbit.com/hcltech.com" },
-    { name: "Wipro", logo: "https://logo.clearbit.com/wipro.com" },
-    { name: "Oracle", logo: "https://logo.clearbit.com/oracle.com" },
-    { name: "Tech Mahindra", logo: "https://logo.clearbit.com/techmahindra.com" }
+    { name: "TCS", logo: "https://img.logo.dev/tcs.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
+    { name: "Infosys", logo: "https://img.logo.dev/infosys.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
+    { name: "Mindtree", logo: "https://img.logo.dev/ltimindtree.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
+    { name: "L&T", logo: "https://img.logo.dev/larsentoubro.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
+    { name: "HCL", logo: "https://img.logo.dev/hcltech.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
+    { name: "Wipro", logo: "https://img.logo.dev/wipro.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
+    { name: "Oracle", logo: "https://img.logo.dev/oracle.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
+    { name: "Tech Mahindra", logo: "https://img.logo.dev/techmahindra.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" }
   ];
 
   return (
