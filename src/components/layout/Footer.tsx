@@ -45,7 +45,7 @@ export default function Footer() {
         <div className="space-y-4 lg:col-span-1">
           <div className="bg-white rounded-[12px] p-2.5 w-fit flex items-center justify-center">
             <img
-              src="/logo.png"
+              src="/logo.png?v=2"
               alt="Chalapathi University"
               className="h-10 w-auto object-contain"
             />
