@@ -2691,7 +2691,7 @@ export default function DynamicPage() {
                 <div key={i} className="bg-white border border-gray-100 rounded-[20px] p-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
                   <div className="absolute top-0 left-0 w-2 h-full bg-[#D71920]" />
                   <h3 className="font-extrabold text-[#072A6C] text-sm mb-2 group-hover:text-[#D71920] transition-colors">{h.title}</h3>
-                  <p className="text-xs text-black leading-relaxed">{h.desc}</p>
+                  <p className="text-xs text-black font-semibold leading-relaxed">{h.desc}</p>
                 </div>
               ))}
             </div>
@@ -4736,7 +4736,7 @@ function LeadershipView() {
               <div key={i} className="bg-white border border-gray-100 rounded-[24px] p-6 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 relative group overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-[#D71920] to-[#D4AF37] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
                 <h3 className="font-extrabold text-[#072A6C] text-base mb-2 group-hover:text-[#D71920] transition-colors">{v.title}</h3>
-                <p className="text-xs text-black leading-relaxed">{v.desc}</p>
+                <p className="text-xs text-black font-semibold leading-relaxed">{v.desc}</p>
               </div>
             ))}
           </div>
@@ -4785,7 +4785,7 @@ function HistoryView() {
               <div className="absolute top-0 left-0 w-full h-1 bg-gray-200 group-hover:bg-[#D71920] transition-colors" />
               <span className="text-[#D71920] text-xl font-black block mb-2">{milestone.year}</span>
               <h4 className="font-bold text-[#072A6C] text-sm mb-1.5">{milestone.title}</h4>
-              <p className="text-xs text-black font-light leading-normal">{milestone.desc}</p>
+              <p className="text-xs text-black font-semibold leading-normal">{milestone.desc}</p>
             </div>
           ))}
         </div>
