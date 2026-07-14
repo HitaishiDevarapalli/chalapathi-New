@@ -4737,40 +4737,6 @@ function LeadershipView() {
         </div>
       </section>
 
-      {/* SECTION 5 – MESSAGE HIGHLIGHTS (Modern feature cards) */}
-      <section className="py-16 max-w-[1440px] mx-auto px-5">
-        <div className="text-center mb-12">
-          <h2 className="text-2xl md:text-3xl font-black text-[#072A6C] tracking-tight uppercase">STRATEGIC FOCUS AREAS</h2>
-          <div className="h-1 w-16 bg-[#D71920] mx-auto mt-3 rounded-full" />
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {[
-            { title: "Student-First Paradigm", desc: "Academic pathways tailored to nurture personal development, creative leadership, and career readiness." },
-            { title: "Research & Development", desc: "Collaborating with global institutions to build patents, research papers, and domain advancements." },
-            { title: "Ethics & Integrity", desc: "Preserving core humanitarian values, transparency in governance, and societal contribution." }
-          ].map((h, i) => (
-            <div key={i} className="bg-white border border-gray-100 rounded-[20px] p-6 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-              <div className="absolute top-0 left-0 w-1.5 h-full bg-[#D71920]" />
-              <h3 className="font-extrabold text-[#072A6C] text-sm mb-2 group-hover:text-[#D71920] transition-colors">{h.title}</h3>
-              <p className="text-xs text-gray-400 leading-relaxed">{h.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* SECTION 6 – CLOSING STATEMENT */}
-      <section className="py-20 bg-gray-50 border-t border-gray-100 text-center rounded-t-[40px] px-5">
-        <div className="max-w-[600px] mx-auto space-y-6">
-          <img src="/logo.png" alt="University Logo" className="h-12 mx-auto filter saturate-100" />
-          <h3 className="text-xl md:text-2xl font-black text-[#072A6C] uppercase tracking-tight">SHAPING INDEPENDENT FUTURES</h3>
-          <p className="text-xs text-gray-500 leading-relaxed">We welcome you to become a part of our legacy and contribute to our technological progress.</p>
-          <div className="pt-6 border-t border-gray-200">
-            <h4 className="font-extrabold text-sm text-[#D71920]">Sri Y. V. Anjaneyulu</h4>
-            <p className="text-[10px] uppercase tracking-wider text-gray-400 mt-0.5">Chancellor & Chairman, Chalapathi University</p>
-          </div>
-        </div>
-      </section>
 
     </div>
   );
