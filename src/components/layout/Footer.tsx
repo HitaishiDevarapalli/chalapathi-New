@@ -136,13 +136,6 @@ export default function Footer() {
                 <span>admissions@city.ac.in</span>
               </div>
             </div>
-            <div className="w-16 h-16 rounded-full overflow-hidden border border-white/10 shadow-lg shrink-0 select-none">
-              <img 
-                src="/chairman_v3.png" 
-                alt="Chairman" 
-                className="w-full h-full object-cover" 
-              />
-            </div>
           </div>
           <div className="space-y-3.5 text-[11px] text-[#D1D5DB] font-light">
             {/* Social Logos */}
