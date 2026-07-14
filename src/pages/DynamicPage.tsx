@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useLocation, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, ChevronRight, ChevronDown, Home, Calendar, BookOpen, Landmark, Info, Phone, ShieldCheck, UserPlus, FileText, UploadCloud, CreditCard, Clock, ShieldAlert, UserCheck, Scale, CalendarRange, GraduationCap, Mail, User, X, Globe, QrCode, Award, ChevronLeft } from "lucide-react";
@@ -2735,7 +2736,11 @@ export default function DynamicPage() {
               {campusPage.gallery.map((imgUrl, i) => (
                 <div 
                   key={i} 
-                  onClick={() => setSelectedImage(imgUrl)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setSelectedImage(imgUrl);
+                  }}
                   className="h-[180px] md:h-[220px] rounded-[20px] overflow-hidden shadow-sm hover:shadow-md cursor-pointer relative group bg-gray-100"
                 >
                   <img 
@@ -2743,8 +2748,20 @@ export default function DynamicPage() {
                     alt={`Gallery ${i}`} 
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
                     loading="lazy"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setSelectedImage(imgUrl);
+                    }}
                   />
-                  <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-extrabold text-sm">
+                  <div 
+                    className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white font-extrabold text-sm"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setSelectedImage(imgUrl);
+                    }}
+                  >
                     VIEW IMAGE
                   </div>
                 </div>
@@ -2754,9 +2771,9 @@ export default function DynamicPage() {
         </div>
 
         {/* Lightbox Modal */}
-        {selectedImage && (
+        {selectedImage && createPortal(
           <div 
-            className="fixed inset-0 z-50 bg-black/20 backdrop-blur-md flex items-center justify-center p-4 cursor-zoom-out"
+            className="fixed inset-0 z-[9999] bg-black/20 backdrop-blur-md flex items-center justify-center p-4 cursor-zoom-out"
             onClick={() => setSelectedImage(null)}
           >
             <button 
@@ -2771,7 +2788,8 @@ export default function DynamicPage() {
               className="max-w-full max-h-[85vh] rounded-[16px] object-contain shadow-2xl animate-fade-in cursor-default" 
               onClick={(e) => e.stopPropagation()}
             />
-          </div>
+          </div>,
+          document.body
         )}
       </div>
     );
