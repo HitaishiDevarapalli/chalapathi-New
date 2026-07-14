@@ -4649,7 +4649,7 @@ function LeadershipView() {
               {/* 3D Glass Frame bezel */}
               <div className="relative w-[320px] h-[320px] md:w-[400px] md:h-[400px] rounded-full p-2.5 bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl overflow-hidden transition-transform duration-500 hover:rotate-2 hover:scale-[1.02]">
                 <img 
-                  src="/chairman_v3.png" 
+                  src="/chairman_v4.png" 
                   alt="Chairman" 
                   className="w-full h-full object-cover rounded-full filter saturate-110 scale-[1.2]"
                   style={{ mixBlendMode: "normal", objectPosition: "50% 12%" }}
