@@ -47,7 +47,7 @@ export default function Footer() {
             <img
               src="/logo.png?v=3"
               alt="Chalapathi University"
-              className="h-10 w-auto object-contain"
+              className="h-10 w-auto object-contain no-lift"
             />
           </div>
           <p className="leading-relaxed text-[#D1D5DB] text-[11px] font-light">
