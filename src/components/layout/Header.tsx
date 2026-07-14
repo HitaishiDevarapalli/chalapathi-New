@@ -270,7 +270,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
             <img
               src="/logo.png?v=3"
               alt="Chalapathi University"
-              className="h-14 w-auto object-contain no-lift"
+              className="h-16 w-auto object-contain no-lift"
             />
           </Link>
 
