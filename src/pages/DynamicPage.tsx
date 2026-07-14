@@ -4651,8 +4651,8 @@ function LeadershipView() {
                 <img 
                   src="/chairman_v4.png" 
                   alt="Chairman" 
-                  className="w-full h-full object-cover rounded-full filter saturate-110 scale-[1.2]"
-                  style={{ mixBlendMode: "normal", objectPosition: "50% 12%" }}
+                  className="w-full h-full object-cover rounded-full filter saturate-110"
+                  style={{ mixBlendMode: "normal", objectPosition: "50% 20%" }}
                 />
               </div>
             </div>
