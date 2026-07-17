@@ -127,6 +127,8 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
   const [mobileManagementOpen, setMobileManagementOpen] = useState(false);
   const [campusLifeOpen, setCampusLifeOpen] = useState(false);
   const [mobileCampusLifeOpen, setMobileCampusLifeOpen] = useState(false);
+  const [newsEventsOpen, setNewsEventsOpen] = useState(false);
+  const [mobileNewsEventsOpen, setMobileNewsEventsOpen] = useState(false);
   const [activeLevel, setActiveLevel] = useState("Undergraduate (UG)");
   const [hoveredCategory, setHoveredCategory] = useState("Programmes Offered");
   const location = useLocation();
@@ -194,6 +196,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
     setMobileProgrammesOpen(false);
     setMobileAboutOpen(false);
     setMobileCampusLifeOpen(false);
+    setMobileNewsEventsOpen(false);
   }, [location.pathname]);
 
   const aboutItems = [
@@ -205,7 +208,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
 
   const navLinks = [
     "About Us", "Academics", "Admissions", "Research", "Management",
-    "Campus Life", "Placements", "News", "Events", "Contact",
+    "Campus Life", "Placements", "News & Events", "Contact",
   ];
 
   const navHrefs: Record<string, string> = {
@@ -216,10 +219,13 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
     "Management": "/management",
     "Campus Life": "/campus-life",
     "Placements": "/placements",
-    "News": "/news",
-    "Events": "/news/events",
     "Contact": "/contact",
   };
+
+  const newsEventsItems = [
+    { label: "News", to: "/news" },
+    { label: "Events", to: "/news/events" }
+  ];
 
   const academicsItems = [
     { label: "Programmes Offered", to: "/academics/programmes" },
@@ -528,6 +534,38 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                 );
               }
 
+              if (name === "News & Events") {
+                return (
+                  <div
+                    key={name}
+                    className="relative"
+                    onMouseEnter={() => setNewsEventsOpen(true)}
+                    onMouseLeave={() => setNewsEventsOpen(false)}
+                  >
+                    <button
+                      type="button"
+                      className="px-3.5 py-2 text-[14px] font-medium text-[#222222] hover:text-[#D71920] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
+                    >
+                      {name} <ChevronDown size={14} className={`transition-transform duration-200 ${newsEventsOpen ? "rotate-180" : ""}`} />
+                    </button>
+                    {newsEventsOpen && (
+                      <div className="absolute top-full left-0 mt-0 w-[150px] bg-white border border-gray-200/80 rounded-[12px] shadow-lg py-2.5 z-50 flex flex-col gap-0.5 animate-fade-in font-[var(--font-poppins)]">
+                        {newsEventsItems.map((item) => (
+                          <Link
+                            key={item.label}
+                            to={item.to}
+                            className="px-4 py-2 text-[13px] font-medium text-[#222222] hover:text-[#D71920] hover:bg-[#D71920]/5 transition-all"
+                            onClick={() => setNewsEventsOpen(false)}
+                          >
+                            {item.label}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              }
+
               return (
                 <Link
                   key={name}
@@ -763,6 +801,35 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                   {mobileCampusLifeOpen && (
                     <div className="pl-4 flex flex-col gap-2 mt-2 pt-2 border-t border-gray-50 max-h-[260px] overflow-y-auto">
                       {campusLifeItems.map((item) => (
+                        <Link
+                          key={item.label}
+                          to={item.to}
+                          className="text-[13px] font-medium text-gray-600 hover:text-[#D71920] py-1.5 transition-colors font-[var(--font-poppins)]"
+                          onClick={() => setMobileOpen(false)}
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+
+            if (name === "News & Events") {
+              return (
+                <div key={name} className="flex flex-col border-b border-gray-100 py-3">
+                  <button
+                    type="button"
+                    onClick={() => setMobileNewsEventsOpen(!mobileNewsEventsOpen)}
+                    className="w-full flex items-center justify-between text-[15px] font-semibold text-[#222222] hover:text-[#D71920] transition-colors font-[var(--font-poppins)] text-left outline-none cursor-pointer"
+                  >
+                    <span>{name}</span>
+                    <ChevronDown size={16} className={`transition-transform duration-200 ${mobileNewsEventsOpen ? "rotate-180" : ""}`} />
+                  </button>
+                  {mobileNewsEventsOpen && (
+                    <div className="pl-4 flex flex-col gap-2 mt-2 pt-2 border-t border-gray-50 text-left">
+                      {newsEventsItems.map((item) => (
                         <Link
                           key={item.label}
                           to={item.to}
