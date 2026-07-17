@@ -42,13 +42,50 @@ html {
 body {
   font-family: var(--font-body);
   background-color: #FFFFFF;
-  color: #222222;
+  color: #111111;
+  line-height: 1.65;
+  letter-spacing: 0.015em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading);
+}
+
+/* Force light/thin fonts to semi-bold/bold */
+.font-light, .font-thin {
+  font-weight: 600 !important;
+}
+.font-normal, .font-medium {
+  font-weight: 600 !important;
+}
+
+/* Improve header hierarchy weights */
+h1 {
+  font-weight: 800 !important;
+  letter-spacing: -0.01em;
+}
+h2 {
+  font-weight: 700 !important;
+  letter-spacing: -0.01em;
+}
+h3 {
+  font-weight: 700 !important;
+}
+h4, h5, h6 {
+  font-weight: 600 !important;
+}
+
+/* Override gray/zinc text to highly readable black/charcoal */
+.text-gray-400, .text-gray-500, .text-zinc-400, .text-zinc-500 {
+  color: #111111 !important;
+}
+.text-gray-300, .text-zinc-300 {
+  color: #222222 !important;
+}
+.text-blue-200 {
+  color: #E0F2FE !important;
 }
 
 /* Glassmorphism helpers */
