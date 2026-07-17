@@ -123,7 +123,7 @@ export default function Events() {
             Campus Activities
           </span>
           <h1 className="text-3xl lg:text-5xl font-[900] tracking-tight">University Events</h1>
-          <p className="text-xs text-gray-300 font-light max-w-xl leading-relaxed">
+          <p className="text-xs text-white font-light max-w-xl leading-relaxed">
             Participate in hackathons, expert workshops, alumni gatherings, and regional technology exhibitions.
           </p>
         </div>

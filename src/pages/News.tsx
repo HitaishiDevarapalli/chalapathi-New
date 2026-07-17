@@ -61,7 +61,7 @@ export default function News() {
             Latest Bulletins
           </span>
           <h1 className="text-3xl lg:text-5xl font-[900] tracking-tight">University News</h1>
-          <p className="text-xs text-gray-300 font-light max-w-xl leading-relaxed">
+          <p className="text-xs text-white font-light max-w-xl leading-relaxed">
             Stay updated with academic breakthroughs, campus achievements, guest lectures, and student announcements.
           </p>
         </div>
