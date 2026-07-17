@@ -273,7 +273,6 @@ function AppContent() {
               ref={videoRef}
               src="/videodisplay.mp4"
               autoPlay
-              muted
               playsInline
               preload="auto"
               onPlay={handleVideoPlay}
