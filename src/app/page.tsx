@@ -239,10 +239,10 @@ export default function Home() {
                 >
                   <Icon size={20} />
                 </div>
-                <h3 className="font-[700] text-[13px] text-[#072A6C] mb-3 leading-snug min-h-[36px] flex items-center justify-center">
+                <h3 className="font-[700] text-[16px] text-[#072A6C] mb-3 leading-snug min-h-[36px] flex items-center justify-center">
                   {item.title}
                 </h3>
-                <p className="text-[11px] text-[#666666] leading-relaxed font-[400]">
+                <p className="text-[13px] text-[#111111] leading-relaxed font-[700]">
                   {item.desc}
                 </p>
               </motion.div>

@@ -3542,7 +3542,7 @@ function FacultyDirectory() {
         {/* Head of Department Centered Layout */}
         {activeDept.hod && (
           <div className="space-y-4 flex flex-col items-center">
-            <h4 className="text-xs font-extrabold text-[#D4AF37] uppercase tracking-wider text-center">Head of Department</h4>
+            <h4 className="text-[13px] md:text-[15px] font-black text-[#D71920] bg-[#D71920]/8 px-5 py-1.5 rounded-full uppercase tracking-widest text-center w-fit mx-auto shadow-sm border border-[#D71920]/15">Head of Department</h4>
             <div 
               onClick={() => setSelectedFaculty(activeDept.hod)}
               className="bg-white border-2 border-[#D4AF37] rounded-[16px] p-6 shadow-sm hover:shadow-lg hover:-translate-y-1.5 transition-all duration-300 flex flex-col items-center justify-center text-center cursor-pointer relative group w-full max-w-[340px] min-h-[300px]"
