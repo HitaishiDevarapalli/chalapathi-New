@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route, useLocation, Link } from "react-router-dom";
-import { X, RefreshCw, CheckCircle2, Megaphone, Bell, Calendar, GraduationCap, FileText, Award, BookOpen } from "lucide-react";
+import { X, RefreshCw, CheckCircle2, Megaphone, Bell, Calendar, GraduationCap, FileText, Award, BookOpen, User, Phone, Mail, MapPin, Landmark, MessageSquare, ArrowRight, Send, ShieldCheck, ChevronDown, ChevronUp } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
@@ -28,6 +28,114 @@ const IconMap: Record<string, React.ComponentType<any>> = {
   Award: Award,
   BookOpen: BookOpen
 };
+
+const INDIAN_STATES = [
+  "Andhra Pradesh", "Telangana", "Karnataka", "Tamil Nadu", "Maharashtra", 
+  "Delhi", "Kerala", "Gujarat", "Rajasthan", "Uttar Pradesh", "West Bengal", 
+  "Madhya Pradesh", "Other"
+];
+
+const QUALIFICATIONS = [
+  "Class 12 / Intermediate", "Graduation / Under Graduate", "Post Graduation", "Diploma", "Other"
+];
+
+const YEARS_OF_PASSING = [
+  "2027", "2026", "2025", "2024", "2023", "Before 2023"
+];
+
+const ALL_PROGRAMS = [
+  "B.Tech - Computer Science and Engineering",
+  "B.Tech - CSE (Data Science)",
+  "B.Tech - CSE (Artificial Intelligence)",
+  "B.Tech - Artificial Intelligence & Machine Learning",
+  "B.Tech - CSE (Cyber Security)",
+  "M.Tech - Computer Science and Engineering",
+  "M.Tech - CSE (AI & ML)",
+  "MCA",
+  "Ph.D - Computer Science and Engineering",
+  "B.Tech - Electronics and Communication Engineering",
+  "M.Tech - VLSI and Embedded Systems Design",
+  "Ph.D - Electronics and Communication Engineering",
+  "B.Tech - Civil Engineering",
+  "M.Tech - Structural Engineering",
+  "Ph.D - Structural Engineering",
+  "MBA"
+];
+
+const ENQUIRY_SCHOOLS_DATA = [
+  {
+    id: "computing",
+    title: "SCHOOL OF COMPUTING SCIENCES",
+    subtitle: "Engineering Minds for the Digital Future",
+    groups: [
+      {
+        name: "Computer Science & Engineering",
+        courses: [
+          { level: "UG", name: "B.Tech - Computer Science and Engineering" },
+          { level: "PG", name: "M.Tech - Computer Science and Engineering" },
+          { level: "PG", name: "MCA" },
+          { level: "Ph.D", name: "Ph.D - Computer Science and Engineering" }
+        ]
+      },
+      {
+        name: "Data Science",
+        courses: [
+          { level: "UG", name: "B.Tech - CSE (Data Science)" }
+        ]
+      },
+      {
+        name: "Artificial Intelligence",
+        courses: [
+          { level: "UG", name: "B.Tech - CSE (Artificial Intelligence)" },
+          { level: "UG", name: "B.Tech - Artificial Intelligence & Machine Learning" },
+          { level: "PG", name: "M.Tech - CSE (AI & ML)" }
+        ]
+      },
+      {
+        name: "Cyber Security",
+        courses: [
+          { level: "UG", name: "B.Tech - CSE (Cyber Security)" }
+        ]
+      }
+    ]
+  },
+  {
+    id: "engineering",
+    title: "SCHOOL OF ENGINEERING",
+    subtitle: "Engineering Solutions for a Smarter, Stronger Tomorrow",
+    groups: [
+      {
+        name: "Electronics and Communication Engineering",
+        courses: [
+          { level: "UG", name: "B.Tech - Electronics and Communication Engineering" },
+          { level: "PG", name: "M.Tech - VLSI and Embedded Systems Design" },
+          { level: "Ph.D", name: "Ph.D - Electronics and Communication Engineering" }
+        ]
+      },
+      {
+        name: "Civil Engineering",
+        courses: [
+          { level: "UG", name: "B.Tech - Civil Engineering" },
+          { level: "PG", name: "M.Tech - Structural Engineering" },
+          { level: "Ph.D", name: "Ph.D - Structural Engineering" }
+        ]
+      }
+    ]
+  },
+  {
+    id: "business",
+    title: "SCHOOL OF BUSINESS & MANAGEMENT",
+    subtitle: "Shaping Visionary Leaders for Tomorrow's Business World",
+    groups: [
+      {
+        name: "Business and Management",
+        courses: [
+          { level: "PG", name: "MBA" }
+        ]
+      }
+    ]
+  }
+];
 
 function AppContent() {
   const { announcements } = useData();
@@ -75,35 +183,42 @@ function AppContent() {
 
   const [showEnquiryModal, setShowEnquiryModal] = useState(false);
   const [showAnnouncementsDrawer, setShowAnnouncementsDrawer] = useState(false);
+  const [activeAccordion, setActiveAccordion] = useState<string | null>("computing");
+  
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
     mobile: "",
-    state: "",
+    email: "",
     city: "",
-    college: "",
-    degree: "",
+    state: "",
+    qualification: "",
+    yearOfPassing: "",
     program: "",
-    captchaInput: "",
-    agree: false
+    query: ""
   });
   
-  const [captchaCode, setCaptchaCode] = useState("6a3ca0");
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  // Generate a random captcha code
-  const generateCaptcha = () => {
-    const chars = "0123456789abcdefghijklmnopqrstuvwxyz";
-    let code = "";
-    for (let i = 0; i < 6; i++) {
-      code += chars[Math.floor(Math.random() * chars.length)];
-    }
-    setCaptchaCode(code);
+  const toggleAccordion = (id: string) => {
+    setActiveAccordion(activeAccordion === id ? null : id);
   };
+
+  // Automatic popup trigger only once per browser session after loading
+  useEffect(() => {
+    if (!showSplash) {
+      const shown = sessionStorage.getItem("enquiry_popup_shown");
+      if (!shown) {
+        const timer = setTimeout(() => {
+          setShowEnquiryModal(true);
+          sessionStorage.setItem("enquiry_popup_shown", "true");
+        }, 500);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [showSplash]);
 
   useEffect(() => {
     if (showEnquiryModal) {
-      generateCaptcha();
       document.body.style.overflow = "hidden";
     } else if (showAnnouncementsDrawer) {
       document.body.style.overflow = "hidden";
@@ -112,15 +227,14 @@ function AppContent() {
       setFormSubmitted(false);
       setFormData({
         name: "",
-        email: "",
         mobile: "",
-        state: "",
+        email: "",
         city: "",
-        college: "",
-        degree: "",
+        state: "",
+        qualification: "",
+        yearOfPassing: "",
         program: "",
-        captchaInput: "",
-        agree: false
+        query: ""
       });
     }
     return () => {
@@ -142,15 +256,6 @@ function AppContent() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.captchaInput.toLowerCase() !== captchaCode.toLowerCase()) {
-      alert("Invalid Captcha code! Please try again.");
-      generateCaptcha();
-      return;
-    }
-    if (!formData.agree) {
-      alert("Please authorize us to contact you by ticking the checkbox.");
-      return;
-    }
     setFormSubmitted(true);
   };
 
@@ -418,29 +523,134 @@ function AppContent() {
       {/* ======================================================== */}
       {showEnquiryModal && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4 md:p-6 overflow-y-auto"
           onClick={() => setShowEnquiryModal(false)}
         >
-          <div 
-            className="bg-white w-full max-w-[620px] rounded-[16px] overflow-hidden shadow-2xl relative animate-fade-in flex flex-col max-h-[92vh] text-left border border-gray-100"
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
+            className="bg-white w-full max-w-[1240px] h-[92vh] md:h-[85vh] min-h-[580px] rounded-[24px] shadow-2xl relative flex flex-col md:flex-row overflow-hidden border border-gray-100 font-[var(--font-poppins)] text-left select-none"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
-            <button 
-              onClick={() => setShowEnquiryModal(false)}
-              className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-white/20 hover:bg-white/45 text-white flex items-center justify-center transition-colors cursor-pointer"
-            >
-              <X size={20} />
-            </button>
+            {/* Left Panel: Schools & Programs */}
+            <div className="w-full md:w-1/2 p-6 md:p-8 border-r border-gray-100 overflow-y-auto flex flex-col h-full bg-slate-50/30">
+              {/* Logo */}
+              <div className="flex items-center gap-2.5 mb-6">
+                <img src="/logo.png?v=3" alt="Chalapathi University" className="h-11 w-auto object-contain" />
+                <div className="flex flex-col">
+                  <span className="text-[16px] font-black text-[#072A6C] tracking-tight leading-none">Chalapathi</span>
+                  <span className="text-[14px] font-bold text-[#072A6C] tracking-wide leading-none mt-0.5">University</span>
+                </div>
+              </div>
 
-            {/* Form Content */}
-            <div className="p-6 md:p-8 overflow-y-auto">
-              <h3 className="text-lg font-black uppercase text-[#072A6C] mb-1">Admission Enquiry</h3>
-              <p className="text-xs text-gray-500 mb-6">Enter details below to consult with our career counselors</p>
-              
+              <h3 className="text-[13px] font-black uppercase text-[#072A6C] tracking-wide mb-1">
+                EXPLORE OUR SCHOOLS & PROGRAMS
+              </h3>
+              <p className="text-[11px] text-gray-400 font-medium mb-6">
+                Select a school to view its programs
+              </p>
+
+              {/* Accordions */}
+              <div className="space-y-3.5 flex-grow">
+                {ENQUIRY_SCHOOLS_DATA.map((school) => {
+                  const isOpen = activeAccordion === school.id;
+                  return (
+                    <div key={school.id} className="border border-gray-150 rounded-[14px] bg-white overflow-hidden shadow-sm transition-all duration-300">
+                      {/* Accordion Head */}
+                      <button
+                        type="button"
+                        onClick={() => toggleAccordion(school.id)}
+                        className={`w-full flex items-center justify-between p-4 transition-all duration-300 text-left outline-none cursor-pointer ${
+                          isOpen ? "bg-[#072A6C] text-white" : "bg-white text-[#072A6C] hover:bg-slate-50"
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          {school.id === "computing" && <User size={18} />}
+                          {school.id === "engineering" && <GraduationCap size={18} />}
+                          {school.id === "business" && <Landmark size={18} />}
+                          <div className="flex flex-col">
+                            <span className="text-[11px] md:text-[12px] font-extrabold uppercase tracking-wider">{school.title}</span>
+                            <span className={`text-[9px] md:text-[10px] ${isOpen ? "text-blue-100" : "text-gray-400"} mt-0.5`}>{school.subtitle}</span>
+                          </div>
+                        </div>
+                        <ChevronDown size={16} className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
+                      </button>
+
+                      {/* Accordion Body */}
+                      {isOpen && (
+                        <div className="p-4 md:p-6 bg-white border-t border-gray-100 grid grid-cols-1 sm:grid-cols-2 gap-5 animate-fade-in">
+                          {school.groups.map((group, groupIdx) => (
+                            <div key={groupIdx} className="space-y-3">
+                              <h4 className="text-[11px] font-extrabold text-[#072A6C] border-b border-gray-100 pb-1.5">{group.name}</h4>
+                              <div className="flex flex-col gap-2">
+                                {group.courses.map((course, courseIdx) => {
+                                  let badgeColor = "bg-blue-50 text-blue-600 border-blue-100/50";
+                                  if (course.level === "PG") badgeColor = "bg-emerald-50 text-emerald-600 border-emerald-100/50";
+                                  if (course.level === "Ph.D") badgeColor = "bg-amber-50 text-amber-600 border-amber-100/50";
+                                  return (
+                                    <button
+                                      key={courseIdx}
+                                      type="button"
+                                      onClick={() => setFormData({ ...formData, program: course.name })}
+                                      className={`flex items-start gap-2.5 p-2 rounded-lg border border-transparent hover:border-blue-100 hover:bg-blue-50/30 text-left transition-all duration-200 cursor-pointer ${
+                                        formData.program === course.name ? "bg-blue-50/55 border-blue-200" : ""
+                                      }`}
+                                    >
+                                      <span className={`px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-wider border shrink-0 ${badgeColor}`}>
+                                        {course.level}
+                                      </span>
+                                      <span className="text-[10px] text-gray-700 font-bold leading-tight group-hover:text-blue-600">
+                                        {course.name}
+                                      </span>
+                                    </button>
+                                  );
+                                })}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Right Panel: Enquiry Form */}
+            <div className="w-full md:w-1/2 p-6 md:p-8 overflow-y-auto flex flex-col h-full bg-white relative">
+              {/* Close Button */}
+              <button 
+                onClick={() => setShowEnquiryModal(false)}
+                className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-gray-50 hover:bg-gray-100 text-gray-600 border border-gray-155 flex items-center justify-center transition-all hover:scale-105 hover:rotate-90 duration-200 cursor-pointer"
+              >
+                <X size={16} />
+              </button>
+
+              <div className="mb-5">
+                <h2 className="text-[20px] font-black text-[#072A6C] tracking-tight uppercase leading-none">
+                  ADMISSIONS OPEN 2026-27
+                </h2>
+                <p className="text-[11px] text-gray-500 font-medium mt-1">
+                  Build Your Future. Lead with Innovation.
+                </p>
+              </div>
+
+              {/* Form Title Card */}
+              <div className="bg-[#072A6C]/3 border border-[#072A6C]/10 rounded-2xl p-4 flex items-center gap-3 mb-6">
+                <div className="w-10 h-10 rounded-xl bg-[#072A6C]/10 flex items-center justify-center text-[#072A6C] shrink-0">
+                  <FileText size={18} />
+                </div>
+                <div className="text-left">
+                  <h4 className="text-[11px] font-black text-[#072A6C] uppercase tracking-wider">ENQUIRY FORM</h4>
+                  <p className="text-[10px] text-gray-500 font-medium">Fill in your details. Our admission team will contact you soon.</p>
+                </div>
+              </div>
+
               {formSubmitted ? (
-                <div className="flex flex-col items-center justify-center py-10 space-y-4">
-                  <CheckCircle2 size={56} className="text-emerald-500" />
+                <div className="flex flex-col items-center justify-center py-12 space-y-4 my-auto">
+                  <CheckCircle2 size={56} className="text-emerald-500 animate-bounce" />
                   <h4 className="text-base font-extrabold text-[#072A6C]">Enquiry Submitted Successfully!</h4>
                   <p className="text-xs text-gray-500 text-center max-w-[340px]">Our admissions helpdesk representative will contact you on your registered mobile number shortly.</p>
                   <button 
@@ -451,154 +661,188 @@ function AppContent() {
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-4 text-xs font-[var(--font-poppins)]">
-                  {/* Grid Rows */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-bold uppercase text-gray-500">Applicant Name *</label>
-                      <input 
-                        type="text" 
-                        required
-                        placeholder="Enter full name"
-                        value={formData.name}
-                        onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full h-10 px-3 border border-gray-200 rounded-lg focus:outline-none focus:border-[#072A6C] font-light"
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-bold uppercase text-gray-500">Email Address *</label>
-                      <input 
-                        type="email" 
-                        required
-                        placeholder="Enter email address"
-                        value={formData.email}
-                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full h-10 px-3 border border-gray-200 rounded-lg focus:outline-none focus:border-[#072A6C] font-light"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-bold uppercase text-gray-500">Mobile Number *</label>
-                      <input 
-                        type="tel" 
-                        required
-                        placeholder="10-digit number"
-                        value={formData.mobile}
-                        onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
-                        className="w-full h-10 px-3 border border-gray-200 rounded-lg focus:outline-none focus:border-[#072A6C] font-light"
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-bold uppercase text-gray-500">State *</label>
-                      <input 
-                        type="text" 
-                        required
-                        placeholder="Andhra Pradesh"
-                        value={formData.state}
-                        onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                        className="w-full h-10 px-3 border border-gray-200 rounded-lg focus:outline-none focus:border-[#072A6C] font-light"
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-bold uppercase text-gray-500">City *</label>
-                      <input 
-                        type="text" 
-                        required
-                        placeholder="Guntur"
-                        value={formData.city}
-                        onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                        className="w-full h-10 px-3 border border-gray-200 rounded-lg focus:outline-none focus:border-[#072A6C] font-light"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-bold uppercase text-gray-500">Target Degree *</label>
-                      <select 
-                        required
-                        value={formData.degree}
-                        onChange={(e) => setFormData({ ...formData, degree: e.target.value })}
-                        className="w-full h-10 px-3 border border-gray-200 rounded-lg focus:outline-none focus:border-[#072A6C] font-bold bg-white"
-                      >
-                        <option value="">Select Degree</option>
-                        <option value="btech">B.Tech Engineering</option>
-                        <option value="mtech">M.Tech Specialization</option>
-                        <option value="mba">MBA Management</option>
-                        <option value="mca">MCA Software Application</option>
-                        <option value="pharmacy">Pharmacy streams</option>
-                      </select>
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-bold uppercase text-gray-500">Academic Program *</label>
-                      <input 
-                        type="text" 
-                        required
-                        placeholder="e.g. Computer Science Engineering"
-                        value={formData.program}
-                        onChange={(e) => setFormData({ ...formData, program: e.target.value })}
-                        className="w-full h-10 px-3 border border-gray-200 rounded-lg focus:outline-none focus:border-[#072A6C] font-light"
-                      />
-                    </div>
-                  </div>
-
-                  {/* CAPTCHA validation */}
-                  <div className="bg-gray-50 border border-gray-100 p-4 rounded-xl flex items-center justify-between gap-4 mt-2">
-                    <div className="flex items-center gap-3">
-                      <div className="px-4 py-2 bg-gradient-to-r from-gray-200 to-gray-300 font-mono text-base font-bold tracking-widest text-gray-800 rounded select-none shadow-inner border border-gray-300">
-                        {captchaCode}
+                <form onSubmit={handleSubmit} className="space-y-4 text-xs font-[var(--font-poppins)] flex-grow flex flex-col justify-between">
+                  <div className="space-y-4">
+                    {/* Full Name & Mobile */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-extrabold text-gray-500 uppercase tracking-wider">Full Name *</label>
+                        <div className="relative">
+                          <User size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                          <input 
+                            type="text" 
+                            required
+                            placeholder="Enter your full name"
+                            value={formData.name}
+                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                            className="w-full h-10 pl-10 pr-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all font-semibold text-[#222222]"
+                          />
+                        </div>
                       </div>
-                      <button 
-                        type="button" 
-                        onClick={generateCaptcha}
-                        className="p-1 rounded hover:bg-gray-200 text-gray-500 hover:text-gray-700 transition-colors cursor-pointer outline-none"
-                      >
-                        <RefreshCw size={16} />
-                      </button>
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-extrabold text-gray-500 uppercase tracking-wider">Mobile Number *</label>
+                        <div className="relative">
+                          <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                          <input 
+                            type="tel" 
+                            required
+                            pattern="[0-9]{10}"
+                            placeholder="Enter 10 digit mobile number"
+                            value={formData.mobile}
+                            onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
+                            className="w-full h-10 pl-10 pr-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all font-semibold text-[#222222]"
+                          />
+                        </div>
+                      </div>
                     </div>
-                    <div className="flex-1 space-y-1 max-w-[200px]">
-                      <label className="text-[9px] font-bold uppercase text-gray-500">Verify Captcha *</label>
-                      <input 
-                        type="text" 
-                        required
-                        placeholder="Enter code"
-                        value={formData.captchaInput}
-                        onChange={(e) => setFormData({ ...formData, captchaInput: e.target.value })}
-                        className="w-full h-9 px-3.5 border border-gray-200 rounded focus:outline-none focus:border-[#072A6C] font-bold text-center"
-                      />
+
+                    {/* Email Address */}
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-extrabold text-gray-500 uppercase tracking-wider">Email Address *</label>
+                      <div className="relative">
+                        <Mail size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                        <input 
+                          type="email" 
+                          required
+                          placeholder="Enter your email address"
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                          className="w-full h-10 pl-10 pr-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all font-semibold text-[#222222]"
+                        />
+                      </div>
+                    </div>
+
+                    {/* City & State */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-extrabold text-gray-500 uppercase tracking-wider">City *</label>
+                        <div className="relative">
+                          <MapPin size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                          <input 
+                            type="text" 
+                            required
+                            placeholder="Enter your city"
+                            value={formData.city}
+                            onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                            className="w-full h-10 pl-10 pr-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all font-semibold text-[#222222]"
+                          />
+                        </div>
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-extrabold text-gray-500 uppercase tracking-wider">State *</label>
+                        <div className="relative">
+                          <Landmark size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                          <select 
+                            required
+                            value={formData.state}
+                            onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                            className="w-full h-10 pl-10 pr-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all font-semibold text-[#222222] bg-white appearance-none cursor-pointer"
+                          >
+                            <option value="">Select your state</option>
+                            {INDIAN_STATES.map((state) => (
+                              <option key={state} value={state}>{state}</option>
+                            ))}
+                          </select>
+                          <ChevronDown size={14} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Qualification & Year of Passing */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-extrabold text-gray-500 uppercase tracking-wider">Qualification *</label>
+                        <div className="relative">
+                          <GraduationCap size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                          <select 
+                            required
+                            value={formData.qualification}
+                            onChange={(e) => setFormData({ ...formData, qualification: e.target.value })}
+                            className="w-full h-10 pl-10 pr-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all font-semibold text-[#222222] bg-white appearance-none cursor-pointer"
+                          >
+                            <option value="">Select qualification</option>
+                            {QUALIFICATIONS.map((q) => (
+                              <option key={q} value={q}>{q}</option>
+                            ))}
+                          </select>
+                          <ChevronDown size={14} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                        </div>
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[10px] font-extrabold text-gray-500 uppercase tracking-wider">Year of Passing *</label>
+                        <div className="relative">
+                          <Calendar size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                          <select 
+                            required
+                            value={formData.yearOfPassing}
+                            onChange={(e) => setFormData({ ...formData, yearOfPassing: e.target.value })}
+                            className="w-full h-10 pl-10 pr-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all font-semibold text-[#222222] bg-white appearance-none cursor-pointer"
+                          >
+                            <option value="">Select year</option>
+                            {YEARS_OF_PASSING.map((year) => (
+                              <option key={year} value={year}>{year}</option>
+                            ))}
+                          </select>
+                          <ChevronDown size={14} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Interested Program */}
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-extrabold text-gray-500 uppercase tracking-wider">Interested Program *</label>
+                      <div className="relative">
+                        <BookOpen size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" />
+                        <select 
+                          required
+                          value={formData.program}
+                          onChange={(e) => setFormData({ ...formData, program: e.target.value })}
+                          className="w-full h-10 pl-10 pr-3 border border-gray-200 rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all font-semibold text-[#222222] bg-white appearance-none cursor-pointer"
+                        >
+                          <option value="">Select a program (Auto-filled)</option>
+                          {ALL_PROGRAMS.map((prog) => (
+                            <option key={prog} value={prog}>{prog}</option>
+                          ))}
+                        </select>
+                        <ChevronDown size={14} className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />
+                      </div>
+                    </div>
+
+                    {/* Any Query */}
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-extrabold text-gray-500 uppercase tracking-wider">Any Query (Optional)</label>
+                      <div className="relative">
+                        <textarea 
+                          placeholder="Write your message..."
+                          value={formData.query}
+                          onChange={(e) => setFormData({ ...formData, query: e.target.value })}
+                          rows={2}
+                          className="w-full pl-4 pr-3 py-2 border border-[#E2E8F0] rounded-xl focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-100 transition-all font-semibold text-[#222222] resize-none"
+                        />
+                      </div>
                     </div>
                   </div>
 
-                  {/* Terms checkbox */}
-                  <div className="flex gap-2 items-start pt-2">
-                    <input 
-                      type="checkbox" 
-                      id="agree" 
-                      required
-                      className="w-3.5 h-3.5 mt-0.5 border border-gray-300 rounded accent-[#072A6C] cursor-pointer"
-                      checked={formData.agree}
-                      onChange={(e) => setFormData({ ...formData, agree: e.target.checked })}
-                    />
-                    <label htmlFor="agree" className="text-[10px] text-gray-500 leading-normal font-light cursor-pointer select-none">
-                      I authorize City Chalapathi Institute of Technology and its representatives to contact me regarding updates and notifications through Email, SMS, WhatsApp, and Calls. This consent overrides any DND/NDNC registration.
-                    </label>
+                  <div className="space-y-3 pt-2">
+                    {/* Apply Enquiry Button */}
+                    <button
+                      type="submit"
+                      className="w-full h-11 bg-[#FAB005] hover:bg-[#e09e00] text-gray-900 font-extrabold text-[12px] uppercase tracking-wider rounded-xl flex items-center justify-center gap-2 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 cursor-pointer outline-none"
+                    >
+                      <Send size={13} className="rotate-45 -translate-y-0.5" />
+                      <span>APPLY ENQUIRY</span>
+                    </button>
+
+                    {/* Privacy */}
+                    <div className="flex items-center justify-center gap-1.5 text-[9px] text-gray-400 font-semibold">
+                      <ShieldCheck size={12} className="text-gray-400" />
+                      <span>Your information is safe with us. We respect your <Link to="/privacy-policy" onClick={() => setShowEnquiryModal(false)} className="text-blue-500 hover:underline">privacy</Link>.</span>
+                    </div>
                   </div>
-
-                  {/* Submit Button */}
-                  <button
-                    type="submit"
-                    className="w-full h-11 bg-[#D71920] hover:bg-[#b71217] text-white font-bold text-xs rounded-lg transition-colors cursor-pointer mt-2"
-                  >
-                    Submit
-                  </button>
-
                 </form>
               )}
             </div>
-
-          </div>
+          </motion.div>
         </div>
       )}
 
