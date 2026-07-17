@@ -144,6 +144,7 @@ function AppContent() {
     const visited = sessionStorage.getItem("chalapathy_visited");
     return !visited;
   });
+  const [isMuted, setIsMuted] = useState(true);
 
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const fallbackTimerRef = React.useRef<NodeJS.Timeout | null>(null);
@@ -271,9 +272,9 @@ function AppContent() {
           >
             <video
               ref={videoRef}
-              src="/videodisplay.mp4"
+              src="/chalapathi_logo_intro.mp4"
               autoPlay
-              muted
+              muted={isMuted}
               playsInline
               preload="auto"
               onPlay={handleVideoPlay}
@@ -331,8 +332,48 @@ function AppContent() {
                 border-width: 13px;
                 margin-left: -13px;
               }
+              .intro-sound-button {
+                position: absolute;
+                bottom: 96px;
+                right: 170px;
+                background: #ffffff;
+                border: 3.5px solid #072A6C;
+                border-radius: 16px;
+                padding: 12px 22px;
+                font-weight: 900;
+                font-size: 11px;
+                color: #072A6C;
+                text-transform: uppercase;
+                letter-spacing: 0.12em;
+                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+                cursor: pointer;
+                outline: none;
+                transition: all 0.2s ease;
+                z-index: 1000000;
+              }
+              .intro-sound-button:hover {
+                transform: scale(1.05);
+              }
+              .intro-sound-button:active {
+                transform: scale(0.95);
+              }
             `}} />
             
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (videoRef.current) {
+                  const newMuted = !videoRef.current.muted;
+                  videoRef.current.muted = newMuted;
+                  setIsMuted(newMuted);
+                }
+              }}
+              className="intro-sound-button"
+            >
+              {isMuted ? "🔇 Unmute Video" : "🔊 Mute Video"}
+            </button>
+
             <button
               onClick={() => setShowSplash(false)}
               className="intro-speech-bubble"
