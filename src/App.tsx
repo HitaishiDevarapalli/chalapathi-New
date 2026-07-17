@@ -40,7 +40,7 @@ const QUALIFICATIONS = [
 ];
 
 const YEARS_OF_PASSING = [
-  "2027", "2026", "2025", "2024", "2023", "Before 2023"
+  "2030", "2029", "2028", "2027", "2026", "2025", "2024", "2023", "Before 2023"
 ];
 
 const ALL_PROGRAMS = [
@@ -526,65 +526,74 @@ function AppContent() {
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4 md:p-6 overflow-y-auto"
           onClick={() => setShowEnquiryModal(false)}
         >
+          <style dangerouslySetInnerHTML={{__html: `
+            .scrollbar-none::-webkit-scrollbar {
+              display: none !important;
+            }
+            .scrollbar-none {
+              -ms-overflow-style: none !important;
+              scrollbar-width: none !important;
+            }
+          `}} />
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.35, ease: "easeOut" }}
-            className="bg-white w-full max-w-[1240px] h-[92vh] md:h-[85vh] min-h-[580px] rounded-[24px] shadow-2xl relative flex flex-col md:flex-row overflow-hidden border border-gray-100 font-[var(--font-poppins)] text-left select-none"
+            className="bg-white w-full max-w-[1240px] md:h-auto md:max-h-[92vh] rounded-[24px] shadow-2xl relative flex flex-col md:flex-row overflow-hidden border border-gray-100 font-[var(--font-poppins)] text-left select-none"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Left Panel: Schools & Programs */}
-            <div className="w-full md:w-1/2 p-6 md:p-8 border-r border-gray-100 overflow-y-auto flex flex-col h-full bg-slate-50/30">
+            <div className="w-full md:w-1/2 p-5 md:p-6 border-r border-gray-100 flex flex-col bg-slate-50/30 overflow-y-auto scrollbar-none">
               {/* Logo */}
-              <div className="flex items-center gap-2.5 mb-6">
-                <img src="/logo.png?v=3" alt="Chalapathi University" className="h-11 w-auto object-contain" />
+              <div className="flex items-center gap-2.5 mb-4">
+                <img src="/logo.png?v=3" alt="Chalapathi University" className="h-10 w-auto object-contain" />
                 <div className="flex flex-col">
-                  <span className="text-[16px] font-black text-[#072A6C] tracking-tight leading-none">Chalapathi</span>
-                  <span className="text-[14px] font-bold text-[#072A6C] tracking-wide leading-none mt-0.5">University</span>
+                  <span className="text-[15px] font-black text-[#072A6C] tracking-tight leading-none">Chalapathi</span>
+                  <span className="text-[13px] font-bold text-[#072A6C] tracking-wide leading-none mt-0.5">University</span>
                 </div>
               </div>
 
-              <h3 className="text-[13px] font-black uppercase text-[#072A6C] tracking-wide mb-1">
+              <h3 className="text-[12px] font-black uppercase text-[#072A6C] tracking-wide mb-0.5">
                 EXPLORE OUR SCHOOLS & PROGRAMS
               </h3>
-              <p className="text-[11px] text-gray-400 font-medium mb-6">
+              <p className="text-[10px] text-gray-400 font-medium mb-4">
                 Select a school to view its programs
               </p>
 
               {/* Accordions */}
-              <div className="space-y-3.5 flex-grow">
+              <div className="space-y-2.5">
                 {ENQUIRY_SCHOOLS_DATA.map((school) => {
                   const isOpen = activeAccordion === school.id;
                   return (
-                    <div key={school.id} className="border border-gray-150 rounded-[14px] bg-white overflow-hidden shadow-sm transition-all duration-300">
+                    <div key={school.id} className="border border-gray-150 rounded-[12px] bg-white overflow-hidden shadow-sm transition-all duration-300">
                       {/* Accordion Head */}
                       <button
                         type="button"
                         onClick={() => toggleAccordion(school.id)}
-                        className={`w-full flex items-center justify-between p-4 transition-all duration-300 text-left outline-none cursor-pointer ${
+                        className={`w-full flex items-center justify-between py-2.5 px-4 transition-all duration-300 text-left outline-none cursor-pointer ${
                           isOpen ? "bg-[#072A6C] text-white" : "bg-white text-[#072A6C] hover:bg-slate-50"
                         }`}
                       >
                         <div className="flex items-center gap-3">
-                          {school.id === "computing" && <User size={18} />}
-                          {school.id === "engineering" && <GraduationCap size={18} />}
-                          {school.id === "business" && <Landmark size={18} />}
+                          {school.id === "computing" && <User size={16} />}
+                          {school.id === "engineering" && <GraduationCap size={16} />}
+                          {school.id === "business" && <Landmark size={16} />}
                           <div className="flex flex-col">
-                            <span className="text-[11px] md:text-[12px] font-extrabold uppercase tracking-wider">{school.title}</span>
-                            <span className={`text-[9px] md:text-[10px] ${isOpen ? "text-blue-100" : "text-gray-400"} mt-0.5`}>{school.subtitle}</span>
+                            <span className="text-[10.5px] md:text-[11.5px] font-extrabold uppercase tracking-wider">{school.title}</span>
+                            <span className={`text-[8.5px] md:text-[9.5px] ${isOpen ? "text-blue-100" : "text-gray-400"} mt-0.5`}>{school.subtitle}</span>
                           </div>
                         </div>
-                        <ChevronDown size={16} className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
+                        <ChevronDown size={14} className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
                       </button>
 
                       {/* Accordion Body */}
                       {isOpen && (
-                        <div className="p-4 md:p-6 bg-white border-t border-gray-100 grid grid-cols-1 sm:grid-cols-2 gap-5 animate-fade-in">
+                        <div className="p-3.5 bg-white border-t border-gray-100 grid grid-cols-1 sm:grid-cols-2 gap-4 animate-fade-in">
                           {school.groups.map((group, groupIdx) => (
-                            <div key={groupIdx} className="space-y-3">
-                              <h4 className="text-[11px] font-extrabold text-[#072A6C] border-b border-gray-100 pb-1.5">{group.name}</h4>
-                              <div className="flex flex-col gap-2">
+                            <div key={groupIdx} className="space-y-2.5">
+                              <h4 className="text-[10.5px] font-extrabold text-[#072A6C] border-b border-gray-100 pb-1">{group.name}</h4>
+                              <div className="flex flex-col gap-1.5">
                                 {group.courses.map((course, courseIdx) => {
                                   let badgeColor = "bg-blue-50 text-blue-600 border-blue-100/50";
                                   if (course.level === "PG") badgeColor = "bg-emerald-50 text-emerald-600 border-emerald-100/50";
@@ -594,14 +603,14 @@ function AppContent() {
                                       key={courseIdx}
                                       type="button"
                                       onClick={() => setFormData({ ...formData, program: course.name })}
-                                      className={`flex items-start gap-2.5 p-2 rounded-lg border border-transparent hover:border-blue-100 hover:bg-blue-50/30 text-left transition-all duration-200 cursor-pointer ${
+                                      className={`flex items-start gap-2 py-1 px-2 rounded-md border border-transparent hover:border-blue-100 hover:bg-blue-50/30 text-left transition-all duration-200 cursor-pointer ${
                                         formData.program === course.name ? "bg-blue-50/55 border-blue-200" : ""
                                       }`}
                                     >
-                                      <span className={`px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-wider border shrink-0 ${badgeColor}`}>
+                                      <span className={`px-1.5 py-0.5 rounded text-[7.5px] font-black uppercase tracking-wider border shrink-0 ${badgeColor}`}>
                                         {course.level}
                                       </span>
-                                      <span className="text-[10px] text-gray-700 font-bold leading-tight group-hover:text-blue-600">
+                                      <span className="text-[9.5px] text-gray-700 font-bold leading-tight group-hover:text-blue-600">
                                         {course.name}
                                       </span>
                                     </button>
@@ -619,32 +628,32 @@ function AppContent() {
             </div>
 
             {/* Right Panel: Enquiry Form */}
-            <div className="w-full md:w-1/2 p-6 md:p-8 overflow-y-auto flex flex-col h-full bg-white relative">
+            <div className="w-full md:w-1/2 p-5 md:p-6 flex flex-col bg-white relative overflow-y-auto scrollbar-none">
               {/* Close Button */}
               <button 
                 onClick={() => setShowEnquiryModal(false)}
-                className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-gray-50 hover:bg-gray-100 text-gray-600 border border-gray-155 flex items-center justify-center transition-all hover:scale-105 hover:rotate-90 duration-200 cursor-pointer"
+                className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-gray-50 hover:bg-gray-100 text-gray-600 border border-gray-155 flex items-center justify-center transition-all hover:scale-105 hover:rotate-90 duration-200 cursor-pointer"
               >
-                <X size={16} />
+                <X size={15} />
               </button>
 
-              <div className="mb-5">
-                <h2 className="text-[20px] font-black text-[#072A6C] tracking-tight uppercase leading-none">
+              <div className="mb-3.5">
+                <h2 className="text-[18px] font-black text-[#072A6C] tracking-tight uppercase leading-none">
                   ADMISSIONS OPEN 2026-27
                 </h2>
-                <p className="text-[11px] text-gray-500 font-medium mt-1">
+                <p className="text-[10.5px] text-gray-500 font-medium mt-1">
                   Build Your Future. Lead with Innovation.
                 </p>
               </div>
 
               {/* Form Title Card */}
-              <div className="bg-[#072A6C]/3 border border-[#072A6C]/10 rounded-2xl p-4 flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-xl bg-[#072A6C]/10 flex items-center justify-center text-[#072A6C] shrink-0">
-                  <FileText size={18} />
+              <div className="bg-[#072A6C]/3 border border-[#072A6C]/10 rounded-xl p-3 flex items-center gap-3 mb-4">
+                <div className="w-8.5 h-8.5 rounded-lg bg-[#072A6C]/10 flex items-center justify-center text-[#072A6C] shrink-0">
+                  <FileText size={16} />
                 </div>
                 <div className="text-left">
-                  <h4 className="text-[11px] font-black text-[#072A6C] uppercase tracking-wider">ENQUIRY FORM</h4>
-                  <p className="text-[10px] text-gray-500 font-medium">Fill in your details. Our admission team will contact you soon.</p>
+                  <h4 className="text-[10.5px] font-black text-[#072A6C] uppercase tracking-wider leading-none mb-1">ENQUIRY FORM</h4>
+                  <p className="text-[9.5px] text-gray-500 font-medium leading-none">Fill in your details. Our admission team will contact you soon.</p>
                 </div>
               </div>
 
@@ -661,8 +670,8 @@ function AppContent() {
                   </button>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-4 text-xs font-[var(--font-poppins)] flex-grow flex flex-col justify-between">
-                  <div className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-3.5 text-xs font-[var(--font-poppins)]">
+                  <div className="space-y-3">
                     {/* Full Name & Mobile */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1">
