@@ -3909,7 +3909,7 @@ function HistoryView() {
   return (
     <div className="space-y-8 text-gray-600 text-sm leading-relaxed text-left font-[var(--font-poppins)]">
       <div className="bg-white border border-gray-100 p-6 rounded-2xl shadow-sm">
-        <p className="font-light">
+        <p className="font-light whitespace-pre-wrap">
           {history.introText}
         </p>
         <div className="border-l-4 border-[#D71920] pl-4 my-6 italic text-gray-700 font-medium bg-gray-50 py-3 pr-3 rounded-r-xl">
