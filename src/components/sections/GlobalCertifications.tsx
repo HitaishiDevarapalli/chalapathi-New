@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 // Standard fade-up animation for text and cards
 const fadeUp = {
   hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
 };
 
 const staggerContainer = {
@@ -223,9 +223,9 @@ export default function GlobalCertifications() {
                 
                 {/* Logo / Icon Area */}
                 <div className="relative z-10 mb-6">
-                  {cert.iconUrl ? (
+                  {(cert as any).iconUrl ? (
                     <motion.img 
-                      src={cert.iconUrl} 
+                      src={(cert as any).iconUrl} 
                       alt={cert.name} 
                       className="h-10 w-auto object-contain transition-all duration-500"
                       style={{ rotate: rotateLogos }}
@@ -242,7 +242,7 @@ export default function GlobalCertifications() {
                     }
                     .group:hover img[alt="${cert.name}"] {
                       filter: drop-shadow(0 4px 6px ${cert.color}40);
-                      content: url("${cert.iconUrl}/${cert.color.replace('#', '')}");
+                      content: url("${(cert as any).iconUrl || ''}/${cert.color.replace('#', '')}");
                     }
                   `}</style>
                 </div>
