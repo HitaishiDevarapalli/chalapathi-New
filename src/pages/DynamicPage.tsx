@@ -687,6 +687,11 @@ const getPageContent = (path: string, programs: any[]) => {
               <p className="text-xs text-gray-500 mt-2">Mine data streams and generate critical business analytics.</p>
             </Link>
           </div>
+          
+          {/* Global Certifications Section (Full Width Breakout) */}
+          <div className="mt-20 w-[100vw] relative left-[50%] right-[50%] -ml-[50vw] -mr-[50vw]">
+            <GlobalCertifications />
+          </div>
         </div>
       )
     };
