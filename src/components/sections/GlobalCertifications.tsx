@@ -25,7 +25,7 @@ const certifications = [
   {
     name: "Salesforce",
     description: "Customer Relationship Management (CRM), sales automation, and business analytics.",
-    images: ["https://www.vectorlogo.zone/logos/salesforce/salesforce-ar21.svg"],
+    images: ["https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg"],
     color: "#00A1E0"
   },
   {
