@@ -103,7 +103,7 @@ export const certifications: Certification[] = [
     description: "Quality management, process improvement, and project management.",
     images: [
       "/six-sigma.svg",
-      "/pmp.svg"
+      "/pmp.png"
     ],
     color: "#8B5CF6"
   },

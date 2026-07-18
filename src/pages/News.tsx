@@ -440,7 +440,7 @@ export default function News() {
         {/* Header */}
         <div className="flex justify-between items-center pb-4 border-b border-gray-200">
           <h3 className="text-sm font-black uppercase tracking-wider text-[#072A6C]">Latest News</h3>
-          <Link to="/news" className="text-[11px] font-bold text-[#072A6C] hover:text-[#D71920] transition-colors inline-flex items-center gap-1">
+          <Link to="/news/latest" className="text-[11px] font-bold text-[#072A6C] hover:text-[#D71920] transition-colors inline-flex items-center gap-1">
             <span>View All News</span>
             <ArrowRight size={11} />
           </Link>
