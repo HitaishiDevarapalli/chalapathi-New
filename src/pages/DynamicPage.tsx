@@ -311,6 +311,7 @@ const getPageContent = (path: string, programs: any[]) => {
         title: "Our Genesis & Heritage",
         category: "About Us",
         desc: "Established with a vision to nurture innovators, City Chalapathi Institute of Technology has a rich heritage of educational brilliance dating back over 25 years.",
+        hideHeader: true,
         body: <HistoryView />
       };
     }
