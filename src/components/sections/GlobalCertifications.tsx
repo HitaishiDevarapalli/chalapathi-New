@@ -13,7 +13,7 @@ const certifications = [
   {
     name: "ServiceNow",
     description: "AI-powered workflow automation, IT service management, and digital operations.",
-    images: ["https://www.vectorlogo.zone/logos/servicenow/servicenow-ar21.svg"],
+    images: ["https://upload.wikimedia.org/wikipedia/commons/5/57/ServiceNow_logo.svg"],
     color: "#81B5A1"
   },
   {
