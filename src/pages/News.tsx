@@ -495,7 +495,7 @@ export default function News() {
       {/* ======================================================== */}
       {selectedArticle && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4 overflow-y-auto"
+          className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/60 backdrop-blur-md p-4 overflow-y-auto"
           onClick={() => setSelectedArticle(null)}
           role="dialog"
           aria-modal="true"
@@ -515,7 +515,7 @@ export default function News() {
             </button>
 
             {/* Scrollable Modal Content */}
-            <div className="overflow-y-auto p-6 md:p-8 space-y-6">
+            <div className="flex-1 min-h-0 overflow-y-auto p-6 md:p-8 space-y-6">
               
               {/* Large Featured Image */}
               <div className="h-[280px] md:h-[380px] w-full rounded-2xl overflow-hidden relative shadow-sm">
