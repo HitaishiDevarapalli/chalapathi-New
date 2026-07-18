@@ -334,8 +334,10 @@ export default function AdminPortal() {
     e.preventDefault();
     if (!newEventTitle || !newEventBody) return;
     const nextId = events.length > 0 ? Math.max(...events.map(ev => ev.id)) + 1 : 1;
+    const slug = newEventTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
     const newEv: EventItem = {
       id: nextId,
+      slug,
       title: newEventTitle,
       date: newEventDate || new Date().toLocaleDateString("en-IN", { day: '2-digit', month: 'short', year: 'numeric' }),
       time: newEventTime,

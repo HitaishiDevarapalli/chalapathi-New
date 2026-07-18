@@ -29,6 +29,7 @@ export interface NewsArticle {
 // Event interface
 export interface EventItem {
   id: number;
+  slug: string;
   title: string;
   date: string;
   time: string;
@@ -283,7 +284,7 @@ const INITIAL_NEWS: NewsArticle[] = [
 ];
 
 const INITIAL_EVENTS: EventItem[] = [
-  { id: 1, title: "Air Taxi Demonstration & Aviation Forum", date: "17 Jul 2026", time: "09:30 AM", location: "Aeronautics Hangar & Airfield Complex", category: "Aerospace", image: "/prog_engineering.png", bodyText: "In collaboration with global aerospace research institutions and pioneering aviation companies, City Chalapathi Institute of Technology is proud to host the Air Taxi Demonstration and Aviation Forum. This event features real-world test flights and static exhibitions of cutting-edge electric Vertical Take-Off and Landing (eVTOL) air taxi models." }
+  { id: 1, slug: "air-taxi-demonstration-aviation-forum", title: "Air Taxi Demonstration & Aviation Forum", date: "17 Jul 2026", time: "09:30 AM", location: "Aeronautics Hangar & Airfield Complex", category: "Aerospace", image: "/prog_engineering.png", bodyText: "In collaboration with global aerospace research institutions and pioneering aviation companies, City Chalapathi Institute of Technology is proud to host the Air Taxi Demonstration and Aviation Forum. This event features real-world test flights and static exhibitions of cutting-edge electric Vertical Take-Off and Landing (eVTOL) air taxi models." }
 ];
 
 const INITIAL_ABOUT_CONTENT: AboutUsContent = {

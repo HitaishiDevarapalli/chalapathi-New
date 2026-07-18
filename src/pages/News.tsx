@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, Calendar, Bookmark, X, Clock, MapPin, Share2, Flame, Award, Trophy, Users, GraduationCap, BookOpen, ChevronRight } from "lucide-react";
+import { ArrowRight, Calendar, Bookmark, X, Clock, MapPin, Share2, Flame, Award, Trophy, Users, GraduationCap, BookOpen, ChevronRight, ChevronLeft } from "lucide-react";
 import { useData } from "../context/DataContext";
 
 interface Article {
@@ -127,29 +127,7 @@ const MSN_NEWS_ITEMS: Article[] = [
   }
 ];
 
-const UPCOMING_EVENTS = [
-  {
-    day: "20",
-    month: "MAY",
-    title: "National Seminar on Artificial Intelligence",
-    time: "10:00 AM - 04:00 PM",
-    location: "Auditorium, Block A"
-  },
-  {
-    day: "24",
-    month: "MAY",
-    title: "Workshop on Data Science with Python",
-    time: "09:00 AM - 01:00 PM",
-    location: "Lab 3, Tech Block"
-  },
-  {
-    day: "31",
-    month: "MAY",
-    title: "Entrepreneurship Conclave 2025",
-    time: "10:00 AM - 03:00 PM",
-    location: "Innovation Hall"
-  }
-];
+
 
 const NEWS_CATEGORIES_INFO = [
   {
@@ -190,7 +168,7 @@ const FILTER_CATEGORIES = ["All", "Research", "Placements", "Campus Life", "Even
 
 export default function News() {
   const navigate = useNavigate();
-  const { news } = useData();
+  const { news, events } = useData();
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [activeCategory, setActiveCategory] = useState("All");
   const [featuredIndex, setFeaturedIndex] = useState(0);
@@ -253,6 +231,28 @@ export default function News() {
               <span className="absolute top-4 left-4 bg-[#D71920] text-white text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-md shadow-sm">
                 FEATURED NEWS
               </span>
+              
+              {/* Slider Arrows */}
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setFeaturedIndex((prev) => (prev - 1 + Math.min(news.length, 3)) % Math.min(news.length, 3));
+                }}
+                className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white text-gray-800 shadow-md flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 active:scale-95 z-10 cursor-pointer"
+                aria-label="Previous Slide"
+              >
+                <ChevronLeft size={16} />
+              </button>
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setFeaturedIndex((prev) => (prev + 1) % Math.min(news.length, 3));
+                }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/80 hover:bg-white text-gray-800 shadow-md flex items-center justify-center transition-all opacity-0 group-hover:opacity-100 active:scale-95 z-10 cursor-pointer"
+                aria-label="Next Slide"
+              >
+                <ChevronRight size={16} />
+              </button>
             </div>
             
             {/* Content (45%) */}
@@ -434,35 +434,49 @@ export default function News() {
           {/* Right Column: Upcoming Events & Weather */}
           <div className="space-y-6">
             <div className="bg-white rounded-[18px] p-6 shadow-sm border border-gray-100/80 space-y-4">
-              <div className="flex items-center gap-2 text-[#072A6C] border-b border-gray-100 pb-3 mb-2">
-                <Calendar size={16} className="text-[#D71920]" />
-                <h3 className="text-sm font-black uppercase tracking-wider">UPCOMING EVENTS</h3>
+              <div className="flex items-center justify-between border-b border-gray-100 pb-3 mb-2">
+                <div className="flex items-center gap-2 text-[#072A6C]">
+                  <Calendar size={16} className="text-[#D71920]" />
+                  <h3 className="text-sm font-black uppercase tracking-wider">UPCOMING EVENTS</h3>
+                </div>
+                <Link to="/news/events/all" className="text-[10px] font-bold text-[#072A6C] hover:text-[#D71920] transition-colors">
+                  View All
+                </Link>
               </div>
               
               <div className="space-y-5">
-                {UPCOMING_EVENTS.map((event, idx) => (
-                  <div key={idx} className="flex gap-4 items-start border-b border-gray-50 pb-4 last:border-b-0 last:pb-0">
-                    <div className="flex flex-col items-center justify-center w-12 h-12 rounded-xl bg-red-50 text-[#D71920] shrink-0 border border-red-100/30">
-                      <span className="text-base font-black leading-none">{event.day}</span>
-                      <span className="text-[9px] font-black tracking-wider uppercase leading-none mt-1">{event.month}</span>
-                    </div>
-                    <div className="space-y-1 text-left">
-                      <h4 className="text-[11.5px] font-bold text-gray-800 leading-snug hover:text-[#072A6C] transition-colors cursor-pointer">
-                        {event.title}
-                      </h4>
-                      <div className="flex flex-col gap-0.5 text-[9px] text-gray-400 font-semibold font-[var(--font-inter)]">
-                        <div className="flex items-center gap-1">
-                          <Clock size={9} />
-                          <span>{event.time}</span>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <MapPin size={9} />
-                          <span>{event.location}</span>
+                {events.slice(0, 3).map((event, idx) => {
+                  const dateParts = event.date.split(" ");
+                  const day = dateParts[0] || "17";
+                  const month = (dateParts[1] || "JUL").toUpperCase();
+                  return (
+                    <Link 
+                      key={event.id} 
+                      to={`/news/events/${event.slug}`}
+                      className="flex gap-4 items-start border-b border-gray-50 pb-4 last:border-b-0 last:pb-0 group text-left"
+                    >
+                      <div className="flex flex-col items-center justify-center w-12 h-12 rounded-xl bg-red-50 text-[#D71920] shrink-0 border border-red-100/30 group-hover:bg-[#D71920] group-hover:text-white transition-colors">
+                        <span className="text-base font-black leading-none">{day}</span>
+                        <span className="text-[9px] font-black tracking-wider uppercase leading-none mt-1">{month}</span>
+                      </div>
+                      <div className="space-y-1 text-left">
+                        <h4 className="text-[11.5px] font-bold text-gray-800 leading-snug group-hover:text-[#072A6C] transition-colors">
+                          {event.title}
+                        </h4>
+                        <div className="flex flex-col gap-0.5 text-[9px] text-gray-400 font-semibold font-[var(--font-inter)]">
+                          <div className="flex items-center gap-1">
+                            <Clock size={9} />
+                            <span>{event.time}</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <MapPin size={9} />
+                            <span>{event.location}</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                ))}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
           </div>
