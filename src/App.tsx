@@ -10,7 +10,6 @@ import Events from "./pages/Events";
 import News from "./pages/News";
 import AllEvents from "./pages/AllEvents";
 import AdminPortal from "./pages/AdminPortal";
-import CertificationDetail from "./pages/CertificationDetail";
 import { DataProvider, useData } from "./context/DataContext";
 
 // Scroll to top helper on route change
@@ -374,7 +373,6 @@ function AppContent() {
             <Route path="/academics/rules" element={<DynamicPage />} />
             <Route path="/academics/teaching" element={<DynamicPage />} />
             <Route path="/academics/bos" element={<DynamicPage />} />
-            <Route path="/academics/certifications/:id" element={<CertificationDetail />} />
             <Route path="/academics/*" element={<DynamicPage />} />
 
             {/* Admissions Routes */}
