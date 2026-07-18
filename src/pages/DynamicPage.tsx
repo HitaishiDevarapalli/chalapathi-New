@@ -3976,7 +3976,7 @@ function VisionView() {
   return (
     <div className="space-y-8 text-left font-[var(--font-poppins)]">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="bg-white border border-gray-100 rounded-[20px] p-8 shadow-sm flex flex-col justify-between">
+        <div className="bg-white border-2 border-[#D71920]/20 hover:border-[#D71920] transition-colors rounded-[20px] p-8 shadow-sm flex flex-col justify-between">
           <div>
             <div className="w-10 h-10 rounded-xl bg-[#D71920]/5 flex items-center justify-center mb-4">
               <Info className="text-[#D71920]" size={20} />
@@ -3987,7 +3987,7 @@ function VisionView() {
             </p>
           </div>
         </div>
-        <div className="bg-white border border-gray-100 rounded-[20px] p-8 shadow-sm flex flex-col justify-between">
+        <div className="bg-white border-2 border-[#072A6C]/20 hover:border-[#072A6C] transition-colors rounded-[20px] p-8 shadow-sm flex flex-col justify-between">
           <div>
             <div className="w-10 h-10 rounded-xl bg-[#072A6C]/5 flex items-center justify-center mb-4">
               <ShieldCheck className="text-[#072A6C]" size={20} />
