@@ -216,12 +216,6 @@ export default function GlobalCertifications() {
                           {selectedCert.description} Earn globally recognized credentials and master industry-standard tools directly through our integrated curriculum.
                         </p>
                       </div>
-
-                      <div className="flex flex-col sm:flex-row gap-4 pt-2">
-                        <button className="h-12 px-6 bg-[#072A6C] hover:bg-[#051c4a] text-white font-bold text-[12px] rounded-xl flex items-center justify-center gap-2 transition-all shadow-md transform hover:-translate-y-1 cursor-pointer">
-                          Start Certification <ArrowRight size={14} />
-                        </button>
-                      </div>
                     </div>
 
                     {/* Right Floating Visuals */}
