@@ -63,7 +63,7 @@ export default function AllEvents() {
             Event Directory
           </span>
           <h1 className="text-3xl lg:text-5xl font-[900] tracking-tight">All Campus Events</h1>
-          <p className="text-xs text-gray-300 font-light max-w-xl leading-relaxed">
+          <p className="text-xs text-white font-light max-w-xl leading-relaxed">
             Browse through our full schedule of upcoming and past campus activities, and register online.
           </p>
         </div>

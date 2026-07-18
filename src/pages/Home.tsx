@@ -128,7 +128,6 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    if (isPaused) return;
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
@@ -139,7 +138,7 @@ export default function Home() {
       });
     }, 100);
     return () => clearInterval(interval);
-  }, [isPaused, slides.length]);
+  }, [slides.length]);
 
   const handleDotClick = (index: number) => {
     setCurrentSlide(index);
@@ -177,8 +176,6 @@ export default function Home() {
       <section 
         className="relative w-full overflow-hidden bg-white select-none" 
         style={{ height: "720px" }}
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
