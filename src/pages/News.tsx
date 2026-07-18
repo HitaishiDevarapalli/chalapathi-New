@@ -301,7 +301,7 @@ export default function News() {
             <div>
               <div className="flex items-center gap-2 text-[#072A6C] border-b border-gray-100 pb-3 mb-4">
                 <Flame size={18} className="text-red-500 fill-current animate-pulse" />
-                <h3 className="text-sm font-black uppercase tracking-wider">TRENDING NOW</h3>
+                <h3 className="text-sm font-black uppercase tracking-wider">LATEST NEWS</h3>
               </div>
               <div className="space-y-4">
                 {news.slice(0, 5).map((item, idx) => (
@@ -328,7 +328,7 @@ export default function News() {
               onClick={() => setActiveCategory("All")}
               className="text-[11px] font-bold text-[#072A6C] hover:text-[#D71920] inline-flex items-center gap-1 mt-5 self-start transition-colors"
             >
-              <span>View All Trending</span>
+              <span>View All News</span>
               <ChevronRight size={12} />
             </button>
           </div>
@@ -336,149 +336,193 @@ export default function News() {
         </div>
 
         {/* Lower Row: Filter & Latest Grid & Upcoming Events */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-12 items-start">
+        <div className="space-y-6 mt-12">
           
-          {/* Main Grid + Filter Section (Left/Center 2/3) */}
-          <div className="lg:col-span-2 space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-gray-200/80 pb-5">
-              <div>
-                <h3 className="text-xl font-black text-[#072A6C]">Latest News</h3>
-                <p className="text-[11px] text-gray-400 mt-1 font-light">Explore recent headlines, faculty achievements, and student innovations.</p>
-              </div>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-gray-200/80 pb-5">
+            <div>
+              <h3 className="text-xl font-black text-[#072A6C]">Latest News</h3>
+              <p className="text-[11px] text-gray-400 mt-1 font-light">Explore recent headlines, faculty achievements, and student innovations.</p>
             </div>
-
-            {/* MSN Filter Chips */}
-            <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none whitespace-nowrap">
-              {FILTER_CATEGORIES.map((cat) => (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`px-4 py-1.5 rounded-full text-[11px] font-bold border transition-all duration-200 cursor-pointer ${
-                    activeCategory === cat 
-                      ? "bg-[#072A6C] text-white border-[#072A6C] shadow-sm" 
-                      : "bg-white text-gray-600 border-gray-200 hover:border-gray-300 hover:text-gray-800"
-                  }`}
-                >
-                  {cat}
-                </button>
-              ))}
-            </div>
-
-            {/* Latest News Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {filteredNews.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => navigate(`/news/${item.slug}`)}
-                  className="bg-white rounded-[18px] border border-gray-100/80 overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between h-full group text-left w-full cursor-pointer outline-none"
-                >
-                  <div>
-                    {/* Image Area */}
-                    <div className="h-44 w-full overflow-hidden relative">
-                      <img 
-                        src={item.image} 
-                        alt={item.title} 
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                    </div>
-                    {/* Content Details */}
-                    <div className="p-5 space-y-2">
-                      <div className="flex items-center gap-2.5 text-[9px] text-gray-400 font-bold uppercase tracking-wider">
-                        <span className="text-[#D71920]">{item.category}</span>
-                        <span>•</span>
-                        <span>{item.date}</span>
-                      </div>
-                      <h4 className="text-[13px] font-[800] text-[#072A6C] leading-snug line-clamp-2 group-hover:text-[#D71920] transition-colors">
-                        {item.title}
-                      </h4>
-                      <p className="text-[11.5px] text-gray-500 font-[var(--font-inter)] line-clamp-2 leading-relaxed font-light">
-                        {item.excerpt}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="px-5 pb-5 pt-3 border-t border-gray-50 flex items-center justify-between text-[10px] font-bold text-[#072A6C] w-full">
-                    <span>Read More</span>
-                    <ArrowRight size={11} className="text-[#D71920] group-hover:translate-x-1 transition-transform" />
-                  </div>
-                </button>
-              ))}
-            </div>
-
-            {/* Bottom 4 Category Info Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6">
-              {NEWS_CATEGORIES_INFO.map((cat, idx) => {
-                const IconComponent = cat.icon;
-                return (
-                  <div 
-                    key={idx} 
-                    className="bg-white rounded-[18px] p-4 border border-gray-100/80 shadow-sm flex items-start gap-3.5 hover:shadow-md transition-all duration-300"
-                  >
-                    <div className={`w-10 h-10 rounded-xl ${cat.bgColor} flex items-center justify-center shrink-0`}>
-                      <IconComponent size={20} />
-                    </div>
-                    <div className="space-y-1">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-black text-[#072A6C] tracking-wide">{cat.title}</span>
-                        <span className="text-[9px] font-bold text-gray-400">{cat.articles}</span>
-                      </div>
-                      <p className="text-[10px] text-gray-500 leading-normal font-[var(--font-inter)] font-light">{cat.desc}</p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-
           </div>
 
-          {/* Right Column: Upcoming Events & Weather */}
-          <div className="space-y-6">
-            <div className="bg-white rounded-[18px] p-6 shadow-sm border border-gray-100/80 space-y-4">
-              <div className="flex items-center justify-between border-b border-gray-100 pb-3 mb-2">
-                <div className="flex items-center gap-2 text-[#072A6C]">
-                  <Calendar size={16} className="text-[#D71920]" />
-                  <h3 className="text-sm font-black uppercase tracking-wider">UPCOMING EVENTS</h3>
+          {/* MSN Filter Chips */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none whitespace-nowrap">
+            {FILTER_CATEGORIES.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`px-4 py-1.5 rounded-full text-[11px] font-bold border transition-all duration-200 cursor-pointer ${
+                  activeCategory === cat 
+                    ? "bg-[#072A6C] text-white border-[#072A6C] shadow-sm" 
+                    : "bg-white text-gray-600 border-gray-200 hover:border-gray-300 hover:text-gray-800"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          {/* Latest News Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* News Cards 1 & 2 */}
+            {filteredNews.slice(0, 2).map((item) => (
+              <button
+                key={item.id}
+                onClick={() => navigate(`/news/${item.slug}`)}
+                className="bg-white rounded-[18px] border border-gray-100/80 overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between h-full group text-left w-full cursor-pointer outline-none"
+              >
+                <div>
+                  {/* Image Area */}
+                  <div className="h-44 w-full overflow-hidden relative">
+                    <img 
+                      src={item.image} 
+                      alt={item.title} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  {/* Content Details */}
+                  <div className="p-5 space-y-2">
+                    <div className="flex items-center gap-2.5 text-[9px] text-gray-400 font-bold uppercase tracking-wider">
+                      <span className="text-[#D71920]">{item.category}</span>
+                      <span>•</span>
+                      <span>{item.date}</span>
+                    </div>
+                    <h4 className="text-[13px] font-[800] text-[#072A6C] leading-snug line-clamp-2 group-hover:text-[#D71920] transition-colors">
+                      {item.title}
+                    </h4>
+                    <p className="text-[11.5px] text-gray-500 font-[var(--font-inter)] line-clamp-2 leading-relaxed font-light">
+                      {item.excerpt}
+                    </p>
+                  </div>
                 </div>
-                <Link to="/news/events/all" className="text-[10px] font-bold text-[#072A6C] hover:text-[#D71920] transition-colors">
-                  View All
-                </Link>
-              </div>
-              
-              <div className="space-y-5">
-                {events.slice(0, 3).map((event, idx) => {
-                  const dateParts = event.date.split(" ");
-                  const day = dateParts[0] || "17";
-                  const month = (dateParts[1] || "JUL").toUpperCase();
-                  return (
-                    <Link 
-                      key={event.id} 
-                      to={`/news/events/${event.slug}`}
-                      className="flex gap-4 items-start border-b border-gray-50 pb-4 last:border-b-0 last:pb-0 group text-left"
-                    >
-                      <div className="flex flex-col items-center justify-center w-12 h-12 rounded-xl bg-red-50 text-[#D71920] shrink-0 border border-red-100/30 group-hover:bg-[#D71920] group-hover:text-white transition-colors">
-                        <span className="text-base font-black leading-none">{day}</span>
-                        <span className="text-[9px] font-black tracking-wider uppercase leading-none mt-1">{month}</span>
-                      </div>
-                      <div className="space-y-1 text-left">
-                        <h4 className="text-[11.5px] font-bold text-gray-800 leading-snug group-hover:text-[#072A6C] transition-colors">
-                          {event.title}
-                        </h4>
-                        <div className="flex flex-col gap-0.5 text-[9px] text-gray-400 font-semibold font-[var(--font-inter)]">
-                          <div className="flex items-center gap-1">
-                            <Clock size={9} />
-                            <span>{event.time}</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <MapPin size={9} />
-                            <span>{event.location}</span>
+
+                <div className="px-5 pb-5 pt-3 border-t border-gray-50 flex items-center justify-between text-[10px] font-bold text-[#072A6C] w-full">
+                  <span>Read More</span>
+                  <ArrowRight size={11} className="text-[#D71920] group-hover:translate-x-1 transition-transform" />
+                </div>
+              </button>
+            ))}
+
+            {/* Slot 3: Upcoming Events Card (stretching height naturally as row sibling) */}
+            <div className="bg-white rounded-[18px] p-6 shadow-sm border border-gray-100/80 flex flex-col justify-between h-full group text-left w-full">
+              <div>
+                <div className="flex items-center justify-between border-b border-gray-100 pb-3 mb-4">
+                  <div className="flex items-center gap-2 text-[#072A6C]">
+                    <Calendar size={16} className="text-[#D71920]" />
+                    <h3 className="text-xs font-black uppercase tracking-wider">UPCOMING EVENTS</h3>
+                  </div>
+                  <Link to="/news/events/all" className="text-[10px] font-bold text-[#072A6C] hover:text-[#D71920] transition-colors">
+                    View All
+                  </Link>
+                </div>
+                
+                <div className="space-y-4">
+                  {events.slice(0, 3).map((event) => {
+                    const dateParts = event.date.split(" ");
+                    const day = dateParts[0] || "17";
+                    const month = (dateParts[1] || "JUL").toUpperCase();
+                    return (
+                      <Link 
+                        key={event.id} 
+                        to={`/news/events/${event.slug}`}
+                        className="flex gap-3.5 items-start border-b border-gray-50 pb-3 last:border-b-0 last:pb-0 group text-left block"
+                      >
+                        <div className="flex flex-col items-center justify-center w-11 h-11 rounded-xl bg-red-50 text-[#D71920] shrink-0 border border-red-100/30 group-hover:bg-[#D71920] group-hover:text-white transition-colors">
+                          <span className="text-sm font-black leading-none">{day}</span>
+                          <span className="text-[8px] font-black tracking-wider uppercase leading-none mt-0.5">{month}</span>
+                        </div>
+                        <div className="space-y-0.5 min-w-0 flex-1">
+                          <h4 className="text-[11px] font-bold text-gray-800 leading-snug group-hover:text-[#072A6C] transition-colors truncate">
+                            {event.title}
+                          </h4>
+                          <div className="flex flex-col gap-0.5 text-[8.5px] text-gray-400 font-semibold font-[var(--font-inter)]">
+                            <div className="flex items-center gap-1">
+                              <Clock size={8} />
+                              <span>{event.time}</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <MapPin size={8} />
+                              <span className="truncate">{event.location}</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    </Link>
-                  );
-                })}
+                      </Link>
+                    );
+                  })}
+                </div>
               </div>
+              
+              <Link 
+                to="/news/events/all"
+                className="text-[10px] font-bold text-[#072A6C] hover:text-[#D71920] inline-flex items-center gap-1 mt-4 transition-colors"
+              >
+                <span>View All Events Directory</span>
+                <ChevronRight size={11} />
+              </Link>
             </div>
+
+            {/* Remaining News Cards (flowing into 3 columns below row 1) */}
+            {filteredNews.slice(2).map((item) => (
+              <button
+                key={item.id}
+                onClick={() => navigate(`/news/${item.slug}`)}
+                className="bg-white rounded-[18px] border border-gray-100/80 overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between h-full group text-left w-full cursor-pointer outline-none"
+              >
+                <div>
+                  {/* Image Area */}
+                  <div className="h-44 w-full overflow-hidden relative">
+                    <img 
+                      src={item.image} 
+                      alt={item.title} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  {/* Content Details */}
+                  <div className="p-5 space-y-2">
+                    <div className="flex items-center gap-2.5 text-[9px] text-gray-400 font-bold uppercase tracking-wider">
+                      <span className="text-[#D71920]">{item.category}</span>
+                      <span>•</span>
+                      <span>{item.date}</span>
+                    </div>
+                    <h4 className="text-[13px] font-[800] text-[#072A6C] leading-snug line-clamp-2 group-hover:text-[#D71920] transition-colors">
+                      {item.title}
+                    </h4>
+                    <p className="text-[11.5px] text-gray-500 font-[var(--font-inter)] line-clamp-2 leading-relaxed font-light">
+                      {item.excerpt}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="px-5 pb-5 pt-3 border-t border-gray-50 flex items-center justify-between text-[10px] font-bold text-[#072A6C] w-full">
+                  <span>Read More</span>
+                  <ArrowRight size={11} className="text-[#D71920] group-hover:translate-x-1 transition-transform" />
+                </div>
+              </button>
+            ))}
+          </div>
+
+          {/* Bottom 4 Category Info Cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-6">
+            {NEWS_CATEGORIES_INFO.map((cat, idx) => {
+              const IconComponent = cat.icon;
+              return (
+                <div 
+                  key={idx} 
+                  className="bg-white rounded-[18px] p-4 border border-gray-100/80 shadow-sm flex items-start gap-3.5 hover:shadow-md transition-all duration-300"
+                >
+                  <div className={`w-10 h-10 rounded-xl ${cat.bgColor} flex items-center justify-center shrink-0`}>
+                    <IconComponent size={20} />
+                  </div>
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-black text-[#072A6C] tracking-wide">{cat.title}</span>
+                      <span className="text-[9px] font-bold text-gray-400">{cat.articles}</span>
+                    </div>
+                    <p className="text-[10px] text-gray-500 leading-normal font-[var(--font-inter)] font-light">{cat.desc}</p>
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
         </div>
