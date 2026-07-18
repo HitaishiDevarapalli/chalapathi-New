@@ -65,16 +65,47 @@ export async function submitContactForm(data: {
   subject: string;
   message: string;
 }) {
-  // TODO: POST to /api/contact
-  console.log("Contact form submitted:", data);
-  return { success: true, message: "Thank you! We will get back to you shortly." };
+  try {
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to submit contact form');
+    }
+    
+    return { success: true, message: "Thank you! We will get back to you shortly." };
+  } catch (error) {
+    console.error('Error in submitContactForm:', error);
+    return { success: false, message: "Something went wrong. Please try again." };
+  }
 }
 
 /**
  * Submit an admission application.
  */
 export async function submitApplication(data: Record<string, unknown>) {
-  // TODO: POST to /api/admissions/apply
-  console.log("Application submitted:", data);
-  return { success: true, applicationId: `CU-2026-${Date.now()}` };
+  try {
+    const response = await fetch('/api/admissions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to submit application');
+    }
+    
+    const result = await response.json();
+    return { success: true, applicationId: result.applicationId };
+  } catch (error) {
+    console.error('Error in submitApplication:', error);
+    return { success: false, applicationId: "ERROR" };
+  }
 }

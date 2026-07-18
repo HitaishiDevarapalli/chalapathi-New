@@ -8,6 +8,7 @@ import {
   Compass, FileText, Award, Phone, MapPin, Mail, Sparkles, Building2, HelpCircle, Search, Globe,
   UserPlus, ShieldCheck, UploadCloud, CreditCard
 } from "lucide-react";
+import SEO from "../components/SEO";
 
 /* ── animation helpers ────────────────────────── */
 const fadeUp = {
@@ -168,6 +169,10 @@ export default function Home() {
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F7F8FC] text-[#222222] overflow-x-hidden font-[var(--font-poppins)]">
+      <SEO 
+        title="Chalapathi University | Best Private University in Andhra Pradesh" 
+        description="Chalapathi University offers world-class higher education with premium undergraduate, postgraduate, and research programs. Admissions Open for 2026–2027." 
+      />
       {/* ═══ HERO SECTION (720px height) ═══ */}
       <section 
         className="relative w-full overflow-hidden bg-white select-none" 
