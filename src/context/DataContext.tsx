@@ -22,6 +22,8 @@ export interface NewsArticle {
   excerpt: string;
   bodyText: string;
   image: string;
+  slug: string;
+  sourceUrl?: string;
 }
 
 // Event interface
@@ -161,8 +163,123 @@ const INITIAL_ANNOUNCEMENTS: Announcement[] = [
 ];
 
 const INITIAL_NEWS: NewsArticle[] = [
-  { id: 1, title: "AI Research Lab Inaugurated on Campus", date: "12 May 2025", time: "10:30 AM", location: "Main Science Block, Room 302", category: "Innovation", excerpt: "In partnership with global tech giants, the new laboratory features advanced machine learning compute nodes for research projects.", bodyText: "Today marks a historic milestone for City Chalapathi Institute of Technology as we formally inaugurate our state-of-the-art Artificial Intelligence and Machine Learning Research Laboratory. Developed in close collaboration with global technology leaders, this research center is equipped with high-throughput multi-GPU processing systems and next-generation compute environments designed specifically for heavy workload deep learning and neural network model training. Under the direction of our senior AI research staff, undergraduate and doctoral scholars will collaborate on active research papers, smart industrial solutions, and healthcare diagnostics automation projects.", image: "/prog_computer.png" },
-  { id: 2, title: "Engineering Students Win Smart Hackathon 2025", date: "06 May 2025", time: "09:00 AM", location: "Tech Exhibition Hub, New Delhi", category: "Achievement", excerpt: "Our team developed a decentralized IoT mesh network algorithm to win first prize at the national technology showcase competition.", bodyText: "We are extremely proud to announce that the student research team from our Electronics and Computer Science Engineering departments has won the prestigious National Smart Systems Hackathon 2025. Over a grueling 36-hour continuous sprint in New Delhi, the team designed and prototyped a self-healing, decentralized IoT mesh network framework tailored for real-time disaster management communication.", image: "/prog_engineering.png" }
+  {
+    id: 1,
+    title: "AI Research Lab Inaugurated on Campus",
+    date: "18 May 2025",
+    time: "10:30 AM",
+    location: "Main Science Block, Room 302",
+    category: "Innovation",
+    excerpt: "In partnership with global tech giants, the new laboratory features advanced machine learning compute nodes for research projects.",
+    bodyText: "Today marks a historic milestone for City Chalapathi Institute of Technology as we formally inaugurate our state-of-the-art Artificial Intelligence and Machine Learning Research Laboratory. Developed in close collaboration with global technology leaders, this research center is equipped with high-throughput multi-GPU processing systems and next-generation compute environments designed specifically for heavy workload deep learning and neural network model training. Under the direction of our senior AI research staff, undergraduate and doctoral scholars will collaborate on active research papers, smart industrial solutions, and healthcare diagnostics automation projects.",
+    image: "/prog_computer.png",
+    slug: "ai-research-lab",
+    sourceUrl: "https://www.thehindu.com/sci-tech/technology/internet/artificial-intelligence-research-lab-inaugurated/article671829.ece"
+  },
+  {
+    id: 2,
+    title: "Engineering Students Win Smart Hackathon 2025",
+    date: "17 May 2025",
+    time: "09:00 AM",
+    location: "Tech Exhibition Hub, New Delhi",
+    category: "Achievement",
+    excerpt: "Our team developed a decentralized IoT mesh network algorithm to win first prize.",
+    bodyText: "Our student research team from our Electronics and Computer Science Engineering departments has won the prestigious National Smart Systems Hackathon 2025. Over a grueling 36-hour continuous sprint in New Delhi, the team designed and prototyped a self-healing, decentralized IoT mesh network framework tailored for real-time disaster management communication.",
+    image: "/prog_engineering.png",
+    slug: "smart-hackathon",
+    sourceUrl: "https://timesofindia.indiatimes.com/education/engineering-students-win-national-smart-hackathon-2025/articleshow/1089271.cms"
+  },
+  {
+    id: 3,
+    title: "International Yoga Day Celebrated with Enthusiasm",
+    date: "16 May 2025",
+    time: "07:00 AM",
+    location: "Central Playground Complex",
+    category: "Campus Life",
+    excerpt: "Students and faculty participated in a special yoga session promoting health and wellness.",
+    bodyText: "Students and faculty participated in a special yoga session promoting health, wellness, and mental clarity on International Yoga Day. The event was held in the main campus courtyard with over 500 participants practicing various asanas guided by certified yoga instructors.",
+    image: "/prog_diploma.png",
+    slug: "yoga-day",
+    sourceUrl: "https://www.eenadu.net/yoga-day-celebrations-chalapathi-campus/article/120250516"
+  },
+  {
+    id: 4,
+    title: "New Study on Renewable Energy Published in Scopus Journal",
+    date: "15 May 2025",
+    time: "11:00 AM",
+    location: "Academic Block 1 Seminar Room",
+    category: "Research",
+    excerpt: "The research highlights the efficiency of hybrid models in optimizing sustainable energy.",
+    bodyText: "A breakthrough research paper on renewable energy harvesting techniques has been published in a top-tier Scopus-indexed journal. The study highlights the implementation of hybrid solar-wind energy conservation models in microgrids.",
+    image: "/prog_mtech.png",
+    slug: "renewable-energy",
+    sourceUrl: "https://www.sakshi.com/renewable-energy-research-study-published-scopus/article/20250515"
+  },
+  {
+    id: 5,
+    title: "Record Placements in 2025 Batch",
+    date: "14 May 2025",
+    time: "10:00 AM",
+    location: "Placements Office",
+    category: "Placements",
+    excerpt: "Top recruiters from across the globe visited campus. Students secured roles in leading MNCs.",
+    bodyText: "City Chalapathi Institute of Technology registers outstanding placement results for the 2025 batch. Leading multinationals including tech and core giants participated, offering premium software engineering and core research positions to over 90% of eligible graduates.",
+    image: "/prog_management.png",
+    slug: "record-placements",
+    sourceUrl: "https://www.abnandhrajyothy.com/chalapathi-university-record-placements-2025/article/1109"
+  },
+  {
+    id: 6,
+    title: "Annual Convocation 2025 Held with Grandeur",
+    date: "12 May 2025",
+    time: "10:00 AM",
+    location: "Main Auditorium Auditorium Hall",
+    category: "Campus Life",
+    excerpt: "Graduating students received degrees and medals at the colorful convocation ceremony.",
+    bodyText: "The 2025 annual convocation ceremony was celebrated with grand success. Distinguished chief guests from corporate and academic bodies addressed the graduating cohort and distributed gold medals to academic toppers.",
+    image: "/prog_pharmacy.png",
+    slug: "annual-convocation",
+    sourceUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+  },
+  {
+    id: 7,
+    title: "Annual Innovation & Entrepreneurship Summit",
+    date: "10 May 2025",
+    time: "09:30 AM",
+    location: "Campus Incubation & Startup Block",
+    category: "Events",
+    excerpt: "Empowering student founders, early-stage startups, and venture capitalists to collaborate on product solutions.",
+    bodyText: "The Annual Innovation & Entrepreneurship Summit at City Chalapathi stands as our premier event dedicated to building startup ecosystems. Student groups will pitch prototypes directly to angel investors, regional venture capital firms, and incubator heads.",
+    image: "/prog_engineering.png",
+    slug: "innovation-summit",
+    sourceUrl: "https://tv9telugu.com/chalapathi-startup-innovation-summit-guntur-2025/article/99281"
+  },
+  {
+    id: 8,
+    title: "Annual Sports Meet Kickstarts with Inter-Department Matches",
+    date: "08 May 2025",
+    time: "09:00 AM",
+    location: "Central Sports Complex",
+    category: "Sports",
+    excerpt: "The campus cricket and basketball tournaments kicked off with participation from over 500 athletes.",
+    bodyText: "The annual campus sports tournament commenced yesterday with a spectacular torch run and flag hoisting ceremony at the main sports complex. Over 500 student athletes representing all departments are participating.",
+    image: "/prog_pharmacy.png",
+    slug: "annual-sports-meet",
+    sourceUrl: "https://ntvtelugu.com/chalapathi-annual-sports-meet-2025/article/7716"
+  },
+  {
+    id: 9,
+    title: "Admissions Open for Academic Year 2025-26",
+    date: "05 May 2025",
+    time: "10:00 AM",
+    location: "Admissions Cell",
+    category: "Admissions",
+    excerpt: "Applications are invited for UG, PG, and Ph.D. courses. Apply online today.",
+    bodyText: "Admissions are officially open for the academic term 2025-2026. Prospective candidates can check qualifications, course fees, placement details, and apply online through our official portal.",
+    image: "/prog_computer.png",
+    slug: "admissions-open",
+    sourceUrl: "https://www.chalapathiengg.ac.in/admissions-2025-26"
+  }
 ];
 
 const INITIAL_EVENTS: EventItem[] = [

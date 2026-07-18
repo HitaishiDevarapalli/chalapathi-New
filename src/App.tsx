@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import DynamicPage from "./pages/DynamicPage";
 import Events from "./pages/Events";
 import News from "./pages/News";
+import NewsDetails from "./pages/NewsDetails";
 import AllEvents from "./pages/AllEvents";
 import AdminPortal from "./pages/AdminPortal";
 import { DataProvider, useData } from "./context/DataContext";
@@ -413,6 +414,7 @@ function AppContent() {
 
             {/* News Routes */}
             <Route path="/news" element={<News />} />
+            <Route path="/news/:slug" element={<NewsDetails />} />
             <Route path="/news/latest" element={<DynamicPage />} />
             <Route path="/news/events" element={<Events />} />
             <Route path="/news/events/all" element={<AllEvents />} />
