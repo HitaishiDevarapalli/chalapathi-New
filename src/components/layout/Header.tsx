@@ -110,6 +110,12 @@ const CATEGORY_INFO: Record<string, { desc: string; linkText: string; to: string
     desc: "Outcome-Based Education. Discover our pedagogy, continuous internal assessment schemes, and evaluation standards.",
     linkText: "View Teaching & Evaluation",
     to: "/academics/teaching"
+  },
+  "Global Certifications": {
+    title: "Global Certifications",
+    desc: "Graduate with internationally respected certifications that complement your academic degree and prepare you for leadership.",
+    linkText: "View Certifications",
+    to: "/academics/certifications"
   }
 };
 
@@ -229,6 +235,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
 
   const academicsItems = [
     { label: "Programmes Offered", to: "/academics/programmes" },
+    { label: "Global Certifications", to: "/academics/certifications" },
     { label: "Academic Calendar", to: "/academics/calendar" },
     { label: "Flexibilities", to: "/academics/flexibilities" },
     { label: "Grading System", to: "/academics/grading" },
@@ -343,6 +350,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                           <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider mb-2">Academics</span>
                           {[
                             { label: "Programmes Offered", to: "/academics/programmes" },
+                            { label: "Global Certifications", to: "/academics/certifications" },
                             { label: "Academic Calendar", to: "/academics/calendar" },
                             { label: "Flexibilities", to: "/academics/flexibilities" },
                             { label: "Grading System", to: "/academics/grading" },

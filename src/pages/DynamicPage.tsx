@@ -488,6 +488,14 @@ const getPageContent = (path: string, programs: any[]) => {
         body: <AcademicCalendar />
       };
     }
+    if (cleanPath.includes("certifications")) {
+      return {
+        title: "Global Certifications",
+        category: "Academics",
+        desc: "Graduate with internationally respected certifications that complement your academic degree.",
+        body: <GlobalCertifications />
+      };
+    }
     if (cleanPath.includes("flexibilities")) {
       return {
         title: "Academic Flexibilities",
