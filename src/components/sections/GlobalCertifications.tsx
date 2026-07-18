@@ -62,18 +62,18 @@ const certifications = [
     name: "AWS, Azure & Google Cloud",
     description: "Cloud computing, AI, DevOps, cybersecurity, and data engineering.",
     images: [
-      "https://www.vectorlogo.zone/logos/amazon/amazon-ar21.svg",
-      "https://www.vectorlogo.zone/logos/microsoft/microsoft-ar21.svg",
-      "https://www.vectorlogo.zone/logos/google/google-ar21.svg"
+      "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg",
+      "https://upload.wikimedia.org/wikipedia/commons/a/a8/Microsoft_Azure_Logo.svg",
+      "https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg"
     ],
     color: "#FF9900"
   },
   {
     name: "Coursera & edX",
-    description: "Professional certifications from leading global universities and industry partners.",
+    description: "Advanced specializations from Ivy League universities and global tech giants.",
     images: [
-      "https://logo.clearbit.com/coursera.org",
-      "https://logo.clearbit.com/edx.org"
+      "https://upload.wikimedia.org/wikipedia/commons/5/5f/Coursera_logo_%282020%29.svg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/8f/EdX.svg"
     ],
     color: "#0056D2"
   },
