@@ -31,25 +31,25 @@ const certifications = [
   {
     name: "Zscaler",
     description: "Zero Trust Security, SASE, and cloud cybersecurity.",
-    images: ["https://logo.clearbit.com/zscaler.com"],
+    images: ["https://upload.wikimedia.org/wikipedia/en/f/fa/Zscaler_logo.svg"],
     color: "#0054A6"
   },
   {
     name: "Microchip",
     description: "Embedded systems, IoT, microcontrollers, and Industry 4.0.",
-    images: ["https://cdn.worldvectorlogo.com/logos/microchip.svg"],
+    images: ["https://upload.wikimedia.org/wikipedia/commons/5/54/Microchip_Technology_logo.svg"],
     color: "#E42528"
   },
   {
     name: "Addverb Robotics",
     description: "Robotics, intelligent automation, warehouse automation, and AI-driven manufacturing.",
-    images: ["https://logo.clearbit.com/addverb.com"],
+    images: ["https://upload.wikimedia.org/wikipedia/commons/8/8b/Addverb_logo.png"],
     color: "#F97316"
   },
   {
     name: "CodeChef",
     description: "Competitive programming, coding, and algorithmic problem-solving.",
-    images: ["https://logo.clearbit.com/codechef.com"],
+    images: ["https://cdn.codechef.com/images/cc-logo.svg"],
     color: "#5B4638"
   },
   {
