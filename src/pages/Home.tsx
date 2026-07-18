@@ -517,7 +517,7 @@ export default function Home() {
           </div>
 
           <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6"
+            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
@@ -568,68 +568,128 @@ export default function Home() {
                 intro: "M.Tech programs offer advanced technical education, research opportunities, innovation, and specialization in emerging engineering technologies to prepare graduates for leadership roles in industry and academia."
               }
             ].map((p, idx) => {
-              const isExpanded = expandedProgramIndex === idx;
+              const isActive = expandedProgramIndex === idx;
               const IconComponent = p.icon;
               return (
                 <motion.div
                   key={idx}
                   onClick={(e) => {
                     e.stopPropagation();
-                    setExpandedProgramIndex(isExpanded ? null : idx);
+                    setExpandedProgramIndex(isActive ? null : idx);
                   }}
                   onMouseEnter={() => setExpandedProgramIndex(idx)}
-                  className={`group bg-white border rounded-[24px] p-6 shadow-sm hover:shadow-lg transition-all duration-500 relative flex flex-col items-center justify-between text-center cursor-pointer min-h-[220px] select-none ${
-                    isExpanded 
-                      ? "border-[#2563EB]/40 shadow-[0_10px_35px_rgba(37,99,235,0.18)] ring-1 ring-[#2563EB]/15 lg:col-span-2" 
-                      : "border-gray-100 hover:-translate-y-1 lg:col-span-1"
+                  className={`group bg-white border rounded-[16px] p-4 shadow-sm hover:shadow transition-all duration-300 relative flex flex-col items-center justify-center text-center cursor-pointer min-h-[140px] select-none ${
+                    isActive 
+                      ? "border-[#2563EB]/40 shadow-[0_4px_20px_rgba(37,99,235,0.12)] ring-1 ring-[#2563EB]/15 bg-[#EEF5FF]/40" 
+                      : "border-gray-100 hover:-translate-y-0.5"
                   }`}
                   variants={scaleIn}
                 >
-                  <div className="flex flex-col items-center space-y-4 w-full">
+                  <div className="flex flex-col items-center space-y-3 w-full">
                     {/* Circle Background & Premium Vector Icon */}
                     <div 
-                      className={`w-16 h-16 rounded-full flex items-center justify-center text-white shadow-md transition-all duration-500 ${
-                        isExpanded ? "scale-110 rotate-12" : "group-hover:scale-110 group-hover:rotate-6"
+                      className={`w-12 h-12 rounded-full flex items-center justify-center text-white shadow-sm transition-all duration-300 ${
+                        isActive ? "scale-105 rotate-12" : "group-hover:scale-105 group-hover:rotate-6"
                       }`}
                       style={{ backgroundColor: p.color }}
                     >
-                      <IconComponent size={28} />
+                      <IconComponent size={20} />
                     </div>
 
                     {/* Program Name */}
-                    <h3 className="font-bold text-[14px] text-[#072A6C] transition-colors leading-tight">
+                    <h3 className={`font-bold text-[12px] transition-colors leading-tight ${
+                      isActive ? "text-[#D71920]" : "text-[#072A6C] group-hover:text-[#D71920]"
+                    }`}>
                       {p.name}
                     </h3>
-
-                    {/* Expandable Introduction Block */}
-                    <div className={`overflow-hidden transition-all duration-500 ease-in-out w-full ${
-                      isExpanded ? "max-h-[200px] opacity-100 mt-2" : "max-h-0 opacity-0"
-                    }`}>
-                      <p className="text-[11px] text-gray-500 font-light leading-relaxed text-center px-2">
-                        {p.intro}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Explore Button */}
-                  <div className={`overflow-hidden transition-all duration-500 ease-in-out w-full ${
-                    isExpanded ? "max-h-[50px] opacity-100 mt-4" : "max-h-0 opacity-0"
-                  }`}>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(p.to);
-                      }}
-                      className="w-full py-2 px-3 bg-[#072A6C] hover:bg-[#D71920] text-white text-[10px] font-bold rounded-xl transition-colors cursor-pointer inline-flex items-center justify-center gap-1 shadow-sm"
-                    >
-                      <span>Explore Program</span>
-                      <ArrowRight size={11} />
-                    </button>
                   </div>
                 </motion.div>
               );
             })}
           </motion.div>
+
+          {/* Expanded Detail Panel */}
+          <div className="relative mt-6 overflow-hidden min-h-[110px]">
+            {expandedProgramIndex !== null && (() => {
+              const activeProg = [
+                { 
+                  name: "Engineering", 
+                  color: "#D71920", 
+                  icon: Settings, 
+                  to: "/academics/computer-science",
+                  intro: "Engineering is the application of science, mathematics, and technology to design, build, and improve systems, machines, structures, and innovations that solve real-world problems. It prepares students with analytical thinking, technical expertise, practical skills, and industry-oriented knowledge."
+                },
+                { 
+                  name: "Management", 
+                  color: "#F59E0B", 
+                  icon: Briefcase, 
+                  to: "/academics/programmes",
+                  intro: "Management focuses on planning, organizing, leading, and managing organizations effectively. Students develop leadership, communication, decision-making, entrepreneurship, and business strategy skills."
+                },
+                { 
+                  name: "Computer Applications", 
+                  color: "#2563EB", 
+                  icon: Code, 
+                  to: "/academics/programmes",
+                  intro: "Computer Applications is the study of software, programming, databases, artificial intelligence, cloud computing, cybersecurity, and modern digital technologies. It prepares students for careers in software development and the IT industry."
+                },
+                { 
+                  name: "Pharmacy", 
+                  color: "#10B981", 
+                  icon: FlaskConical, 
+                  to: "/academics/programmes",
+                  intro: "Pharmacy is the science of medicines, healthcare, and patient well-being. Students learn about drug development, pharmaceutical research, medicine safety, healthcare practices, and modern laboratory techniques."
+                },
+                { 
+                  name: "Diploma", 
+                  color: "#8B5CF6", 
+                  icon: Wrench, 
+                  to: "/academics/programmes",
+                  intro: "Diploma programs provide practical, skill-based education that prepares students for technical careers through hands-on training, industry exposure, and job-oriented learning."
+                },
+                { 
+                  name: "M.Tech Programs", 
+                  color: "#EAB308", 
+                  icon: Atom, 
+                  to: "/academics/programmes",
+                  intro: "M.Tech programs offer advanced technical education, research opportunities, innovation, and specialization in emerging engineering technologies to prepare graduates for leadership roles in industry and academia."
+                }
+              ][expandedProgramIndex];
+              const IconComp = activeProg.icon;
+              
+              return (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.3 }}
+                  className="bg-gradient-to-r from-[#EEF5FF]/40 to-white border border-[#2563EB]/15 rounded-2xl p-6 shadow-sm flex flex-col md:flex-row items-center gap-6 text-left"
+                >
+                  <div 
+                    className="w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-sm shrink-0"
+                    style={{ backgroundColor: activeProg.color }}
+                  >
+                    <IconComp size={22} />
+                  </div>
+                  <div className="flex-1 space-y-1">
+                    <h4 className="font-bold text-[13px] text-[#072A6C]">
+                      {activeProg.name}
+                    </h4>
+                    <p className="text-[11px] text-gray-500 font-light leading-relaxed">
+                      {activeProg.intro}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => navigate(activeProg.to)}
+                    className="py-2 px-4 bg-[#072A6C] hover:bg-[#D71920] text-white text-[10px] font-bold rounded-xl transition-colors cursor-pointer inline-flex items-center gap-1 shrink-0 shadow-sm"
+                  >
+                    <span>Explore Program</span>
+                    <ArrowRight size={10} />
+                  </button>
+                </motion.div>
+              );
+            })()}
+          </div>
         </div>
       </section>
 
