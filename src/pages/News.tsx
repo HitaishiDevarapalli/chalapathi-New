@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ArrowRight, Calendar, Bookmark, X, Clock, MapPin, Share2 } from "lucide-react";
-import { useData } from "../context/DataContext";
+import { ArrowRight, Calendar, Bookmark, X, Clock, MapPin, Share2, Flame, Award, Trophy, Users, GraduationCap, BookOpen, ChevronRight } from "lucide-react";
 
 interface Article {
   id: number;
@@ -14,10 +13,141 @@ interface Article {
   image: string;
 }
 
+const MSN_NEWS_ITEMS: Article[] = [
+  {
+    id: 1,
+    title: "AI Research Lab Inaugurated on Campus",
+    date: "18 May 2025",
+    time: "10:30 AM",
+    location: "Main Science Block, Room 302",
+    category: "Innovation",
+    excerpt: "In partnership with global tech giants, the new laboratory features advanced machine learning compute nodes for research projects.",
+    bodyText: "Today marks a historic milestone for City Chalapathi Institute of Technology as we formally inaugurate our state-of-the-art Artificial Intelligence and Machine Learning Research Laboratory. Developed in close collaboration with global technology leaders, this research center is equipped with high-throughput multi-GPU processing systems and next-generation compute environments designed specifically for heavy workload deep learning and neural network model training. Under the direction of our senior AI research staff, undergraduate and doctoral scholars will collaborate on active research papers, smart industrial solutions, and healthcare diagnostics automation projects.",
+    image: "/prog_computer.png"
+  },
+  {
+    id: 2,
+    title: "Engineering Students Win Smart Hackathon 2025",
+    date: "17 May 2025",
+    time: "09:00 AM",
+    location: "Tech Exhibition Hub, New Delhi",
+    category: "Achievement",
+    excerpt: "Our team developed a decentralized IoT mesh network algorithm to win first prize.",
+    bodyText: "Our student research team from our Electronics and Computer Science Engineering departments has won the prestigious National Smart Systems Hackathon 2025. Over a grueling 36-hour continuous sprint in New Delhi, the team designed and prototyped a self-healing, decentralized IoT mesh network framework tailored for real-time disaster management communication.",
+    image: "/prog_engineering.png"
+  },
+  {
+    id: 3,
+    title: "International Yoga Day Celebrated with Enthusiasm",
+    date: "16 May 2025",
+    time: "07:00 AM",
+    location: "Central Playground Complex",
+    category: "Campus Life",
+    excerpt: "Students and faculty participated in a special yoga session promoting health and wellness.",
+    bodyText: "Students and faculty participated in a special yoga session promoting health, wellness, and mental clarity on International Yoga Day. The event was held in the main campus courtyard with over 500 participants practicing various asanas guided by certified yoga instructors.",
+    image: "/prog_diploma.png"
+  },
+  {
+    id: 4,
+    title: "New Study on Renewable Energy Published in Scopus Journal",
+    date: "15 May 2025",
+    time: "11:00 AM",
+    location: "Academic Block 1 Seminar Room",
+    category: "Research",
+    excerpt: "The research highlights the efficiency of hybrid models in optimizing sustainable energy.",
+    bodyText: "A breakthrough research paper on renewable energy harvesting techniques has been published in a top-tier Scopus-indexed journal. The study highlights the implementation of hybrid solar-wind energy conservation models in microgrids.",
+    image: "/prog_mtech.png"
+  },
+  {
+    id: 5,
+    title: "Record Placements in 2025 Batch",
+    date: "14 May 2025",
+    time: "10:00 AM",
+    location: "Placements Office",
+    category: "Placements",
+    excerpt: "Top recruiters from across the globe visited campus. Students secured roles in leading MNCs.",
+    bodyText: "City Chalapathi Institute of Technology registers outstanding placement results for the 2025 batch. Leading multinationals including tech and core giants participated, offering premium software engineering and core research positions to over 90% of eligible graduates.",
+    image: "/prog_management.png"
+  },
+  {
+    id: 6,
+    title: "Annual Convocation 2025 Held with Grandeur",
+    date: "12 May 2025",
+    time: "10:00 AM",
+    location: "Main Auditorium Auditorium Hall",
+    category: "Campus Life",
+    excerpt: "Graduating students received degrees and medals at the colorful convocation ceremony.",
+    bodyText: "The 2025 annual convocation ceremony was celebrated with grand success. Distinguished chief guests from corporate and academic bodies addressed the graduating cohort and distributed gold medals to academic toppers.",
+    image: "/prog_pharmacy.png"
+  }
+];
+
+const UPCOMING_EVENTS = [
+  {
+    day: "20",
+    month: "MAY",
+    title: "National Seminar on Artificial Intelligence",
+    time: "10:00 AM - 04:00 PM",
+    location: "Auditorium, Block A"
+  },
+  {
+    day: "24",
+    month: "MAY",
+    title: "Workshop on Data Science with Python",
+    time: "09:00 AM - 01:00 PM",
+    location: "Lab 3, Tech Block"
+  },
+  {
+    day: "31",
+    month: "MAY",
+    title: "Entrepreneurship Conclave 2025",
+    time: "10:00 AM - 03:00 PM",
+    location: "Innovation Hall"
+  }
+];
+
+const NEWS_CATEGORIES_INFO = [
+  {
+    title: "ACADEMICS",
+    desc: "Curriculum updates, academic activities and more.",
+    articles: "32 Articles",
+    icon: GraduationCap,
+    bgColor: "bg-blue-50 text-blue-600",
+    iconColor: "#2563EB"
+  },
+  {
+    title: "RESEARCH",
+    desc: "Innovations, publications and research highlights.",
+    articles: "28 Articles",
+    icon: BookOpen,
+    bgColor: "bg-rose-50 text-rose-600",
+    iconColor: "#E11D48"
+  },
+  {
+    title: "SPORTS",
+    desc: "Matches, tournaments and sports achievements.",
+    articles: "18 Articles",
+    icon: Trophy,
+    bgColor: "bg-amber-50 text-amber-600",
+    iconColor: "#D97706"
+  },
+  {
+    title: "STUDENT LIFE",
+    desc: "Clubs, events and student achievements.",
+    articles: "24 Articles",
+    icon: Users,
+    bgColor: "bg-sky-50 text-sky-600",
+    iconColor: "#0284C7"
+  }
+];
+
+const FILTER_CATEGORIES = ["All", "Research", "Placements", "Campus Life", "Events", "Sports", "Admissions", "Innovation"];
+
 export default function News() {
-  const { news } = useData();
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [showShareMenu, setShowShareMenu] = useState(false);
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [featuredIndex, setFeaturedIndex] = useState(0);
 
   useEffect(() => {
     document.title = "University News | City Chalapathi Institute of Technology";
@@ -46,13 +176,27 @@ export default function News() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  // Get related articles excluding the active one
+  // Auto scroll featured news slider
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setFeaturedIndex((prev) => (prev + 1) % MSN_NEWS_ITEMS.slice(0, 3).length);
+    }, 6000);
+    return () => clearInterval(timer);
+  }, []);
+
   const getRelatedArticles = (activeId: number) => {
-    return news.filter(item => item.id !== activeId).slice(0, 3);
+    return MSN_NEWS_ITEMS.filter(item => item.id !== activeId).slice(0, 3);
   };
 
+  const filteredNews = activeCategory === "All" 
+    ? MSN_NEWS_ITEMS 
+    : MSN_NEWS_ITEMS.filter(item => item.category.toLowerCase() === activeCategory.toLowerCase());
+
+  const featuredArticle = MSN_NEWS_ITEMS[featuredIndex];
+
   return (
-    <div className="min-h-screen bg-[#F7F8FC] font-[var(--font-poppins)] pb-24 relative">
+    <div className="min-h-screen bg-[#F7F9FC] font-[var(--font-poppins)] pb-24 relative select-none text-left">
+      
       {/* Header Banner */}
       <section className="bg-gradient-to-r from-[#072A6C] to-indigo-950 text-white py-16 px-6 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
@@ -62,69 +206,243 @@ export default function News() {
           </span>
           <h1 className="text-3xl lg:text-5xl font-[900] tracking-tight">University News</h1>
           <p className="text-xs text-white font-light max-w-xl leading-relaxed">
-            Stay updated with academic breakthroughs, campus achievements, guest lectures, and student announcements.
+            Stay updated with the latest happenings, milestones, and achievements from across the university.
           </p>
         </div>
       </section>
 
-      {/* News Grid Section */}
-      <section className="max-w-[1440px] mx-auto px-5 mt-16">
-        {/* News Heading */}
-        <div className="flex justify-between items-end mb-8 pb-5 border-b border-gray-200">
-          <div>
-            <h2 className="text-2xl lg:text-3xl font-[800] text-[#072A6C]">
-              News @ City Chalapathi
-            </h2>
-            <p className="text-[12px] text-gray-400 mt-1 font-light">Explore recent headlines, faculty achievements, and student innovations.</p>
-          </div>
-        </div>
-
-        {/* Responsive Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {news.map((newsItem, index) => (
-            <button 
-              key={index}
-              onClick={() => setSelectedArticle(newsItem)}
-              className="bg-white border border-gray-100 rounded-3xl p-5 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between h-full group text-left w-full cursor-pointer outline-none focus:ring-2 focus:ring-[#F97316]"
-            >
-              <div>
-                {/* Image */}
-                <div className="h-44 w-full rounded-2xl overflow-hidden mb-4 relative">
-                  <img 
-                    src={newsItem.image} 
-                    alt={newsItem.title} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    draggable="false"
-                  />
-                </div>
-                {/* Metadata */}
-                <div className="flex items-center gap-3 text-[10px] text-gray-400 font-semibold mb-2">
-                  <span className="text-[#F97316] uppercase tracking-wider flex items-center gap-1">
-                    <Bookmark size={10} /> {newsItem.category}
-                  </span>
+      {/* Main MSN News Content */}
+      <section className="max-w-[1440px] mx-auto px-5 mt-10">
+        
+        {/* Top 3-Column MSN Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          
+          {/* Featured News Block (Spans 2 columns) */}
+          <div className="lg:col-span-2 bg-white rounded-[18px] shadow-sm border border-gray-100/80 overflow-hidden flex flex-col md:flex-row h-full min-h-[380px] group transition-all duration-300">
+            {/* Image (55%) */}
+            <div className="w-full md:w-[55%] relative overflow-hidden h-[240px] md:h-auto shrink-0">
+              <img 
+                src={featuredArticle.image} 
+                alt={featuredArticle.title} 
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              />
+              <span className="absolute top-4 left-4 bg-[#D71920] text-white text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-md shadow-sm">
+                FEATURED NEWS
+              </span>
+            </div>
+            
+            {/* Content (45%) */}
+            <div className="w-full md:w-[45%] p-6 flex flex-col justify-between">
+              <div className="space-y-3">
+                <div className="flex items-center gap-2 text-[10px] text-gray-400 font-bold uppercase tracking-wider">
+                  <span className="text-[#D71920]">{featuredArticle.category}</span>
                   <span>•</span>
-                  <span className="flex items-center gap-1">
-                    <Calendar size={10} /> {newsItem.date}
-                  </span>
+                  <span>{featuredArticle.date}</span>
                 </div>
-                {/* Title */}
-                <h4 className="text-sm font-[800] text-[#072A6C] leading-snug line-clamp-2 group-hover:text-[#D71920] transition-colors">
-                  {newsItem.title}
-                </h4>
-                {/* Excerpt */}
-                <p className="text-[12px] text-gray-500 line-clamp-3 font-light mt-1.5 leading-relaxed">
-                  {newsItem.excerpt}
+                <h2 className="text-lg md:text-xl font-[800] text-[#072A6C] leading-snug tracking-tight">
+                  {featuredArticle.title}
+                </h2>
+                <p className="text-[12px] text-gray-500 font-[var(--font-inter)] leading-relaxed line-clamp-4">
+                  {featuredArticle.excerpt}
                 </p>
               </div>
 
-              {/* Read Action button */}
-              <div className="pt-4 border-t border-gray-50 mt-4 flex items-center justify-between text-[11px] font-bold text-[#072A6C] w-full">
-                <span>Read Article</span>
-                <ArrowRight size={12} className="text-[#D71920] group-hover:translate-x-1 transition-transform" />
+              <div className="pt-5 flex flex-col gap-4">
+                <button 
+                  onClick={() => setSelectedArticle(featuredArticle)}
+                  className="h-10 px-5 bg-[#072A6C] hover:bg-[#072A6C]/90 text-white text-[11px] font-bold rounded-xl inline-flex items-center justify-center gap-1.5 transition-all self-start cursor-pointer hover:shadow-md"
+                >
+                  <span>Read Full Story</span>
+                  <ArrowRight size={13} />
+                </button>
+                
+                {/* Dots indicators */}
+                <div className="flex items-center gap-2">
+                  {MSN_NEWS_ITEMS.slice(0, 3).map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setFeaturedIndex(idx)}
+                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                        idx === featuredIndex ? "bg-[#D71920] w-4" : "bg-gray-200"
+                      }`}
+                    />
+                  ))}
+                </div>
               </div>
+            </div>
+          </div>
+
+          {/* Right Column: Trending Now */}
+          <div className="bg-white rounded-[18px] p-6 shadow-sm border border-gray-100/80 flex flex-col justify-between min-h-[380px]">
+            <div>
+              <div className="flex items-center gap-2 text-[#072A6C] border-b border-gray-100 pb-3 mb-4">
+                <Flame size={18} className="text-red-500 fill-current animate-pulse" />
+                <h3 className="text-sm font-black uppercase tracking-wider">TRENDING NOW</h3>
+              </div>
+              <div className="space-y-4">
+                {MSN_NEWS_ITEMS.slice(0, 5).map((item, idx) => (
+                  <button 
+                    key={item.id}
+                    onClick={() => setSelectedArticle(item)}
+                    className="flex items-start gap-4 text-left w-full group cursor-pointer"
+                  >
+                    <span className="text-xl font-black text-gray-200 group-hover:text-[#D71920] transition-colors leading-none pt-0.5">
+                      {`0${idx + 1}`}
+                    </span>
+                    <div className="space-y-0.5">
+                      <h4 className="text-[12px] font-bold text-gray-700 leading-snug group-hover:text-[#072A6C] transition-colors line-clamp-2">
+                        {item.title}
+                      </h4>
+                      <p className="text-[9px] text-gray-400 font-semibold">{item.date}</p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+            
+            <button 
+              onClick={() => setActiveCategory("All")}
+              className="text-[11px] font-bold text-[#072A6C] hover:text-[#D71920] inline-flex items-center gap-1 mt-5 self-start transition-colors"
+            >
+              <span>View All Trending</span>
+              <ChevronRight size={12} />
             </button>
-          ))}
+          </div>
+
         </div>
+
+        {/* Lower Row: Filter & Latest Grid & Upcoming Events */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-12 items-start">
+          
+          {/* Main Grid + Filter Section (Left/Center 2/3) */}
+          <div className="lg:col-span-2 space-y-6">
+            <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-gray-200/80 pb-5">
+              <div>
+                <h3 className="text-xl font-black text-[#072A6C]">Latest News</h3>
+                <p className="text-[11px] text-gray-400 mt-1 font-light">Explore recent headlines, faculty achievements, and student innovations.</p>
+              </div>
+            </div>
+
+            {/* MSN Filter Chips */}
+            <div className="flex items-center gap-2 overflow-x-auto pb-2 scrollbar-none whitespace-nowrap">
+              {FILTER_CATEGORIES.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`px-4 py-1.5 rounded-full text-[11px] font-bold border transition-all duration-200 cursor-pointer ${
+                    activeCategory === cat 
+                      ? "bg-[#072A6C] text-white border-[#072A6C] shadow-sm" 
+                      : "bg-white text-gray-600 border-gray-200 hover:border-gray-300 hover:text-gray-800"
+                  }`}
+                >
+                  {cat}
+                </button>
+              ))}
+            </div>
+
+            {/* Latest News Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {filteredNews.map((item) => (
+                <button
+                  key={item.id}
+                  onClick={() => setSelectedArticle(item)}
+                  className="bg-white rounded-[18px] border border-gray-100/80 overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between h-full group text-left w-full cursor-pointer outline-none"
+                >
+                  <div>
+                    {/* Image Area */}
+                    <div className="h-44 w-full overflow-hidden relative">
+                      <img 
+                        src={item.image} 
+                        alt={item.title} 
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                    {/* Content Details */}
+                    <div className="p-5 space-y-2">
+                      <div className="flex items-center gap-2.5 text-[9px] text-gray-400 font-bold uppercase tracking-wider">
+                        <span className="text-[#D71920]">{item.category}</span>
+                        <span>•</span>
+                        <span>{item.date}</span>
+                      </div>
+                      <h4 className="text-[13px] font-[800] text-[#072A6C] leading-snug line-clamp-2 group-hover:text-[#D71920] transition-colors">
+                        {item.title}
+                      </h4>
+                      <p className="text-[11.5px] text-gray-500 font-[var(--font-inter)] line-clamp-2 leading-relaxed font-light">
+                        {item.excerpt}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="px-5 pb-5 pt-3 border-t border-gray-50 flex items-center justify-between text-[10px] font-bold text-[#072A6C] w-full">
+                    <span>Read More</span>
+                    <ArrowRight size={11} className="text-[#D71920] group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            {/* Bottom 4 Category Info Cards */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6">
+              {NEWS_CATEGORIES_INFO.map((cat, idx) => {
+                const IconComponent = cat.icon;
+                return (
+                  <div 
+                    key={idx} 
+                    className="bg-white rounded-[18px] p-4 border border-gray-100/80 shadow-sm flex items-start gap-3.5 hover:shadow-md transition-all duration-300"
+                  >
+                    <div className={`w-10 h-10 rounded-xl ${cat.bgColor} flex items-center justify-center shrink-0`}>
+                      <IconComponent size={20} />
+                    </div>
+                    <div className="space-y-1">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[10px] font-black text-[#072A6C] tracking-wide">{cat.title}</span>
+                        <span className="text-[9px] font-bold text-gray-400">{cat.articles}</span>
+                      </div>
+                      <p className="text-[10px] text-gray-500 leading-normal font-[var(--font-inter)] font-light">{cat.desc}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+          </div>
+
+          {/* Right Column: Upcoming Events */}
+          <div className="bg-white rounded-[18px] p-6 shadow-sm border border-gray-100/80 space-y-4">
+            <div className="flex items-center gap-2 text-[#072A6C] border-b border-gray-100 pb-3 mb-2">
+              <Calendar size={16} className="text-[#D71920]" />
+              <h3 className="text-sm font-black uppercase tracking-wider">UPCOMING EVENTS</h3>
+            </div>
+            
+            <div className="space-y-5">
+              {UPCOMING_EVENTS.map((event, idx) => (
+                <div key={idx} className="flex gap-4 items-start border-b border-gray-50 pb-4 last:border-b-0 last:pb-0">
+                  <div className="flex flex-col items-center justify-center w-12 h-12 rounded-xl bg-red-50 text-[#D71920] shrink-0 border border-red-100/30">
+                    <span className="text-base font-black leading-none">{event.day}</span>
+                    <span className="text-[9px] font-black tracking-wider uppercase leading-none mt-1">{event.month}</span>
+                  </div>
+                  <div className="space-y-1 text-left">
+                    <h4 className="text-[11.5px] font-bold text-gray-800 leading-snug hover:text-[#072A6C] transition-colors cursor-pointer">
+                      {event.title}
+                    </h4>
+                    <div className="flex flex-col gap-0.5 text-[9px] text-gray-400 font-semibold font-[var(--font-inter)]">
+                      <div className="flex items-center gap-1">
+                        <Clock size={9} />
+                        <span>{event.time}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <MapPin size={9} />
+                        <span>{event.location}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+        </div>
+
       </section>
 
       {/* ======================================================== */}
@@ -132,23 +450,23 @@ export default function News() {
       {/* ======================================================== */}
       {selectedArticle && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 overflow-y-auto"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4 overflow-y-auto"
           onClick={() => setSelectedArticle(null)}
           role="dialog"
           aria-modal="true"
         >
           {/* Animated Modal Container */}
           <div 
-            className="bg-white w-full max-w-[900px] rounded-[20px] overflow-hidden shadow-2xl relative animate-fade-in flex flex-col max-h-[90vh] text-left"
+            className="bg-white w-full max-w-[900px] rounded-[24px] overflow-hidden shadow-2xl relative animate-fade-in flex flex-col max-h-[90vh] text-left"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close (X) Trigger */}
+            {/* Close Button */}
             <button 
               onClick={() => setSelectedArticle(null)}
               className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-black/40 hover:bg-black/75 text-white flex items-center justify-center transition-colors cursor-pointer"
               aria-label="Close modal"
             >
-              <X size={18} />
+              <X size={16} />
             </button>
 
             {/* Scrollable Modal Content */}
@@ -162,7 +480,7 @@ export default function News() {
                   className="w-full h-full object-cover" 
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                <span className="absolute bottom-4 left-4 text-xs font-bold text-white bg-[#F97316] py-1 px-3 rounded-lg uppercase tracking-wider shadow-sm">
+                <span className="absolute bottom-4 left-4 text-xs font-bold text-white bg-[#D71920] py-1 px-3 rounded-lg uppercase tracking-wider shadow-sm">
                   {selectedArticle.category}
                 </span>
               </div>
@@ -209,7 +527,7 @@ export default function News() {
                       onClick={() => setSelectedArticle(related)}
                       className="bg-white border border-gray-100 rounded-2xl p-4 shadow-sm hover:shadow text-left flex flex-col gap-2 transition-all w-full cursor-pointer hover:border-gray-200"
                     >
-                      <span className="text-[9px] font-extrabold text-[#F97316] uppercase">{related.category}</span>
+                      <span className="text-[9px] font-extrabold text-[#D71920] uppercase">{related.category}</span>
                       <h5 className="text-[12px] font-extrabold text-[#072A6C] line-clamp-2 leading-tight">
                         {related.title}
                       </h5>
@@ -229,7 +547,7 @@ export default function News() {
                   </button>
 
                   {showShareMenu && (
-                    <div className="absolute bottom-12 right-0 bg-white border border-gray-200/80 rounded-full shadow-2xl p-2 z-30 flex items-center gap-2 animate-fade-in whitespace-nowrap">
+                    <div className="absolute bottom-12 right-0 bg-white border border-gray-250 rounded-full shadow-2xl p-2 z-30 flex items-center gap-2 animate-fade-in whitespace-nowrap">
                       {/* WhatsApp */}
                       <a 
                         href={`https://api.whatsapp.com/send?text=${encodeURIComponent(selectedArticle.title + " " + window.location.origin + "/news#" + selectedArticle.id)}`}
@@ -285,34 +603,6 @@ export default function News() {
                       >
                         <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M11.944 0C5.352 0 0 5.352 0 12s5.352 12 11.944 12c6.648 0 12-5.352 12-12S18.592 0 11.944 0zm5.82 8.016c-.156 1.488-.816 5.376-1.152 7.176-.144.756-.42 1.008-.684 1.032-.588.06-1.032-.384-1.608-.756-.888-.588-1.392-.948-2.256-1.512-1.008-.648-.36-1.008.216-1.596.156-.156 2.856-2.616 2.904-2.82.012-.048.012-.228-.096-.324-.108-.096-.264-.06-.384-.036-.168.036-2.844 1.8-8.028 5.292-.756.516-1.44.768-2.052.756-.672-.012-1.968-.372-2.928-.684-1.176-.384-2.124-.588-2.04-1.248.048-.336.504-.684 1.38-1.032 5.4-2.352 9-3.9 10.8-4.656 5.136-2.148 6.204-2.52 6.9-2.532.156 0 .504.036.732.228.192.156.24.372.252.528 0 .096-.012.336-.024.456z"/></svg>
                       </a>
-                      {/* ChatGPT */}
-                      <a 
-                        href="https://chatgpt.com"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-8 h-8 rounded-full bg-[#10a37f] hover:bg-[#0e8f6f] text-white flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-sm"
-                        onClick={() => {
-                          navigator.clipboard.writeText(`${window.location.origin}/news#${selectedArticle.id}`);
-                          alert("Link copied! Open ChatGPT to paste and share.");
-                          setShowShareMenu(false);
-                        }}
-                        title="Copy & Open ChatGPT"
-                      >
-                        <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M21.74 11.03a4.93 4.93 0 0 0-1.87-3.87 5.08 5.08 0 0 0-1.25-4.88 5.16 5.16 0 0 0-4.87-1.25 4.92 4.92 0 0 0-7.75 3.75 5.07 5.07 0 0 0-1.25 4.88 5.16 5.16 0 0 0 4.87 1.25 4.92 4.92 0 0 0 7.75-3.75c.13-.02.26-.03.38-.03zm-7.61-9.15c.98 0 1.93.38 2.63 1.07.69.7 1.07 1.65 1.07 2.63v4.61l-1.92-1.11V4.58c0-.46-.18-.9-.5-1.22a1.72 1.72 0 0 0-2.44 0L9.12 5.56 7.2 4.45l4.28-2.47c.75-.43 1.58-.65 2.41-.65zM5.3 5.86c.69-.7 1.64-1.08 2.63-1.08h4.61l-1.92 1.11H5.97c-.46 0-.9.18-1.22.5a1.72 1.72 0 0 0 0 2.44l3.99 2.3-1.92 1.11L2.55 9.77c-.75-.43-1.34-1.07-1.7-1.82a4.89 4.89 0 0 1 .47-5.26 5.12 5.12 0 0 1 3.98-2.2zm-.96 8.37l1.92-1.11 3.98 2.3c.4.23.86.35 1.33.35.47 0 .93-.12 1.33-.35l3.98-2.3 1.92 1.11-4.28 2.47a5.16 5.16 0 0 1-5.26 0L3.13 16.7c-.75-.43-1.35-1.07-1.71-1.82a4.89 4.89 0 0 1 .47-5.26 5.12 5.12 0 0 1 2.45-1.39zm12.38 3.91a5.12 5.12 0 0 1-2.63 1.08h-4.61l1.92-1.11h4.65c.46 0 .9-.18 1.22-.5a1.72 1.72 0 0 0 0-2.44l-3.99-2.3 1.92-1.11 4.28 2.47c.75.43 1.34 1.07 1.7 1.82a4.89 4.89 0 0 1-.47 5.26 5.12 5.12 0 0 1-3.98 2.2zm2.96-8.37l-1.92 1.11-3.98-2.3a2.66 2.66 0 0 0-2.66 0l-3.98 2.3-1.92-1.11 4.28-2.47a5.16 5.16 0 0 1 5.26 0L21.2 9.77c.75.43 1.35 1.07 1.71 1.82a4.89 4.89 0 0 1-.47 5.26 5.12 5.12 0 0 1-2.45 1.39zm-6.2-1.11l-3.98-2.3-1.92-1.11 4.28-2.47a5.16 5.16 0 0 1 5.26 0l4.28 2.47-1.92 1.11-3.98 2.3z"/></svg>
-                      </a>
-                      {/* Copy Link */}
-                      <button 
-                        type="button"
-                        onClick={() => {
-                          navigator.clipboard.writeText(`${window.location.origin}/news#${selectedArticle.id}`);
-                          alert("Link copied to clipboard!");
-                          setShowShareMenu(false);
-                        }}
-                        className="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-250 text-gray-700 flex items-center justify-center transition-all duration-200 hover:scale-110 shadow-sm cursor-pointer border border-gray-200/50"
-                        title="Copy Link"
-                      >
-                        <svg className="w-3.5 h-3.5 stroke-current" viewBox="0 0 24 24" fill="none" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></svg>
-                      </button>
                     </div>
                   )}
                 </div>
