@@ -152,7 +152,7 @@ export default function AllEvents() {
             </button>
 
             {/* Scrollable Modal Content */}
-            <div className="overflow-y-auto p-6 md:p-8 space-y-6">
+            <div className="flex-1 min-h-0 overflow-y-auto p-6 md:p-8 space-y-6">
               
               {/* Event Image */}
               <div className="h-[280px] md:h-[350px] w-full rounded-2xl overflow-hidden relative shadow-sm">
