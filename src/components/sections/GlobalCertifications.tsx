@@ -1,91 +1,108 @@
 import React, { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { Award, Briefcase, GraduationCap, Zap, ChevronRight, ShieldCheck, Cpu, Bot, LineChart, Globe } from "lucide-react";
+import { motion, useScroll } from "framer-motion";
+import { Award, ChevronRight } from "lucide-react";
 
 // Content Data mapped from user request with updated Wordmark Logos
 const certifications = [
   {
     name: "SAP",
     description: "Enterprise Resource Planning (ERP), business processes, supply chain, finance, and analytics.",
-    iconUrl: "https://upload.wikimedia.org/wikipedia/commons/5/59/SAP_2011_logo.svg",
+    images: ["https://upload.wikimedia.org/wikipedia/commons/5/59/SAP_2011_logo.svg"],
     color: "#0FAFFF"
   },
   {
     name: "ServiceNow",
     description: "AI-powered workflow automation, IT service management, and digital operations.",
-    iconUrl: "https://upload.wikimedia.org/wikipedia/commons/9/9a/ServiceNow_logo.svg",
+    images: ["https://upload.wikimedia.org/wikipedia/commons/9/9a/ServiceNow_logo.svg"],
     color: "#81B5A1"
   },
   {
     name: "Juniper Networks",
     description: "AI-native networking, cloud infrastructure, and cybersecurity.",
-    iconUrl: "https://upload.wikimedia.org/wikipedia/commons/3/36/Juniper_Networks_logo.svg",
+    images: ["https://upload.wikimedia.org/wikipedia/commons/3/36/Juniper_Networks_logo.svg"],
     color: "#78A22F"
   },
   {
     name: "Salesforce",
     description: "Customer Relationship Management (CRM), sales automation, and business analytics.",
-    iconUrl: "https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg",
+    images: ["https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg"],
     color: "#00A1E0"
   },
   {
     name: "Zscaler",
     description: "Zero Trust Security, SASE, and cloud cybersecurity.",
-    iconUrl: "https://upload.wikimedia.org/wikipedia/commons/0/01/Zscaler_logo.svg",
+    images: ["https://upload.wikimedia.org/wikipedia/commons/0/01/Zscaler_logo.svg"],
     color: "#0054A6"
   },
   {
     name: "Microchip",
     description: "Embedded systems, IoT, microcontrollers, and Industry 4.0.",
-    iconUrl: "https://upload.wikimedia.org/wikipedia/commons/4/43/Microchip_Technology_logo.svg",
+    images: ["https://upload.wikimedia.org/wikipedia/commons/4/43/Microchip_Technology_logo.svg"],
     color: "#E42528"
   },
   {
     name: "Addverb Robotics",
     description: "Robotics, intelligent automation, warehouse automation, and AI-driven manufacturing.",
-    Icon: Bot,
+    images: ["https://addverb.com/wp-content/uploads/2023/11/addverb-logo.png"],
     color: "#F97316"
   },
   {
     name: "CodeChef",
     description: "Competitive programming, coding, and algorithmic problem-solving.",
-    iconUrl: "https://upload.wikimedia.org/wikipedia/en/thumb/7/7b/Codechef_logo.svg/1200px-Codechef_logo.svg.png",
+    images: ["https://upload.wikimedia.org/wikipedia/en/thumb/7/7b/Codechef_logo.svg/1200px-Codechef_logo.svg.png"],
     color: "#5B4638"
   },
   {
     name: "NPTEL",
     description: "IIT/IISc-certified courses in engineering, technology, sciences, and management.",
-    Icon: GraduationCap,
+    images: ["https://upload.wikimedia.org/wikipedia/en/thumb/5/52/NPTEL_logo.png/500px-NPTEL_logo.png"],
     color: "#072A6C"
   },
   {
     name: "AWS, Azure & Google Cloud",
     description: "Cloud computing, AI, DevOps, cybersecurity, and data engineering.",
-    iconUrl: "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg",
+    images: [
+      "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg",
+      "https://upload.wikimedia.org/wikipedia/commons/a/a8/Microsoft_Azure_Logo.svg",
+      "https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg"
+    ],
     color: "#FF9900"
   },
   {
     name: "Coursera & edX",
     description: "Professional certifications from leading global universities and industry partners.",
-    iconUrl: "https://upload.wikimedia.org/wikipedia/commons/e/e5/Coursera_logo.svg",
+    images: [
+      "https://upload.wikimedia.org/wikipedia/commons/e/e5/Coursera_logo.svg",
+      "https://upload.wikimedia.org/wikipedia/commons/8/8f/EdX.svg"
+    ],
     color: "#0056D2"
   },
   {
     name: "Oracle & Java",
     description: "Database management, Java programming, and enterprise application development.",
-    iconUrl: "https://upload.wikimedia.org/wikipedia/commons/5/50/Oracle_logo.svg",
+    images: [
+      "https://upload.wikimedia.org/wikipedia/commons/5/50/Oracle_logo.svg",
+      "https://upload.wikimedia.org/wikipedia/en/3/30/Java_programming_language_logo_2011.svg"
+    ],
     color: "#F80000"
   },
   {
     name: "Six Sigma & PMP",
     description: "Quality management, process improvement, and project management.",
-    Icon: Briefcase,
+    images: [
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/PMI_logo.svg/512px-PMI_logo.svg.png",
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Lean_Six_Sigma_Logo.svg/512px-Lean_Six_Sigma_Logo.svg.png"
+    ],
     color: "#8B5CF6"
   },
   {
     name: "Digital Marketing",
     description: "SEO, SEM, social media marketing, analytics, and branding (Google, HubSpot & Meta).",
-    iconUrl: "https://upload.wikimedia.org/wikipedia/commons/c/c8/Logo_Google_2013_Official.svg",
+    images: [
+      "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3f/HubSpot_Logo.svg",
+      "https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg"
+    ],
     color: "#0668E1"
   }
 ];
@@ -151,17 +168,16 @@ export default function GlobalCertifications() {
                 {/* Top Folder Tab Decoration - expands slightly on hover */}
                 <div className="absolute top-0 left-0 right-0 h-3 bg-[#7b8c9e]/80 group-hover:h-4 transition-all duration-300"></div>
                 
-                {/* Rectangular Logo Badge (Expanded) */}
-                <div className="absolute top-4 right-4 h-12 min-w-[80px] max-w-[120px] bg-white rounded-md flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.1)] px-3 py-2 z-10 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-500 border border-gray-100">
-                  {cert.iconUrl ? (
+                {/* Rectangular Logo Badge (Supports multiple logos now) */}
+                <div className="absolute top-4 right-4 h-12 min-w-[80px] max-w-[160px] bg-white rounded-md flex items-center justify-center gap-3 shadow-[0_4px_12px_rgba(0,0,0,0.1)] px-3 py-2 z-10 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-500 border border-gray-100">
+                  {cert.images.map((img, idx) => (
                     <img 
-                      src={cert.iconUrl} 
-                      alt={cert.name} 
-                      className="h-full w-auto object-contain transition-transform duration-500"
+                      key={idx}
+                      src={img} 
+                      alt={`${cert.name} logo ${idx + 1}`} 
+                      className={`${cert.images.length > 1 ? 'h-6' : 'h-full'} w-auto max-w-[100px] object-contain transition-transform duration-500`}
                     />
-                  ) : (
-                    cert.Icon && <cert.Icon className="w-7 h-7 text-[#7b8c9e] group-hover:text-[#0FAFFF] transition-colors duration-300" />
-                  )}
+                  ))}
                 </div>
 
                 <div className="p-6 pt-16 flex flex-col flex-grow relative z-0">
