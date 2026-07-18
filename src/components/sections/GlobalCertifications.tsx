@@ -7,64 +7,64 @@ const certifications = [
   {
     name: "SAP",
     description: "Enterprise Resource Planning (ERP), business processes, supply chain, finance, and analytics.",
-    images: ["https://upload.wikimedia.org/wikipedia/commons/5/59/SAP_2011_logo.svg"],
+    images: ["https://www.vectorlogo.zone/logos/sap/sap-ar21.svg"],
     color: "#0FAFFF"
   },
   {
     name: "ServiceNow",
     description: "AI-powered workflow automation, IT service management, and digital operations.",
-    images: ["https://upload.wikimedia.org/wikipedia/commons/9/9a/ServiceNow_logo.svg"],
+    images: ["https://www.vectorlogo.zone/logos/servicenow/servicenow-ar21.svg"],
     color: "#81B5A1"
   },
   {
     name: "Juniper Networks",
     description: "AI-native networking, cloud infrastructure, and cybersecurity.",
-    images: ["https://upload.wikimedia.org/wikipedia/commons/3/36/Juniper_Networks_logo.svg"],
+    images: ["https://cdn.worldvectorlogo.com/logos/juniper-networks.svg"],
     color: "#78A22F"
   },
   {
     name: "Salesforce",
     description: "Customer Relationship Management (CRM), sales automation, and business analytics.",
-    images: ["https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg"],
+    images: ["https://www.vectorlogo.zone/logos/salesforce/salesforce-ar21.svg"],
     color: "#00A1E0"
   },
   {
     name: "Zscaler",
     description: "Zero Trust Security, SASE, and cloud cybersecurity.",
-    images: ["https://upload.wikimedia.org/wikipedia/commons/0/01/Zscaler_logo.svg"],
+    images: ["https://logo.clearbit.com/zscaler.com"],
     color: "#0054A6"
   },
   {
     name: "Microchip",
     description: "Embedded systems, IoT, microcontrollers, and Industry 4.0.",
-    images: ["https://upload.wikimedia.org/wikipedia/commons/4/43/Microchip_Technology_logo.svg"],
+    images: ["https://cdn.worldvectorlogo.com/logos/microchip.svg"],
     color: "#E42528"
   },
   {
     name: "Addverb Robotics",
     description: "Robotics, intelligent automation, warehouse automation, and AI-driven manufacturing.",
-    images: ["https://addverb.com/wp-content/uploads/2023/11/addverb-logo.png"],
+    images: ["https://logo.clearbit.com/addverb.com"],
     color: "#F97316"
   },
   {
     name: "CodeChef",
     description: "Competitive programming, coding, and algorithmic problem-solving.",
-    images: ["https://upload.wikimedia.org/wikipedia/en/thumb/7/7b/Codechef_logo.svg/1200px-Codechef_logo.svg.png"],
+    images: ["https://logo.clearbit.com/codechef.com"],
     color: "#5B4638"
   },
   {
     name: "NPTEL",
     description: "IIT/IISc-certified courses in engineering, technology, sciences, and management.",
-    images: ["https://upload.wikimedia.org/wikipedia/en/thumb/5/52/NPTEL_logo.png/500px-NPTEL_logo.png"],
+    images: ["https://logo.clearbit.com/nptel.ac.in"],
     color: "#072A6C"
   },
   {
     name: "AWS, Azure & Google Cloud",
     description: "Cloud computing, AI, DevOps, cybersecurity, and data engineering.",
     images: [
-      "https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg",
-      "https://upload.wikimedia.org/wikipedia/commons/a/a8/Microsoft_Azure_Logo.svg",
-      "https://upload.wikimedia.org/wikipedia/commons/5/51/Google_Cloud_logo.svg"
+      "https://www.vectorlogo.zone/logos/amazon/amazon-ar21.svg",
+      "https://www.vectorlogo.zone/logos/microsoft/microsoft-ar21.svg",
+      "https://www.vectorlogo.zone/logos/google/google-ar21.svg"
     ],
     color: "#FF9900"
   },
@@ -72,8 +72,8 @@ const certifications = [
     name: "Coursera & edX",
     description: "Professional certifications from leading global universities and industry partners.",
     images: [
-      "https://upload.wikimedia.org/wikipedia/commons/e/e5/Coursera_logo.svg",
-      "https://upload.wikimedia.org/wikipedia/commons/8/8f/EdX.svg"
+      "https://logo.clearbit.com/coursera.org",
+      "https://logo.clearbit.com/edx.org"
     ],
     color: "#0056D2"
   },
@@ -81,8 +81,8 @@ const certifications = [
     name: "Oracle & Java",
     description: "Database management, Java programming, and enterprise application development.",
     images: [
-      "https://upload.wikimedia.org/wikipedia/commons/5/50/Oracle_logo.svg",
-      "https://upload.wikimedia.org/wikipedia/en/3/30/Java_programming_language_logo_2011.svg"
+      "https://www.vectorlogo.zone/logos/oracle/oracle-ar21.svg",
+      "https://www.vectorlogo.zone/logos/java/java-ar21.svg"
     ],
     color: "#F80000"
   },
@@ -90,8 +90,8 @@ const certifications = [
     name: "Six Sigma & PMP",
     description: "Quality management, process improvement, and project management.",
     images: [
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/PMI_logo.svg/512px-PMI_logo.svg.png",
-      "https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Lean_Six_Sigma_Logo.svg/512px-Lean_Six_Sigma_Logo.svg.png"
+      "https://logo.clearbit.com/pmi.org",
+      "https://logo.clearbit.com/sixsigma.com"
     ],
     color: "#8B5CF6"
   },
@@ -99,9 +99,9 @@ const certifications = [
     name: "Digital Marketing",
     description: "SEO, SEM, social media marketing, analytics, and branding (Google, HubSpot & Meta).",
     images: [
-      "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
-      "https://upload.wikimedia.org/wikipedia/commons/3/3f/HubSpot_Logo.svg",
-      "https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg"
+      "https://logo.clearbit.com/google.com",
+      "https://logo.clearbit.com/hubspot.com",
+      "https://logo.clearbit.com/meta.com"
     ],
     color: "#0668E1"
   }
