@@ -154,6 +154,19 @@ export default function NewsDetails() {
             ))}
           </div>
 
+          {article.sourceUrl && (
+            <div className="pt-2 flex justify-end">
+              <a 
+                href={article.sourceUrl} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[#D71920] hover:text-[#072A6C] transition-colors"
+              >
+                View News Here ➔
+              </a>
+            </div>
+          )}
+
           {/* Related Images (if available - showing a couple grid items as mocks since they represent additional coverage) */}
           <div className="grid grid-cols-2 gap-4 pt-4">
             <div className="h-[120px] md:h-[200px] rounded-xl overflow-hidden shadow-sm">

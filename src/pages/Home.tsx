@@ -928,7 +928,14 @@ export default function Home() {
             </div>
 
             {/* Map Frame */}
-            <div className="w-[130px] h-[130px] rounded-[12px] overflow-hidden bg-gray-100 shrink-0 border border-gray-200">
+            <a 
+              href="https://www.google.com/maps/place/Chalapathi+Institute+of+Technology/@16.3752188,80.2858169,17z/data=!3m1!4b1!4m6!3m5!1s0x3a4a79679802cfad:0xe67e2a901bbd33fe!8m2!3d16.3752188!4d80.2858169!16s%2Fg%2F122r446z"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-[130px] h-[130px] rounded-[12px] overflow-hidden bg-gray-100 shrink-0 border border-gray-200 relative block group"
+              title="Open Chalapathi Institute of Technology in Google Maps"
+            >
+              <div className="absolute inset-0 bg-transparent z-10 cursor-pointer" />
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3826.974950454796!2d80.28581691486445!3d16.375218788685984!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a4a79679802cfad%3A0xe67e2a901bbd33fe!2sChalapathi%20Institute%20of%20Technology!5e0!3m2!1sen!2sin!4v1657523129846!5m2!1sen!2sin"
                 width="100%"
@@ -936,8 +943,9 @@ export default function Home() {
                 style={{ border: 0 }}
                 allowFullScreen={false}
                 loading="lazy"
+                className="pointer-events-none"
               ></iframe>
-            </div>
+            </a>
           </div>
         </div>
       </section>
