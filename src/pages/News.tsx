@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, Calendar, Bookmark, X, Clock, MapPin, Share2, Flame, Award, Trophy, Users, GraduationCap, BookOpen, ChevronRight, CloudSun } from "lucide-react";
+import { ArrowRight, Calendar, Bookmark, X, Clock, MapPin, Share2, Flame, Award, Trophy, Users, GraduationCap, BookOpen, ChevronRight } from "lucide-react";
 import { useData } from "../context/DataContext";
 
 interface Article {
@@ -194,39 +194,8 @@ export default function News() {
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [activeCategory, setActiveCategory] = useState("All");
   const [featuredIndex, setFeaturedIndex] = useState(0);
-  const [weather, setWeather] = useState<{ temp: number; humidity: number; desc: string; icon: string } | null>(null);
-  const [loadingWeather, setLoadingWeather] = useState(true);
-
   useEffect(() => {
     document.title = "University News | City Chalapathi Institute of Technology";
-  }, []);
-
-  useEffect(() => {
-    fetch("https://api.open-meteo.com/v1/forecast?latitude=16.3067&longitude=80.4365&current=temperature_2m,relative_humidity_2m,weather_code")
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.current) {
-          const temp = Math.round(data.current.temperature_2m);
-          const humidity = Math.round(data.current.relative_humidity_2m);
-          const code = data.current.weather_code;
-          
-          let desc = "Sunny";
-          let icon = "☀️";
-          if (code === 0) { desc = "Clear Sky"; icon = "☀️"; }
-          else if (code >= 1 && code <= 3) { desc = "Partly Cloudy"; icon = "⛅"; }
-          else if (code >= 45 && code <= 48) { desc = "Foggy"; icon = "🌫️"; }
-          else if (code >= 51 && code <= 67) { desc = "Drizzle / Rain"; icon = "🌧️"; }
-          else if (code >= 71 && code <= 82) { desc = "Snowy"; icon = "❄️"; }
-          else if (code >= 95 && code <= 99) { desc = "Thunderstorm"; icon = "⛈️"; }
-
-          setWeather({ temp, humidity, desc, icon });
-        }
-        setLoadingWeather(false);
-      })
-      .catch(() => {
-        setWeather({ temp: 32, humidity: 65, desc: "Partly Cloudy", icon: "⛅" });
-        setLoadingWeather(false);
-      });
   }, []);
 
 
@@ -495,33 +464,6 @@ export default function News() {
                   </div>
                 ))}
               </div>
-            </div>
-
-            {/* Weather Card */}
-            <div className="bg-white rounded-[18px] p-6 shadow-sm border border-gray-100/80 space-y-4 text-left">
-              <div className="flex items-center gap-2 text-[#072A6C] border-b border-gray-100 pb-3">
-                <CloudSun size={18} className="text-[#D71920]" />
-                <h3 className="text-sm font-black uppercase tracking-wider">CAMPUS WEATHER</h3>
-              </div>
-              
-              {loadingWeather ? (
-                <div className="text-xs text-gray-400 py-4 animate-pulse">Loading live weather data...</div>
-              ) : weather ? (
-                <div className="flex items-center justify-between py-2">
-                  <div className="flex items-center gap-4">
-                    <span className="text-4xl select-none">{weather.icon}</span>
-                    <div className="flex flex-col">
-                      <span className="text-3xl font-black text-[#072A6C] leading-none">{weather.temp}°C</span>
-                      <span className="text-[10px] font-semibold text-gray-400 mt-1 uppercase tracking-wide">{weather.desc}</span>
-                    </div>
-                  </div>
-                  <div className="text-right space-y-0.5">
-                    <p className="text-[11px] font-black text-gray-700">Guntur, AP</p>
-                    <p className="text-[9px] font-bold text-gray-400">Humidity: {weather.humidity}%</p>
-                    <p className="text-[8px] text-gray-300 font-medium">Open-Meteo API</p>
-                  </div>
-                </div>
-              ) : null}
             </div>
           </div>
 
