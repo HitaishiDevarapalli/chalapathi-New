@@ -80,13 +80,13 @@ export default function GlobalCertifications() {
                 <div className="absolute top-0 left-0 right-0 h-3 bg-[#7b8c9e]/80 group-hover:h-4 transition-all duration-300"></div>
                 
                 {/* Rectangular Logo Badge (Supports multiple logos now) */}
-                <div className="absolute top-4 right-4 h-12 min-w-[80px] max-w-[160px] bg-white rounded-md flex items-center justify-center gap-3 shadow-[0_4px_12px_rgba(0,0,0,0.1)] px-3 py-2 z-10 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-500 border border-gray-100">
+                <div className="absolute top-4 right-4 h-12 min-w-[80px] max-w-[220px] bg-white rounded-md flex items-center justify-center gap-3 shadow-[0_4px_12px_rgba(0,0,0,0.1)] px-3 py-2 z-10 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-500 border border-gray-100">
                   {cert.images.map((img, idx) => (
                     <img 
                       key={idx}
                       src={img} 
                       alt={`${cert.name} logo ${idx + 1}`} 
-                      className={`${cert.images.length > 1 ? 'h-6' : 'h-full'} w-auto max-w-[100px] object-contain transition-transform duration-500`}
+                      className={`${cert.images.length > 1 ? 'h-6' : 'h-full'} w-auto max-w-[180px] object-contain transition-transform duration-500`}
                     />
                   ))}
                 </div>
@@ -237,7 +237,7 @@ export default function GlobalCertifications() {
                               key={i} 
                               src={img} 
                               alt={`${selectedCert.name} Logo ${i+1}`} 
-                              className="h-16 w-auto max-w-[120px] object-contain drop-shadow-sm transition-transform duration-500 group-hover:scale-110" 
+                              className="h-16 w-auto max-w-[240px] object-contain drop-shadow-sm transition-transform duration-500 group-hover:scale-110" 
                             />
                           ))}
                         </div>
