@@ -400,7 +400,7 @@ export default function News() {
               return (
                 <button
                   key={item.id}
-                  onClick={() => navigate(`/news/events/${item.slug}`)}
+                  onClick={() => setShowEventsDrawer(true)}
                   className="w-full text-left flex items-start gap-4 pt-4 md:pt-0 md:px-4 first:pl-0 last:pr-0 cursor-pointer outline-none group"
                 >
                   {/* Calendar Box Badge */}
@@ -621,9 +621,9 @@ export default function News() {
           />
           
           {/* Drawer Track Container */}
-          <div className="fixed inset-0 z-50 flex justify-end pointer-events-none">
+          <div className="fixed inset-0 z-50 flex justify-start pointer-events-none">
             <div 
-              className="bg-[#F7F8FC] w-full max-w-[420px] h-full shadow-2xl relative flex flex-col text-left rounded-l-2xl transform transition-transform duration-300 animate-slide-in-right pointer-events-auto"
+              className="bg-[#F7F8FC] w-full max-w-[420px] h-full shadow-2xl relative flex flex-col text-left rounded-r-2xl transform transition-transform duration-300 animate-slide-in pointer-events-auto"
               onClick={(e) => e.stopPropagation()}
             >
               {/* Header */}
