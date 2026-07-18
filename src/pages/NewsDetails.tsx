@@ -47,28 +47,7 @@ export default function NewsDetails() {
     ? relatedNews 
     : news.filter((item) => item.id !== article.id).slice(0, 3);
 
-  // Source name extractor
-  const getSourceName = (url?: string) => {
-    if (!url) return "Official Source";
-    const lower = url.toLowerCase();
-    if (lower.includes("sakshi.com")) return "Sakshi";
-    if (lower.includes("eenadu.net")) return "Eenadu";
-    if (lower.includes("thehindu.com")) return "The Hindu";
-    if (lower.includes("timesofindia")) return "Times of India";
-    if (lower.includes("youtube.com") || lower.includes("youtu.be")) return "YouTube";
-    if (lower.includes("tv9")) return "TV9";
-    if (lower.includes("ntvtelugu")) return "NTV";
-    if (lower.includes("abnandhrajyothy")) return "ABN Andhra Jyothy";
-    
-    try {
-      const domain = new URL(url).hostname.replace("www.", "");
-      return domain.charAt(0).toUpperCase() + domain.slice(1).split('.')[0];
-    } catch {
-      return "Official Source";
-    }
-  };
 
-  const sourceName = getSourceName(article.sourceUrl);
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -146,21 +125,6 @@ export default function NewsDetails() {
             </div>
           </div>
 
-          {/* Source URL Above News Title */}
-          {article.sourceUrl && (
-            <div className="text-xs text-gray-500 font-medium font-[var(--font-inter)] bg-gray-50 px-4 py-2.5 rounded-xl border border-gray-100/80 flex flex-wrap items-center gap-1.5 w-fit">
-              <span className="font-bold text-gray-400 uppercase text-[9px] tracking-wider">Source Link:</span>
-              <a 
-                href={article.sourceUrl} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="text-[#072A6C] hover:text-[#D71920] transition-colors font-semibold underline inline-flex items-center gap-1 break-all"
-              >
-                {article.sourceUrl} <ExternalLink size={11} />
-              </a>
-            </div>
-          )}
-
           {/* Title */}
           <h1 className="text-2xl md:text-4xl font-extrabold text-[#072A6C] leading-snug tracking-tight">
             {article.title}
@@ -200,25 +164,7 @@ export default function NewsDetails() {
             </div>
           </div>
 
-          {/* Source Link Section */}
-          {article.sourceUrl && (
-            <div className="border-t border-gray-100 pt-6 mt-6 flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gray-50/50 p-6 rounded-[14px]">
-              <div className="space-y-1">
-                <span className="text-[10px] uppercase font-bold tracking-widest text-gray-400 block">Article Verification</span>
-                <p className="text-xs text-gray-500 font-semibold">
-                  Source: <span className="text-gray-800 font-extrabold">{sourceName}</span>
-                </p>
-              </div>
-              <a 
-                href={article.sourceUrl} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="inline-flex items-center gap-1.5 px-5 py-2.5 bg-[#072A6C] hover:bg-[#D71920] text-white text-xs font-bold rounded-full transition-all shadow-sm shrink-0 w-fit"
-              >
-                Open Original News <ExternalLink size={12} />
-              </a>
-            </div>
-          )}
+
 
           {/* Previous / Next Navigation */}
           <div className="flex items-center justify-between border-t border-gray-100 pt-6 mt-6">

@@ -5617,7 +5617,7 @@ function ContactUsView() {
             </p>
           </div>
           <a 
-            href="https://maps.app.goo.gl/Y5JcrXLvSg8M6W1M9" 
+            href="https://www.google.com/maps/place/Chalapathi+Institute+of+Technology/@16.3752188,80.2858169,17z/data=!3m1!4b1!4m6!3m5!1s0x3a4a79679802cfad:0xe67e2a901bbd33fe!8m2!3d16.3752188!4d80.2858169!16s%2Fg%2F122r446z" 
             target="_blank" 
             rel="noopener noreferrer"
             className="h-10 px-5 bg-[#072A6C] hover:bg-[#0c409c] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-1.5 transition-colors shrink-0 outline-none border-none text-center"
@@ -5629,7 +5629,7 @@ function ContactUsView() {
         {/* Map iframe */}
         <div className="rounded-xl overflow-hidden border border-gray-200 h-64 md:h-80 shadow-inner">
           <iframe 
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3826.657936166885!2d80.37583647488057!3d16.442999384288053!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a35f114c0000001%3A0x608e1a81230491d9!2sChalapathi%20Institute%20of%20Technology!5e0!3m2!1sen!2sin!4v1720853500000!5m2!1sen!2sin" 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3826.974950454796!2d80.28581691486445!3d16.375218788685984!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a4a79679802cfad%3A0xe67e2a901bbd33fe!2sChalapathi%20Institute%20of%20Technology!5e0!3m2!1sen!2sin!4v1657523129846!5m2!1sen!2sin" 
             width="100%" 
             height="100%" 
             style={{ border: 0 }} 

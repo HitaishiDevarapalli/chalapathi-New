@@ -97,7 +97,6 @@ export default function AdminPortal() {
   const [newNewsBody, setNewNewsBody] = useState("");
   const [newNewsLoc, setNewNewsLoc] = useState("");
   const [newNewsTime, setNewNewsTime] = useState("");
-  const [newNewsSourceUrl, setNewNewsSourceUrl] = useState("");
   
   const [newEventTitle, setNewEventTitle] = useState("");
   const [newEventCategory, setNewEventCategory] = useState("Workshop");
@@ -292,7 +291,7 @@ export default function AdminPortal() {
   // Add News Article
   const handleAddNews = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newNewsTitle || !newNewsBody || !newNewsSourceUrl) return;
+    if (!newNewsTitle || !newNewsBody) return;
     const nextId = news.length > 0 ? Math.max(...news.map(n => n.id)) + 1 : 1;
     const slug = newNewsTitle
       .toLowerCase()
@@ -309,8 +308,7 @@ export default function AdminPortal() {
       excerpt: newNewsExcerpt || newNewsBody.substring(0, 120) + "...",
       bodyText: newNewsBody,
       image: "/prog_computer.png",
-      slug: slug,
-      sourceUrl: newNewsSourceUrl
+      slug: slug
     };
     updateNews([newArt, ...news]);
     setNewNewsTitle("");
@@ -318,7 +316,6 @@ export default function AdminPortal() {
     setNewNewsBody("");
     setNewNewsLoc("");
     setNewNewsTime("");
-    setNewNewsSourceUrl("");
     showNotification();
   };
 
@@ -999,28 +996,15 @@ export default function AdminPortal() {
                       className="w-full p-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-light leading-relaxed"
                     />
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-bold uppercase text-gray-500">Source URL (Mandatory)</label>
-                      <input
-                        type="url"
-                        required
-                        placeholder="e.g. https://www.thehindu.com/... or https://www.eenadu.net/..."
-                        value={newNewsSourceUrl}
-                        onChange={(e) => setNewNewsSourceUrl(e.target.value)}
-                        className="w-full h-10 px-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-semibold"
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-[10px] font-bold uppercase text-gray-500">News Location (Optional)</label>
-                      <input
-                        type="text"
-                        placeholder="e.g. Main Auditorium"
-                        value={newNewsLoc}
-                        onChange={(e) => setNewNewsLoc(e.target.value)}
-                        className="w-full h-10 px-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-semibold"
-                      />
-                    </div>
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-bold uppercase text-gray-500">News Location (Optional)</label>
+                    <input
+                      type="text"
+                      placeholder="e.g. Main Auditorium"
+                      value={newNewsLoc}
+                      onChange={(e) => setNewNewsLoc(e.target.value)}
+                      className="w-full h-10 px-3.5 rounded-xl border border-gray-200 focus:outline-none focus:border-[#072A6C] text-xs font-semibold"
+                    />
                   </div>
                   <div className="flex justify-end">
                     <button

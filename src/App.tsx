@@ -287,56 +287,35 @@ function AppContent() {
               className="w-full h-full object-cover"
             />
             <style dangerouslySetInnerHTML={{__html: `
-              .intro-speech-bubble {
+              .intro-skip-text {
                 position: absolute;
-                bottom: 96px;
-                right: 24px;
-                background: #ffffff;
-                border: 3.5px solid #D71920;
-                border-radius: 16px;
-                padding: 12px 22px;
-                font-weight: 900;
-                font-size: 11px;
-                color: #072A6C;
+                bottom: 48px;
+                right: 48px;
+                background: transparent;
+                border: none;
+                font-weight: 800;
+                font-size: 13px;
+                color: #ffffff;
                 text-transform: uppercase;
-                letter-spacing: 0.12em;
-                box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+                letter-spacing: 0.15em;
+                text-shadow: 0 2px 5px rgba(0, 0, 0, 0.7);
                 cursor: pointer;
                 outline: none;
                 transition: all 0.2s ease;
                 z-index: 1000000;
               }
-              .intro-speech-bubble:hover {
+              .intro-skip-text:hover {
+                color: #D71920;
                 transform: scale(1.05);
               }
-              .intro-speech-bubble:active {
+              .intro-skip-text:active {
                 transform: scale(0.95);
-              }
-              .intro-speech-bubble::after, .intro-speech-bubble::before {
-                top: 100%;
-                left: 25%;
-                border: solid transparent;
-                content: "";
-                height: 0;
-                width: 0;
-                position: absolute;
-                pointer-events: none;
-              }
-              .intro-speech-bubble::after {
-                border-top-color: #ffffff;
-                border-width: 9px;
-                margin-left: -9px;
-              }
-              .intro-speech-bubble::before {
-                border-top-color: #D71920;
-                border-width: 13px;
-                margin-left: -13px;
               }
             `}} />
             
             <button
               onClick={() => setShowSplash(false)}
-              className="intro-speech-bubble"
+              className="intro-skip-text"
             >
               Skip Intro ➔
             </button>
