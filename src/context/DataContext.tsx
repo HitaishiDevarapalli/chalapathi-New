@@ -606,7 +606,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
   });
 
   const [aboutContent, setAboutContent] = useState<AboutUsContent>(() => {
-    const local = localStorage.getItem("chalapathi_about");
+    const local = localStorage.getItem("chalapathi_about_v2");
     return local ? JSON.parse(local) : INITIAL_ABOUT_CONTENT;
   });
 
@@ -657,7 +657,7 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const updateAboutContent = (content: AboutUsContent) => {
     setAboutContent(content);
-    localStorage.setItem("chalapathi_about", JSON.stringify(content));
+    localStorage.setItem("chalapathi_about_v2", JSON.stringify(content));
   };
 
   const updateCalendarData = (data: MonthCalendarData[]) => {
