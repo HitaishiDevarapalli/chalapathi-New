@@ -19,7 +19,7 @@ const certifications = [
   {
     name: "Juniper Networks",
     description: "AI-native networking, cloud infrastructure, and cybersecurity.",
-    images: ["https://cdn.worldvectorlogo.com/logos/juniper-networks.svg"],
+    images: ["https://upload.wikimedia.org/wikipedia/commons/3/31/Juniper_Networks_logo.svg"],
     color: "#78A22F"
   },
   {
