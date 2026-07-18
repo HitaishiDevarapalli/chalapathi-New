@@ -74,7 +74,7 @@ export const certifications: Certification[] = [
     id: "aws-azure-gcp",
     name: "AWS, Azure & Google Cloud",
     description: "Cloud computing, AI, DevOps, cybersecurity, and data engineering.",
-    images: ["/cloud-providers.png"],
+    images: ["/cloud-providers-v2.png"],
     color: "#FF9900"
   },
   {
