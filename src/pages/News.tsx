@@ -80,8 +80,8 @@ export default function News() {
   const [showToast, setShowToast] = useState(false);
   const [activeShareItem, setActiveShareItem] = useState<{ type: "news" | "event"; id: number } | null>(null);
   
-  // Track active university highlight (defaults to first item ID)
-  const [activeHighlightId, setActiveHighlightId] = useState<number>(1);
+  // Track active university highlight (defaults to null so none are active by default)
+  const [activeHighlightId, setActiveHighlightId] = useState<number | null>(null);
 
   // Upcoming Events drawer state
   const [showEventsDrawer, setShowEventsDrawer] = useState(false);
@@ -305,7 +305,7 @@ export default function News() {
               <Flame size={16} className="text-red-500 fill-current animate-pulse" />
               <h3 className="text-xs font-black uppercase tracking-wider">University Highlights</h3>
             </div>
-            <Link to="/news" className="text-[10px] font-bold text-[#072A6C] hover:text-[#D71920] transition-colors">
+            <Link to="/news/latest" className="text-[10px] font-bold text-[#072A6C] hover:text-[#D71920] transition-colors">
               View All
             </Link>
           </div>

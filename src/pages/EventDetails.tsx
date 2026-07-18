@@ -172,6 +172,21 @@ export default function EventDetails() {
   const [formData, setFormData] = useState({ name: "", email: "", phone: "", rollNo: "" });
   const [regSuccess, setRegSuccess] = useState(false);
 
+  // Close registration modal on Escape key press
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setShowRegForm(false);
+      }
+    };
+    if (showRegForm) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [showRegForm]);
+
   // Find current event
   const currentIdx = events.findIndex((item) => item.slug === slug);
   const eventItem = currentIdx !== -1 ? events[currentIdx] : null;
@@ -399,7 +414,7 @@ export default function EventDetails() {
                   <h4 className="text-xs font-bold text-green-800">Successfully Registered!</h4>
                   <p className="text-[10px] text-green-600 font-light">Ticket details have been sent to <strong>{formData.email}</strong>.</p>
                 </div>
-              ) : !showRegForm ? (
+              ) : (
                 <div className="space-y-3">
                   <p className="text-[11px] text-gray-500 font-medium">Secure your seat for this upcoming campus activity online today.</p>
                   <button 
@@ -409,57 +424,6 @@ export default function EventDetails() {
                     Register Online
                   </button>
                 </div>
-              ) : (
-                <form onSubmit={handleRegisterSubmit} className="space-y-3.5 text-left">
-                  <div>
-                    <label className="block text-[10px] font-bold text-gray-500 mb-1 uppercase">Full Name</label>
-                    <input 
-                      type="text" 
-                      required 
-                      className="w-full px-3 py-2 text-xs border border-gray-200 rounded-lg outline-none focus:ring-1 focus:ring-[#072A6C] bg-white"
-                      placeholder="Enter name"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[10px] font-bold text-gray-500 mb-1 uppercase">Email Address</label>
-                    <input 
-                      type="email" 
-                      required 
-                      className="w-full px-3 py-2 text-xs border border-gray-200 rounded-lg outline-none focus:ring-1 focus:ring-[#072A6C] bg-white"
-                      placeholder="Enter email"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-[10px] font-bold text-gray-500 mb-1 uppercase">Phone Number</label>
-                    <input 
-                      type="tel" 
-                      required 
-                      className="w-full px-3 py-2 text-xs border border-gray-200 rounded-lg outline-none focus:ring-1 focus:ring-[#072A6C] bg-white"
-                      placeholder="Enter phone"
-                      value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    />
-                  </div>
-                  <div className="flex gap-2 pt-2">
-                    <button 
-                      type="button"
-                      onClick={() => setShowRegForm(false)}
-                      className="flex-1 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 text-[11px] font-bold rounded-lg transition-colors cursor-pointer"
-                    >
-                      Cancel
-                    </button>
-                    <button 
-                      type="submit"
-                      className="flex-1 py-2 bg-[#D71920] hover:bg-[#b71217] text-white text-[11px] font-bold rounded-lg transition-colors cursor-pointer"
-                    >
-                      Confirm
-                    </button>
-                  </div>
-                </form>
               )}
             </div>
 
@@ -588,6 +552,81 @@ export default function EventDetails() {
           <Check size={14} className="text-green-400" />
           <span>Link copied successfully!</span>
         </div>
+      )}
+
+      {/* 🌟 Registration Modal (Center of the screen) */}
+      {showRegForm && !closed && !regSuccess && (
+        <>
+          {/* Backdrop */}
+          <div 
+            className="fixed inset-0 bg-black/45 backdrop-blur-sm z-50 transition-opacity duration-300 pointer-events-auto cursor-pointer"
+            onClick={() => setShowRegForm(false)}
+          />
+
+          {/* Modal Container */}
+          <div className="fixed inset-0 flex items-center justify-center p-4 z-50 pointer-events-none">
+            <div 
+              className="bg-white border border-gray-100 w-full max-w-[360px] rounded-[24px] p-6 shadow-2xl relative flex flex-col gap-4 transform transition-transform duration-300 animate-fade-in pointer-events-auto text-left"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h3 className="text-sm font-black text-[#072A6C] uppercase tracking-wider text-center border-b border-gray-100 pb-3">
+                Registration
+              </h3>
+
+              <form onSubmit={handleRegisterSubmit} className="space-y-3.5">
+                <div>
+                  <label className="block text-[10px] font-bold text-gray-500 mb-1 uppercase tracking-wider">Full Name</label>
+                  <input 
+                    type="text" 
+                    required 
+                    className="w-full px-3 py-2 text-xs border border-gray-200 rounded-lg outline-none focus:ring-1 focus:ring-[#072A6C] bg-white font-medium text-gray-800"
+                    placeholder="Enter name"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-gray-500 mb-1 uppercase tracking-wider">Email Address</label>
+                  <input 
+                    type="email" 
+                    required 
+                    className="w-full px-3 py-2 text-xs border border-gray-200 rounded-lg outline-none focus:ring-1 focus:ring-[#072A6C] bg-white font-medium text-gray-800"
+                    placeholder="Enter email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] font-bold text-gray-500 mb-1 uppercase tracking-wider">Phone Number</label>
+                  <input 
+                    type="tel" 
+                    required 
+                    className="w-full px-3 py-2 text-xs border border-gray-200 rounded-lg outline-none focus:ring-1 focus:ring-[#072A6C] bg-white font-medium text-gray-800"
+                    placeholder="Enter phone"
+                    value={formData.phone}
+                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  />
+                </div>
+
+                <div className="flex gap-3 pt-3">
+                  <button 
+                    type="button"
+                    onClick={() => setShowRegForm(false)}
+                    className="flex-1 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-xl transition-colors cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    type="submit"
+                    className="flex-1 py-2 bg-[#D71920] hover:bg-[#b71217] text-white text-xs font-bold rounded-xl transition-colors cursor-pointer"
+                  >
+                    Confirm
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </>
       )}
 
     </div>

@@ -85,6 +85,15 @@ const getProgramTimeline = (title: string) => {
 const getPageContent = (path: string, programs: any[]) => {
   const cleanPath = path.toLowerCase().replace(/\/$/, "");
 
+  if (cleanPath === "/news/latest") {
+    return {
+      title: "University Highlights",
+      category: "News & Press",
+      desc: "Stay updated with the latest achievements, innovations, and stories from Chalapathi University.",
+      body: <LatestNewsView />
+    };
+  }
+
   // News Article Pages
   if (cleanPath.startsWith("/news/")) {
     const article = [
@@ -2394,6 +2403,33 @@ function DepartmentFacultyView({ slug }: { slug: string }) {
           </div>
         ))}
       </div>
+    </div>
+  );
+}
+
+function LatestNewsView() {
+  const { news } = useData();
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+      {news.map((item) => (
+        <Link 
+          key={item.id}
+          to={`/news/${item.slug}`}
+          className="bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow transition-all flex flex-col md:flex-row cursor-pointer group"
+        >
+          <div className="w-full md:w-1/3 h-40 bg-gray-50 border-r border-gray-100 overflow-hidden">
+            <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-300" />
+          </div>
+          <div className="p-5 flex-1 flex flex-col justify-between text-left">
+            <div className="space-y-1.5">
+              <div className="text-[9px] text-[#D71920] font-black uppercase tracking-wider">{item.category} • {item.date}</div>
+              <h4 className="text-xs font-bold text-[#072A6C] leading-snug line-clamp-2 group-hover:text-[#D71920] transition-colors">{item.title}</h4>
+              <p className="text-[11px] text-gray-500 font-light leading-relaxed line-clamp-2">{item.excerpt}</p>
+            </div>
+            <span className="text-[10px] font-bold text-[#D71920] hover:text-[#072A6C] transition-colors mt-3 inline-block">Read Full Story →</span>
+          </div>
+        </Link>
+      ))}
     </div>
   );
 }
