@@ -146,6 +146,21 @@ export default function NewsDetails() {
             </div>
           </div>
 
+          {/* Source URL Above News Title */}
+          {article.sourceUrl && (
+            <div className="text-xs text-gray-500 font-medium font-[var(--font-inter)] bg-gray-50 px-4 py-2.5 rounded-xl border border-gray-100/80 flex flex-wrap items-center gap-1.5 w-fit">
+              <span className="font-bold text-gray-400 uppercase text-[9px] tracking-wider">Source Link:</span>
+              <a 
+                href={article.sourceUrl} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="text-[#072A6C] hover:text-[#D71920] transition-colors font-semibold underline inline-flex items-center gap-1 break-all"
+              >
+                {article.sourceUrl} <ExternalLink size={11} />
+              </a>
+            </div>
+          )}
+
           {/* Title */}
           <h1 className="text-2xl md:text-4xl font-extrabold text-[#072A6C] leading-snug tracking-tight">
             {article.title}
