@@ -90,8 +90,8 @@ const certifications = [
     name: "Six Sigma & PMP",
     description: "Quality management, process improvement, and project management.",
     images: [
-      "/six-sigma.png",
-      "/pmp.png"
+      "https://logo.clearbit.com/sixsigma.com",
+      "https://logo.clearbit.com/pmi.org"
     ],
     color: "#8B5CF6"
   },
@@ -196,7 +196,7 @@ export default function GlobalCertifications() {
                   </p>
                   
                   <div className="text-sm text-[#006A80] font-medium mb-6 group-hover:text-red-500 transition-colors flex items-center gap-1">
-                    Read more <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                    Start Certification <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
                   </div>
                   
                   <button className="w-full py-3 bg-[#425974] group-hover:bg-[#072A6C] text-white text-[13px] font-semibold rounded-[4px] transition-colors duration-300 mt-auto transform group-hover:-translate-y-1">
