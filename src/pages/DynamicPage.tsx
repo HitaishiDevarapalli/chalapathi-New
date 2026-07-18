@@ -103,6 +103,48 @@ const getPageContent = (path: string, programs: any[]) => {
         bodyText: "We are extremely proud to announce that the student research team from our Electronics and Computer Science Engineering departments has won the prestigious National Smart Systems Hackathon 2025. Over a grueling 36-hour continuous sprint in New Delhi, the team designed and prototyped a self-healing, decentralized IoT mesh network framework tailored for real-time disaster management communication. The algorithm maintains high packet-delivery rates even during severe node disruptions. The project won first prize, carrying a gold trophy and a cash reward of ₹1,00,000, standing out among 250 participating institutions nationwide."
       },
       {
+        slug: "yoga-day",
+        title: "International Yoga Day Celebrated with Great Enthusiasm",
+        category: "Campus Life",
+        desc: "Students and faculty participated in a special yoga session promoting health and wellness.",
+        bodyText: "Students and faculty participated in a special yoga session promoting health, wellness, and mental clarity on International Yoga Day. The event was held in the main campus courtyard with over 500 participants practicing various asanas guided by certified yoga instructors."
+      },
+      {
+        slug: "renewable-energy",
+        title: "New Study on Renewable Energy Published in Scopus Journal",
+        category: "Research",
+        desc: "The research highlights the efficiency of hybrid models in optimizing sustainable energy.",
+        bodyText: "A breakthrough research paper on renewable energy harvesting techniques has been published in a top-tier Scopus-indexed journal. The study highlights the implementation of hybrid solar-wind energy conservation models in microgrids."
+      },
+      {
+        slug: "record-placements",
+        title: "Record Placements in 2025 Batch",
+        category: "Placements",
+        desc: "Top recruiters from across the globe visited campus. Students secured roles in leading MNCs.",
+        bodyText: "City Chalapathi Institute of Technology registers outstanding placement results for the 2025 batch. Leading multinationals including tech and core giants participated, offering premium software engineering and core research positions to over 90% of eligible graduates."
+      },
+      {
+        slug: "annual-convocation",
+        title: "Annual Convocation 2025 Held with Grandeur",
+        category: "Campus Life",
+        desc: "Graduating students received degrees and medals at the colorful convocation ceremony.",
+        bodyText: "The 2025 annual convocation ceremony was celebrated with grand success. Distinguished chief guests from corporate and academic bodies addressed the graduating cohort and distributed gold medals to academic toppers."
+      },
+      {
+        slug: "admissions-open",
+        title: "Admissions Open for Academic Year 2025-26",
+        category: "Admissions",
+        desc: "Applications are invited for UG, PG, and Ph.D. courses. Apply online today.",
+        bodyText: "Admissions are officially open for the academic term 2025-2026. Prospective candidates can check qualifications, course fees, placement details, and apply online through our official portal."
+      },
+      {
+        slug: "innovation-summit",
+        title: "Annual Innovation & Entrepreneurship Summit",
+        category: "Events",
+        desc: "Empowering student founders, early-stage startups, and venture capitalists to collaborate on product solutions.",
+        bodyText: "The Annual Innovation & Entrepreneurship Summit at City Chalapathi stands as our premier event dedicated to building startup ecosystems. Student groups will pitch prototypes directly to angel investors, regional venture capital firms, and incubator heads."
+      },
+      {
         slug: "mou-signed",
         title: "MoU Signed with Top Global Corporations for Placements",
         category: "Corporate Link",

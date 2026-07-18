@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { ArrowRight, Calendar, Bookmark, X, Clock, MapPin, Share2, Flame, Award, Trophy, Users, GraduationCap, BookOpen, ChevronRight } from "lucide-react";
 
 interface Article {
@@ -11,6 +12,7 @@ interface Article {
   excerpt: string;
   bodyText: string;
   image: string;
+  slug: string;
 }
 
 const MSN_NEWS_ITEMS: Article[] = [
@@ -23,7 +25,8 @@ const MSN_NEWS_ITEMS: Article[] = [
     category: "Innovation",
     excerpt: "In partnership with global tech giants, the new laboratory features advanced machine learning compute nodes for research projects.",
     bodyText: "Today marks a historic milestone for City Chalapathi Institute of Technology as we formally inaugurate our state-of-the-art Artificial Intelligence and Machine Learning Research Laboratory. Developed in close collaboration with global technology leaders, this research center is equipped with high-throughput multi-GPU processing systems and next-generation compute environments designed specifically for heavy workload deep learning and neural network model training. Under the direction of our senior AI research staff, undergraduate and doctoral scholars will collaborate on active research papers, smart industrial solutions, and healthcare diagnostics automation projects.",
-    image: "/prog_computer.png"
+    image: "/prog_computer.png",
+    slug: "ai-research-lab"
   },
   {
     id: 2,
@@ -34,7 +37,8 @@ const MSN_NEWS_ITEMS: Article[] = [
     category: "Achievement",
     excerpt: "Our team developed a decentralized IoT mesh network algorithm to win first prize.",
     bodyText: "Our student research team from our Electronics and Computer Science Engineering departments has won the prestigious National Smart Systems Hackathon 2025. Over a grueling 36-hour continuous sprint in New Delhi, the team designed and prototyped a self-healing, decentralized IoT mesh network framework tailored for real-time disaster management communication.",
-    image: "/prog_engineering.png"
+    image: "/prog_engineering.png",
+    slug: "smart-hackathon"
   },
   {
     id: 3,
@@ -45,7 +49,8 @@ const MSN_NEWS_ITEMS: Article[] = [
     category: "Campus Life",
     excerpt: "Students and faculty participated in a special yoga session promoting health and wellness.",
     bodyText: "Students and faculty participated in a special yoga session promoting health, wellness, and mental clarity on International Yoga Day. The event was held in the main campus courtyard with over 500 participants practicing various asanas guided by certified yoga instructors.",
-    image: "/prog_diploma.png"
+    image: "/prog_diploma.png",
+    slug: "yoga-day"
   },
   {
     id: 4,
@@ -56,7 +61,8 @@ const MSN_NEWS_ITEMS: Article[] = [
     category: "Research",
     excerpt: "The research highlights the efficiency of hybrid models in optimizing sustainable energy.",
     bodyText: "A breakthrough research paper on renewable energy harvesting techniques has been published in a top-tier Scopus-indexed journal. The study highlights the implementation of hybrid solar-wind energy conservation models in microgrids.",
-    image: "/prog_mtech.png"
+    image: "/prog_mtech.png",
+    slug: "renewable-energy"
   },
   {
     id: 5,
@@ -67,7 +73,8 @@ const MSN_NEWS_ITEMS: Article[] = [
     category: "Placements",
     excerpt: "Top recruiters from across the globe visited campus. Students secured roles in leading MNCs.",
     bodyText: "City Chalapathi Institute of Technology registers outstanding placement results for the 2025 batch. Leading multinationals including tech and core giants participated, offering premium software engineering and core research positions to over 90% of eligible graduates.",
-    image: "/prog_management.png"
+    image: "/prog_management.png",
+    slug: "record-placements"
   },
   {
     id: 6,
@@ -78,7 +85,44 @@ const MSN_NEWS_ITEMS: Article[] = [
     category: "Campus Life",
     excerpt: "Graduating students received degrees and medals at the colorful convocation ceremony.",
     bodyText: "The 2025 annual convocation ceremony was celebrated with grand success. Distinguished chief guests from corporate and academic bodies addressed the graduating cohort and distributed gold medals to academic toppers.",
-    image: "/prog_pharmacy.png"
+    image: "/prog_pharmacy.png",
+    slug: "annual-convocation"
+  },
+  {
+    id: 7,
+    title: "Annual Innovation & Entrepreneurship Summit",
+    date: "10 May 2025",
+    time: "09:30 AM",
+    location: "Campus Incubation & Startup Block",
+    category: "Events",
+    excerpt: "Empowering student founders, early-stage startups, and venture capitalists to collaborate on product solutions.",
+    bodyText: "The Annual Innovation & Entrepreneurship Summit at City Chalapathi stands as our premier event dedicated to building startup ecosystems. Student groups will pitch prototypes directly to angel investors, regional venture capital firms, and incubator heads.",
+    image: "/prog_engineering.png",
+    slug: "innovation-summit"
+  },
+  {
+    id: 8,
+    title: "Annual Sports Meet Kickstarts with Inter-Department Matches",
+    date: "08 May 2025",
+    time: "09:00 AM",
+    location: "Central Sports Complex",
+    category: "Sports",
+    excerpt: "The campus cricket and basketball tournaments kicked off with participation from over 500 athletes.",
+    bodyText: "The annual campus sports tournament commenced yesterday with a spectacular torch run and flag hoisting ceremony at the main sports complex. Over 500 student athletes representing all departments are participating.",
+    image: "/prog_pharmacy.png",
+    slug: "annual-sports-meet"
+  },
+  {
+    id: 9,
+    title: "Admissions Open for Academic Year 2025-26",
+    date: "05 May 2025",
+    time: "10:00 AM",
+    location: "Admissions Cell",
+    category: "Admissions",
+    excerpt: "Applications are invited for UG, PG, and Ph.D. courses. Apply online today.",
+    bodyText: "Admissions are officially open for the academic term 2025-2026. Prospective candidates can check qualifications, course fees, placement details, and apply online through our official portal.",
+    image: "/prog_computer.png",
+    slug: "admissions-open"
   }
 ];
 
@@ -144,6 +188,7 @@ const NEWS_CATEGORIES_INFO = [
 const FILTER_CATEGORIES = ["All", "Research", "Placements", "Campus Life", "Events", "Sports", "Admissions", "Innovation"];
 
 export default function News() {
+  const navigate = useNavigate();
   const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [showShareMenu, setShowShareMenu] = useState(false);
   const [activeCategory, setActiveCategory] = useState("All");
@@ -249,7 +294,7 @@ export default function News() {
 
               <div className="pt-5 flex flex-col gap-4">
                 <button 
-                  onClick={() => setSelectedArticle(featuredArticle)}
+                  onClick={() => navigate(`/news/${featuredArticle.slug}`)}
                   className="h-10 px-5 bg-[#072A6C] hover:bg-[#072A6C]/90 text-white text-[11px] font-bold rounded-xl inline-flex items-center justify-center gap-1.5 transition-all self-start cursor-pointer hover:shadow-md"
                 >
                   <span>Read Full Story</span>
@@ -345,7 +390,7 @@ export default function News() {
               {filteredNews.map((item) => (
                 <button
                   key={item.id}
-                  onClick={() => setSelectedArticle(item)}
+                  onClick={() => navigate(`/news/${item.slug}`)}
                   className="bg-white rounded-[18px] border border-gray-100/80 overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between h-full group text-left w-full cursor-pointer outline-none"
                 >
                   <div>
