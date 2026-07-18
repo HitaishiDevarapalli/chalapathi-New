@@ -170,7 +170,7 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen bg-[#F7F8FC] text-[#222222] overflow-x-hidden font-[var(--font-poppins)]">
       <SEO 
-        title="Chalapathi University | Best Private University in Andhra Pradesh" 
+        title="Best University in andhraPradesh -ChalapathiUniversity" 
         description="Chalapathi University offers world-class higher education with premium undergraduate, postgraduate, and research programs. Admissions Open for 2026–2027." 
       />
       {/* ═══ HERO SECTION (720px height) ═══ */}
