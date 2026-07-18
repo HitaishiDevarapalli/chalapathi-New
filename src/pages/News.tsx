@@ -217,9 +217,9 @@ export default function News() {
       <section className="max-w-[1440px] mx-auto px-5 mt-10">
         
         {/* Top Featured News Hero Block (Full Width) */}
-        <div className="bg-white rounded-[18px] shadow-sm border border-gray-100/80 overflow-hidden flex flex-col md:flex-row h-full min-h-[380px] group transition-all duration-300 relative">
+        <div className="bg-white rounded-[18px] shadow-sm border border-gray-100/80 overflow-hidden flex flex-col md:flex-row md:h-[320px] group transition-all duration-300 relative">
           {/* Image (55%) */}
-          <div className="w-full md:w-[55%] relative overflow-hidden h-[240px] md:h-auto shrink-0">
+          <div className="w-full md:w-[55%] relative overflow-hidden h-[240px] md:h-full shrink-0">
             <img 
               src={featuredArticle.image} 
               alt={featuredArticle.title} 
@@ -263,7 +263,7 @@ export default function News() {
               <h2 className="text-lg md:text-xl font-[800] text-[#072A6C] leading-snug tracking-tight">
                 {featuredArticle.title}
               </h2>
-              <p className="text-[12px] text-gray-500 font-[var(--font-inter)] leading-relaxed line-clamp-4">
+              <p className="text-[12px] text-gray-500 font-[var(--font-inter)] leading-relaxed line-clamp-3">
                 {featuredArticle.excerpt}
               </p>
             </div>
@@ -368,7 +368,7 @@ export default function News() {
                     onClick={() => navigate(`/news/${item.slug}`)}
                     className="flex items-start gap-4 text-left w-full group cursor-pointer"
                   >
-                    <span className="text-xl font-black text-gray-200 group-hover:text-[#D71920] transition-colors leading-none pt-0.5">
+                    <span className="text-xl font-black text-gray-400 group-hover:text-[#D71920] transition-colors leading-none pt-0.5">
                       {`0${idx + 1}`}
                     </span>
                     <div className="space-y-0.5">

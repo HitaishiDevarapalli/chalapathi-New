@@ -286,7 +286,61 @@ const INITIAL_NEWS: NewsArticle[] = [
 ];
 
 const INITIAL_EVENTS: EventItem[] = [
-  { id: 1, slug: "air-taxi-demonstration-aviation-forum", title: "Air Taxi Demonstration & Aviation Forum", date: "17 Jul 2026", time: "09:30 AM", location: "Aeronautics Hangar & Airfield Complex", category: "Aerospace", image: "/prog_engineering.png", bodyText: "In collaboration with global aerospace research institutions and pioneering aviation companies, City Chalapathi Institute of Technology is proud to host the Air Taxi Demonstration and Aviation Forum. This event features real-world test flights and static exhibitions of cutting-edge electric Vertical Take-Off and Landing (eVTOL) air taxi models." }
+  { 
+    id: 1, 
+    slug: "air-taxi-demonstration-aviation-forum", 
+    title: "Air Taxi Demonstration & Aviation Forum", 
+    date: "17 Jul 2026", 
+    time: "09:30 AM", 
+    location: "Aeronautics Hangar & Airfield Complex", 
+    category: "Aerospace", 
+    image: "/prog_engineering.png", 
+    bodyText: "In collaboration with global aerospace research institutions and pioneering aviation companies, City Chalapathi Institute of Technology is proud to host the Air Taxi Demonstration and Aviation Forum. This event features real-world test flights and static exhibitions of cutting-edge electric Vertical Take-Off and Landing (eVTOL) air taxi models." 
+  },
+  { 
+    id: 2, 
+    slug: "smart-india-hackathon-2026", 
+    title: "Smart India Hackathon 2026 Campus Edition", 
+    date: "24 Aug 2026", 
+    time: "09:00 AM", 
+    location: "Main Seminar Hall & Central Library Labs", 
+    category: "Technology", 
+    image: "/prog_computer.png", 
+    bodyText: "Join the national-level coding hackathon where students build solutions for real-world government and corporate challenges. The campus round decides the top teams representing the university in the grand finale." 
+  },
+  { 
+    id: 3, 
+    slug: "green-chemistry-conference-2026", 
+    title: "International Conference on Green Chemistry & Sustainable Biotech", 
+    date: "15 Sep 2026", 
+    time: "10:00 AM", 
+    location: "Saraswathi Auditorium, Block B", 
+    category: "Pharmacy", 
+    image: "/prog_pharmacy.png", 
+    bodyText: "A three-day symposium featuring keynote addresses from global scientists, researchers, and pharmaceutical experts discussing eco-friendly chemical synthesis, biological assay creations, and sustainable manufacturing processes." 
+  },
+  { 
+    id: 4, 
+    slug: "placements-bootcamp-2026", 
+    title: "Annual Placements Boot Camp and Corporate Summit", 
+    date: "08 Oct 2026", 
+    time: "08:30 AM", 
+    location: "Placement Training Center", 
+    category: "Placements", 
+    image: "/prog_management.png", 
+    bodyText: "A comprehensive recruitment readiness workshop featuring mock HR interviews, quantitative aptitude sessions, group discussion prep, and interactive roundtables with hiring heads of Fortune 500 tech partners." 
+  },
+  { 
+    id: 5, 
+    slug: "national-sports-meet-2026", 
+    title: "National Sports Meet & Athletic Championship", 
+    date: "12 Nov 2026", 
+    time: "07:00 AM", 
+    location: "University Sports Arena & Athletic Track", 
+    category: "Sports", 
+    image: "/prog_diploma.png", 
+    bodyText: "Over 50 universities face off in the annual athletic championship, featuring track events, field sports, inter-college football, cricket leagues, and indoor badminton tournaments with cash prizes." 
+  }
 ];
 
 const INITIAL_ABOUT_CONTENT: AboutUsContent = {
@@ -616,7 +670,12 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const [events, setEvents] = useState<EventItem[]>(() => {
     const local = localStorage.getItem("chalapathi_events");
-    return local ? JSON.parse(local) : INITIAL_EVENTS;
+    const parsed = local ? JSON.parse(local) : [];
+    if (parsed.length <= 1) {
+      localStorage.setItem("chalapathi_events", JSON.stringify(INITIAL_EVENTS));
+      return INITIAL_EVENTS;
+    }
+    return parsed;
   });
 
   const [aboutContent, setAboutContent] = useState<AboutUsContent>(() => {
