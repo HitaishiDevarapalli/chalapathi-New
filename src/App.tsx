@@ -184,6 +184,7 @@ function AppContent() {
 
   const [showEnquiryModal, setShowEnquiryModal] = useState(false);
   const [showAnnouncementsDrawer, setShowAnnouncementsDrawer] = useState(false);
+  const [hasViewedAnnouncements, setHasViewedAnnouncements] = useState(false);
   const [activeAccordion, setActiveAccordion] = useState<string | null>("computing");
   
   const [formData, setFormData] = useState({
@@ -417,12 +418,25 @@ function AppContent() {
       {/* 🌟 SLIMMED NON-OVERLAPPING STACKED RIGHT-SIDE TABS       */}
       {/* ======================================================== */}
       <div className="fixed right-0 top-1/2 -translate-y-1/2 z-40 flex flex-col gap-3 items-end font-[var(--font-poppins)]">
-        {/* Announcements Tab (Gold/Dark Text) */}
+        {/* Horizontal Announcements Tab (Gold/Dark Text) */}
         <button
-          onClick={() => setShowAnnouncementsDrawer(true)}
-          className="w-[48px] h-[220px] bg-[#D4AF37] hover:bg-[#c29e28] text-gray-900 font-bold text-[10px] tracking-[1.5px] rounded-l-xl shadow-md transition-all duration-300 hover:-translate-x-1 flex items-center justify-center [writing-mode:vertical-lr] rotate-180 whitespace-nowrap cursor-pointer select-none uppercase border border-r-0 border-white/10 outline-none"
+          onClick={() => {
+            setShowAnnouncementsDrawer(true);
+            setHasViewedAnnouncements(true);
+          }}
+          className="group flex items-center bg-[#D4AF37] hover:bg-[#c29e28] text-gray-900 rounded-l-xl shadow-md transition-all duration-300 hover:-translate-x-1 border border-r-0 border-white/20 outline-none overflow-hidden h-[48px]"
         >
-          Announcements
+          <div className="relative flex items-center justify-center w-[48px] h-full shrink-0">
+            <Megaphone className="w-5 h-5 transition-transform group-hover:scale-110" />
+            {!hasViewedAnnouncements && announcements.length > 0 && (
+              <span className="absolute top-2 right-2 bg-red-600 text-white text-[9px] font-bold px-[4px] py-[1px] rounded-full min-w-[16px] text-center shadow-sm">
+                {announcements.length}
+              </span>
+            )}
+          </div>
+          <span className="w-0 overflow-hidden whitespace-nowrap text-[12px] font-bold tracking-[1px] uppercase group-hover:w-[130px] group-hover:pr-4 transition-all duration-300 ease-out">
+            Announcements
+          </span>
         </button>
         {/* Admission Enquiry Tab (Maroon/White Text) */}
         <button
