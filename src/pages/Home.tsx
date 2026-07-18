@@ -124,7 +124,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    document.title = "Chalapathi University | Best Private University in Andhra Pradesh";
+    document.title = "Chalapathi University | Best University in Andhra Pradesh";
   }, []);
 
   useEffect(() => {

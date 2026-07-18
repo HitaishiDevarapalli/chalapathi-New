@@ -19,7 +19,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Chalapathi University | Learn • Innovate • Lead",
   description:
-    "Chalapathi University is a premier State Private University in Guntur, Andhra Pradesh, India. Empowering learners to innovate, lead and create a better tomorrow.",
+    "Chalapathi University is the Best University in Andhra Pradesh, located in Guntur, India. Empowering learners to innovate, lead and create a better tomorrow.",
 };
 
 export default function RootLayout({
