@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { 
   ArrowRight, 
   Calendar, 
@@ -8,12 +8,10 @@ import {
   MapPin, 
   Share2, 
   Flame, 
-  GraduationCap, 
-  BookOpen, 
-  Trophy, 
-  Users, 
   Link2,
-  Check
+  Check,
+  ChevronLeft,
+  ChevronRight
 } from "lucide-react";
 import { useData } from "../context/DataContext";
 
@@ -66,122 +64,77 @@ const ThreadsIcon = () => (
   </svg>
 );
 
-const NEWS_CATEGORIES_INFO = [
-  {
-    title: "ACADEMICS",
-    desc: "Curriculum updates, academic activities and more.",
-    articles: "32 Articles",
-    icon: GraduationCap,
-  },
-  {
-    title: "RESEARCH",
-    desc: "Innovations, publications and research highlights.",
-    articles: "28 Articles",
-    icon: BookOpen,
-  },
-  {
-    title: "SPORTS",
-    desc: "Matches, tournaments and sports achievements.",
-    articles: "18 Articles",
-    icon: Trophy,
-  },
-  {
-    title: "STUDENT LIFE",
-    desc: "Clubs, events and student achievements.",
-    articles: "24 Articles",
-    icon: Users,
-  }
+const FEATURED_IMAGES = [
+  "/prog_computer.png",
+  "/prog_engineering.png",
+  "/prog_management.png",
+  "/prog_pharmacy.png"
 ];
-
-const FILTER_CATEGORIES = ["All", "Research", "Placements", "Campus Life", "Events", "Sports", "Admissions", "Innovation", "Technology", "Pharmacy"];
 
 export default function News() {
   const navigate = useNavigate();
   const { news, events } = useData();
 
-  // Selected item tracking
-  const [activeSelection, setActiveSelection] = useState<{ type: "news" | "event"; id: number }>({
-    type: "news",
-    id: news[0]?.id || 1
-  });
-  
-  const [activeCategory, setActiveCategory] = useState("All");
-
   // Social sharing states
   const [showShare, setShowShare] = useState(false);
   const [showToast, setShowToast] = useState(false);
+  const [activeShareItem, setActiveShareItem] = useState<{ type: "news" | "event"; id: number } | null>(null);
+
+  // Carousel state for the main Featured News
+  const [activeSlide, setActiveSlide] = useState(0);
 
   useEffect(() => {
-    document.title = "News & Events | Chalapathi University";
+    document.title = "News @ City Chalapathi | Chalapathi University";
   }, []);
 
-  const filteredNews = activeCategory === "All" 
-    ? news 
-    : news.filter(item => item.category.toLowerCase() === activeCategory.toLowerCase());
-
-  const filteredEvents = activeCategory === "All"
-    ? events
-    : events.filter(item => item.category.toLowerCase() === activeCategory.toLowerCase());
-
-  // Get active item details
-  const activeItem = activeSelection.type === "news" 
-    ? news.find(item => item.id === activeSelection.id) || news[0]
-    : events.find(item => item.id === activeSelection.id) || events[0];
-
-  // Dynamically configure meta tags for rich previews
+  // Auto-slide effect for the Featured News image carousel
   useEffect(() => {
-    if (!activeItem) return;
+    const timer = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % FEATURED_IMAGES.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
 
-    const title = `${activeItem.title} | Chalapathi University`;
-    const desc = activeSelection.type === "news" 
-      ? (activeItem as any).excerpt 
-      : (activeItem as any).bodyText.substring(0, 150);
-    const imgUrl = window.location.origin + activeItem.image;
-    const pageUrl = window.location.origin + (activeSelection.type === "news" ? `/news/${activeItem.slug}` : `/news/events/${activeItem.slug}`);
+  // Handle active slide controls
+  const handlePrevSlide = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setActiveSlide((prev) => (prev - 1 + FEATURED_IMAGES.length) % FEATURED_IMAGES.length);
+  };
 
-    // Update canonical link
-    let canonical = document.querySelector("link[rel='canonical']");
-    if (!canonical) {
-      canonical = document.createElement("link");
-      canonical.setAttribute("rel", "canonical");
-      document.head.appendChild(canonical);
-    }
-    canonical.setAttribute("href", pageUrl);
+  const handleNextSlide = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setActiveSlide((prev) => (prev + 1) % FEATURED_IMAGES.length);
+  };
 
-    // Meta helper
-    const updateMeta = (prop: string, val: string, isName = false) => {
-      const attr = isName ? "name" : "property";
-      let el = document.querySelector(`meta[${attr}='${prop}']`);
-      if (!el) {
-        el = document.createElement("meta");
-        el.setAttribute(attr, prop);
-        document.head.appendChild(el);
-      }
-      el.setAttribute("content", val);
-    };
+  // Find the Featured news article (AI Research Lab Inaugurated on Campus, which is usually ID 1)
+  const featuredArticle = news.find(item => item.id === 1) || news[0];
 
-    updateMeta("og:title", title);
-    updateMeta("og:description", desc);
-    updateMeta("og:image", imgUrl);
-    updateMeta("og:url", pageUrl);
-    updateMeta("og:type", "article");
-    updateMeta("og:site_name", "Chalapathi University");
-    updateMeta("twitter:card", "summary_large_image", true);
-    updateMeta("twitter:title", title, true);
-    updateMeta("twitter:description", desc, true);
-    updateMeta("twitter:image", imgUrl, true);
+  // Find 5 Trending news articles
+  const trendingArticles = news.slice(0, 5);
 
-  }, [activeSelection, activeItem]);
+  // Filter 3 upcoming events
+  const upcomingEventsList = events.slice(0, 3);
 
-  // Social Sharing Links Creator
+  // Filter latest news list (excluding featured if wanted, or showing 4 cards as in mockup)
+  const latestNewsArticles = news.slice(1, 5);
+
+  // Share setup
+  const handleShareTrigger = (type: "news" | "event", id: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setActiveShareItem({ type, id });
+    setShowShare(true);
+  };
+
   const getShareLinks = () => {
-    if (!activeItem) return {};
-    
-    const pageUrl = window.location.origin + (activeSelection.type === "news" ? `/news/${activeItem.slug}` : `/news/events/${activeItem.slug}`);
-    const title = activeItem.title;
-    const summary = activeSelection.type === "news" 
-      ? (activeItem as any).excerpt 
-      : (activeItem as any).bodyText.substring(0, 150);
+    if (!activeShareItem) return {};
+    const item = activeShareItem.type === "news" 
+      ? news.find(n => n.id === activeShareItem.id)
+      : events.find(ev => ev.id === activeShareItem.id);
+    if (!item) return {};
+
+    const pageUrl = window.location.origin + (activeShareItem.type === "news" ? `/news/${item.slug}` : `/news/events/${item.slug}`);
+    const title = item.title;
+    const summary = activeShareItem.type === "news" ? (item as any).excerpt : (item as any).bodyText.substring(0, 150);
 
     const encUrl = encodeURIComponent(pageUrl);
     const encTitle = encodeURIComponent(title);
@@ -201,9 +154,13 @@ export default function News() {
   };
 
   const handleCopyLink = () => {
-    if (!activeItem) return;
-    const pageUrl = window.location.origin + (activeSelection.type === "news" ? `/news/${activeItem.slug}` : `/news/events/${activeItem.slug}`);
-    
+    if (!activeShareItem) return;
+    const item = activeShareItem.type === "news" 
+      ? news.find(n => n.id === activeShareItem.id)
+      : events.find(ev => ev.id === activeShareItem.id);
+    if (!item) return;
+
+    const pageUrl = window.location.origin + (activeShareItem.type === "news" ? `/news/${item.slug}` : `/news/events/${item.slug}`);
     navigator.clipboard.writeText(pageUrl);
     setShowToast(true);
     setTimeout(() => setShowToast(false), 2000);
@@ -212,236 +169,278 @@ export default function News() {
   const shareLinks = getShareLinks();
 
   return (
-    <div className="min-h-screen bg-[#F7F9FC] font-[var(--font-poppins)] pb-24 relative select-none text-left">
+    <div className="min-h-screen bg-[#F4F7FC] font-[var(--font-poppins)] pb-24 relative select-none text-left">
       
-      {/* Header Banner */}
-      <section className="bg-gradient-to-r from-[#072A6C] to-indigo-950 text-white py-16 px-6 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-blue-500/10 via-transparent to-transparent pointer-events-none" />
-        <div className="max-w-[1440px] mx-auto relative z-10 text-center lg:text-left space-y-3">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-white font-bold text-[10px] uppercase tracking-wider backdrop-blur-sm">
-            Latest Bulletins & Activities
-          </span>
-          <h1 className="text-3xl lg:text-5xl font-[900] tracking-tight">News & Events Hub</h1>
-          <p className="text-xs text-white font-light max-w-xl leading-relaxed">
-            Stay updated with college announcements, hackathons, seminars, student achievements, and academic milestones.
-          </p>
+      {/* 🌟 Header Section */}
+      <section className="max-w-[1440px] mx-auto px-6 pt-10 pb-6">
+        <h1 className="text-3xl md:text-4xl font-extrabold text-[#072A6C] tracking-tight">
+          News @ City Chalapathi
+        </h1>
+        <p className="text-[13px] text-gray-500 font-light mt-1 max-w-xl font-[var(--font-inter)]">
+          Stay updated with the latest happenings, milestones, and achievements from across the university.
+        </p>
+      </section>
+
+      {/* 🌟 Main Grid: Featured News & Trending Now */}
+      <section className="max-w-[1440px] mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+        
+        {/* Left: Featured News Card (8 Cols) */}
+        <div className="lg:col-span-8 bg-white rounded-[24px] border border-gray-100 shadow-sm overflow-hidden flex flex-col md:flex-row items-stretch">
+          
+          {/* Left half: Image slider carousel */}
+          <div className="w-full md:w-1/2 relative bg-slate-900 group min-h-[320px] md:min-h-auto flex items-stretch">
+            <img 
+              src={FEATURED_IMAGES[activeSlide]} 
+              alt={featuredArticle?.title} 
+              className="absolute inset-0 w-full h-full object-cover transition-all duration-500"
+            />
+            <div className="absolute inset-0 bg-black/10" />
+            
+            {/* Featured Badge */}
+            <span className="absolute top-4 left-4 bg-[#D71920] text-white text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-md shadow-sm">
+              Featured News
+            </span>
+
+            {/* Slider arrows */}
+            <button 
+              onClick={handlePrevSlide} 
+              className="absolute left-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/20 hover:bg-white/40 text-white flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
+            >
+              <ChevronLeft size={16} />
+            </button>
+            <button 
+              onClick={handleNextSlide} 
+              className="absolute right-3 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white/20 hover:bg-white/40 text-white flex items-center justify-center backdrop-blur-sm transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
+            >
+              <ChevronRight size={16} />
+            </button>
+          </div>
+
+          {/* Right half: Text Content */}
+          <div className="w-full md:w-1/2 p-8 flex flex-col justify-between">
+            <div className="space-y-4">
+              <div className="flex items-center gap-1.5">
+                <span className="text-[10px] font-black uppercase tracking-wider text-[#D71920]">
+                  {featuredArticle?.category || "Innovation"}
+                </span>
+                <span className="text-gray-300">•</span>
+                <span className="text-[10px] text-gray-400 font-semibold font-[var(--font-inter)]">
+                  {featuredArticle?.date}
+                </span>
+              </div>
+
+              <h2 className="text-xl md:text-2xl font-extrabold text-[#072A6C] leading-snug line-clamp-3">
+                {featuredArticle?.title}
+              </h2>
+
+              <p className="text-[12px] text-gray-500 font-light leading-relaxed font-[var(--font-inter)] line-clamp-4">
+                {featuredArticle?.excerpt}
+              </p>
+            </div>
+
+            {/* Actions Row */}
+            <div className="pt-6 flex flex-col gap-4">
+              <div className="flex items-center gap-3">
+                <button 
+                  onClick={() => navigate(`/news/${featuredArticle?.slug}`)}
+                  className="h-10 px-6 bg-[#072A6C] hover:bg-[#D71920] text-white text-[11px] font-bold rounded-xl inline-flex items-center gap-1.5 transition-all cursor-pointer shadow-sm"
+                >
+                  <span>Read Full Story</span>
+                  <ArrowRight size={12} />
+                </button>
+                
+                <button 
+                  onClick={(e) => handleShareTrigger("news", featuredArticle.id, e)}
+                  className="w-10 h-10 rounded-xl bg-gray-50 hover:bg-gray-100 border border-gray-100 text-gray-600 flex items-center justify-center transition-colors cursor-pointer"
+                >
+                  <Share2 size={14} />
+                </button>
+              </div>
+
+              {/* Slider Indicator Dots */}
+              <div className="flex items-center gap-1.5 pt-2">
+                {FEATURED_IMAGES.map((_, idx) => (
+                  <button 
+                    key={idx}
+                    onClick={() => setActiveSlide(idx)}
+                    className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                      activeSlide === idx ? "bg-[#D71920] w-6" : "bg-gray-300"
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        {/* Right: Trending Now Card (4 Cols) */}
+        <div className="lg:col-span-4 bg-white rounded-[24px] border border-gray-100 shadow-sm p-6 flex flex-col">
+          
+          {/* Section Header */}
+          <div className="flex justify-between items-center pb-4 border-b border-gray-100 mb-4">
+            <div className="flex items-center gap-1.5 text-[#072A6C]">
+              <Flame size={16} className="text-red-500 fill-current animate-pulse" />
+              <h3 className="text-xs font-black uppercase tracking-wider">Trending Now</h3>
+            </div>
+            <Link to="/news" className="text-[10px] font-bold text-[#072A6C] hover:text-[#D71920] transition-colors">
+              View All
+            </Link>
+          </div>
+
+          {/* List items */}
+          <div className="flex-1 flex flex-col justify-between gap-4">
+            {trendingArticles.map((item, idx) => {
+              const displayNum = `0${idx + 1}`;
+              return (
+                <button 
+                  key={item.id}
+                  onClick={() => navigate(`/news/${item.slug}`)}
+                  className="w-full text-left flex items-start gap-4 group cursor-pointer"
+                >
+                  {/* Big rank number */}
+                  <span className="text-sm font-black text-[#D71920] tracking-wider pt-0.5">
+                    {displayNum}
+                  </span>
+
+                  {/* Title & Metadata */}
+                  <div className="flex-1 space-y-0.5 min-w-0">
+                    <h4 className="text-xs font-bold text-gray-800 leading-snug line-clamp-2 group-hover:text-[#072A6C] transition-colors">
+                      {item.title}
+                    </h4>
+                    <span className="text-[9px] text-gray-400 font-medium font-[var(--font-inter)]">
+                      {item.date}
+                    </span>
+                  </div>
+
+                  {/* Tiny Thumbnail */}
+                  <div className="w-11 h-11 rounded-lg overflow-hidden shrink-0 bg-gray-50 border border-gray-100">
+                    <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
+        </div>
+
+      </section>
+
+      {/* 🌟 Upcoming Events (Full Width Bar) */}
+      <section className="max-w-[1440px] mx-auto px-6 mt-10">
+        <div className="bg-white rounded-[24px] border border-gray-100 shadow-sm p-6">
+          
+          {/* Header */}
+          <div className="flex justify-between items-center pb-4 border-b border-gray-100 mb-6">
+            <div className="flex items-center gap-2 text-[#072A6C]">
+              <Calendar size={16} className="text-[#D71920]" />
+              <h3 className="text-xs font-black uppercase tracking-wider">Upcoming Events</h3>
+            </div>
+            <Link to="/news/events/all" className="text-[10px] font-bold text-[#072A6C] hover:text-[#D71920] transition-colors">
+              View All
+            </Link>
+          </div>
+
+          {/* Grid layout containing 3 events */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 divide-y md:divide-y-0 md:divide-x divide-gray-100">
+            {upcomingEventsList.map((item, idx) => {
+              const dateParts = item.date.split(" ");
+              const day = dateParts[0] || "20";
+              const month = (dateParts[1] || "MAY").toUpperCase();
+              
+              // alternate background colors for calendar badges
+              const badgeBg = idx % 2 === 0 ? "bg-[#D71920]" : "bg-[#072A6C]";
+
+              return (
+                <button
+                  key={item.id}
+                  onClick={() => navigate(`/news/events/${item.slug}`)}
+                  className="w-full text-left flex items-start gap-4 pt-4 md:pt-0 md:px-4 first:pl-0 last:pr-0 cursor-pointer outline-none group"
+                >
+                  {/* Calendar Box Badge */}
+                  <div className={`w-12 h-12 rounded-xl ${badgeBg} text-white flex flex-col items-center justify-center shrink-0 shadow-sm`}>
+                    <span className="text-base font-black leading-none">{day}</span>
+                    <span className="text-[8px] font-extrabold uppercase tracking-wider leading-none mt-1">{month}</span>
+                  </div>
+
+                  {/* Metadata & Title */}
+                  <div className="space-y-1.5 flex-1 min-w-0">
+                    <h4 className="text-[11.5px] font-bold text-gray-800 leading-snug line-clamp-2 group-hover:text-[#072A6C] transition-colors">
+                      {item.title}
+                    </h4>
+                    
+                    <div className="flex flex-col gap-1 text-[9px] text-gray-400 font-semibold font-[var(--font-inter)]">
+                      <div className="flex items-center gap-1.5">
+                        <Clock size={10} className="text-[#D71920]" />
+                        <span>{item.time}</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <MapPin size={10} className="text-[#D71920]" />
+                        <span className="truncate">{item.location}</span>
+                      </div>
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+
         </div>
       </section>
 
-      {/* Main Content Layout */}
-      <section className="max-w-[1440px] mx-auto px-5 mt-10">
-
-        {/* Filter Chips */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-4 border-b border-gray-200 scrollbar-none whitespace-nowrap mb-8">
-          {FILTER_CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`px-4 py-1.5 rounded-full text-[11px] font-bold border transition-all duration-200 cursor-pointer ${
-                activeCategory === cat 
-                  ? "bg-[#072A6C] text-white border-[#072A6C] shadow-sm" 
-                  : "bg-white text-gray-600 border-gray-200 hover:border-gray-300 hover:text-gray-800"
-              }`}
-            >
-              {cat}
-            </button>
-          ))}
+      {/* 🌟 Latest News (4 Card Grid) */}
+      <section className="max-w-[1440px] mx-auto px-6 mt-10 space-y-6">
+        
+        {/* Header */}
+        <div className="flex justify-between items-center pb-4 border-b border-gray-200">
+          <h3 className="text-sm font-black uppercase tracking-wider text-[#072A6C]">Latest News</h3>
+          <Link to="/news" className="text-[11px] font-bold text-[#072A6C] hover:text-[#D71920] transition-colors inline-flex items-center gap-1">
+            <span>View All News</span>
+            <ArrowRight size={11} />
+          </Link>
         </div>
 
-        {/* 🌟 3-COLUMN MASTER-DETAIL SPLIT HUB SECTION 🌟 */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
-          {/* COLUMN 1: LATEST NEWS (Left, width 30%) */}
-          <div className="lg:col-span-4 space-y-4">
-            <div className="flex items-center gap-2 text-[#072A6C] border-b border-gray-100 pb-3 mb-2">
-              <Flame size={16} className="text-red-500 fill-current animate-pulse" />
-              <h3 className="text-xs font-black uppercase tracking-wider">Latest News</h3>
-            </div>
-            
-            <div className="h-[580px] overflow-y-auto pr-1 space-y-3.5 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
-              {filteredNews.length === 0 ? (
-                <div className="text-center py-20 bg-white rounded-2xl border border-gray-100/60 shadow-sm">
-                  <p className="text-xs text-gray-400">No news found.</p>
+        {/* 4 Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {latestNewsArticles.map((item) => (
+            <div 
+              key={item.id}
+              onClick={() => navigate(`/news/${item.slug}`)}
+              className="bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between text-left cursor-pointer outline-none group"
+            >
+              <div>
+                {/* Image */}
+                <div className="h-44 overflow-hidden bg-gray-50 relative w-full border-b border-gray-100">
+                  <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-300" />
                 </div>
-              ) : (
-                filteredNews.map((item) => (
-                  <button
-                    key={item.id}
-                    onClick={() => setActiveSelection({ type: "news", id: item.id })}
-                    className={`w-full bg-white rounded-2xl p-4 border text-left flex items-start gap-4 transition-all duration-300 shadow-sm hover:shadow group outline-none ${
-                      activeSelection.type === "news" && activeSelection.id === item.id 
-                        ? "border-[#072A6C] ring-1 ring-[#072A6C]" 
-                        : "border-gray-100 hover:border-gray-200"
-                    }`}
-                  >
-                    <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 bg-gray-50">
-                      <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                    </div>
-                    <div className="space-y-1 flex-1 min-w-0">
-                      <div className="flex items-center justify-between text-[9px] font-bold uppercase tracking-wider">
-                        <span className="text-[#D71920]">{item.category}</span>
-                        <span className="text-gray-400 font-medium">{item.date}</span>
-                      </div>
-                      <h4 className="text-xs font-bold text-gray-800 leading-snug line-clamp-2 group-hover:text-[#072A6C] transition-colors">
-                        {item.title}
-                      </h4>
-                    </div>
-                  </button>
-                ))
-              )}
-            </div>
-          </div>
 
-          {/* COLUMN 2: UPCOMING EVENTS (Center/Right, width 30%) */}
-          <div className="lg:col-span-4 space-y-4">
-            <div className="flex items-center gap-2 text-[#072A6C] border-b border-gray-100 pb-3 mb-2">
-              <Calendar size={16} className="text-[#F97316]" />
-              <h3 className="text-xs font-black uppercase tracking-wider">Upcoming Events</h3>
-            </div>
-
-            <div className="h-[580px] overflow-y-auto pr-1 space-y-3.5 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
-              {filteredEvents.length === 0 ? (
-                <div className="text-center py-20 bg-white rounded-2xl border border-gray-100/60 shadow-sm">
-                  <p className="text-xs text-gray-400">No events found.</p>
-                </div>
-              ) : (
-                filteredEvents.map((item) => {
-                  const dateParts = item.date.split(" ");
-                  const day = dateParts[0] || "17";
-                  const month = (dateParts[1] || "JUL").toUpperCase();
-                  return (
-                    <button
-                      key={item.id}
-                      onClick={() => setActiveSelection({ type: "event", id: item.id })}
-                      className={`w-full bg-white rounded-2xl p-4 border text-left flex items-start gap-4 transition-all duration-300 shadow-sm hover:shadow group outline-none ${
-                        activeSelection.type === "event" && activeSelection.id === item.id 
-                          ? "border-[#072A6C] ring-1 ring-[#072A6C]" 
-                          : "border-gray-100 hover:border-gray-200"
-                      }`}
-                    >
-                      <div className="w-12 h-12 rounded-xl bg-orange-50 text-[#F97316] flex flex-col items-center justify-center shrink-0 border border-orange-100/20 group-hover:bg-[#F97316] group-hover:text-white transition-colors">
-                        <span className="text-base font-black leading-none">{day}</span>
-                        <span className="text-[8px] font-black uppercase tracking-widest leading-none mt-1">{month}</span>
-                      </div>
-                      
-                      <div className="space-y-1 flex-1 min-w-0">
-                        <div className="flex items-center justify-between text-[9px] font-bold uppercase tracking-wider">
-                          <span className="text-[#F97316]">{item.category}</span>
-                          <span className="text-gray-400 font-medium">{item.time}</span>
-                        </div>
-                        <h4 className="text-xs font-bold text-gray-800 leading-snug line-clamp-2 group-hover:text-[#072A6C] transition-colors">
-                          {item.title}
-                        </h4>
-                        <div className="flex items-center gap-1 text-[9px] text-gray-400 font-semibold font-[var(--font-inter)]">
-                          <MapPin size={9} />
-                          <span className="truncate">{item.location}</span>
-                        </div>
-                      </div>
-                    </button>
-                  );
-                })
-              )}
-            </div>
-          </div>
-
-          {/* COLUMN 3: DETAILS PREVIEW PANEL (Right-most, width 40%) */}
-          <div className="lg:col-span-4 sticky top-24 bg-white rounded-3xl border border-gray-100/80 shadow-sm p-6 space-y-5 flex flex-col justify-between min-h-[500px]">
-            {activeItem ? (
-              <div className="space-y-5 animate-fade-in text-left">
-                {/* Header Details */}
-                <div className="flex items-center justify-between gap-4 border-b border-gray-50 pb-4">
-                  <div className="flex items-center gap-2">
-                    <span className="bg-[#072A6C]/10 text-[#072A6C] text-[9px] font-extrabold uppercase px-2.5 py-1 rounded-full tracking-wider">
-                      {activeItem.category}
-                    </span>
-                    <span className="text-[10px] text-gray-400 font-medium font-[var(--font-inter)]">{activeItem.date}</span>
+                {/* Content */}
+                <div className="p-5 space-y-2">
+                  <div className="flex items-center gap-1 text-[9px] text-gray-400 font-bold uppercase tracking-wider">
+                    <span className="text-[#D71920]">{item.category}</span>
+                    <span>•</span>
+                    <span>{item.date}</span>
                   </div>
                   
-                  {/* Share trigger */}
-                  <button 
-                    onClick={() => setShowShare(!showShare)}
-                    className="w-8 h-8 rounded-full bg-gray-50 hover:bg-gray-100 text-gray-600 flex items-center justify-center transition-colors cursor-pointer"
-                    title="Share item"
-                  >
-                    <Share2 size={14} />
-                  </button>
-                </div>
-
-                {/* Preview banner */}
-                <div 
-                  onClick={() => navigate(activeSelection.type === "news" ? `/news/${activeItem.slug}` : `/news/events/${activeItem.slug}`)}
-                  className="h-52 w-full rounded-2xl overflow-hidden relative cursor-pointer group/img bg-gray-100"
-                >
-                  <img src={activeItem.image} alt={activeItem.title} className="w-full h-full object-cover group-hover/img:scale-102 transition-transform duration-500" />
-                  <div className="absolute inset-0 bg-black/10 hover:bg-black/20 transition-all" />
-                </div>
-
-                {/* Title */}
-                <h3 
-                  onClick={() => navigate(activeSelection.type === "news" ? `/news/${activeItem.slug}` : `/news/events/${activeItem.slug}`)}
-                  className="text-sm md:text-base font-extrabold text-[#072A6C] leading-snug cursor-pointer hover:text-[#D71920] transition-colors line-clamp-2"
-                >
-                  {activeItem.title}
-                </h3>
-
-                {/* Event info table if Event */}
-                {activeSelection.type === "event" && (
-                  <div className="grid grid-cols-2 gap-3.5 bg-gray-50/70 p-3 rounded-xl text-left border border-gray-100">
-                    <div className="flex items-center gap-2 text-[10px] text-gray-600 font-bold">
-                      <Clock size={11} className="text-[#D71920]" />
-                      <span className="truncate">{activeItem.time}</span>
-                    </div>
-                    <div className="flex items-center gap-2 text-[10px] text-gray-600 font-bold">
-                      <MapPin size={11} className="text-[#D71920]" />
-                      <span className="truncate">{activeItem.location}</span>
-                    </div>
-                  </div>
-                )}
-
-                {/* Body text */}
-                <p className="text-[11.5px] text-gray-500 font-light leading-relaxed font-[var(--font-inter)] line-clamp-5">
-                  {activeSelection.type === "news" ? (activeItem as any).excerpt : (activeItem as any).bodyText}
-                </p>
-
-                {/* Action footer */}
-                <div className="flex items-center justify-between pt-4 border-t border-gray-50 mt-4">
-                  <button 
-                    onClick={() => navigate(activeSelection.type === "news" ? `/news/${activeItem.slug}` : `/news/events/${activeItem.slug}`)}
-                    className="h-10 px-5 bg-[#072A6C] hover:bg-[#D71920] text-white text-[11px] font-bold rounded-xl inline-flex items-center gap-1.5 transition-all cursor-pointer shadow-sm"
-                  >
-                    <span>View Full Details</span>
-                    <ArrowRight size={12} />
-                  </button>
+                  <h4 className="text-xs font-bold text-[#072A6C] leading-snug line-clamp-2 group-hover:text-[#D71920] transition-colors">
+                    {item.title}
+                  </h4>
+                  
+                  <p className="text-[10.5px] text-gray-500 leading-relaxed font-light font-[var(--font-inter)] line-clamp-3">
+                    {item.excerpt}
+                  </p>
                 </div>
               </div>
-            ) : (
-              <div className="text-center py-20 text-gray-400">Select an item to view preview.</div>
-            )}
-          </div>
 
-        </div>
-
-        {/* Bottom 4 Category Info Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-16">
-          {NEWS_CATEGORIES_INFO.map((cat, idx) => {
-            return (
-              <div 
-                key={idx} 
-                className="bg-white rounded-[18px] p-4 border border-gray-100/80 shadow-sm flex items-start gap-3.5 hover:shadow-md transition-all duration-300"
-              >
-                <div className="w-10 h-10 rounded-xl bg-blue-50/80 flex items-center justify-center shrink-0">
-                  <span className="text-[#072A6C]"><Calendar size={20} /></span>
-                </div>
-                <div className="space-y-1">
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-black text-[#072A6C] tracking-wide">{cat.title}</span>
-                    <span className="text-[9px] font-bold text-gray-400">{cat.articles}</span>
-                  </div>
-                  <p className="text-[10px] text-gray-500 leading-normal font-[var(--font-inter)] font-light">{cat.desc}</p>
-                </div>
+              {/* Read More Footer */}
+              <div className="px-5 pb-5 pt-3 border-t border-gray-50 flex items-center justify-between text-[10.5px] font-bold text-[#072A6C] group-hover:text-[#D71920] transition-colors">
+                <span>Read More</span>
+                <ArrowRight size={12} className="text-[#D71920] group-hover:translate-x-0.5 transition-transform" />
               </div>
-            );
-          })}
+
+            </div>
+          ))}
         </div>
 
       </section>
