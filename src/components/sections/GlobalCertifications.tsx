@@ -195,10 +195,7 @@ export default function GlobalCertifications() {
                     {cert.description.length > 80 ? cert.description.slice(0, 80) + '...' : cert.description}
                   </p>
                   
-                  <div className="text-sm text-[#006A80] font-medium mb-6 group-hover:text-red-500 transition-colors flex items-center gap-1">
-                    Start Certification <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                  </div>
-                  
+
                   <button className="w-full py-3 bg-[#425974] group-hover:bg-[#072A6C] text-white text-[13px] font-semibold rounded-[4px] transition-colors duration-300 mt-auto transform group-hover:-translate-y-1">
                     Start certification
                   </button>
