@@ -457,14 +457,26 @@ const INITIAL_PLACEMENTS_CONTENT: PlacementsContent = {
     { name: "S. Niharika", branch: "Civil Engineering", company: "JMC Projects", ctc: "₹7.5 LPA", img: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=400&h=500&fit=crop&crop=face" }
   ],
   recruiters: [
-    { name: "TCS", logo: "https://img.logo.dev/tcs.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
-    { name: "Infosys", logo: "https://img.logo.dev/infosys.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
-    { name: "Mindtree", logo: "https://img.logo.dev/ltimindtree.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
-    { name: "L&T", logo: "https://img.logo.dev/larsentoubro.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
-    { name: "HCL", logo: "https://img.logo.dev/hcltech.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
-    { name: "Wipro", logo: "https://img.logo.dev/wipro.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
-    { name: "Oracle", logo: "https://img.logo.dev/oracle.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" },
-    { name: "Tech Mahindra", logo: "https://img.logo.dev/techmahindra.com?token=pk_SHNMbGFOQUOj4ys42P2YSA&format=png" }
+    { name: "Wipro", logo: "https://www.vectorlogo.zone/logos/wipro/wipro-icon.svg" },
+    { name: "Oracle", logo: "https://www.vectorlogo.zone/logos/oracle/oracle-icon.svg" },
+    { name: "Tech Mahindra", logo: "https://cdn.worldvectorlogo.com/logos/tech-mahindra.svg" },
+    { name: "TCS", logo: "https://www.vectorlogo.zone/logos/tcs/tcs-icon.svg" },
+    { name: "Infosys", logo: "https://www.vectorlogo.zone/logos/infosys/infosys-icon.svg" },
+    { name: "LTIMindtree", logo: "https://cdn.worldvectorlogo.com/logos/ltimindtree.svg" },
+    { name: "L&T", logo: "https://cdn.worldvectorlogo.com/logos/larsen-toubro.svg" },
+    { name: "Accenture", logo: "https://www.vectorlogo.zone/logos/accenture/accenture-icon.svg" },
+    { name: "Cognizant", logo: "https://www.vectorlogo.zone/logos/cognizant/cognizant-icon.svg" },
+    { name: "Capgemini", logo: "https://www.vectorlogo.zone/logos/capgemini/capgemini-icon.svg" },
+    { name: "Deloitte", logo: "https://www.vectorlogo.zone/logos/deloitte/deloitte-icon.svg" },
+    { name: "IBM", logo: "https://www.vectorlogo.zone/logos/ibm/ibm-icon.svg" },
+    { name: "HCLTech", logo: "https://cdn.worldvectorlogo.com/logos/hcltech-1.svg" },
+    { name: "Google", logo: "https://www.vectorlogo.zone/logos/google/google-icon.svg" },
+    { name: "Microsoft", logo: "https://www.vectorlogo.zone/logos/microsoft/microsoft-icon.svg" },
+    { name: "Amazon", logo: "https://www.vectorlogo.zone/logos/amazon/amazon-icon.svg" },
+    { name: "Adobe", logo: "https://www.vectorlogo.zone/logos/adobe/adobe-icon.svg" },
+    { name: "Intel", logo: "https://www.vectorlogo.zone/logos/intel/intel-icon.svg" },
+    { name: "Qualcomm", logo: "https://www.vectorlogo.zone/logos/qualcomm/qualcomm-icon.svg" },
+    { name: "Zoho", logo: "https://www.vectorlogo.zone/logos/zoho/zoho-icon.svg" }
   ]
 };
 

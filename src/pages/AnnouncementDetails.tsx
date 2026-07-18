@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { useData } from "../context/DataContext";
 import { 
   ArrowLeft, 
+  ArrowRight,
   Share2, 
   X, 
   Link2, 
@@ -75,6 +76,162 @@ const ThreadsIcon = () => (
 
 const getAnnouncementSlug = (title: string) => {
   return title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+};
+
+const getAnnouncementExtraInfo = (title: string) => {
+  const t = title.toLowerCase();
+  if (t.includes("admission")) {
+    return {
+      subtitle: "Academic Year 2026-27 Applications Now Open",
+      overview: "Chalapathi University welcomes applications for admissions to various undergraduate, postgraduate, and doctoral programs for the academic year 2026-27. Prospective students are encouraged to review the eligibility criteria and submit their applications before the deadline.",
+      sections: [
+        {
+          title: "Offered Streams & Programs",
+          items: [
+            "Bachelor of Technology (B.Tech) - CSE, ECE, EEE, Mechanical, Civil",
+            "Master of Technology (M.Tech) - Advanced Tech, AI & ML, VLSI",
+            "Bachelor & Master of Pharmacy (B.Pharm & M.Pharm)",
+            "Master of Business Administration (MBA) & MCA",
+            "Diploma in Engineering Streams"
+          ]
+        },
+        {
+          title: "Important Admission Dates",
+          items: [
+            "Online Application Commencement: May 12, 2026",
+            "Last Date for Submission of Application: July 30, 2026",
+            "Entrance Examination Date: August 10, 2026",
+            "Counseling & Selection Rounds: August 18, 2026"
+          ]
+        },
+        {
+          title: "Documents Required for Upload",
+          items: [
+            "10th Standard / SSC Marks Memo",
+            "12th Standard / Intermediate Marks Memo",
+            "Transfer & Migration Certificates",
+            "Recent Passport-size Photographs",
+            "Category Certificate (if applicable)"
+          ]
+        }
+      ],
+      actions: {
+        label: "Apply Online Now",
+        link: "/admissions/apply"
+      }
+    };
+  } else if (t.includes("orientation")) {
+    return {
+      subtitle: "Welcome Incoming Batch of 2026",
+      overview: "The Freshers Orientation Program is designed to introduce new students to the academic environment, faculty, campus resources, and student life at Chalapathi University. Attendance is mandatory for all first-year students.",
+      sections: [
+        {
+          title: "Orientation Week Schedule",
+          items: [
+            "Day 1: Address by Chancellor, Deans & HODs (Main Auditorium)",
+            "Day 2: Department Orientations & Faculty-Student Meet",
+            "Day 3: Campus Tours & Library Orientation sessions",
+            "Day 4: Student Clubs Showcase & Extra-Curricular registrations",
+            "Day 5: Anti-Ragging briefing & Code of Conduct orientation"
+          ]
+        },
+        {
+          title: "Required Kit / Actions",
+          items: [
+            "Collect Student ID card from Administrative Block",
+            "Collect Orientation Handbook and Academic Calendar",
+            "Complete Hostel Room allotment details (if staying on campus)"
+          ]
+        }
+      ],
+      actions: {
+        label: "View Academic Calendar",
+        link: "/academics/programmes"
+      }
+    };
+  } else if (t.includes("examination")) {
+    return {
+      subtitle: "End Semester Examinations Notification",
+      overview: "The Controller of Examinations has officially released the timetable and regulations for the upcoming End Semester Examinations. Students are advised to check schedules and ensure all dues are cleared to collect hall tickets.",
+      sections: [
+        {
+          title: "Key Exam Instructions",
+          items: [
+            "Hall Tickets distribution starts 1 week prior to the exam dates.",
+            "No electronic gadgets or mobile phones allowed inside the exam hall.",
+            "Report to the exam hall 30 minutes before the commencement time.",
+            "Carry valid Student ID card and Hall Ticket for every session."
+          ]
+        },
+        {
+          title: "Fee Payment & Dues Clearence",
+          items: [
+            "Last Date for regular exam fee payment: 10 days before exams.",
+            "Submit dues clearance form to Accounts department to unblock hall ticket download."
+          ]
+        }
+      ],
+      actions: {
+        label: "View Exams Schedule",
+        link: "/academics/programmes"
+      }
+    };
+  } else if (t.includes("scholarship")) {
+    return {
+      subtitle: "Academic Year 2026-27 Merit Scholarships",
+      overview: "Chalapathi University recognizes academic merit, sports achievement, and socioeconomic needs by offering comprehensive tuition waivers and stipends. Apply before the deadline to be considered.",
+      sections: [
+        {
+          title: "Scholarship Categories",
+          items: [
+            "Merit Scholarship: 100% waiver for students scoring >95% in Board Exams.",
+            "Sports Scholarship: Special waivers for State & National level achievers.",
+            "Need-Based Financial Aid: Assistance for economically weaker sections."
+          ]
+        },
+        {
+          title: "Application Process",
+          items: [
+            "Submit scholarship form online with marks sheet copy.",
+            "Attach parents' income declaration certificate.",
+            "Wait for committee review and interview call notification."
+          ]
+        }
+      ],
+      actions: {
+        label: "View Scholarships & Fees",
+        link: "/admissions/scholarships"
+      }
+    };
+  } else {
+    // Default / placement drive
+    return {
+      subtitle: "Placement Registration & Coordination",
+      overview: "The Training & Placement Cell is organizing a series of campus placement drives. Candidates must register and complete the verification process to stand eligible.",
+      sections: [
+        {
+          title: "Eligibility Criteria",
+          items: [
+            "CGPA of 6.5 and above with no active backlogs.",
+            "Completion of Pre-Placement Training Program modules.",
+            "Resumes must be updated and approved on the Placement Portal."
+          ]
+        },
+        {
+          title: "Support Desk & Registration",
+          items: [
+            "Contact: placement.cell@chalapathi.edu.in",
+            "Helpline: +91 863 2345438",
+            "Office hours: 9:00 AM - 5:00 PM (Admin Block, Room 102)"
+          ]
+        }
+      ],
+      actions: {
+        label: "View Placement Highlights",
+        link: "/placements"
+      }
+    };
+  }
 };
 
 export default function AnnouncementDetails() {
@@ -189,6 +346,50 @@ export default function AnnouncementDetails() {
             {article.desc}
           </div>
 
+          {/* Dynamic Extra Details */}
+          {(() => {
+            const extra = getAnnouncementExtraInfo(article.title);
+            return (
+              <div className="space-y-6 pt-6 border-t border-gray-100 font-[var(--font-poppins)]">
+                {extra.subtitle && (
+                  <h3 className="text-sm font-extrabold text-[#072A6C] tracking-tight uppercase">{extra.subtitle}</h3>
+                )}
+                {extra.overview && (
+                  <p className="text-xs text-gray-500 font-light leading-relaxed">{extra.overview}</p>
+                )}
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                  {extra.sections.map((sect, sIdx) => (
+                    <div key={sIdx} className="bg-white border border-gray-150 rounded-2xl p-5 shadow-sm space-y-2">
+                      <h4 className="font-extrabold text-[#072A6C] text-xs uppercase tracking-wider border-b border-gray-100 pb-2 flex items-center justify-between">
+                        <span>{sect.title}</span>
+                      </h4>
+                      <ul className="space-y-1.5 text-xs text-gray-500 font-light list-none pl-0">
+                        {sect.items.map((item, itemIdx) => (
+                          <li key={itemIdx} className="leading-relaxed flex items-start gap-1.5">
+                            <span className="text-[#D71920] font-bold">▪</span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+
+                {extra.actions && (
+                  <div className="pt-4 flex">
+                    <Link
+                      to={extra.actions.link}
+                      className="px-5 py-2.5 bg-[#072A6C] hover:bg-[#D71920] text-white text-xs font-bold rounded-xl transition-colors shadow-sm inline-flex items-center gap-1.5"
+                    >
+                      <span>{extra.actions.label}</span>
+                      <ArrowRight size={12} />
+                    </Link>
+                  </div>
+                )}
+              </div>
+            );
+          })()}
         </div>
 
       </div>

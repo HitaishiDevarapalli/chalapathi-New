@@ -5009,18 +5009,110 @@ function ScholarshipsView() {
   );
 }
 
+function RecruiterCard({ company }: { company: { name: string; logo: string } }) {
+  const [hasError, setHasError] = React.useState(false);
+  return (
+    <div className="flex flex-col items-center justify-center bg-white border border-gray-200/60 rounded-xl p-4 w-32 h-36 shrink-0 select-none shadow-sm hover:shadow-[0_8px_20px_rgba(37,99,235,0.12)] hover:-translate-y-1.5 transition-all duration-300 gap-2 group cursor-pointer">
+      {/* Real Corporate Logo */}
+      <div className="w-20 h-16 flex items-center justify-center overflow-hidden bg-white p-1 shrink-0">
+        {hasError ? (
+          <div className="w-12 h-12 rounded-full bg-[#072A6C] text-white flex items-center justify-center font-bold text-xs">
+            {company.name.charAt(0).toUpperCase()}
+          </div>
+        ) : (
+          <img 
+            src={company.logo} 
+            alt={`${company.name} logo`} 
+            className="max-w-full max-h-full object-contain w-auto h-auto transition-transform duration-300 group-hover:scale-108"
+            onError={() => setHasError(true)}
+          />
+        )}
+      </div>
+      <span className="font-extrabold text-[10px] text-gray-500 tracking-wider uppercase text-center">{company.name}</span>
+    </div>
+  );
+}
+
 function PlacementsView() {
   const { placementsContent } = useData();
   const [showEnquiry, setShowEnquiry] = React.useState(false);
   const [enquiryForm, setEnquiryForm] = React.useState({ name: "", email: "", mobile: "", query: "" });
   const sliderRef = React.useRef<HTMLDivElement>(null);
 
+  const [isHovered, setIsHovered] = React.useState(false);
+  const [isDragging, setIsDragging] = React.useState(false);
+  const [startX, setStartX] = React.useState(0);
+  const [scrollStart, setScrollStart] = React.useState(0);
+  const [lastInteraction, setLastInteraction] = React.useState(0);
+
+  const PLACED_STUDENTS = placementsContent.placedStudents;
+  const duplicatedStudents = [...PLACED_STUDENTS, ...PLACED_STUDENTS, ...PLACED_STUDENTS];
+
+  // Manual scroll by one card (card width is 224px + 20px gap = 244px)
   const scroll = (direction: "left" | "right") => {
     if (sliderRef.current) {
-      const { scrollLeft, clientWidth } = sliderRef.current;
-      const scrollTo = direction === "left" ? scrollLeft - clientWidth / 2 : scrollLeft + clientWidth / 2;
+      setLastInteraction(Date.now());
+      const cardWidth = 244;
+      const currentScroll = sliderRef.current.scrollLeft;
+      const scrollTo = direction === "left" ? currentScroll - cardWidth : currentScroll + cardWidth;
       sliderRef.current.scrollTo({ left: scrollTo, behavior: "smooth" });
     }
+  };
+
+  React.useEffect(() => {
+    let animationFrameId: number;
+    let lastTime = performance.now();
+
+    const animate = (time: number) => {
+      const el = sliderRef.current;
+      if (!el) {
+        animationFrameId = requestAnimationFrame(animate);
+        return;
+      }
+
+      const timeSinceInteraction = Date.now() - lastInteraction;
+      const shouldScroll = !isHovered && !isDragging && timeSinceInteraction > 3000;
+
+      if (shouldScroll) {
+        // slow premium speed: about 35-45s per full loop.
+        // Scroll 0.65px per frame (approx 40px/sec)
+        const speed = 0.65;
+        el.scrollLeft += speed;
+
+        // Reset scroll position if we go past the original list width
+        const originalWidth = el.scrollWidth / 3;
+        if (el.scrollLeft >= originalWidth * 2) {
+          el.scrollLeft -= originalWidth;
+        }
+      }
+
+      lastTime = time;
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animationFrameId = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [isHovered, isDragging, lastInteraction]);
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!sliderRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX - sliderRef.current.offsetLeft);
+    setScrollStart(sliderRef.current.scrollLeft);
+    setLastInteraction(Date.now());
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !sliderRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - sliderRef.current.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    sliderRef.current.scrollLeft = scrollStart - walk;
+    setLastInteraction(Date.now());
+  };
+
+  const handleMouseUpOrLeave = () => {
+    setIsDragging(false);
   };
 
   const handleEnquirySubmit = (e: React.FormEvent) => {
@@ -5028,8 +5120,6 @@ function PlacementsView() {
     alert("Thank you! Our Placement Officer will contact you shortly.");
     setShowEnquiry(false);
   };
-
-  const PLACED_STUDENTS = placementsContent.placedStudents;
 
   const INDUSTRIES = [
     { name: "Software Development", img: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&fit=crop" },
@@ -5074,18 +5164,25 @@ function PlacementsView() {
         {/* Horizontal Slider Area */}
         <div 
           ref={sliderRef}
-          className="flex gap-5 overflow-x-auto pb-4 scroll-smooth scrollbar-none snap-x snap-mandatory"
+          onMouseDown={handleMouseDown}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUpOrLeave}
+          onMouseLeave={() => { handleMouseUpOrLeave(); setIsHovered(false); }}
+          onMouseEnter={() => setIsHovered(true)}
+          className="flex gap-5 overflow-x-auto pb-4 scrollbar-none select-none cursor-grab active:cursor-grabbing"
           style={{ scrollbarWidth: "none" }}
         >
-          {PLACED_STUDENTS.map((student, idx) => (
+          {duplicatedStudents.map((student, idx) => (
             <div 
               key={idx} 
-              className="w-48 md:w-56 shrink-0 aspect-[3/4.2] bg-white border border-gray-150 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group snap-start relative flex flex-col justify-end cursor-pointer"
+              draggable="false"
+              className="w-48 md:w-56 shrink-0 aspect-[3/4.2] bg-white border border-gray-150 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group relative flex flex-col justify-end cursor-pointer"
             >
               {/* Profile Image */}
               <img 
                 src={student.img} 
                 alt={student.name} 
+                draggable="false"
                 className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               />
               {/* Bottom Dark Gradient Overlay */}
@@ -5316,20 +5413,7 @@ function PlacementsView() {
           
           <div className="animate-company-marquee gap-10 md:gap-14 flex items-center">
             {[...RECRUITERS, ...RECRUITERS].map((company, i) => (
-              <div key={i} className="flex flex-col items-center justify-center bg-white border border-gray-200/60 rounded-xl p-4 w-32 shrink-0 select-none shadow-sm hover:shadow-md transition-shadow gap-2">
-                {/* Real Corporate Logo */}
-                <div className="w-12 h-12 flex items-center justify-center overflow-hidden rounded-lg bg-gray-50 p-1 border border-gray-100 shrink-0">
-                  <img 
-                    src={company.logo} 
-                    alt={`${company.name} logo`} 
-                    className="w-full h-full object-contain"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${company.name}&background=072A6C&color=fff&size=64&font-size=0.45&bold=true`;
-                    }}
-                  />
-                </div>
-                <span className="font-extrabold text-[10px] text-gray-500 tracking-wider uppercase text-center">{company.name}</span>
-              </div>
+              <RecruiterCard key={i} company={company} />
             ))}
           </div>
         </div>

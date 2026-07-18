@@ -172,7 +172,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
       navigate("/admissions/scholarships");
     } else if (q.includes("apply") || q.includes("registration") || q.includes("enrol")) {
       navigate("/admissions/apply");
-    } else if (q.includes("hostel") || q.includes("room") || q.includes("accommodation") || q.includes("dorm")) {
+    } else if (q.includes("hostel") || q.includes("room") || q.includes("accommodation") || q.includes("dorm") || q.includes("lunch") || q.includes("food") || q.includes("mess") || q.includes("dining") || q.includes("canteen") || q.includes("breakfast") || q.includes("dinner")) {
       navigate("/campus-life/hostels");
     } else if (q.includes("library") || q.includes("book") || q.includes("study")) {
       navigate("/campus-life/library");

@@ -569,6 +569,15 @@ export default function EventDetails() {
               className="bg-white border border-gray-100 w-full max-w-[360px] rounded-[24px] p-6 shadow-2xl relative flex flex-col gap-4 transform transition-transform duration-300 animate-fade-in pointer-events-auto text-left"
               onClick={(e) => e.stopPropagation()}
             >
+              <button 
+                type="button" 
+                onClick={() => setShowRegForm(false)}
+                className="absolute top-5 right-5 text-gray-400 hover:text-[#D71920] border-none bg-transparent cursor-pointer outline-none transition-colors"
+                aria-label="Close modal"
+              >
+                <X size={16} />
+              </button>
+
               <h3 className="text-sm font-black text-[#072A6C] uppercase tracking-wider text-center border-b border-gray-100 pb-3">
                 Registration
               </h3>
