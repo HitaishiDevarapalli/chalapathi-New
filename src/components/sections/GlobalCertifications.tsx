@@ -7,37 +7,37 @@ const certifications = [
   {
     name: "SAP",
     description: "Enterprise Resource Planning (ERP), business processes, supply chain, finance, and analytics.",
-    iconUrl: "https://cdn.simpleicons.org/sap",
+    iconUrl: "https://cdn.simpleicons.org/sap/ffffff",
     color: "#0FAFFF"
   },
   {
     name: "ServiceNow",
     description: "AI-powered workflow automation, IT service management, and digital operations.",
-    iconUrl: "https://cdn.simpleicons.org/servicenow",
+    iconUrl: "https://cdn.simpleicons.org/servicenow/ffffff",
     color: "#81B5A1"
   },
   {
     name: "Juniper Networks",
     description: "AI-native networking, cloud infrastructure, and cybersecurity.",
-    iconUrl: "https://cdn.simpleicons.org/junipernetworks",
+    iconUrl: "https://cdn.simpleicons.org/junipernetworks/ffffff",
     color: "#78A22F"
   },
   {
     name: "Salesforce",
     description: "Customer Relationship Management (CRM), sales automation, and business analytics.",
-    iconUrl: "https://cdn.simpleicons.org/salesforce",
+    iconUrl: "https://cdn.simpleicons.org/salesforce/ffffff",
     color: "#00A1E0"
   },
   {
     name: "Zscaler",
     description: "Zero Trust Security, SASE, and cloud cybersecurity.",
-    iconUrl: "https://cdn.simpleicons.org/zscaler",
+    iconUrl: "https://cdn.simpleicons.org/zscaler/ffffff",
     color: "#0054A6"
   },
   {
     name: "Microchip",
     description: "Embedded systems, IoT, microcontrollers, and Industry 4.0.",
-    iconUrl: "https://cdn.simpleicons.org/microchip",
+    iconUrl: "https://cdn.simpleicons.org/microchip/ffffff",
     color: "#E42528"
   },
   {
@@ -49,7 +49,7 @@ const certifications = [
   {
     name: "CodeChef",
     description: "Competitive programming, coding, and algorithmic problem-solving.",
-    iconUrl: "https://cdn.simpleicons.org/codechef",
+    iconUrl: "https://cdn.simpleicons.org/codechef/ffffff",
     color: "#5B4638"
   },
   {
@@ -61,19 +61,19 @@ const certifications = [
   {
     name: "AWS, Azure & Google Cloud",
     description: "Cloud computing, AI, DevOps, cybersecurity, and data engineering.",
-    iconUrl: "https://cdn.simpleicons.org/amazonwebservices",
+    iconUrl: "https://cdn.simpleicons.org/amazonwebservices/ffffff",
     color: "#FF9900"
   },
   {
     name: "Coursera & edX",
     description: "Professional certifications from leading global universities and industry partners.",
-    iconUrl: "https://cdn.simpleicons.org/coursera",
+    iconUrl: "https://cdn.simpleicons.org/coursera/ffffff",
     color: "#0056D2"
   },
   {
     name: "Oracle & Java",
     description: "Database management, Java programming, and enterprise application development.",
-    iconUrl: "https://cdn.simpleicons.org/oracle",
+    iconUrl: "https://cdn.simpleicons.org/oracle/ffffff",
     color: "#F80000"
   },
   {
@@ -85,56 +85,46 @@ const certifications = [
   {
     name: "Digital Marketing",
     description: "SEO, SEM, social media marketing, analytics, and branding (Google, HubSpot & Meta).",
-    iconUrl: "https://cdn.simpleicons.org/meta",
+    iconUrl: "https://cdn.simpleicons.org/meta/ffffff",
     color: "#0668E1"
   }
 ];
 
 export default function GlobalCertifications() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  });
-
-  const rotateLogos = useTransform(scrollYProgress, [0, 1], [0, 15]);
 
   return (
     <section 
       ref={containerRef}
-      className="relative w-full bg-[#f8fafc] overflow-hidden font-sans"
+      className="relative w-full overflow-hidden font-sans bg-white"
     >
-      {/* Abstract Background Elements */}
-      <div className="absolute top-0 left-0 w-full h-[600px] bg-gradient-to-b from-white to-transparent z-0" />
-      <div className="absolute top-[-10%] right-[-5%] w-[40%] h-[40%] bg-blue-100/50 rounded-full blur-3xl opacity-60 z-0" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] bg-indigo-50/50 rounded-full blur-3xl opacity-60 z-0" />
-
-      <div className="max-w-[1440px] mx-auto px-6 lg:px-12 py-24 relative z-10">
+      {/* Container with tight top padding to fix the gap issue */}
+      <div className="max-w-[1440px] mx-auto px-6 lg:px-12 pt-8 pb-24 relative z-10">
         
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row gap-12 items-end mb-20">
+        <div className="flex flex-col md:flex-row gap-12 items-end mb-16">
           <motion.div 
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            transition={{ duration: 0.6 }}
             className="md:w-1/2"
           >
             <div className="flex items-center gap-3 mb-4">
-              <span className="h-[2px] w-12 bg-blue-600 block"></span>
-              <span className="text-blue-600 font-bold tracking-widest uppercase text-sm">Global Certifications</span>
+              <span className="h-[2px] w-12 bg-[#072A6C] block"></span>
+              <span className="text-[#072A6C] font-bold tracking-widest uppercase text-sm">Global Certifications</span>
             </div>
-            <h2 className="text-4xl md:text-6xl font-black text-[#0a1930] leading-[1.1] tracking-tight">
-              Adding <span className="text-blue-600">Global Value</span><br/>To Your Degree.
+            <h2 className="text-4xl md:text-5xl font-black text-[#072A6C] leading-[1.1] tracking-tight">
+              Adding Global Value<br/>To Your Degree.
             </h2>
           </motion.div>
 
           <motion.div 
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="md:w-1/2 text-gray-600 text-lg leading-relaxed font-light"
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="md:w-1/2 text-gray-600 text-[15px] leading-relaxed"
           >
             <p>
               At Chalapathi University, we believe a degree alone isn't enough to stand out in today's competitive world — industry-recognized certifications give students the extra edge employers look for. 
@@ -145,56 +135,56 @@ export default function GlobalCertifications() {
           </motion.div>
         </div>
 
-        {/* Certifications Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 relative">
+        {/* Certifications Grid - 4 Columns */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10 relative">
           {certifications.map((cert, index) => {
-            const isWide = index === 0 || index === 9 || index === 13; // Make some cards span 2 columns for a masonry feel
             return (
               <motion.div
                 key={cert.name}
-                initial={{ opacity: 0, y: 40 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: (index % 4) * 0.1 }}
-                whileHover={{ y: -5, scale: 1.02 }}
-                className={`group relative bg-white border border-gray-100 rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer ${isWide ? 'md:col-span-2' : 'col-span-1'}`}
+                viewport={{ once: true, margin: "-20px" }}
+                transition={{ duration: 0.4, delay: (index % 4) * 0.1 }}
+                className="group flex flex-col bg-white border border-gray-200 rounded-[4px] shadow-[0_2px_8px_rgba(0,0,0,0.06)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.12)] transition-shadow duration-300 relative pt-3 overflow-hidden"
               >
-                {/* Glow Effect */}
-                <div 
-                  className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none"
-                  style={{ background: `radial-gradient(circle at bottom right, ${cert.color}, transparent 70%)` }}
-                />
+                {/* Top Folder Tab Decoration */}
+                <div className="absolute top-0 left-0 right-0 h-3 bg-[#7b8c9e]/80"></div>
+                
+                {/* Circular Icon Badge */}
+                <div className="absolute top-1 right-4 w-10 h-10 bg-[#7b8c9e] rounded-full flex items-center justify-center text-white shadow-sm z-10">
+                  {cert.iconUrl ? (
+                    <img 
+                      src={cert.iconUrl} 
+                      alt={cert.name} 
+                      className="w-5 h-5 object-contain"
+                    />
+                  ) : (
+                    cert.Icon && <cert.Icon className="w-5 h-5 text-white" />
+                  )}
+                </div>
 
-                <div className="relative z-10 flex flex-col h-full">
-                  <div className="flex items-center justify-between mb-8">
-                    <div className="h-12 flex items-center">
-                      {(cert as any).iconUrl ? (
-                        <motion.img 
-                          src={(cert as any).iconUrl} 
-                          alt={cert.name} 
-                          className="h-10 w-auto max-w-[120px] object-contain filter grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500"
-                          style={{ rotate: rotateLogos }}
-                        />
-                      ) : (
-                        <div className="w-12 h-12 rounded-xl bg-gray-50 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
-                          {cert.Icon && <cert.Icon className="w-6 h-6 text-gray-400 group-hover:text-current transition-colors" style={{ color: cert.color }} />}
-                        </div>
-                      )}
-                    </div>
-                    
-                    <div className="w-8 h-8 rounded-full border border-gray-100 flex items-center justify-center opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
-                      <ChevronRight className="w-4 h-4 text-gray-400" />
-                    </div>
+                <div className="p-6 pt-10 flex flex-col flex-grow relative z-0">
+                  <h3 className="text-xl font-bold text-[#203348] mb-6 pr-6 leading-tight min-h-[56px]">
+                    {cert.name}
+                  </h3>
+                  
+                  {/* Tags */}
+                  <div className="flex items-center gap-2 mb-3 border-t border-gray-100 pt-4">
+                    <span className="text-[10px] font-bold text-gray-500 tracking-wider uppercase">CERTIFICATION COURSE</span>
+                    <Award size={14} className="text-[#3b4b5e] ml-auto" />
                   </div>
 
-                  <div className="mt-auto">
-                    <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors">
-                      {cert.name}
-                    </h3>
-                    <p className="text-sm text-gray-500 leading-relaxed">
-                      {cert.description}
-                    </p>
+                  <p className="text-sm text-gray-600 leading-relaxed mb-4 flex-grow">
+                    {cert.description.length > 80 ? cert.description.slice(0, 80) + '...' : cert.description}
+                  </p>
+                  
+                  <div className="text-sm text-[#006A80] font-medium mb-6 hover:underline cursor-pointer">
+                    Read more
                   </div>
+                  
+                  <button className="w-full py-3 bg-[#425974] hover:bg-[#203348] text-white text-[13px] font-semibold rounded-[4px] transition-colors mt-auto">
+                    Start certification
+                  </button>
                 </div>
               </motion.div>
             );
@@ -203,36 +193,23 @@ export default function GlobalCertifications() {
 
         {/* Conclusion Banner */}
         <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="mt-20 relative bg-[#072A6C] rounded-[40px] p-10 md:p-16 overflow-hidden flex flex-col md:flex-row items-center justify-between gap-12 text-white shadow-2xl"
+          transition={{ duration: 0.6 }}
+          className="mt-20 bg-[#f8fafc] border border-gray-200 rounded-[12px] p-10 md:p-14 flex flex-col md:flex-row items-center justify-between gap-12"
         >
-          {/* Decorative background */}
-          <div className="absolute top-0 right-0 w-full h-full overflow-hidden pointer-events-none">
-            <svg viewBox="0 0 1024 1024" className="absolute -top-1/2 -right-1/2 w-full h-full opacity-10 blur-3xl animate-spin-slow" aria-hidden="true">
-              <circle cx="512" cy="512" r="512" fill="url(#radial-gradient)" fillOpacity="0.7" />
-              <defs>
-                <radialGradient id="radial-gradient" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(512 512) rotate(90) scale(512)">
-                  <stop stopColor="#60A5FA" />
-                  <stop offset="1" stopColor="#3B82F6" stopOpacity="0" />
-                </radialGradient>
-              </defs>
-            </svg>
-          </div>
-
-          <div className="relative z-10 md:w-2/3">
-            <h3 className="text-3xl md:text-5xl font-black mb-6 leading-tight">
-              Ready for the <span className="text-blue-400">World Stage.</span>
+          <div className="md:w-2/3">
+            <h3 className="text-3xl font-black text-[#072A6C] mb-4">
+              Ready for the World Stage.
             </h3>
-            <p className="text-blue-100/80 text-lg md:text-xl font-light leading-relaxed max-w-2xl">
+            <p className="text-gray-600 text-lg leading-relaxed max-w-2xl">
               These certifications, combined with academic learning, ensure students graduate as globally competent, industry-ready professionals — confident to compete not just in national markets, but anywhere in the world.
             </p>
           </div>
 
-          <div className="relative z-10 md:w-1/3 flex justify-end">
-            <button className="bg-white text-[#072A6C] hover:bg-blue-50 px-8 py-4 rounded-full font-bold shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center gap-3 w-full sm:w-auto justify-center">
+          <div className="md:w-1/3 flex justify-end">
+            <button className="bg-[#072A6C] hover:bg-[#051d4d] text-white px-8 py-4 rounded font-bold shadow-md hover:shadow-lg transition-all duration-300 flex items-center gap-3 w-full sm:w-auto justify-center">
               <span>View Curriculum</span>
               <ChevronRight className="w-5 h-5" />
             </button>
