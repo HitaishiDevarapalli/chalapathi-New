@@ -155,7 +155,7 @@ export default function NewsDetails() {
           </div>
 
           {article.sourceUrl && (
-            <div className="pt-2">
+            <div className="pt-2 flex justify-end">
               <a 
                 href={article.sourceUrl} 
                 target="_blank" 
