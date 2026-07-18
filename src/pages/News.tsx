@@ -80,6 +80,9 @@ export default function News() {
   const [showToast, setShowToast] = useState(false);
   const [activeShareItem, setActiveShareItem] = useState<{ type: "news" | "event"; id: number } | null>(null);
   
+  // Track active university highlight (defaults to first item ID)
+  const [activeHighlightId, setActiveHighlightId] = useState<number>(1);
+
   // Upcoming Events drawer state
   const [showEventsDrawer, setShowEventsDrawer] = useState(false);
 
@@ -293,14 +296,14 @@ export default function News() {
 
         </div>
 
-        {/* Right: Trending Now Card (4 Cols) */}
+        {/* Right: University Highlights Card (4 Cols) */}
         <div className="lg:col-span-4 bg-white rounded-[24px] border border-gray-100 shadow-sm p-6 flex flex-col">
           
           {/* Section Header */}
           <div className="flex justify-between items-center pb-4 border-b border-gray-100 mb-4">
             <div className="flex items-center gap-1.5 text-[#072A6C]">
               <Flame size={16} className="text-red-500 fill-current animate-pulse" />
-              <h3 className="text-xs font-black uppercase tracking-wider">Trending Now</h3>
+              <h3 className="text-xs font-black uppercase tracking-wider">University Highlights</h3>
             </div>
             <Link to="/news" className="text-[10px] font-bold text-[#072A6C] hover:text-[#D71920] transition-colors">
               View All
@@ -311,20 +314,36 @@ export default function News() {
           <div className="flex-1 flex flex-col justify-between gap-4">
             {trendingArticles.map((item, idx) => {
               const displayNum = `0${idx + 1}`;
+              const isActive = activeHighlightId === item.id;
               return (
                 <button 
                   key={item.id}
-                  onClick={() => navigate(`/news/${item.slug}`)}
-                  className="w-full text-left flex items-start gap-4 group cursor-pointer"
+                  onClick={() => {
+                    setActiveHighlightId(item.id);
+                    navigate(`/news/${item.slug}`);
+                  }}
+                  className={`w-full text-left flex items-start gap-4 group cursor-pointer transition-all duration-300 p-2 rounded-xl border ${
+                    isActive 
+                      ? "bg-[#EEF5FF] shadow-[0_0_15px_rgba(59,130,246,0.2)] border-l-4 border-l-[#E31E24] border-t-transparent border-b-transparent border-r-transparent" 
+                      : "hover:bg-gray-50 border-transparent hover:-translate-y-0.5 hover:shadow-sm"
+                  }`}
                 >
                   {/* Big rank number */}
-                  <span className="text-sm font-black text-[#D71920] tracking-wider pt-0.5">
+                  <span className={`tracking-wider pt-0.5 transition-all duration-300 ${
+                    isActive 
+                      ? "text-base font-black text-[#E31E24]" 
+                      : "text-sm font-bold text-[#D71920]"
+                  }`}>
                     {displayNum}
                   </span>
 
                   {/* Title & Metadata */}
                   <div className="flex-1 space-y-0.5 min-w-0">
-                    <h4 className="text-xs font-bold text-gray-800 leading-snug line-clamp-2 group-hover:text-[#072A6C] transition-colors">
+                    <h4 className={`text-xs leading-snug line-clamp-2 transition-all duration-300 ${
+                      isActive 
+                        ? "text-[#0B2D6B] font-semibold" 
+                        : "text-gray-800 font-bold group-hover:text-[#072A6C]"
+                    }`}>
                       {item.title}
                     </h4>
                     <span className="text-[9px] text-gray-400 font-medium font-[var(--font-inter)]">
@@ -333,8 +352,10 @@ export default function News() {
                   </div>
 
                   {/* Tiny Thumbnail */}
-                  <div className="w-11 h-11 rounded-lg overflow-hidden shrink-0 bg-gray-50 border border-gray-100">
-                    <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                  <div className={`w-11 h-11 rounded-lg overflow-hidden shrink-0 bg-gray-50 border border-gray-100 transition-all duration-300 ${
+                    isActive ? "scale-105" : "group-hover:scale-105"
+                  }`}>
+                    <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
                   </div>
                 </button>
               );
