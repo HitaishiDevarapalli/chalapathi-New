@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Menu, X, ChevronDown, ArrowRight, Megaphone, Search } from "lucide-react";
 import { useData } from "../../context/DataContext";
@@ -246,7 +246,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
         } h-[100px]`}
         style={{ borderBottom: "1px solid #E8E8E8" }}
       >
-        <div className="max-w-[1440px] mx-auto h-full px-5 flex items-center gap-4 relative overflow-hidden">
+        <div className="max-w-[1440px] mx-auto h-full px-5 flex items-center gap-4 relative">
           {/* Logo */}
           <Link to="/" className="flex items-center shrink-0 py-1">
             <img
@@ -257,7 +257,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
           </Link>
 
           {/* Center nav */}
-          <nav className="hidden xl:flex items-center gap-1 h-full flex-1 min-w-0 overflow-hidden">
+          <nav className="hidden xl:flex items-center gap-1 h-full flex-1 min-w-0">
             {navLinks.map((name) => {
               if (name === "About Us") {
                 return (

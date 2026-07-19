@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useEffect } from "react";
 import { createPortal } from "react-dom";
@@ -829,7 +829,7 @@ const getPageContent = (path: string, programs: any[]) => {
           {/* Steps to Follow timeline */}
           <div className="pt-8 border-t border-gray-100 space-y-8 text-center">
             <div className="inline-flex flex-col items-center">
-              <span className="px-5 py-2 bg-[#D4AF37] text-[#D4AF37] text-xs font-extrabold tracking-[2px] rounded-full uppercase shadow-sm border border-[#D4AF37]/20">
+              <span className="px-5 py-2 bg-[#072A6C] text-[#D4AF37] text-xs font-extrabold tracking-[2px] rounded-full uppercase shadow-sm border border-[#D4AF37]/20">
                 Steps To Follow
               </span>
               <h3 className="text-xl md:text-2xl font-[900] text-[#072A6C] mt-4">

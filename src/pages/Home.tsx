@@ -745,12 +745,14 @@ export default function Home() {
                     <motion.div
                       animate={{ y: [0, -5, 0] }}
                       transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+                      style={{ width: size, height: size * 0.72, overflow: 'hidden' }}
+                      className="flex justify-center items-start"
                     >
                       <img 
                         src={imgSrc} 
                         alt={title} 
                         style={{ width: size, height: size, objectFit: 'contain' }}
-                        className="rounded-lg"
+                        className="rounded-lg max-w-none"
                       />
                     </motion.div>
                   );
@@ -1854,18 +1856,18 @@ export default function Home() {
       <section className="bg-gray-50 py-12 border-t border-gray-100">
         <div className="max-w-[1440px] mx-auto px-5 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
           {/* Left Red Card */}
-          <div className="lg:col-span-8 bg-[#D4AF37] text-white rounded-[16px] p-8 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden relative">
+          <div className="lg:col-span-8 bg-[#072A6C] text-white rounded-[16px] p-8 flex flex-col md:flex-row items-center justify-between gap-6 overflow-hidden relative">
             <div className="space-y-4 max-w-lg z-10">
               <h2 className="text-[26px] font-[800] tracking-wide font-[var(--font-poppins)]">
                 ADMISSIONS OPEN 2026
               </h2>
-              <p className="text-[12px] text-amber-100 leading-relaxed font-[300] font-[var(--font-poppins)]">
+              <p className="text-[12px] text-blue-100 leading-relaxed font-[300] font-[var(--font-poppins)]">
                 Join a community of innovators and leaders. Shape your future with Chalapathi University.
               </p>
               <div className="flex flex-wrap items-center gap-3 pt-2 font-[var(--font-poppins)]">
                 <Link
                   to="/admissions/apply"
-                  className="h-10 px-5 bg-white text-[#D4AF37] hover:bg-amber-50 text-[11px] font-[700] rounded-[8px] inline-flex items-center gap-1.5 shadow active:scale-95 transition-transform"
+                  className="h-10 px-5 bg-white text-[#072A6C] hover:bg-blue-50 text-[11px] font-[700] rounded-[8px] inline-flex items-center gap-1.5 shadow active:scale-95 transition-transform"
                 >
                   Apply Now <ArrowRight size={13} />
                 </Link>
