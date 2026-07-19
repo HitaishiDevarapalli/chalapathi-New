@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, ChevronDown, ArrowRight, Megaphone } from "lucide-react";
+import { Menu, X, ChevronDown, ArrowRight, Megaphone, Search } from "lucide-react";
 import { useData } from "../../context/DataContext";
 
 export const ACADEMIC_PROGRAMS_STRUCTURE: Record<string, Record<string, { label: string; to: string }[]>> = {
@@ -542,7 +542,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
           </nav>
 
           {/* Right CTA */}
-          <div className="hidden xl:flex items-center gap-4 shrink-0">
+          <div className="hidden xl:flex items-center gap-3 shrink-0">
             <Link
               to="/admissions/apply"
               className="h-10 px-3 text-[12px] min-[1420px]:px-6 min-[1420px]:text-[13px] bg-[#D71920] hover:bg-[#b71217] text-white font-bold rounded-[12px] inline-flex items-center justify-center transition-colors shadow-sm font-[var(--font-poppins)]"
@@ -559,13 +559,27 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                 <span className="absolute top-1.5 right-1.5 bg-[#D71920] w-2.5 h-2.5 rounded-full border-2 border-white" />
               )}
             </button>
+            <button
+              onClick={() => setSearchOpen(!searchOpen)}
+              className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-[#222222] hover:text-[#D71920] hover:border-[#D71920] transition-colors cursor-pointer"
+              title="Search"
+            >
+              <Search size={16} />
+            </button>
           </div>
 
           {/* Mobile menu trigger */}
-          <div className="flex xl:hidden items-center gap-2">
+          <div className="flex xl:hidden items-center gap-1">
+            <button
+              onClick={() => setSearchOpen(!searchOpen)}
+              className="p-2 text-[#222222] hover:text-[#D71920] transition-colors"
+              title="Search"
+            >
+              <Search size={18} />
+            </button>
             <button 
               onClick={() => setShowAnnouncementsDrawer(!showAnnouncementsDrawer)} 
-              className="p-2 text-[#222222] relative"
+              className="p-2 text-[#222222] relative hover:text-[#D71920] transition-colors"
               title="View Announcements"
             >
               <Megaphone size={18} />
@@ -573,7 +587,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                 <span className="absolute top-1 right-1 bg-[#D71920] w-2 h-2 rounded-full border border-white" />
               )}
             </button>
-            <button onClick={() => setMobileOpen(!mobileOpen)} className="p-2 text-[#222222]">
+            <button onClick={() => setMobileOpen(!mobileOpen)} className="p-2 text-[#222222] hover:text-[#D71920] transition-colors">
               {mobileOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
           </div>
