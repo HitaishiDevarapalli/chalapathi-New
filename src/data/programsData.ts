@@ -28,6 +28,48 @@ export const PROGRAMS_DATA: ProgramDetail[] = [
     ]
   },
   {
+    slug: "mtech-cse",
+    title: "M.Tech. Computer Science & Engineering",
+    desc: "Advanced postgraduate study in distributed systems, algorithms, and computing research.",
+    duration: "2 Years (Postgraduate)",
+    department: "Computer Science & Engineering",
+    degreeType: "M.Tech",
+    overview: "Focuses on advanced distributed systems, high-performance computing, and deep algorithmic research for specialized tech roles.",
+    curriculum: ["Advanced Algorithms", "Distributed Systems", "Cloud Computing Architectures", "Machine Learning Applications", "Advanced Database Systems", "Research Thesis"],
+    careers: [
+      { title: "Senior Software Engineer", desc: "Design complex, high-scale software architectures." },
+      { title: "Research Scientist", desc: "Conduct R&D in core computer science domains." }
+    ]
+  },
+  {
+    slug: "mca",
+    title: "Master of Computer Applications (MCA)",
+    desc: "Professional degree focused on application software development.",
+    duration: "2 Years (Postgraduate)",
+    department: "Computer Applications",
+    degreeType: "MCA",
+    overview: "Develops expertise in enterprise application development, web technologies, and software engineering methodologies.",
+    curriculum: ["Java Programming", "Web Application Development", "Software Engineering", "Database Systems", "Cloud Services", "Project Work"],
+    careers: [
+      { title: "Software Developer", desc: "Develop and deploy robust web and mobile applications." },
+      { title: "IT Consultant", desc: "Advise businesses on software and IT solutions." }
+    ]
+  },
+  {
+    slug: "phd-cse",
+    title: "Ph.D. Computer Science & Engineering",
+    desc: "Doctoral research program for aspiring academicians and researchers.",
+    duration: "3-5 Years (Doctoral)",
+    department: "Computer Science & Engineering",
+    degreeType: "Ph.D.",
+    overview: "Intensive research-focused program allowing students to contribute novel findings to the field of computer science.",
+    curriculum: ["Research Methodology", "Advanced Computing Trends", "Literature Review", "Thesis Work"],
+    careers: [
+      { title: "Professor / Academician", desc: "Teach and mentor university students while conducting research." },
+      { title: "Principal Investigator", desc: "Lead R&D divisions in global technology firms." }
+    ]
+  },
+  {
     slug: "btech-cse-ai-ml",
     title: "B.Tech. CSE (AI & Machine Learning)",
     desc: "Unlocking automation, predictive modeling, and intelligent agent systems.",
@@ -40,6 +82,34 @@ export const PROGRAMS_DATA: ProgramDetail[] = [
       { title: "AI Engineer", desc: "Develop and deploy deep learning models for predictive analytics." },
       { title: "ML Ops Specialist", desc: "Manage deployment pipelines and scale machine learning models." },
       { title: "Data Scientist (AI)", desc: "Synthesize large data streams into intelligent decision patterns." }
+    ]
+  },
+  {
+    slug: "btech-aiml",
+    title: "B.Tech. Artificial Intelligence & Machine Learning",
+    desc: "Core degree dedicated entirely to AI, ML, and cognitive computing.",
+    duration: "4 Years (Undergraduate)",
+    department: "Computer Science & Engineering",
+    degreeType: "B.Tech",
+    overview: "An intensive program diving deep into the mathematics and algorithms powering AI, autonomous systems, and predictive analytics.",
+    curriculum: ["Mathematics for AI", "Machine Learning", "Deep Learning", "Cognitive Computing", "Robotics", "AI Ethics"],
+    careers: [
+      { title: "AI/ML Engineer", desc: "Build state-of-the-art machine learning systems." },
+      { title: "Applied Scientist", desc: "Apply AI research to solve complex real-world problems." }
+    ]
+  },
+  {
+    slug: "mtech-aiml",
+    title: "M.Tech. CSE (AI & ML)",
+    desc: "Postgraduate specialization in intelligent systems and advanced machine learning.",
+    duration: "2 Years (Postgraduate)",
+    department: "Computer Science & Engineering",
+    degreeType: "M.Tech Specialization",
+    overview: "Advanced coursework in AI research, large language models, and scalable machine learning infrastructures.",
+    curriculum: ["Advanced Machine Learning", "Deep Neural Networks", "Computer Vision", "NLP & Large Language Models", "AI System Design", "Dissertation"],
+    careers: [
+      { title: "AI Architect", desc: "Design and orchestrate enterprise AI platforms." },
+      { title: "Senior Data Scientist", desc: "Lead data science teams and research initiatives." }
     ]
   },
   {
@@ -485,6 +555,76 @@ export const PROGRAMS_DATA: ProgramDetail[] = [
       { title: "Irrigation Design Engineer", desc: "Model high-efficiency drip networks and solar water systems." },
       { title: "Farm Machinery Designer", desc: "Draft mechanical linkages and hydraulic systems for tractors." },
       { title: "Food Processing Advisor", desc: "Optimize temperature control loops in food packaging and freeze-drying lines." }
+    ]
+  },
+  {
+    slug: "mtech-vlsi",
+    title: "M.Tech. VLSI and Embedded Systems Design",
+    desc: "Advanced studies in silicon chip design and embedded microcontrollers.",
+    duration: "2 Years (Postgraduate)",
+    department: "Electronics and Communication Engineering",
+    degreeType: "M.Tech",
+    overview: "Focuses on semiconductor physics, VLSI design, SoC architectures, and advanced embedded systems programming.",
+    curriculum: ["Digital VLSI Design", "Analog IC Design", "Embedded Systems Architecture", "Hardware Description Languages", "SoC Design", "Dissertation"],
+    careers: [
+      { title: "VLSI Design Engineer", desc: "Design and verify complex integrated circuits." },
+      { title: "Embedded Software Engineer", desc: "Develop firmware for specialized microcontrollers." }
+    ]
+  },
+  {
+    slug: "phd-ece",
+    title: "Ph.D. Electronics and Communication Engineering",
+    desc: "Doctoral research in electronics, communications, and signal processing.",
+    duration: "3-5 Years (Doctoral)",
+    department: "Electronics and Communication Engineering",
+    degreeType: "Ph.D.",
+    overview: "Intensive research-focused program allowing students to contribute novel findings to the field of electronics and communication.",
+    curriculum: ["Research Methodology", "Advanced Signal Processing", "Literature Review", "Thesis Work"],
+    careers: [
+      { title: "Professor / Academician", desc: "Teach and mentor university students while conducting research." },
+      { title: "Research Scientist", desc: "Lead R&D divisions in global technology firms." }
+    ]
+  },
+  {
+    slug: "mtech-structural",
+    title: "M.Tech. Structural Engineering",
+    desc: "Advanced postgraduate study in structural design and mechanics.",
+    duration: "2 Years (Postgraduate)",
+    department: "Civil Engineering",
+    degreeType: "M.Tech",
+    overview: "Focuses on the analysis and design of complex structures like bridges, high-rises, and industrial facilities.",
+    curriculum: ["Advanced Structural Analysis", "Structural Dynamics", "Earthquake Engineering", "Finite Element Methods", "Bridge Engineering", "Research Thesis"],
+    careers: [
+      { title: "Senior Structural Engineer", desc: "Design and certify major infrastructure projects." },
+      { title: "Structural Consultant", desc: "Advise on complex structural safety and retrofitting." }
+    ]
+  },
+  {
+    slug: "phd-structural",
+    title: "Ph.D. Structural Engineering",
+    desc: "Doctoral research in structural mechanics, materials, and earthquake engineering.",
+    duration: "3-5 Years (Doctoral)",
+    department: "Civil Engineering",
+    degreeType: "Ph.D.",
+    overview: "Research program focused on developing new structural materials, seismic resilience methods, and advanced construction techniques.",
+    curriculum: ["Research Methodology", "Advanced Solid Mechanics", "Literature Review", "Thesis Work"],
+    careers: [
+      { title: "Research Scientist", desc: "Conduct R&D in advanced structural materials and methods." },
+      { title: "Academic Professor", desc: "Teach and lead research at higher education institutions." }
+    ]
+  },
+  {
+    slug: "mba",
+    title: "Master of Business Administration (MBA)",
+    desc: "Professional degree focused on business management and leadership.",
+    duration: "2 Years (Postgraduate)",
+    department: "Management",
+    degreeType: "MBA",
+    overview: "Develops expertise in finance, marketing, human resources, and business analytics for corporate leadership roles.",
+    curriculum: ["Managerial Economics", "Financial Management", "Marketing Strategy", "Organizational Behavior", "Business Analytics", "Capstone Project"],
+    careers: [
+      { title: "Management Consultant", desc: "Advise businesses on strategic growth and operations." },
+      { title: "Corporate Manager", desc: "Lead cross-functional teams in multinational corporations." }
     ]
   }
 ];

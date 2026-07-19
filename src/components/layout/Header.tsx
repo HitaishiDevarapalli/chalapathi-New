@@ -12,15 +12,15 @@ export const ACADEMIC_PROGRAMS_STRUCTURE: Record<string, Record<string, { label:
       { label: "Ph.D. Computer Science & Engineering", to: "/academics/phd-cse" }
     ],
     "Artificial Intelligence": [
-      { label: "B.Tech. CSE (Artificial Intelligence)", to: "/academics/btech-cse-ai" },
+      { label: "B.Tech. CSE (Artificial Intelligence)", to: "/academics/btech-cse-ai-ml" },
       { label: "B.Tech. Artificial Intelligence & Machine Learning", to: "/academics/btech-aiml" },
       { label: "M.Tech. CSE (AI & ML)", to: "/academics/mtech-aiml" }
     ],
     "Data Science": [
-      { label: "B.Tech. CSE (Data Science)", to: "/academics/btech-cse-ds" }
+      { label: "B.Tech. CSE (Data Science)", to: "/academics/btech-cse-data-science" }
     ],
     "Cyber Security": [
-      { label: "B.Tech. CSE (Cyber Security)", to: "/academics/btech-cse-cyber" }
+      { label: "B.Tech. CSE (Cyber Security)", to: "/academics/btech-cse-cyber-security" }
     ]
   },
   "School of Engineering": {
@@ -114,11 +114,11 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
     const q = searchQuery.toLowerCase();
 
     if (q.includes("computer") || q.includes("cse") || q.includes("software") || q.includes("b.tech")) {
-      navigate("/academics/computer-science");
+      navigate("/academics/btech-cse");
     } else if (q.includes("ai") || q.includes("ml") || q.includes("artificial") || q.includes("intelligence")) {
-      navigate("/academics/artificial-intelligence");
+      navigate("/academics/btech-cse-ai-ml");
     } else if (q.includes("data") || q.includes("ds")) {
-      navigate("/academics/data-science");
+      navigate("/academics/btech-cse-data-science");
     } else if (q.includes("program") || q.includes("course") || q.includes("academic")) {
       navigate("/academics");
     } else if (q.includes("faculty") || q.includes("teacher") || q.includes("professor") || q.includes("hod")) {
@@ -380,10 +380,11 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                                         <Link
                                           key={course.label}
                                           to={course.to}
-                                          className="text-[12px] font-medium text-gray-500 hover:text-[#D71920] transition-colors leading-snug block py-0.5"
+                                          className="text-[12px] font-medium text-gray-500 hover:text-[#D71920] transition-colors leading-snug flex items-center gap-1.5 py-0.5 group"
                                           onClick={() => setAcademicsOpen(false)}
                                         >
-                                          • {course.label}
+                                          <span className="w-1 h-1 rounded-full bg-gray-400 group-hover:bg-[#D71920] transition-colors shrink-0" />
+                                          {course.label}
                                         </Link>
                                       ))}
                                     </div>

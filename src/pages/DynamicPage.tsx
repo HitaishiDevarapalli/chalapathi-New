@@ -388,10 +388,19 @@ const getPageContent = (path: string, programs: any[]) => {
         const y4 = localStorage.getItem(`flowchart_${matchedProgram.slug}_y4`);
         if (y1) timeline[0].courses = y1.split(",").map(c => c.trim()).filter(Boolean);
         if (y2) timeline[1].courses = y2.split(",").map(c => c.trim()).filter(Boolean);
-        if (y3) timeline[2].courses = y3.split(",").map(c => c.trim()).filter(Boolean);
-        if (y4) timeline[3].courses = y4.split(",").map(c => c.trim()).filter(Boolean);
+        if (y3 && timeline[2]) timeline[2].courses = y3.split(",").map(c => c.trim()).filter(Boolean);
+        if (y4 && timeline[3]) timeline[3].courses = y4.split(",").map(c => c.trim()).filter(Boolean);
+        
+        // Adjust length based on program duration
+        if (matchedProgram.duration?.includes("2 Years")) {
+          return timeline.slice(0, 2);
+        } else if (matchedProgram.duration?.includes("3-5 Years") || matchedProgram.duration?.includes("3 Years")) {
+          return timeline.slice(0, 3);
+        }
         return timeline;
       };
+
+      const flowchartData = getFlowchartData();
 
       return {
         title: matchedProgram.title,
@@ -468,9 +477,13 @@ const getPageContent = (path: string, programs: any[]) => {
                 4-Year Integrated Program structure: {matchedProgram.degreeType} Honors Degree
               </div>
 
-              {/* 4 Columns Year-wise Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
-                {getFlowchartData().map((step, idx) => (
+              {/* Dynamic Columns Year-wise Grid */}
+              <div className={`grid grid-cols-1 ${
+                flowchartData.length === 2 ? 'md:grid-cols-2' : 
+                flowchartData.length === 3 ? 'md:grid-cols-3' : 
+                'md:grid-cols-4'
+              } gap-4 mt-4`}>
+                {flowchartData.map((step, idx) => (
                   <div key={idx} className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow relative overflow-hidden group">
                     {/* Top red bar hover effect */}
                     <div className="absolute top-0 left-0 w-full h-1 bg-gray-100 group-hover:bg-[#D71920] transition-colors" />
@@ -582,9 +595,9 @@ const getPageContent = (path: string, programs: any[]) => {
                             <Link
                               key={course.label}
                               to={course.to}
-                              className="text-xs font-medium text-gray-600 hover:text-[#D71920] transition-colors leading-relaxed flex items-center gap-1.5"
+                              className="text-xs font-medium text-gray-600 hover:text-[#D71920] transition-colors leading-relaxed flex items-center gap-1.5 group"
                             >
-                              <span className="w-1.5 h-1.5 rounded-full bg-gray-300" />
+                              <span className="w-1.5 h-1.5 rounded-full bg-gray-300 group-hover:bg-[#D71920] transition-colors" />
                               {course.label}
                             </Link>
                           ))}
@@ -1273,15 +1286,15 @@ function AcademicCalendar() {
           { label: "Ph.D. Computer Science & Engineering", key: "phd-cse" }
         ],
         "Artificial Intelligence": [
-          { label: "B.Tech. CSE (Artificial Intelligence)", key: "btech-cse-ai" },
+          { label: "B.Tech. CSE (AI & Machine Learning)", key: "btech-cse-ai-ml" },
           { label: "B.Tech. Artificial Intelligence & Machine Learning", key: "btech-aiml" },
           { label: "M.Tech. CSE (AI & ML)", key: "mtech-aiml" }
         ],
         "Data Science": [
-          { label: "B.Tech. CSE (Data Science)", key: "btech-cse-ds" }
+          { label: "B.Tech. CSE (Data Science)", key: "btech-cse-data-science" }
         ],
         "Cyber Security": [
-          { label: "B.Tech. CSE (Cyber Security)", key: "btech-cse-cyber" }
+          { label: "B.Tech. CSE (Cyber Security)", key: "btech-cse-cyber-security" }
         ]
       },
       "School of Engineering": {

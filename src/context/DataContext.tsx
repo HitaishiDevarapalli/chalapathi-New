@@ -775,7 +775,14 @@ export const DataProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const [programs, setPrograms] = useState<ProgramDetail[]>(() => {
     const local = localStorage.getItem("chalapathi_programs");
-    return local ? JSON.parse(local) : PROGRAMS_DATA;
+    const parsed = local ? JSON.parse(local) : null;
+    
+    // If local storage is missing new statically added programs, overwrite it
+    if (!parsed || parsed.length < PROGRAMS_DATA.length) {
+      localStorage.setItem("chalapathi_programs", JSON.stringify(PROGRAMS_DATA));
+      return PROGRAMS_DATA;
+    }
+    return parsed;
   });
 
   const [news, setNews] = useState<NewsArticle[]>(() => {

@@ -6,10 +6,25 @@ import { AnimatePresence, motion } from "framer-motion";
 import {
   GraduationCap, Users, ArrowRight, Play, Trophy, Handshake, Landmark,
   Compass, FileText, Award, Phone, MapPin, Mail, Sparkles, Building2, HelpCircle, Search, Globe,
-  UserPlus, ShieldCheck, UploadCloud, CreditCard, Settings, Briefcase, Code, FlaskConical, Wrench, Atom, X, Calendar, Clock, Coffee, Bus
+  UserPlus, ShieldCheck, UploadCloud, CreditCard, Settings, Briefcase, Code, FlaskConical, Wrench, Atom, X, Calendar, Clock, Coffee, Bus,
+  Brain, Database, Monitor, Cpu, Shield, CircuitBoard, Network, HardHat
 } from "lucide-react";
 import SEO from "../components/SEO";
 import { useData } from "../context/DataContext";
+import { ACADEMIC_PROGRAMS_STRUCTURE } from "../components/layout/Header";
+import imgComputerScience from "../assets/illustrations/computer_science.png";
+import imgMtechCSE from "../assets/illustrations/mtech_cse.png";
+import imgMCA from "../assets/illustrations/mca.png";
+import imgPhdCSE from "../assets/illustrations/phd_cse.png";
+import imgDataScience from "../assets/illustrations/data_science.png";
+import imgArtificialIntelligence from "../assets/illustrations/artificial_intelligence.png";
+import imgAIMachineLearning from "../assets/illustrations/aiml.png";
+import imgCyberSecurity from "../assets/illustrations/cyber_security.png";
+import imgElectronicsCommunication from "../assets/illustrations/electronics.png";
+import imgVLSIEmbedded from "../assets/illustrations/vlsi.png";
+import imgCivilEngineering from "../assets/illustrations/civil.png";
+import imgStructuralEngineering from "../assets/illustrations/structural.png";
+import imgMBA from "../assets/illustrations/mba.png";
 
 /* ── animation helpers ────────────────────────── */
 const fadeUp = {
@@ -90,24 +105,26 @@ function AnimatedCounter({ value, duration = 2500 }: { value: string; duration?:
 }
 
 export default function Home() {
-  const { successStories, placementsContent, news, events } = useData();
+  const { programs, successStories, placementsContent, news, events } = useData();
   const navigate = useNavigate();
   const [directionsFrom, setDirectionsFrom] = useState("");
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [progress, setProgress] = useState(0);
+  // Active tab state
+  const schools = Object.keys(ACADEMIC_PROGRAMS_STRUCTURE);
+  const [activeSchoolTab, setActiveSchoolTab] = useState<string>(schools[0]);
+  const [activeDepartmentTab, setActiveDepartmentTab] = useState<string | null>(null);
 
-  // Modal program state
-  const [selectedProgramForModal, setSelectedProgramForModal] = useState<any | null>(null);
+  const validDepartments = ACADEMIC_PROGRAMS_STRUCTURE[activeSchoolTab] ? Object.keys(ACADEMIC_PROGRAMS_STRUCTURE[activeSchoolTab]) : [];
+  const currentDepartment = (activeDepartmentTab && validDepartments.includes(activeDepartmentTab))
+    ? activeDepartmentTab
+    : validDepartments[0];
 
+  // Reset states on unmount
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setSelectedProgramForModal(null);
-      }
+    return () => {
     };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
   // Bridge Section Slider & Student Rotation States
@@ -527,23 +544,26 @@ export default function Home() {
       </section>
 
       {/* ═══ WHY CHOOSE US SECTION ═══ */}
-      <section className="max-w-[1440px] mx-auto w-full px-5 py-20 text-center">
-        <motion.span
-          className="text-[12px] font-[700] tracking-wider text-[#D71920] block mb-2 uppercase"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-        >
-          WHY CHOOSE US
-        </motion.span>
-        <motion.h2
-          className="text-[26px] md:text-[32px] font-[800] text-[#072A6C] mb-12"
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          CITY CHALAPATHI INSTITUTE OF TECHNOLOGY?
-        </motion.h2>
+      <section className="bg-[#F8FAFC] w-full py-20 border-y border-gray-100">
+        <div className="max-w-[1440px] mx-auto w-full px-5 text-center">
+
+          <motion.h2
+            className="text-[32px] md:text-[40px] font-[800] text-[#0F172A] mb-6"
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            Why Choose Chalapathi University?
+          </motion.h2>
+          <motion.p
+            className="text-[#64748B] max-w-3xl mx-auto text-[15px] md:text-[17px] leading-relaxed mb-16 font-[500]"
+            initial={{ opacity: 0, y: 15 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+          >
+            Experience an education that blends academic excellence, innovation, industry collaboration, research, global exposure, and holistic development—preparing students to become future-ready professionals and responsible global leaders.
+          </motion.p>
 
         <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6"
@@ -554,220 +574,418 @@ export default function Home() {
         >
           {[
             {
-              title: "Industry-Driven Curriculum",
-              desc: "Programs designed with industry experts for future-ready skills.",
+              title: "Industry-Integrated Education",
+              desc: "Curriculum designed with practical learning and industry collaboration to ensure graduates are career-ready.",
               icon: Trophy,
-              color: "#D71920"
+              color: "#123A7A"
             },
             {
-              title: "Experienced Faculty",
-              desc: "Learn from passionate educators and domain specialists.",
+              title: "Expert Faculty & Research",
+              desc: "Learn from accomplished faculty members, researchers, and industry experts who inspire innovation.",
               icon: Users,
-              color: "#2563EB"
+              color: "#1F4FA8"
             },
             {
-              title: "Advanced Infrastructure",
-              desc: "State-of-the-art labs, smart classrooms and innovation hubs.",
+              title: "Smart Campus Infrastructure",
+              desc: "Technology-enabled classrooms, modern laboratories, and collaborative learning spaces designed for excellence.",
               icon: Building2,
-              color: "#F59E0B"
+              color: "#D32F2F"
             },
             {
-              title: "Strong Industry Connections",
-              desc: "Internships, live projects and placements with top companies.",
+              title: "Career & Placement Excellence",
+              desc: "Industry partnerships, internships, and placement training help students launch successful careers.",
               icon: Handshake,
-              color: "#0D9488"
+              color: "#123A7A"
             },
             {
-              title: "Holistic Development",
-              desc: "Focus on leadership, creativity, and overall personality growth.",
-              icon: Sparkles,
-              color: "#7C3AED"
-            },
-            {
-              title: "Global Opportunities",
-              desc: "International exposure and collaborations for a global career.",
+              title: "Global Learning Opportunities",
+              desc: "International certifications, collaborative learning, and global industry exposure.",
               icon: Globe,
-              color: "#072A6C"
+              color: "#1F4FA8"
+            },
+            {
+              title: "Leadership & Holistic Development",
+              desc: "Develop leadership, communication, creativity, and life skills through a vibrant campus ecosystem.",
+              icon: Sparkles,
+              color: "#D32F2F"
             }
           ].map((item, idx) => {
             const Icon = item.icon;
             return (
               <motion.div
                 key={idx}
-                className="bg-white border border-gray-100 rounded-[16px] p-6 shadow-sm hover:shadow-md transition-all duration-300 flex flex-col items-center text-center hover:-translate-y-1"
+                className="bg-white border border-[#E7ECF3] rounded-[16px] p-6 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col items-center text-center hover:-translate-y-2 group"
                 variants={fadeUp}
               >
                 <div
-                  className="w-12 h-12 rounded-full flex items-center justify-center mb-4 text-white"
+                  className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 text-white shadow-md transition-transform duration-300 group-hover:scale-110"
                   style={{ backgroundColor: item.color }}
                 >
-                  <Icon size={20} />
+                  <Icon size={24} />
                 </div>
-                <h3 className="font-[700] text-[16px] text-[#072A6C] mb-3 leading-snug min-h-[36px] flex items-center justify-center">
+                <h3 className="font-[700] text-[16px] text-[#0F172A] mb-3 leading-snug min-h-[48px] flex items-center justify-center transition-colors duration-300 group-hover:text-[#123A7A]">
                   {item.title}
                 </h3>
-                <p className="text-[13px] text-[#111111] leading-relaxed font-[700]">
+                <p className="text-[13px] text-[#64748B] leading-relaxed font-[500]">
                   {item.desc}
                 </p>
               </motion.div>
             );
           })}
         </motion.div>
+        </div>
       </section>
 
-      {/* ═══ OUR PROGRAMS SECTION (16px border-radius cards) ═══ */}
-      <section className="bg-white border-t border-gray-100 py-20">
-        <div className="max-w-[1440px] mx-auto w-full px-5">
-          <div className="flex justify-between items-end mb-10">
-            <h2 className="text-[26px] font-[800] text-[#072A6C]">
-              OUR PROGRAMS
+      {/* ═══ OUR PROGRAMS SECTION (Tabbed Layout) ═══ */}
+      <section className="bg-[#f8f9fa] border-t border-gray-100 py-24">
+        <div className="max-w-[1280px] mx-auto w-full px-5">
+          <div className="flex flex-col items-center justify-center mb-12">
+            <h2 className="text-[32px] md:text-[38px] font-[800] text-[#072A6C] tracking-tight mb-8">
+              Explore Our Schools & Programs
             </h2>
-            <Link
-              to="/programs"
-              className="text-[13px] font-[700] text-[#072A6C] hover:text-[#D71920] flex items-center gap-1 transition-colors"
-            >
-              View All Programs <ArrowRight size={14} />
-            </Link>
+            
+            {/* Main Tabs (Schools) */}
+            <div className="flex flex-wrap justify-center gap-4 md:gap-8 border-b border-gray-200 w-full max-w-4xl pb-4 mb-8">
+              {schools.map((school) => (
+                <button
+                  key={school}
+                  onClick={() => setActiveSchoolTab(school)}
+                  className={`text-[14px] md:text-[18px] font-[800] pb-2 relative transition-colors ${
+                    activeSchoolTab === school 
+                      ? "text-[#D71920]" 
+                      : "text-gray-500 hover:text-gray-800"
+                  }`}
+                >
+                  {school}
+                  {activeSchoolTab === school && (
+                    <motion.div
+                      layoutId="activeSchoolTab"
+                      className="absolute -bottom-4 left-0 right-0 h-[3px] bg-[#D71920]"
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
+
+            {/* Sub Tabs (Departments) */}
+            {activeSchoolTab && ACADEMIC_PROGRAMS_STRUCTURE[activeSchoolTab] && (
+              <div className="flex flex-wrap justify-center gap-6 md:gap-10 w-full max-w-5xl mb-6">
+                {Object.keys(ACADEMIC_PROGRAMS_STRUCTURE[activeSchoolTab]).map((dept) => (
+                  <button
+                    key={dept}
+                    onClick={() => setActiveDepartmentTab(dept)}
+                    className={`text-[13px] md:text-[16px] font-[700] transition-colors ${
+                      currentDepartment === dept 
+                        ? "text-[#072A6C]" 
+                        : "text-gray-400 hover:text-[#072A6C]"
+                    }`}
+                  >
+                    {dept}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
 
+          {/* Cards Grid */}
           <motion.div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-5"
+            key={currentDepartment}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
             variants={staggerContainer}
           >
-            {[
-              { 
-                name: "Engineering", 
-                color: "#D71920", 
-                icon: Settings, 
-                desc: "Explore B.Tech streams in CSE, Data Science, AI & ML, Cyber Security, and Electronics & Communication with advanced labs.",
-                title: "School of Engineering & Technology",
-                detail: "Engineering is the application of science, mathematics, and technology to design, build, and improve systems, machines, structures, and innovations that solve real-world problems. It prepares students with analytical thinking, technical expertise, practical skills, and industry-oriented knowledge.",
-                learn: ["Core programming & software engineering", "AI/ML algorithm design", "VLSI design and embedded systems", "Data structures & network security"],
-                careers: ["Software Architect", "Systems Design Engineer", "AI/ML Developer", "Embedded Engineer"],
-                facilities: ["Advanced GPU Computing Labs", "Electronics & Microcontroller Lab", "Robotics Research Cell"],
-                duration: "4 Years (8 Semesters)",
-                eligibility: "10+2 with Physics, Chemistry, and Mathematics (minimum 50% marks)"
-              },
-              { 
-                name: "Management", 
-                color: "#F59E0B", 
-                icon: Briefcase, 
-                desc: "Develop leadership, financial acumen, strategic marketing, entrepreneurship, and organizational management capabilities.",
-                title: "School of Business & Management",
-                detail: "Management focuses on planning, organizing, leading, and managing organizations effectively. Students develop leadership, communication, decision-making, entrepreneurship, and business strategy skills.",
-                learn: ["Strategic planning & corporate finance", "Human resource dynamics", "Digital marketing & brand strategy", "Operations & supply chain management"],
-                careers: ["Business Development Manager", "Financial Analyst", "HR consultant", "Operations Manager"],
-                facilities: ["Corporate Discussion Rooms", "Mock Trading Lab", "Seminar Center"],
-                duration: "2 Years (4 Semesters)",
-                eligibility: "Any Graduate degree with minimum 50% marks (plus selection score)"
-              },
-              { 
-                name: "Computer Applications", 
-                color: "#2563EB", 
-                icon: Code, 
-                desc: "Master advanced software application development, cloud architectures, database administration, and internet technologies.",
-                title: "School of Computer Applications",
-                detail: "Computer Applications is the study of software, programming, databases, artificial intelligence, cloud computing, cybersecurity, and modern digital technologies. It prepares students for careers in software development and the IT industry.",
-                learn: ["Full stack web development", "Database systems management", "Cloud deployment architectures", "Android & iOS app coding"],
-                careers: ["Full Stack Developer", "Cloud Solutions Architect", "Database Administrator", "Mobile App Engineer"],
-                facilities: ["Open Source Computing Lab", "Cloud Sandbox lab", "Virtualization Center"],
-                duration: "2 Years (MCA)",
-                eligibility: "BCA / B.Sc in Computer Science or equivalent graduation"
-              },
-              { 
-                name: "Pharmacy", 
-                color: "#10B981", 
-                icon: FlaskConical, 
-                desc: "Learn pharmaceutical formulation, organic chemistry synthesis, clinical pharmacology, drug safety, and regulatory compliance.",
-                title: "School of Pharmaceutical Sciences",
-                detail: "Pharmacy is the science of medicines, healthcare, and patient well-being. Students learn about drug development, pharmaceutical research, medicine safety, healthcare practices, and modern laboratory techniques.",
-                learn: ["Medicinal chemistry & formulation", "Clinical drug trials & assays", "Pharmacology & toxicology", "Quality assurance & industry compliance"],
-                careers: ["Clinical Research Associate", "Formulation Scientist", "Drug Inspector", "Pharmacist"],
-                facilities: ["Advanced Assays Laboratory", "Pharmaceutics Pilot Plant", "Medicinal Garden"],
-                duration: "4 Years (B.Pharm) / 2 Years (M.Pharm)",
-                eligibility: "10+2 with Physics, Chemistry, and Biology/Mathematics"
-              },
-              { 
-                name: "Diploma", 
-                color: "#8B5CF6", 
-                icon: Wrench, 
-                desc: "Skill-focused technical training program delivering hands-on engineering experience and direct placement routes.",
-                title: "Polytechnic & Diploma Studies",
-                detail: "Diploma programs provide practical, skill-based education that prepares students for technical careers through hands-on training, industry exposure, and job-oriented learning.",
-                learn: ["Applied technical mechanics", "Workshop practice & machinery", "Basic electrical & electronics layouts", "CAD/CAM modeling foundations"],
-                careers: ["Junior Engineer", "CAD Modeler", "Production Supervisor", "Service Technician"],
-                facilities: ["Mechanical Machine Shop", "Electrical Wiring Bay", "Basic CAD Lab"],
-                duration: "3 Years",
-                eligibility: "Class 10 / SSC examination pass with math & science"
-              },
-              { 
-                name: "M.Tech Programs", 
-                color: "#EAB308", 
-                icon: Atom, 
-                desc: "Specialize in advanced technical systems, postgraduate research, smart industry automation, and next-generation engineering systems.",
-                title: "Postgraduate Engineering (M.Tech)",
-                detail: "M.Tech programs offer advanced technical education, research opportunities, innovation, and specialization in emerging engineering technologies to prepare graduates for leadership roles in industry and academia.",
-                learn: ["Advanced research methodologies", "System-on-Chip (SoC) architectures", "Industrial IoT & robotics control", "Computational modeling & simulations"],
-                careers: ["Senior R&D Engineer", "Research Scholar", "Project Lead Specialist", "Systems Consultant"],
-                facilities: ["PG Research computing lab", "Embedded Systems Lab", "Advanced Simulation Center"],
-                duration: "2 Years (4 Semesters)",
-                eligibility: "B.Tech / B.E in relevant specialization (GATE qualified preferred)"
-              }
-            ].map((p, idx) => {
-              const IconComponent = p.icon;
-              return (
-                <motion.div
-                  key={idx}
-                  className="group bg-white border border-gray-100 hover:-translate-y-0.5 rounded-[16px] p-5 shadow-sm hover:shadow-md transition-all duration-300 relative flex flex-col items-center justify-between text-center select-none min-h-[220px]"
-                  variants={scaleIn}
-                >
-                  <div className="flex flex-col items-center space-y-3 w-full">
-                    {/* Circle Background & Premium Vector Icon */}
-                    <div 
-                      className="w-12 h-12 rounded-full flex items-center justify-center text-white shadow-sm transition-all duration-300 group-hover:scale-105 group-hover:rotate-6"
-                      style={{ backgroundColor: p.color }}
+            {activeSchoolTab && currentDepartment && ACADEMIC_PROGRAMS_STRUCTURE[activeSchoolTab][currentDepartment]
+              ?.map((courseLink, idx) => {
+                
+                // Find full program data using the slug
+                const programSlug = courseLink.to.split('/').pop();
+                const program = programs.find(p => p.slug === programSlug);
+
+                if (!program) return null;
+                
+                // Helper to assign a dynamic image based on title
+                const getIllustrationForProgram = (title: string, size = 64) => {
+                  const t = title.toLowerCase();
+                  let imgSrc = imgComputerScience;
+                  
+                  if (t.includes('machine learning') && t.includes('artificial intelligence')) imgSrc = imgAIMachineLearning;
+                  else if (t.includes('machine learning')) imgSrc = imgAIMachineLearning;
+                  else if (t.includes('artificial intelligence') || t.includes('ai')) imgSrc = imgArtificialIntelligence;
+                  else if (t.includes('data science') || t.includes('data')) imgSrc = imgDataScience;
+                  else if (t.includes('cyber security') || t.includes('security')) imgSrc = imgCyberSecurity;
+                  else if (t.includes('electronics') && t.includes('communication')) imgSrc = imgElectronicsCommunication;
+                  else if (t.includes('vlsi') || t.includes('embedded')) imgSrc = imgVLSIEmbedded;
+                  else if (t.includes('structural')) imgSrc = imgStructuralEngineering;
+                  else if (t.includes('civil')) imgSrc = imgCivilEngineering;
+                  else if (t.includes('management') || t.includes('mba')) imgSrc = imgMBA;
+                  else if (t.includes('ph.d') && t.includes('computer science')) imgSrc = imgPhdCSE;
+                  else if (t.includes('m.tech') && t.includes('computer science')) imgSrc = imgMtechCSE;
+                  else if (t.includes('master of computer') || t.includes('mca')) imgSrc = imgMCA;
+                  else if (t.includes('cse') || t.includes('computer science') || t.includes('software')) imgSrc = imgComputerScience;
+                  
+                  return (
+                    <motion.div
+                      animate={{ y: [0, -5, 0] }}
+                      transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                     >
-                      <IconComponent size={20} />
-                    </div>
+                      <img 
+                        src={imgSrc} 
+                        alt={title} 
+                        style={{ width: size, height: size, objectFit: 'contain' }}
+                        className="rounded-lg"
+                      />
+                    </motion.div>
+                  );
+                };
 
-                    {/* Program Name */}
-                    <h3 className="font-bold text-[12px] text-[#072A6C] group-hover:text-[#D71920] transition-colors leading-tight">
-                      {p.name}
-                    </h3>
-
-                    {/* Short Description */}
-                    <p className="text-[10.5px] text-gray-500 font-light leading-relaxed my-2 line-clamp-3">
-                      {p.desc}
-                    </p>
-                  </div>
-
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setSelectedProgramForModal(p);
-                    }}
-                    className="mt-2 py-1 px-3 border border-[#072A6C] hover:bg-[#072A6C] hover:text-white text-[#072A6C] text-[9.5px] font-bold rounded-lg transition-colors cursor-pointer outline-none"
+                return (
+                  <motion.div
+                    key={idx}
+                    className="group relative bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden h-[300px]"
+                    variants={scaleIn}
+                    whileHover="hover"
+                    initial="rest"
                   >
-                    Read More
-                  </button>
-                </motion.div>
-              );
+                    {/* Default State (Centered) */}
+                    <div className="absolute inset-0 flex flex-col justify-center items-center p-8 transition-all duration-300 group-hover:-translate-y-8 group-hover:opacity-0 text-center">
+                      <div className="flex items-center justify-center mb-8 transition-transform duration-500 group-hover:scale-[1.06]">
+                        {getIllustrationForProgram(program.title, 140)}
+                      </div>
+                      <h3 className="font-[800] text-[#072A6C] text-[18px] leading-tight max-w-[250px]">
+                        {program.title}
+                      </h3>
+                    </div>
+                    
+                    {/* Hover State (Sliding up) */}
+                    <div className="absolute inset-0 flex flex-col justify-start items-center p-8 opacity-0 translate-y-8 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 bg-white text-center">
+                      <div className="flex items-center justify-center mb-4 transition-transform duration-500 group-hover:scale-[1.06]">
+                        {getIllustrationForProgram(program.title, 90)}
+                      </div>
+                      <h3 className="font-[800] text-[#072A6C] text-[16px] mb-3 leading-tight max-w-[250px]">
+                        {program.title}
+                      </h3>
+                      <p className="text-[12px] text-gray-500 line-clamp-3 leading-relaxed mb-6">
+                        {program.overview || program.desc}
+                      </p>
+                      
+                      <Link 
+                        to={`/academics/${program.slug}`}
+                        className="mt-auto bg-[#072A6C] text-white px-6 py-2.5 rounded-full text-[13px] font-[700] flex items-center gap-2 hover:bg-[#D71920] transition-colors shadow-md"
+                      >
+                        Read More <ArrowRight size={14} />
+                      </Link>
+                    </div>
+                  </motion.div>
+                );
             })}
           </motion.div>
+        </div>
+      </section>
 
-          {/* View More Programs button centered */}
-          <div className="flex justify-center mt-10">
-            <button
-              onClick={() => {
-                navigate("/programs");
-              }}
-              className="py-3 px-8 bg-[#072A6C] hover:bg-[#D71920] text-white text-[11px] font-bold uppercase tracking-wider rounded-full transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg active:scale-95 cursor-pointer border-none outline-none"
-            >
-              View More Programs
-            </button>
+      {/* ═══ DYNAMIC CAMPUS VIDEO, LATEST NEWS & UPCOMING EVENTS ═══ */}
+      <section className="bg-gray-50 border-y border-gray-100 py-20 relative font-[var(--font-poppins)]">
+        <div className="max-w-[1440px] mx-auto px-5">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <span className="text-[11px] font-[800] uppercase tracking-widest text-[#072A6C] bg-blue-50 py-1.5 px-4 rounded-full inline-block mb-3">
+              News & Events
+            </span>
+            <h2 className="text-2xl md:text-4xl font-[900] text-[#072A6C] mb-3">
+              Stay <span className="text-[#D71920]">Informed.</span> Stay <span className="text-[#D71920]">Ahead.</span>
+            </h2>
+            <p className="text-xs text-gray-500 max-w-xl mx-auto font-light leading-relaxed">
+              Discover the latest updates and exciting events happening at Chalapathi.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+            
+            {/* LEFT COLUMN: Campus Video Player (50% / lg:col-span-6) */}
+            <div className="lg:col-span-6 flex flex-col justify-between">
+              <div className="relative aspect-[16/9] w-full rounded-[24px] overflow-hidden shadow-xl border border-gray-200 bg-black group select-none flex-1 flex items-center justify-center">
+                <video
+                  ref={videoRef}
+                  src={localStorage.getItem("chalapathi_campus_video") || "/chalapathi_logo_intro.mp4"}
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-102"
+                  autoPlay
+                  muted={isMuted}
+                  loop
+                  playsInline
+                  onTimeUpdate={handleTimeUpdate}
+                  onLoadedMetadata={handleLoadedMetadata}
+                  onClick={togglePlay}
+                />
+                
+                {/* Blue Gradient Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
+
+                {/* Floating Glass Card */}
+                <div className="absolute inset-x-6 top-6 bottom-16 bg-[#072A6C]/30 backdrop-blur-sm rounded-2xl p-6 border border-white/20 text-white flex flex-col justify-end text-left transition-all duration-500 opacity-100 group-hover:opacity-0 pointer-events-none">
+                  <span className="text-[10px] font-black uppercase tracking-widest text-[#D4AF37] mb-1">Campus Event</span>
+                  <h4 className="text-lg md:text-xl font-black mb-1">{localStorage.getItem("chalapathi_campus_video_text") || "Explore Chalapathi Campus"}</h4>
+                  <p className="text-[10.5px] font-light leading-relaxed text-gray-200">
+                    {localStorage.getItem("chalapathi_campus_video_subtext") || "Experience innovation, research, smart classrooms and vibrant student life."}
+                  </p>
+                  
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleFullscreen();
+                    }}
+                    className="mt-4 self-start flex items-center gap-2 h-9 px-4 rounded-xl bg-white text-[#072A6C] text-[10.5px] font-extrabold uppercase tracking-wider hover:bg-[#D4AF37] hover:text-gray-900 transition-all pointer-events-auto"
+                  >
+                    <Play size={12} fill="currentColor" /> Watch Campus Tour
+                  </button>
+                </div>
+
+                {/* Play Button Overlay (shown when paused) */}
+                {!isPlaying && (
+                  <button
+                    type="button"
+                    onClick={togglePlay}
+                    className="absolute w-14 h-14 rounded-full bg-white/90 text-[#072A6C] hover:bg-[#D71920] hover:text-white flex items-center justify-center shadow-lg transition-all transform hover:scale-105"
+                  >
+                    <Play size={20} className="ml-1" fill="currentColor" />
+                  </button>
+                )}
+
+                {/* Custom Video Controls */}
+                <div className="absolute bottom-4 inset-x-6 flex items-center justify-between text-white gap-3 z-10">
+                  {/* Play/Pause Button */}
+                  <button type="button" onClick={togglePlay} className="text-white hover:text-[#D4AF37] transition-all bg-transparent border-none cursor-pointer outline-none shrink-0">
+                    {isPlaying ? (
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+                    ) : (
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    )}
+                  </button>
+
+                  {/* Progress Slider */}
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    value={videoProgress}
+                    onChange={handleProgressChange}
+                    className="flex-1 accent-[#D4AF37] h-1 rounded-lg bg-white/30 outline-none cursor-pointer appearance-none"
+                  />
+
+                  {/* Volume Button */}
+                  <button type="button" onClick={toggleMute} className="text-white hover:text-[#D4AF37] transition-all bg-transparent border-none cursor-pointer outline-none shrink-0">
+                    {isMuted ? (
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM12 4L9.91 6.09 12 8.18V4zm-6.12.88L3.22 7.56l2.12 2.12 1.33-1.33V18h4.67l4.09 4.09V14.83l3.09 3.09c-.58.44-1.22.8-1.92 1.04v2.09c1.26-.31 2.4-.95 3.34-1.82l2.09 2.09 1.41-1.41L7.29 7.29 5.88 5.88zm3.03 5.03L12 13.04v3.13l-2.18-2.18H8V12h.91z"/></svg>
+                    ) : (
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+                    )}
+                  </button>
+
+                  {/* Fullscreen Button */}
+                  <button type="button" onClick={handleFullscreen} className="text-white hover:text-[#D4AF37] transition-all bg-transparent border-none cursor-pointer outline-none shrink-0">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* CENTER COLUMN: Latest News (25% / lg:col-span-3) */}
+            <div className="lg:col-span-3 flex flex-col justify-between bg-white border border-gray-150 rounded-[24px] p-6 shadow-sm">
+              <div className="w-full text-left">
+                <div className="flex justify-between items-center border-b border-gray-100 pb-3 mb-5">
+                  <h3 className="text-[12px] font-[800] uppercase tracking-widest text-[#072A6C]">
+                    Latest News
+                  </h3>
+                  <Link to="/news" className="text-[10px] font-bold text-[#D71920] hover:underline flex items-center gap-0.5">
+                    View All
+                  </Link>
+                </div>
+
+                <div className="space-y-4">
+                  {[...news].reverse().slice(0, 4).map((item, idx) => {
+                    const dateParts = (() => {
+                      if (!item.date) return { day: "12", month: "MAY" };
+                      const parts = item.date.trim().split(" ");
+                      return {
+                        day: parts[0] || "12",
+                        month: (parts[1] || "MAY").toUpperCase().substring(0, 3)
+                      };
+                    })();
+                    return (
+                      <div 
+                        key={item.id || idx}
+                        onClick={() => navigate(`/news/${item.slug}`)}
+                        className="flex gap-3.5 items-start cursor-pointer group"
+                      >
+                        {/* Custom Date Badge */}
+                        <div className="w-10 h-10 rounded-xl bg-red-50 text-[#D71920] text-center flex flex-col items-center justify-center shadow-sm shrink-0 transition-transform group-hover:scale-105">
+                          <span className="block text-[12px] font-black leading-none">{dateParts.day}</span>
+                          <span className="block text-[7px] font-extrabold tracking-wider mt-0.5">{dateParts.month}</span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="text-[11px] font-bold text-gray-800 leading-snug group-hover:text-[#D71920] transition-colors line-clamp-2">
+                            {item.title}
+                          </h4>
+                          <span className="text-[9.5px] text-gray-400 font-medium block mt-0.5 leading-relaxed line-clamp-1">{item.excerpt || item.bodyText}</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            {/* RIGHT COLUMN: Upcoming Events (25% / lg:col-span-3) */}
+            <div className="lg:col-span-3 flex flex-col justify-between bg-white border border-gray-150 rounded-[24px] p-6 shadow-sm">
+              <div className="w-full text-left">
+                <div className="flex justify-between items-center border-b border-gray-100 pb-3 mb-5">
+                  <h3 className="text-[12px] font-[800] uppercase tracking-widest text-[#072A6C]">
+                    Upcoming Events
+                  </h3>
+                  <button 
+                    type="button"
+                    onClick={() => setIsEventsDrawerOpen(true)}
+                    className="text-[10px] font-bold text-[#072A6C] hover:underline flex items-center gap-0.5 bg-transparent border-none cursor-pointer outline-none"
+                  >
+                    Calendar
+                  </button>
+                </div>
+
+                <div className="space-y-4">
+                  {[...events].reverse().slice(0, 4).map((item, idx) => {
+                    const dateParts = (() => {
+                      if (!item.date) return { day: "12", month: "MAY" };
+                      const parts = item.date.trim().split(" ");
+                      return {
+                        day: parts[0] || "12",
+                        month: (parts[1] || "MAY").toUpperCase().substring(0, 3)
+                      };
+                    })();
+                    return (
+                      <div 
+                        key={item.id || idx}
+                        onClick={() => navigate(`/news/events/${item.slug}`)}
+                        className="flex gap-3.5 items-start cursor-pointer group"
+                      >
+                        {/* Custom Date Badge */}
+                        <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#072A6C] text-center flex flex-col items-center justify-center shadow-sm shrink-0 transition-transform group-hover:scale-105">
+                          <span className="block text-[12px] font-black leading-none">{dateParts.day}</span>
+                          <span className="block text-[7px] font-extrabold tracking-wider mt-0.5">{dateParts.month}</span>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h4 className="text-[11px] font-bold text-gray-800 leading-snug group-hover:text-[#072A6C] transition-colors line-clamp-2">
+                            {item.title}
+                          </h4>
+                          <span className="text-[9.5px] text-gray-400 font-medium block mt-0.5 leading-none">{item.time}</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
@@ -1587,212 +1805,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══ DYNAMIC CAMPUS VIDEO, LATEST NEWS & UPCOMING EVENTS ═══ */}
-      <section className="bg-gray-50 border-y border-gray-100 py-20 relative font-[var(--font-poppins)]">
-        <div className="max-w-[1440px] mx-auto px-5">
-          {/* Header */}
-          <div className="text-center mb-16">
-            <span className="text-[11px] font-[800] uppercase tracking-widest text-[#072A6C] bg-blue-50 py-1.5 px-4 rounded-full inline-block mb-3">
-              News & Events
-            </span>
-            <h2 className="text-2xl md:text-4xl font-[900] text-[#072A6C] mb-3">
-              Stay <span className="text-[#D71920]">Informed.</span> Stay <span className="text-[#D71920]">Ahead.</span>
-            </h2>
-            <p className="text-xs text-gray-500 max-w-xl mx-auto font-light leading-relaxed">
-              Discover the latest updates and exciting events happening at Chalapathi.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-            
-            {/* LEFT COLUMN: Campus Video Player (50% / lg:col-span-6) */}
-            <div className="lg:col-span-6 flex flex-col justify-between">
-              <div className="relative aspect-[16/9] w-full rounded-[24px] overflow-hidden shadow-xl border border-gray-200 bg-black group select-none flex-1 flex items-center justify-center">
-                <video
-                  ref={videoRef}
-                  src={localStorage.getItem("chalapathi_campus_video") || "/chalapathi_logo_intro.mp4"}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-102"
-                  autoPlay
-                  muted={isMuted}
-                  loop
-                  playsInline
-                  onTimeUpdate={handleTimeUpdate}
-                  onLoadedMetadata={handleLoadedMetadata}
-                  onClick={togglePlay}
-                />
-                
-                {/* Blue Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent pointer-events-none" />
-
-                {/* Floating Glass Card */}
-                <div className="absolute inset-x-6 top-6 bottom-16 bg-[#072A6C]/30 backdrop-blur-sm rounded-2xl p-6 border border-white/20 text-white flex flex-col justify-end text-left transition-all duration-500 opacity-100 group-hover:opacity-0 pointer-events-none">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-[#D4AF37] mb-1">Campus Event</span>
-                  <h4 className="text-lg md:text-xl font-black mb-1">{localStorage.getItem("chalapathi_campus_video_text") || "Explore Chalapathi Campus"}</h4>
-                  <p className="text-[10.5px] font-light leading-relaxed text-gray-200">
-                    {localStorage.getItem("chalapathi_campus_video_subtext") || "Experience innovation, research, smart classrooms and vibrant student life."}
-                  </p>
-                  
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleFullscreen();
-                    }}
-                    className="mt-4 self-start flex items-center gap-2 h-9 px-4 rounded-xl bg-white text-[#072A6C] text-[10.5px] font-extrabold uppercase tracking-wider hover:bg-[#D4AF37] hover:text-gray-900 transition-all pointer-events-auto"
-                  >
-                    <Play size={12} fill="currentColor" /> Watch Campus Tour
-                  </button>
-                </div>
-
-                {/* Play Button Overlay (shown when paused) */}
-                {!isPlaying && (
-                  <button
-                    type="button"
-                    onClick={togglePlay}
-                    className="absolute w-14 h-14 rounded-full bg-white/90 text-[#072A6C] hover:bg-[#D71920] hover:text-white flex items-center justify-center shadow-lg transition-all transform hover:scale-105"
-                  >
-                    <Play size={20} className="ml-1" fill="currentColor" />
-                  </button>
-                )}
-
-                {/* Custom Video Controls */}
-                <div className="absolute bottom-4 inset-x-6 flex items-center justify-between text-white gap-3 z-10">
-                  {/* Play/Pause Button */}
-                  <button type="button" onClick={togglePlay} className="text-white hover:text-[#D4AF37] transition-all bg-transparent border-none cursor-pointer outline-none shrink-0">
-                    {isPlaying ? (
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-                    ) : (
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                    )}
-                  </button>
-
-                  {/* Progress Slider */}
-                  <input
-                    type="range"
-                    min="0"
-                    max="100"
-                    value={videoProgress}
-                    onChange={handleProgressChange}
-                    className="flex-1 accent-[#D4AF37] h-1 rounded-lg bg-white/30 outline-none cursor-pointer appearance-none"
-                  />
-
-                  {/* Volume Button */}
-                  <button type="button" onClick={toggleMute} className="text-white hover:text-[#D4AF37] transition-all bg-transparent border-none cursor-pointer outline-none shrink-0">
-                    {isMuted ? (
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM12 4L9.91 6.09 12 8.18V4zm-6.12.88L3.22 7.56l2.12 2.12 1.33-1.33V18h4.67l4.09 4.09V14.83l3.09 3.09c-.58.44-1.22.8-1.92 1.04v2.09c1.26-.31 2.4-.95 3.34-1.82l2.09 2.09 1.41-1.41L7.29 7.29 5.88 5.88zm3.03 5.03L12 13.04v3.13l-2.18-2.18H8V12h.91z"/></svg>
-                    ) : (
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
-                    )}
-                  </button>
-
-                  {/* Fullscreen Button */}
-                  <button type="button" onClick={handleFullscreen} className="text-white hover:text-[#D4AF37] transition-all bg-transparent border-none cursor-pointer outline-none shrink-0">
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/></svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* CENTER COLUMN: Latest News (25% / lg:col-span-3) */}
-            <div className="lg:col-span-3 flex flex-col justify-between bg-white border border-gray-150 rounded-[24px] p-6 shadow-sm">
-              <div className="w-full text-left">
-                <div className="flex justify-between items-center border-b border-gray-100 pb-3 mb-5">
-                  <h3 className="text-[12px] font-[800] uppercase tracking-widest text-[#072A6C]">
-                    Latest News
-                  </h3>
-                  <Link to="/news" className="text-[10px] font-bold text-[#D71920] hover:underline flex items-center gap-0.5">
-                    View All
-                  </Link>
-                </div>
-
-                <div className="space-y-4">
-                  {[...news].reverse().slice(0, 4).map((item, idx) => {
-                    const dateParts = (() => {
-                      if (!item.date) return { day: "12", month: "MAY" };
-                      const parts = item.date.trim().split(" ");
-                      return {
-                        day: parts[0] || "12",
-                        month: (parts[1] || "MAY").toUpperCase().substring(0, 3)
-                      };
-                    })();
-                    return (
-                      <div 
-                        key={item.id || idx}
-                        onClick={() => navigate(`/news/${item.slug}`)}
-                        className="flex gap-3.5 items-start cursor-pointer group"
-                      >
-                        {/* Custom Date Badge */}
-                        <div className="w-10 h-10 rounded-xl bg-red-50 text-[#D71920] text-center flex flex-col items-center justify-center shadow-sm shrink-0 transition-transform group-hover:scale-105">
-                          <span className="block text-[12px] font-black leading-none">{dateParts.day}</span>
-                          <span className="block text-[7px] font-extrabold tracking-wider mt-0.5">{dateParts.month}</span>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h4 className="text-[11px] font-bold text-gray-800 leading-snug group-hover:text-[#D71920] transition-colors line-clamp-2">
-                            {item.title}
-                          </h4>
-                          <span className="text-[9.5px] text-gray-400 font-medium block mt-0.5 leading-relaxed line-clamp-1">{item.excerpt || item.bodyText}</span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-
-            {/* RIGHT COLUMN: Upcoming Events (25% / lg:col-span-3) */}
-            <div className="lg:col-span-3 flex flex-col justify-between bg-white border border-gray-150 rounded-[24px] p-6 shadow-sm">
-              <div className="w-full text-left">
-                <div className="flex justify-between items-center border-b border-gray-100 pb-3 mb-5">
-                  <h3 className="text-[12px] font-[800] uppercase tracking-widest text-[#072A6C]">
-                    Upcoming Events
-                  </h3>
-                  <button 
-                    type="button"
-                    onClick={() => setIsEventsDrawerOpen(true)}
-                    className="text-[10px] font-bold text-[#072A6C] hover:underline flex items-center gap-0.5 bg-transparent border-none cursor-pointer outline-none"
-                  >
-                    Calendar
-                  </button>
-                </div>
-
-                <div className="space-y-4">
-                  {[...events].reverse().slice(0, 4).map((item, idx) => {
-                    const dateParts = (() => {
-                      if (!item.date) return { day: "12", month: "MAY" };
-                      const parts = item.date.trim().split(" ");
-                      return {
-                        day: parts[0] || "12",
-                        month: (parts[1] || "MAY").toUpperCase().substring(0, 3)
-                      };
-                    })();
-                    return (
-                      <div 
-                        key={item.id || idx}
-                        onClick={() => navigate(`/news/events/${item.slug}`)}
-                        className="flex gap-3.5 items-start cursor-pointer group"
-                      >
-                        {/* Custom Date Badge */}
-                        <div className="w-10 h-10 rounded-xl bg-blue-50 text-[#072A6C] text-center flex flex-col items-center justify-center shadow-sm shrink-0 transition-transform group-hover:scale-105">
-                          <span className="block text-[12px] font-black leading-none">{dateParts.day}</span>
-                          <span className="block text-[7px] font-extrabold tracking-wider mt-0.5">{dateParts.month}</span>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <h4 className="text-[11px] font-bold text-gray-800 leading-snug group-hover:text-[#072A6C] transition-colors line-clamp-2">
-                            {item.title}
-                          </h4>
-                          <span className="text-[9.5px] text-gray-400 font-medium block mt-0.5 leading-none">{item.time}</span>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
       {/* ═══ ADMISSIONS OPEN 2026 STRIP ═══ */}
       <section className="bg-gray-50 py-12 border-t border-gray-100">
         <div className="max-w-[1440px] mx-auto px-5 grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
@@ -1888,129 +1900,6 @@ export default function Home() {
 
       {/* ═══ Glassmorphism Modal ═══ */}
       <AnimatePresence>
-        {selectedProgramForModal && (
-          <div className="fixed inset-0 z-55 flex items-center justify-center p-4">
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-black/45 backdrop-blur-md cursor-pointer"
-              onClick={() => setSelectedProgramForModal(null)}
-            />
-
-            {/* Modal Box */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.3, ease: "easeOut" }}
-              className="bg-white/90 backdrop-blur-lg border border-white/20 rounded-[28px] max-w-2xl w-full p-6 md:p-8 shadow-2xl relative max-h-[85vh] overflow-y-auto text-left font-[var(--font-poppins)] z-10"
-            >
-              {/* Close Button */}
-              <button
-                type="button"
-                onClick={() => setSelectedProgramForModal(null)}
-                className="absolute top-5 right-5 text-gray-400 hover:text-[#D71920] border-none bg-transparent cursor-pointer outline-none transition-colors"
-                aria-label="Close"
-              >
-                <X size={20} />
-              </button>
-
-              <div className="flex items-center gap-3.5 mb-5 pb-4 border-b border-gray-100/50">
-                <div 
-                  className="w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-sm"
-                  style={{ backgroundColor: selectedProgramForModal.color }}
-                >
-                  {React.createElement(selectedProgramForModal.icon, { size: 24 })}
-                </div>
-                <div>
-                  <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest block">Programs Offered</span>
-                  <h3 className="text-lg md:text-xl font-black text-[#072A6C] uppercase leading-tight">
-                    {selectedProgramForModal.title || selectedProgramForModal.name}
-                  </h3>
-                </div>
-              </div>
-
-              <div className="space-y-5">
-                {/* Description */}
-                <div className="space-y-1.5">
-                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Overview</span>
-                  <p className="text-xs text-gray-600 font-light leading-relaxed">
-                    {selectedProgramForModal.detail}
-                  </p>
-                </div>
-
-                {/* Duration & Eligibility Strip */}
-                <div className="grid grid-cols-2 gap-4 bg-gray-50/50 p-4 rounded-2xl border border-gray-100/50">
-                  <div>
-                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider block mb-0.5">Duration</span>
-                    <span className="text-xs font-bold text-[#072A6C]">{selectedProgramForModal.duration}</span>
-                  </div>
-                  <div>
-                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider block mb-0.5">Eligibility</span>
-                    <span className="text-xs font-bold text-[#072A6C]">{selectedProgramForModal.eligibility}</span>
-                  </div>
-                </div>
-
-                {/* Grid for Learn, Careers, Facilities */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
-                  {/* Learn */}
-                  <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm space-y-2">
-                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider block pb-1 border-b border-gray-50">What You'll Learn</span>
-                    <ul className="space-y-1 text-[10px] text-gray-500 font-light list-disc list-inside pl-0">
-                      {selectedProgramForModal.learn.map((item: string, idx: number) => (
-                        <li key={idx} className="leading-tight">{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Careers */}
-                  <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm space-y-2">
-                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider block pb-1 border-b border-gray-50">Career Opportunities</span>
-                    <ul className="space-y-1 text-[10px] text-gray-500 font-light list-disc list-inside pl-0">
-                      {selectedProgramForModal.careers.map((item: string, idx: number) => (
-                        <li key={idx} className="leading-tight">{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Facilities */}
-                  <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm space-y-2">
-                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider block pb-1 border-b border-gray-50">Infrastructure &amp; Labs</span>
-                    <ul className="space-y-1 text-[10px] text-gray-500 font-light list-disc list-inside pl-0">
-                      {selectedProgramForModal.facilities.map((item: string, idx: number) => (
-                        <li key={idx} className="leading-tight">{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              {/* Action Button */}
-              <div className="pt-6 flex justify-end gap-3 border-t border-gray-100/50 mt-6">
-                <button
-                  type="button"
-                  onClick={() => setSelectedProgramForModal(null)}
-                  className="py-2.5 px-5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-xl transition-colors cursor-pointer border-none outline-none"
-                >
-                  Close
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSelectedProgramForModal(null);
-                    navigate("/admissions/apply");
-                  }}
-                  className="py-2.5 px-6 bg-[#072A6C] hover:bg-[#D71920] text-white text-xs font-bold rounded-xl transition-colors cursor-pointer border-none outline-none"
-                >
-                  Apply Now
-                </button>
-              </div>
-            </motion.div>
-          </div>
-        )}
-
         {/* Upcoming Events Drawer Overlay */}
         {isEventsDrawerOpen && (
           <div className="fixed inset-0 z-50 flex justify-end font-[var(--font-poppins)]">
