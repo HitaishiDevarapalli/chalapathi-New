@@ -2,11 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   GraduationCap, Users, ArrowRight, Play, Trophy, Handshake, Landmark,
   Compass, FileText, Award, Phone, MapPin, Mail, Sparkles, Building2, HelpCircle, Search, Globe,
-  UserPlus, ShieldCheck, UploadCloud, CreditCard, Settings, Briefcase, Code, FlaskConical, Wrench, Atom
+  UserPlus, ShieldCheck, UploadCloud, CreditCard, Settings, Briefcase, Code, FlaskConical, Wrench, Atom, X
 } from "lucide-react";
 import SEO from "../components/SEO";
 
@@ -95,8 +95,18 @@ export default function Home() {
   const [isPaused, setIsPaused] = useState(false);
   const [progress, setProgress] = useState(0);
 
-  // Track expanded program index
-  const [expandedProgramIndex, setExpandedProgramIndex] = useState<number | null>(null);
+  // Modal program state
+  const [selectedProgramForModal, setSelectedProgramForModal] = useState<any | null>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setSelectedProgramForModal(null);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
@@ -509,7 +519,7 @@ export default function Home() {
               OUR PROGRAMS
             </h2>
             <Link
-              to="/academics"
+              to="/programs"
               className="text-[13px] font-[700] text-[#072A6C] hover:text-[#D71920] flex items-center gap-1 transition-colors"
             >
               View All Programs <ArrowRight size={14} />
@@ -517,178 +527,143 @@ export default function Home() {
           </div>
 
           <motion.div
-            className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4"
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-5"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
             variants={staggerContainer}
-            onMouseLeave={() => setExpandedProgramIndex(null)}
           >
             {[
               { 
                 name: "Engineering", 
                 color: "#D71920", 
                 icon: Settings, 
-                to: "/academics/computer-science",
-                intro: "Engineering is the application of science, mathematics, and technology to design, build, and improve systems, machines, structures, and innovations that solve real-world problems. It prepares students with analytical thinking, technical expertise, practical skills, and industry-oriented knowledge."
+                desc: "Explore B.Tech streams in CSE, Data Science, AI & ML, Cyber Security, and Electronics & Communication with advanced labs.",
+                title: "School of Engineering & Technology",
+                detail: "Engineering is the application of science, mathematics, and technology to design, build, and improve systems, machines, structures, and innovations that solve real-world problems. It prepares students with analytical thinking, technical expertise, practical skills, and industry-oriented knowledge.",
+                learn: ["Core programming & software engineering", "AI/ML algorithm design", "VLSI design and embedded systems", "Data structures & network security"],
+                careers: ["Software Architect", "Systems Design Engineer", "AI/ML Developer", "Embedded Engineer"],
+                facilities: ["Advanced GPU Computing Labs", "Electronics & Microcontroller Lab", "Robotics Research Cell"],
+                duration: "4 Years (8 Semesters)",
+                eligibility: "10+2 with Physics, Chemistry, and Mathematics (minimum 50% marks)"
               },
               { 
                 name: "Management", 
                 color: "#F59E0B", 
                 icon: Briefcase, 
-                to: "/academics/programmes",
-                intro: "Management focuses on planning, organizing, leading, and managing organizations effectively. Students develop leadership, communication, decision-making, entrepreneurship, and business strategy skills."
+                desc: "Develop leadership, financial acumen, strategic marketing, entrepreneurship, and organizational management capabilities.",
+                title: "School of Business & Management",
+                detail: "Management focuses on planning, organizing, leading, and managing organizations effectively. Students develop leadership, communication, decision-making, entrepreneurship, and business strategy skills.",
+                learn: ["Strategic planning & corporate finance", "Human resource dynamics", "Digital marketing & brand strategy", "Operations & supply chain management"],
+                careers: ["Business Development Manager", "Financial Analyst", "HR consultant", "Operations Manager"],
+                facilities: ["Corporate Discussion Rooms", "Mock Trading Lab", "Seminar Center"],
+                duration: "2 Years (4 Semesters)",
+                eligibility: "Any Graduate degree with minimum 50% marks (plus selection score)"
               },
               { 
                 name: "Computer Applications", 
                 color: "#2563EB", 
                 icon: Code, 
-                to: "/academics/programmes",
-                intro: "Computer Applications is the study of software, programming, databases, artificial intelligence, cloud computing, cybersecurity, and modern digital technologies. It prepares students for careers in software development and the IT industry."
+                desc: "Master advanced software application development, cloud architectures, database administration, and internet technologies.",
+                title: "School of Computer Applications",
+                detail: "Computer Applications is the study of software, programming, databases, artificial intelligence, cloud computing, cybersecurity, and modern digital technologies. It prepares students for careers in software development and the IT industry.",
+                learn: ["Full stack web development", "Database systems management", "Cloud deployment architectures", "Android & iOS app coding"],
+                careers: ["Full Stack Developer", "Cloud Solutions Architect", "Database Administrator", "Mobile App Engineer"],
+                facilities: ["Open Source Computing Lab", "Cloud Sandbox lab", "Virtualization Center"],
+                duration: "2 Years (MCA)",
+                eligibility: "BCA / B.Sc in Computer Science or equivalent graduation"
               },
               { 
                 name: "Pharmacy", 
                 color: "#10B981", 
                 icon: FlaskConical, 
-                to: "/academics/programmes",
-                intro: "Pharmacy is the science of medicines, healthcare, and patient well-being. Students learn about drug development, pharmaceutical research, medicine safety, healthcare practices, and modern laboratory techniques."
+                desc: "Learn pharmaceutical formulation, organic chemistry synthesis, clinical pharmacology, drug safety, and regulatory compliance.",
+                title: "School of Pharmaceutical Sciences",
+                detail: "Pharmacy is the science of medicines, healthcare, and patient well-being. Students learn about drug development, pharmaceutical research, medicine safety, healthcare practices, and modern laboratory techniques.",
+                learn: ["Medicinal chemistry & formulation", "Clinical drug trials & assays", "Pharmacology & toxicology", "Quality assurance & industry compliance"],
+                careers: ["Clinical Research Associate", "Formulation Scientist", "Drug Inspector", "Pharmacist"],
+                facilities: ["Advanced Assays Laboratory", "Pharmaceutics Pilot Plant", "Medicinal Garden"],
+                duration: "4 Years (B.Pharm) / 2 Years (M.Pharm)",
+                eligibility: "10+2 with Physics, Chemistry, and Biology/Mathematics"
               },
               { 
                 name: "Diploma", 
                 color: "#8B5CF6", 
                 icon: Wrench, 
-                to: "/academics/programmes",
-                intro: "Diploma programs provide practical, skill-based education that prepares students for technical careers through hands-on training, industry exposure, and job-oriented learning."
+                desc: "Skill-focused technical training program delivering hands-on engineering experience and direct placement routes.",
+                title: "Polytechnic & Diploma Studies",
+                detail: "Diploma programs provide practical, skill-based education that prepares students for technical careers through hands-on training, industry exposure, and job-oriented learning.",
+                learn: ["Applied technical mechanics", "Workshop practice & machinery", "Basic electrical & electronics layouts", "CAD/CAM modeling foundations"],
+                careers: ["Junior Engineer", "CAD Modeler", "Production Supervisor", "Service Technician"],
+                facilities: ["Mechanical Machine Shop", "Electrical Wiring Bay", "Basic CAD Lab"],
+                duration: "3 Years",
+                eligibility: "Class 10 / SSC examination pass with math & science"
               },
               { 
                 name: "M.Tech Programs", 
                 color: "#EAB308", 
                 icon: Atom, 
-                to: "/academics/programmes",
-                intro: "M.Tech programs offer advanced technical education, research opportunities, innovation, and specialization in emerging engineering technologies to prepare graduates for leadership roles in industry and academia."
+                desc: "Specialize in advanced technical systems, postgraduate research, smart industry automation, and next-generation engineering systems.",
+                title: "Postgraduate Engineering (M.Tech)",
+                detail: "M.Tech programs offer advanced technical education, research opportunities, innovation, and specialization in emerging engineering technologies to prepare graduates for leadership roles in industry and academia.",
+                learn: ["Advanced research methodologies", "System-on-Chip (SoC) architectures", "Industrial IoT & robotics control", "Computational modeling & simulations"],
+                careers: ["Senior R&D Engineer", "Research Scholar", "Project Lead Specialist", "Systems Consultant"],
+                facilities: ["PG Research computing lab", "Embedded Systems Lab", "Advanced Simulation Center"],
+                duration: "2 Years (4 Semesters)",
+                eligibility: "B.Tech / B.E in relevant specialization (GATE qualified preferred)"
               }
             ].map((p, idx) => {
-              const isActive = expandedProgramIndex === idx;
               const IconComponent = p.icon;
               return (
                 <motion.div
                   key={idx}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setExpandedProgramIndex(isActive ? null : idx);
-                  }}
-                  onMouseEnter={() => setExpandedProgramIndex(idx)}
-                  className={`group bg-white border rounded-[16px] p-4 shadow-sm hover:shadow transition-all duration-300 relative flex flex-col items-center justify-center text-center cursor-pointer min-h-[140px] select-none ${
-                    isActive 
-                      ? "border-[#2563EB]/40 shadow-[0_4px_20px_rgba(37,99,235,0.12)] ring-1 ring-[#2563EB]/15 bg-[#EEF5FF]/40" 
-                      : "border-gray-100 hover:-translate-y-0.5"
-                  }`}
+                  className="group bg-white border border-gray-100 hover:-translate-y-0.5 rounded-[16px] p-5 shadow-sm hover:shadow-md transition-all duration-300 relative flex flex-col items-center justify-between text-center select-none min-h-[220px]"
                   variants={scaleIn}
                 >
                   <div className="flex flex-col items-center space-y-3 w-full">
                     {/* Circle Background & Premium Vector Icon */}
                     <div 
-                      className={`w-12 h-12 rounded-full flex items-center justify-center text-white shadow-sm transition-all duration-300 ${
-                        isActive ? "scale-105 rotate-12" : "group-hover:scale-105 group-hover:rotate-6"
-                      }`}
+                      className="w-12 h-12 rounded-full flex items-center justify-center text-white shadow-sm transition-all duration-300 group-hover:scale-105 group-hover:rotate-6"
                       style={{ backgroundColor: p.color }}
                     >
                       <IconComponent size={20} />
                     </div>
 
                     {/* Program Name */}
-                    <h3 className={`font-bold text-[12px] transition-colors leading-tight ${
-                      isActive ? "text-[#D71920]" : "text-[#072A6C] group-hover:text-[#D71920]"
-                    }`}>
+                    <h3 className="font-bold text-[12px] text-[#072A6C] group-hover:text-[#D71920] transition-colors leading-tight">
                       {p.name}
                     </h3>
+
+                    {/* Short Description */}
+                    <p className="text-[10.5px] text-gray-500 font-light leading-relaxed my-2 line-clamp-3">
+                      {p.desc}
+                    </p>
                   </div>
+
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedProgramForModal(p);
+                    }}
+                    className="mt-2 py-1 px-3 border border-[#072A6C] hover:bg-[#072A6C] hover:text-white text-[#072A6C] text-[9.5px] font-bold rounded-lg transition-colors cursor-pointer outline-none"
+                  >
+                    Read More
+                  </button>
                 </motion.div>
               );
             })}
           </motion.div>
 
-          {/* Expanded Detail Panel */}
-          <div className="relative mt-6 overflow-hidden min-h-[110px]">
-            {expandedProgramIndex !== null && (() => {
-              const activeProg = [
-                { 
-                  name: "Engineering", 
-                  color: "#D71920", 
-                  icon: Settings, 
-                  to: "/academics/computer-science",
-                  intro: "Engineering is the application of science, mathematics, and technology to design, build, and improve systems, machines, structures, and innovations that solve real-world problems. It prepares students with analytical thinking, technical expertise, practical skills, and industry-oriented knowledge."
-                },
-                { 
-                  name: "Management", 
-                  color: "#F59E0B", 
-                  icon: Briefcase, 
-                  to: "/academics/programmes",
-                  intro: "Management focuses on planning, organizing, leading, and managing organizations effectively. Students develop leadership, communication, decision-making, entrepreneurship, and business strategy skills."
-                },
-                { 
-                  name: "Computer Applications", 
-                  color: "#2563EB", 
-                  icon: Code, 
-                  to: "/academics/programmes",
-                  intro: "Computer Applications is the study of software, programming, databases, artificial intelligence, cloud computing, cybersecurity, and modern digital technologies. It prepares students for careers in software development and the IT industry."
-                },
-                { 
-                  name: "Pharmacy", 
-                  color: "#10B981", 
-                  icon: FlaskConical, 
-                  to: "/academics/programmes",
-                  intro: "Pharmacy is the science of medicines, healthcare, and patient well-being. Students learn about drug development, pharmaceutical research, medicine safety, healthcare practices, and modern laboratory techniques."
-                },
-                { 
-                  name: "Diploma", 
-                  color: "#8B5CF6", 
-                  icon: Wrench, 
-                  to: "/academics/programmes",
-                  intro: "Diploma programs provide practical, skill-based education that prepares students for technical careers through hands-on training, industry exposure, and job-oriented learning."
-                },
-                { 
-                  name: "M.Tech Programs", 
-                  color: "#EAB308", 
-                  icon: Atom, 
-                  to: "/academics/programmes",
-                  intro: "M.Tech programs offer advanced technical education, research opportunities, innovation, and specialization in emerging engineering technologies to prepare graduates for leadership roles in industry and academia."
-                }
-              ][expandedProgramIndex];
-              const IconComp = activeProg.icon;
-              
-              return (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: 10 }}
-                  transition={{ duration: 0.3 }}
-                  className="bg-gradient-to-r from-[#EEF5FF]/40 to-white border border-[#2563EB]/15 rounded-2xl p-6 shadow-sm flex flex-col md:flex-row items-center gap-6 text-left"
-                >
-                  <div 
-                    className="w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-sm shrink-0"
-                    style={{ backgroundColor: activeProg.color }}
-                  >
-                    <IconComp size={22} />
-                  </div>
-                  <div className="flex-1 space-y-1">
-                    <h4 className="font-bold text-[13px] text-[#072A6C]">
-                      {activeProg.name}
-                    </h4>
-                    <p className="text-[11px] text-gray-500 font-light leading-relaxed">
-                      {activeProg.intro}
-                    </p>
-                  </div>
-                  <button
-                    onClick={() => navigate(activeProg.to)}
-                    className="py-2 px-4 bg-[#072A6C] hover:bg-[#D71920] text-white text-[10px] font-bold rounded-xl transition-colors cursor-pointer inline-flex items-center gap-1 shrink-0 shadow-sm"
-                  >
-                    <span>Explore Program</span>
-                    <ArrowRight size={10} />
-                  </button>
-                </motion.div>
-              );
-            })()}
+          {/* View More Programs button centered */}
+          <div className="flex justify-center mt-10">
+            <button
+              onClick={() => {
+                navigate("/programs");
+              }}
+              className="py-3 px-8 bg-[#072A6C] hover:bg-[#D71920] text-white text-[11px] font-bold uppercase tracking-wider rounded-full transition-all duration-300 transform hover:-translate-y-1 hover:shadow-lg active:scale-95 cursor-pointer border-none outline-none"
+            >
+              View More Programs
+            </button>
           </div>
         </div>
       </section>
@@ -844,22 +819,29 @@ export default function Home() {
               </Link>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
               {[
-                { d: "12", m: "MAY", title: "City Chalapathi Institute of Technology Launches AI Research Center" },
-                { d: "06", m: "MAY", title: "Students Win National Level Hackathon 2025" },
-                { d: "03", m: "MAY", title: "MoU Signed with Global Industry Leaders" }
+                { d: "12", m: "MAY", title: "AI Research Lab Inaugurated on Campus", slug: "ai-research-lab" },
+                { d: "06", m: "MAY", title: "Engineering Students Win Smart Hackathon 2025", slug: "smart-hackathon" },
+                { d: "15", m: "MAY", title: "New Study on Renewable Energy Published in Scopus Journal", slug: "renewable-energy" }
               ].map((n, idx) => (
-                <motion.div key={idx} className="flex gap-4 items-start" variants={fadeUp}>
-                  <div className="w-12 h-12 shrink-0 rounded-[8px] bg-[#D71920] text-white text-center flex flex-col items-center justify-center shadow-sm">
-                    <span className="block text-[14px] font-[800] leading-none">{n.d}</span>
-                    <span className="block text-[8px] font-[700] tracking-wider mt-0.5">{n.m}</span>
+                <motion.div 
+                  key={idx} 
+                  onClick={() => navigate(`/news/${n.slug}`)}
+                  className="flex gap-4 items-start p-2.5 rounded-xl border border-transparent hover:border-[#D71920]/20 hover:shadow-[0_4px_18px_rgba(215,25,32,0.12)] transition-all duration-300 cursor-pointer group"
+                  variants={fadeUp}
+                >
+                  <div className="w-11 h-11 shrink-0 rounded-lg bg-[#D71920] text-white text-center flex flex-col items-center justify-center shadow-sm transition-transform group-hover:scale-105">
+                    <span className="block text-[13px] font-[800] leading-none">{n.d}</span>
+                    <span className="block text-[7.5px] font-[700] tracking-wider mt-0.5">{n.m}</span>
                   </div>
-                  <div>
-                    <h4 className="text-[12px] font-[700] text-gray-800 leading-snug">{n.title}</h4>
-                    <Link to="/news" className="text-[10px] font-[700] text-[#072A6C] hover:underline mt-1 inline-block">
-                      Read More →
-                    </Link>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-[11.5px] font-[700] text-gray-800 leading-snug group-hover:text-[#D71920] transition-colors line-clamp-2">
+                      {n.title}
+                    </h4>
+                    <span className="text-[9.5px] font-[700] text-[#072A6C] flex items-center gap-0.5 mt-1">
+                      Read More <ArrowRight size={10} className="transition-transform group-hover:translate-x-0.5" />
+                    </span>
                   </div>
                 </motion.div>
               ))}
@@ -965,20 +947,27 @@ export default function Home() {
               </Link>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
               {[
-                { d: "20", m: "MAY", title: "International Conference on AI & Robotics", time: "10:00 AM Onwards" },
-                { d: "25", m: "MAY", title: "Annual Tech Fest 2025", time: "09:00 AM Onwards" },
-                { d: "05", m: "JUN", title: "Global Education Fair", time: "11:00 AM Onwards" }
+                { d: "17", m: "JUL", title: "Air Taxi Demonstration & Aviation Forum", slug: "air-taxi-demonstration-aviation-forum", time: "09:30 AM Onwards" },
+                { d: "24", m: "AUG", title: "Smart India Hackathon 2026 Campus Edition", slug: "smart-india-hackathon-2026", time: "09:00 AM Onwards" },
+                { d: "15", m: "SEP", title: "International Conference on Green Chemistry", slug: "green-chemistry-conference-2026", time: "10:00 AM Onwards" }
               ].map((e, idx) => (
-                <motion.div key={idx} className="flex gap-4 items-start" variants={fadeUp}>
-                  <div className="w-12 h-12 shrink-0 rounded-[8px] bg-[#D71920] text-white text-center flex flex-col items-center justify-center shadow-sm">
-                    <span className="block text-[14px] font-[800] leading-none">{e.d}</span>
-                    <span className="block text-[8px] font-[700] tracking-wider mt-0.5">{e.m}</span>
+                <motion.div 
+                  key={idx} 
+                  onClick={() => navigate(`/news/events/${e.slug}`)}
+                  className="flex gap-4 items-start p-2.5 rounded-xl border border-transparent hover:border-[#072A6C]/20 hover:shadow-[0_4px_18px_rgba(7,42,108,0.12)] transition-all duration-300 cursor-pointer group"
+                  variants={fadeUp}
+                >
+                  <div className="w-11 h-11 shrink-0 rounded-lg bg-[#072A6C] text-white text-center flex flex-col items-center justify-center shadow-sm transition-transform group-hover:scale-105">
+                    <span className="block text-[13px] font-[800] leading-none">{e.d}</span>
+                    <span className="block text-[7.5px] font-[700] tracking-wider mt-0.5">{e.m}</span>
                   </div>
-                  <div>
-                    <h4 className="text-[12px] font-[700] text-gray-800 leading-snug">{e.title}</h4>
-                    <span className="block text-[10px] text-gray-400 font-[500] mt-1">{e.time}</span>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-[11.5px] font-[700] text-gray-800 leading-snug group-hover:text-[#072A6C] transition-colors line-clamp-2">
+                      {e.title}
+                    </h4>
+                    <span className="block text-[9.5px] text-gray-400 font-[500] mt-1">{e.time}</span>
                   </div>
                 </motion.div>
               ))}
@@ -1079,6 +1068,132 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* ═══ Glassmorphism Modal ═══ */}
+      <AnimatePresence>
+        {selectedProgramForModal && (
+          <div className="fixed inset-0 z-55 flex items-center justify-center p-4">
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-black/45 backdrop-blur-md cursor-pointer"
+              onClick={() => setSelectedProgramForModal(null)}
+            />
+
+            {/* Modal Box */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="bg-white/90 backdrop-blur-lg border border-white/20 rounded-[28px] max-w-2xl w-full p-6 md:p-8 shadow-2xl relative max-h-[85vh] overflow-y-auto text-left font-[var(--font-poppins)] z-10"
+            >
+              {/* Close Button */}
+              <button
+                type="button"
+                onClick={() => setSelectedProgramForModal(null)}
+                className="absolute top-5 right-5 text-gray-400 hover:text-[#D71920] border-none bg-transparent cursor-pointer outline-none transition-colors"
+                aria-label="Close"
+              >
+                <X size={20} />
+              </button>
+
+              <div className="flex items-center gap-3.5 mb-5 pb-4 border-b border-gray-100/50">
+                <div 
+                  className="w-12 h-12 rounded-2xl flex items-center justify-center text-white shadow-sm"
+                  style={{ backgroundColor: selectedProgramForModal.color }}
+                >
+                  {React.createElement(selectedProgramForModal.icon, { size: 24 })}
+                </div>
+                <div>
+                  <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-widest block">Programs Offered</span>
+                  <h3 className="text-lg md:text-xl font-black text-[#072A6C] uppercase leading-tight">
+                    {selectedProgramForModal.title || selectedProgramForModal.name}
+                  </h3>
+                </div>
+              </div>
+
+              <div className="space-y-5">
+                {/* Description */}
+                <div className="space-y-1.5">
+                  <span className="text-[10px] font-bold text-gray-400 uppercase tracking-wider block">Overview</span>
+                  <p className="text-xs text-gray-600 font-light leading-relaxed">
+                    {selectedProgramForModal.detail}
+                  </p>
+                </div>
+
+                {/* Duration & Eligibility Strip */}
+                <div className="grid grid-cols-2 gap-4 bg-gray-50/50 p-4 rounded-2xl border border-gray-100/50">
+                  <div>
+                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider block mb-0.5">Duration</span>
+                    <span className="text-xs font-bold text-[#072A6C]">{selectedProgramForModal.duration}</span>
+                  </div>
+                  <div>
+                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider block mb-0.5">Eligibility</span>
+                    <span className="text-xs font-bold text-[#072A6C]">{selectedProgramForModal.eligibility}</span>
+                  </div>
+                </div>
+
+                {/* Grid for Learn, Careers, Facilities */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
+                  {/* Learn */}
+                  <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm space-y-2">
+                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider block pb-1 border-b border-gray-50">What You'll Learn</span>
+                    <ul className="space-y-1 text-[10px] text-gray-500 font-light list-disc list-inside pl-0">
+                      {selectedProgramForModal.learn.map((item: string, idx: number) => (
+                        <li key={idx} className="leading-tight">{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Careers */}
+                  <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm space-y-2">
+                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider block pb-1 border-b border-gray-50">Career Opportunities</span>
+                    <ul className="space-y-1 text-[10px] text-gray-500 font-light list-disc list-inside pl-0">
+                      {selectedProgramForModal.careers.map((item: string, idx: number) => (
+                        <li key={idx} className="leading-tight">{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  {/* Facilities */}
+                  <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm space-y-2">
+                    <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider block pb-1 border-b border-gray-50">Infrastructure &amp; Labs</span>
+                    <ul className="space-y-1 text-[10px] text-gray-500 font-light list-disc list-inside pl-0">
+                      {selectedProgramForModal.facilities.map((item: string, idx: number) => (
+                        <li key={idx} className="leading-tight">{item}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Button */}
+              <div className="pt-6 flex justify-end gap-3 border-t border-gray-100/50 mt-6">
+                <button
+                  type="button"
+                  onClick={() => setSelectedProgramForModal(null)}
+                  className="py-2.5 px-5 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded-xl transition-colors cursor-pointer border-none outline-none"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSelectedProgramForModal(null);
+                    navigate("/admissions/apply");
+                  }}
+                  className="py-2.5 px-6 bg-[#072A6C] hover:bg-[#D71920] text-white text-xs font-bold rounded-xl transition-colors cursor-pointer border-none outline-none"
+                >
+                  Apply Now
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

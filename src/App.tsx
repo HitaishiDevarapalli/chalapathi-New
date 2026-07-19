@@ -331,6 +331,7 @@ function AppContent() {
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/programs" element={<DynamicPage />} />
             
             {/* About Routes */}
             <Route path="/about" element={<DynamicPage />} />
