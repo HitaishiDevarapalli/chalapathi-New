@@ -1290,34 +1290,39 @@ function AcademicCalendar() {
 
   const universitysData: Record<string, Record<string, { label: string; key: string }[]>> = {
     "2026-27": {
-      "University of Engineering": [
-        { label: "B.Tech. I Year (All Specializations)", key: "btech-1" },
-        { label: "B.Tech. II, III & IV Year (Regular)", key: "btech-2-3-4" },
-        { label: "B.Tech. Lateral Entry (UG Engineering)", key: "btech-lateral" },
-        { label: "M.Tech. I & II Year Programs", key: "mtech" }
+      "School of Computing Sciences": [
+        { label: "B.Tech in CSE", key: "cse" },
+        { label: "B.Tech in CSE (AI & ML)", key: "aiml" },
+        { label: "B.Tech in CSE (Data Science)", key: "ds" },
+        { label: "B.Tech in IT", key: "it" },
+        { label: "M.Tech in CSE", key: "mcse" },
+        { label: "MCA", key: "mca" }
       ],
-      "University of Management": [
-        { label: "MBA I & II Year Programs", key: "mba" },
-        { label: "MCA I & II Year Programs", key: "mca" },
-        { label: "BBA Undergraduate Programs", key: "bba" }
+      "School of Engineering": [
+        { label: "B.Tech in ECE", key: "ece" },
+        { label: "B.Tech in EEE", key: "eee" },
+        { label: "B.Tech in Mechanical Engineering", key: "mech" },
+        { label: "B.Tech in Civil Engineering", key: "civil" },
+        { label: "M.Tech in VLSI Design", key: "mvlsi" },
+        { label: "M.Tech in Structural Engineering", key: "mstructural" }
       ],
-      "University of Pharmacy": [
-        { label: "B.Pharm I Year Coursework", key: "bpharm-1" },
-        { label: "B.Pharm II, III & IV Year", key: "bpharm-2-3-4" },
-        { label: "M.Pharm & Pharm.D Programs", key: "mpharm" }
+      "School of Business & Management": [
+        { label: "MBA", key: "mba" },
+        { label: "BBA", key: "bba" },
+        { label: "B.Com", key: "bcom" }
       ]
     },
     "2025-26": {
-      "University of Engineering": [
-        { label: "B.Tech. I Year (All Specializations)", key: "btech-1" },
-        { label: "B.Tech. II, III & IV Year (Regular)", key: "btech-2-3-4" },
-        { label: "M.Tech. Programs", key: "mtech" }
+      "School of Computing Sciences": [
+        { label: "B.Tech in CSE", key: "cse" },
+        { label: "B.Tech in IT", key: "it" },
+        { label: "MCA", key: "mca" }
       ],
-      "University of Management": [
-        { label: "MBA & MCA Programs", key: "mgmt" }
+      "School of Engineering": [
+        { label: "B.Tech in Core Engineering", key: "core" }
       ],
-      "University of Pharmacy": [
-        { label: "B.Pharm Programs", key: "bpharm" }
+      "School of Business & Management": [
+        { label: "MBA & BBA", key: "mgmt" }
       ]
     }
   };
@@ -1326,15 +1331,14 @@ function AcademicCalendar() {
   years.forEach(y => {
     if (!universitysData[y]) {
       universitysData[y] = {
-        "University of Engineering": [
-          { label: `B.Tech. Programs (${y})`, key: `btech-${y}` },
-          { label: `M.Tech. Programs (${y})`, key: `mtech-${y}` }
+        "School of Computing Sciences": [
+          { label: `B.Tech & PG Programs (${y})`, key: `computing-${y}` }
         ],
-        "University of Management": [
-          { label: `MBA & MCA Programs (${y})`, key: `mgmt-${y}` }
+        "School of Engineering": [
+          { label: `B.Tech & M.Tech Programs (${y})`, key: `engineering-${y}` }
         ],
-        "University of Pharmacy": [
-          { label: `B.Pharm & M.Pharm (${y})`, key: `pharm-${y}` }
+        "School of Business & Management": [
+          { label: `MBA & BBA Programs (${y})`, key: `business-${y}` }
         ]
       };
     }
@@ -1691,11 +1695,11 @@ function AcademicFlexibilities() {
 
 function AcademicGradingSystem() {
   const isAdmin = false;
-  const [activeTab, setActiveTab] = React.useState("btech");
+  const [activeTab, setActiveTab] = React.useState("computing");
 
   const defaultGradingData = {
-    btech: {
-      title: "B.Tech. Grading Schema",
+    computing: {
+      title: "School of Computing Sciences Grading Schema",
       absolute: [
         { perf: "Outstanding", grade: "O", gp: "10", range: "90 - 100" },
         { perf: "Excellent", grade: "A+", gp: "9", range: "80 - 89" },
@@ -1719,8 +1723,33 @@ function AcademicGradingSystem() {
         { grade: "AB", gp: "0", calc: "Absent" }
       ]
     },
-    pg: {
-      title: "M.Tech, MSc, M.A, MCA, MBA Grading Schema",
+    engineering: {
+      title: "School of Engineering Grading Schema",
+      absolute: [
+        { perf: "Outstanding", grade: "O", gp: "10", range: "90 - 100" },
+        { perf: "Excellent", grade: "A+", gp: "9", range: "80 - 89" },
+        { perf: "Very Good", grade: "A", gp: "8", range: "70 - 79" },
+        { perf: "Good", grade: "B+", gp: "7", range: "60 - 69" },
+        { perf: "Above Average", grade: "B", gp: "6", range: "50 - 59" },
+        { perf: "Average", grade: "C", gp: "5", range: "46 - 49" },
+        { perf: "Pass", grade: "P", gp: "4", range: "40 - 45" },
+        { perf: "Fail", grade: "F", gp: "0", range: "0 - 39" },
+        { perf: "Absent", grade: "AB", gp: "0", range: "Absent" }
+      ],
+      relative: [
+        { grade: "O", gp: "10", calc: "total marks >= 90% and total marks >= mean + 1.50σ" },
+        { grade: "A+", gp: "9", calc: "µ+0.50σ <= total marks < µ+1.50σ" },
+        { grade: "A", gp: "8", calc: "µ <= total marks < µ+0.50σ" },
+        { grade: "B+", gp: "7", calc: "µ-0.50σ <= total marks < µ" },
+        { grade: "B", gp: "6", calc: "µ-1.00σ <= total marks < µ-0.50σ" },
+        { grade: "C", gp: "5", calc: "µ-1.25σ <= total marks < µ-1.00σ" },
+        { grade: "P", gp: "4", calc: "µ-1.50σ <= total marks < µ-1.25σ or >= 40" },
+        { grade: "F", gp: "0", calc: "total marks < µ-1.50σ or total marks <= 39" },
+        { grade: "AB", gp: "0", calc: "Absent" }
+      ]
+    },
+    business: {
+      title: "School of Business & Management Grading Schema",
       absolute: [
         { perf: "Outstanding", grade: "O", gp: "10", range: "90 - 100" },
         { perf: "Excellent", grade: "A+", gp: "9", range: "80 - 89" },
@@ -1738,44 +1767,6 @@ function AcademicGradingSystem() {
         { grade: "B", gp: "6", calc: "µ-1.00σ <= total marks < µ-0.50σ" },
         { grade: "F", gp: "0", calc: "total marks < µ-1.50σ or total marks <= 49" },
         { grade: "AB", gp: "0", calc: "Absent" }
-      ]
-    },
-    barch: {
-      title: "B.Arch. Grading Schema",
-      absolute: [
-        { perf: "Outstanding", grade: "O", gp: "10", range: "90 - 100" },
-        { perf: "Excellent", grade: "A+", gp: "9", range: "80 - 89" },
-        { perf: "Very Good", grade: "A", gp: "8", range: "70 - 79" },
-        { perf: "Good", grade: "B+", gp: "7", range: "60 - 69" },
-        { perf: "Above Average", grade: "B", gp: "6", range: "56 - 59" },
-        { perf: "Pass", grade: "P", gp: "5", range: "50 - 55" },
-        { perf: "Fail", grade: "F", gp: "0", range: "0 - 49" },
-        { perf: "Absent", grade: "AB", gp: "0", range: "Absent" }
-      ]
-    },
-    bpharm: {
-      title: "B.Pharmacy Grading Schema",
-      absolute: [
-        { perf: "Outstanding", grade: "O", gp: "10", range: "90 - 100" },
-        { perf: "Excellent", grade: "A", gp: "9", range: "80 - 89" },
-        { perf: "Good", grade: "B", gp: "8", range: "70 - 79" },
-        { perf: "Fair", grade: "C", gp: "7", range: "60 - 69" },
-        { perf: "Average", grade: "D", gp: "6", range: "50 - 59" },
-        { perf: "Fail", grade: "F", gp: "0", range: "0 - 49" },
-        { perf: "Absent", grade: "AB", gp: "0", range: "Absent" }
-      ]
-    },
-    bballb: {
-      title: "BBA-LL.B. Grading Schema",
-      relative: [
-        { perf: "Excellent", grade: "X", gp: "10", calc: "Top Tier performance" },
-        { perf: "Very Good", grade: "A", gp: "9", calc: "Highly Commendable" },
-        { perf: "Good", grade: "B", gp: "8", calc: "Competent Standard" },
-        { perf: "Fair", grade: "C", gp: "7", calc: "Average standard" },
-        { perf: "Satisfactory", grade: "D", gp: "6", calc: "Satisfactory standard" },
-        { perf: "Pass", grade: "E", gp: "5", calc: "Passing threshold" },
-        { perf: "Fail", grade: "F", gp: "0", calc: "Failing standard" },
-        { perf: "Absent", grade: "AB", gp: "0", calc: "Absent" }
       ]
     }
   };
@@ -1801,11 +1792,9 @@ function AcademicGradingSystem() {
                   : "bg-white text-gray-600 border border-gray-200 hover:border-gray-300"
               }`}
             >
-              {key === "btech" && "B.Tech"}
-              {key === "pg" && "PG (M.Tech/MBA/MCA)"}
-              {key === "barch" && "B.Arch"}
-              {key === "bpharm" && "B.Pharmacy"}
-              {key === "bballb" && "BBA-LL.B."}
+              {key === "computing" && "School of Computing Sciences"}
+              {key === "engineering" && "School of Engineering"}
+              {key === "business" && "School of Business & Management"}
             </button>
           ))}
         </div>
@@ -1856,18 +1845,14 @@ function AcademicGradingSystem() {
               <table className="w-full text-left text-xs border-collapse">
                 <thead>
                   <tr className="bg-[#072A6C] text-white font-extrabold border-b-2 border-[#D71920]">
-                    {activeTab === "bballb" && <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Performance</th>}
                     <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Letter Grade</th>
                     <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Grade Point</th>
-                    <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">{activeTab === "bballb" ? "Descriptor" : "Grade Calculation Formula"}</th>
+                    <th className="p-3.5 text-[10px] font-extrabold uppercase tracking-widest text-white/95">Grade Calculation Formula</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
                   {currentProgram.relative.map((row: any, idx: number) => (
                     <tr key={idx} className="hover:bg-red-50/20 odd:bg-gray-50/40 transition-colors">
-                      {activeTab === "bballb" && (
-                        <td className="p-3.5 font-medium text-gray-800">{row.perf}</td>
-                      )}
                       <td className="p-3.5 font-extrabold text-[#D71920] text-sm">{row.grade}</td>
                       <td className="p-3.5 font-bold text-[#072A6C] text-xs">{row.gp}</td>
                       <td className="p-3.5 text-gray-600 font-mono text-[11px]">{row.calc}</td>
@@ -1891,13 +1876,12 @@ function AcademicGradingSystem() {
 }
 
 function AwardOfDegrees() {
-  const [activeCategory, setActiveCategory] = React.useState("btech");
-  const [testCgpa, setTestCgpa] = React.useState<number>(7.5);
+  const [activeCategory, setActiveCategory] = React.useState("computing");
 
   const categories = {
-    btech: {
-      title: "B.Tech., B.Sc., B.Com., BBA, BCA",
-      desc: "Degree classification requirements for undergraduate streams:",
+    computing: {
+      title: "School of Computing Sciences (B.Tech, M.Tech, MCA)",
+      desc: "Degree classification requirements for Computing Sciences programs:",
       grades: [
         { min: 5.25, max: 5.75, class: "Pass Class", color: "bg-gray-50 border-gray-200 text-gray-700", glow: "hover:bg-gray-100/50 hover:border-gray-300" },
         { min: 5.75, max: 6.75, class: "Second Class", color: "bg-blue-50/40 border-blue-100 text-blue-800", glow: "hover:bg-blue-50 hover:border-blue-300" },
@@ -1905,19 +1889,19 @@ function AwardOfDegrees() {
         { min: 7.75, max: 10.0, class: "First Class with Distinction", color: "bg-rose-50/40 border-rose-100 text-[#D71920]", glow: "hover:bg-rose-50 hover:border-[#D71920]", note: "Fulfill all program requirements in specified minimum years duration and pass all courses in first attempt." }
       ]
     },
-    barch: {
-      title: "B.Arch. (Bachelor of Architecture)",
-      desc: "Degree classification requirements for architectural courses:",
+    engineering: {
+      title: "School of Engineering (B.Tech, M.Tech)",
+      desc: "Degree classification requirements for Engineering programs:",
       grades: [
-        { min: 5.75, max: 6.25, class: "Pass Class", color: "bg-gray-50 border-gray-200 text-gray-700", glow: "hover:bg-gray-100/50 hover:border-gray-300" },
-        { min: 6.25, max: 6.75, class: "Second Class", color: "bg-blue-50/40 border-blue-100 text-blue-800", glow: "hover:bg-blue-50 hover:border-blue-300" },
+        { min: 5.25, max: 5.75, class: "Pass Class", color: "bg-gray-50 border-gray-200 text-gray-700", glow: "hover:bg-gray-100/50 hover:border-gray-300" },
+        { min: 5.75, max: 6.75, class: "Second Class", color: "bg-blue-50/40 border-blue-100 text-blue-800", glow: "hover:bg-blue-50 hover:border-blue-300" },
         { min: 6.75, max: 7.75, class: "First Class", color: "bg-indigo-50/40 border-indigo-100 text-indigo-800", glow: "hover:bg-indigo-50 hover:border-indigo-300" },
         { min: 7.75, max: 10.0, class: "First Class with Distinction", color: "bg-rose-50/40 border-rose-100 text-[#D71920]", glow: "hover:bg-rose-50 hover:border-[#D71920]", note: "Fulfill all program requirements in specified minimum years duration and pass all courses in first attempt." }
       ]
     },
-    pg: {
-      title: "M.Tech., M.Sc., M.A., MCA, MBA",
-      desc: "Degree classification requirements for all postgraduate programs:",
+    business: {
+      title: "School of Business & Management (BBA, MBA, B.Com)",
+      desc: "Degree classification requirements for Business & Management programs:",
       grades: [
         { min: 5.5, max: 5.75, class: "Pass Class", color: "bg-gray-50 border-gray-200 text-gray-700", glow: "hover:bg-gray-100/50 hover:border-gray-300" },
         { min: 5.75, max: 6.75, class: "Second Class", color: "bg-blue-50/40 border-blue-100 text-blue-800", glow: "hover:bg-blue-50 hover:border-blue-300" },
@@ -1952,9 +1936,9 @@ function AwardOfDegrees() {
                 : "bg-white text-gray-600 border border-gray-200 hover:border-gray-300"
             }`}
           >
-            {key === "btech" && "UG (B.Tech, B.Sc, B.Com, BBA, BCA)"}
-            {key === "barch" && "B.Arch"}
-            {key === "pg" && "PG (M.Tech, MBA, MCA, M.Sc)"}
+            {key === "computing" && "School of Computing Sciences"}
+            {key === "engineering" && "School of Engineering"}
+            {key === "business" && "School of Business & Management"}
           </button>
         ))}
       </div>
