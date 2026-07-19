@@ -552,8 +552,8 @@ export default function Home() {
           }
         `}} />
         <div className="marquee-inner">
-          <span className="px-4 whitespace-nowrap">🚨 Admissions Open for Academic Year 2026–27 • Applications Closing Soon • Apply Now • Scholarships Available for Meritorious Students • Limited Seats • Register Today • NAAC Accredited Institution • Highest Placement Opportunities • Admissions Open for 2026–27 •</span>
-          <span className="px-4 whitespace-nowrap" aria-hidden="true">🚨 Admissions Open for Academic Year 2026–27 • Applications Closing Soon • Apply Now • Scholarships Available for Meritorious Students • Limited Seats • Register Today • NAAC Accredited Institution • Highest Placement Opportunities • Admissions Open for 2026–27 •</span>
+          <span className="px-4 whitespace-nowrap">🚨 Admissions Open for Academic Year 2026–27 • Applications Closing Soon • Apply Now • Scholarships Available for Meritorious Students • Limited Seats • Register Today • Highest Placement Opportunities • Admissions Open for 2026–27 •</span>
+          <span className="px-4 whitespace-nowrap" aria-hidden="true">🚨 Admissions Open for Academic Year 2026–27 • Applications Closing Soon • Apply Now • Scholarships Available for Meritorious Students • Limited Seats • Register Today • Highest Placement Opportunities • Admissions Open for 2026–27 •</span>
         </div>
       </section>
 
@@ -1871,13 +1871,13 @@ export default function Home() {
                 </Link>
                 <Link
                   to="/admissions"
-                  className="h-10 px-5 border border-white hover:bg-white/10 text-[11px] font-[700] rounded-[8px] inline-flex items-center gap-1.5 active:scale-95 transition-transform"
+                  className="h-10 px-5 border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-white text-[11px] font-[700] rounded-[8px] inline-flex items-center gap-1.5 active:scale-95 transition-all duration-200"
                 >
                   Download Brochure
                 </Link>
                 <Link
                   to="/contact"
-                  className="h-10 px-5 border border-white hover:bg-white/10 text-[11px] font-[700] rounded-[8px] inline-flex items-center gap-1.5 active:scale-95 transition-transform"
+                  className="h-10 px-5 border border-[#D4AF37] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-white text-[11px] font-[700] rounded-[8px] inline-flex items-center gap-1.5 active:scale-95 transition-all duration-200"
                 >
                   Talk to Counselor
                 </Link>
