@@ -475,7 +475,7 @@ function AppContent() {
                     <div className="space-y-1 flex-1 min-w-0">
                       <div className="flex justify-between items-center">
                         <span className="text-[9px] text-[#D71920] font-extrabold uppercase tracking-wider">Announcement</span>
-                        <span className="text-[9px] text-gray-400 font-medium">{item.date}</span>
+                        <span className="text-[9px] text-[#D4AF37] font-bold">{item.date}</span>
                       </div>
                       <h4 className="text-xs font-bold text-[#072A6C] line-clamp-1 leading-snug">
                         {item.title}

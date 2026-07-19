@@ -4217,53 +4217,84 @@ function AdmissionsApplyFlow() {
   const handleBack = () => setStep((s) => s - 1);
 
   const handleDownloadReceipt = () => {
-    const receiptText = `
-=========================================
-      CHALAPATHI UNIVERSITY (AUTONOMOUS)
-=========================================
-          ADMISSION APPLICATION RECEIPT
-=========================================
+    const printWindow = window.open("", "_blank");
+    if (printWindow) {
+      printWindow.document.write(`
+        <html>
+          <head>
+            <title>Chalapathi_University_Admission_Receipt_${formData.name.replace(/\s+/g, "_")}</title>
+            <style>
+              body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 40px; color: #333; line-height: 1.5; }
+              .header { text-align: center; border-bottom: 2px solid #072A6C; padding-bottom: 20px; margin-bottom: 30px; }
+              .logo { font-size: 26px; font-weight: 800; color: #072A6C; text-transform: uppercase; letter-spacing: 0.5px; }
+              .subtitle { font-size: 13px; color: #D4AF37; font-weight: 600; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px; }
+              .title { font-size: 18px; font-weight: 700; margin-top: 15px; text-transform: uppercase; color: #222; }
+              .section { margin-bottom: 25px; }
+              .section-title { font-size: 13px; font-weight: 700; color: #072A6C; border-bottom: 1.5px solid #072A6C; padding-bottom: 4px; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px; }
+              .grid { display: grid; grid-template-cols: 1fr 1fr; gap: 15px; }
+              .item { font-size: 13px; }
+              .label { font-weight: 600; color: #555; display: inline-block; width: 120px; }
+              .value { color: #111; }
+              .footer { text-align: center; margin-top: 50px; font-size: 11px; color: #777; border-top: 1px solid #eee; padding-top: 20px; }
+              .receipt-badge { background-color: #10B981; color: white; display: inline-block; padding: 5px 14px; font-size: 11px; font-weight: 700; border-radius: 4px; text-transform: uppercase; margin-top: 12px; }
+            </style>
+          </head>
+          <body>
+            <div class="header">
+              <div class="logo">Chalapathi University</div>
+              <div class="subtitle">Accredited & Visionary Institution</div>
+              <div class="title">Admission Application Receipt</div>
+              <div class="receipt-badge">Payment Successful</div>
+            </div>
+            
+            <div class="section">
+              <div class="section-title">Receipt Information</div>
+              <div class="grid">
+                <div class="item"><span class="label">Application No:</span> <span class="value" style="font-weight: 700; color: #072A6C;">CC-2026-89421</span></div>
+                <div class="item"><span class="label">Date/Time:</span> <span class="value">${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}</span></div>
+                <div class="item"><span class="label">Transaction ID:</span> <span class="value">TXN_${Math.floor(Math.random() * 900000000 + 100000000)}</span></div>
+                <div class="item"><span class="label">Status:</span> <span class="value" style="font-weight: 700; color: #10B981;">PAID</span></div>
+              </div>
+            </div>
 
-Date: ${new Date().toLocaleDateString()}
-Time: ${new Date().toLocaleTimeString()}
+            <div class="section">
+              <div class="section-title">Applicant Details</div>
+              <div class="grid">
+                <div class="item"><span class="label">Name:</span> <span class="value">${formData.name}</span></div>
+                <div class="item"><span class="label">Email:</span> <span class="value">${formData.email}</span></div>
+                <div class="item"><span class="label">Mobile:</span> <span class="value">${formData.mobile}</span></div>
+                <div class="item"><span class="label">Gender:</span> <span class="value">${formData.gender}</span></div>
+                <div class="item"><span class="label">DOB:</span> <span class="value">${formData.dob}</span></div>
+                <div class="item"><span class="label">State:</span> <span class="value">${formData.state}</span></div>
+              </div>
+            </div>
 
-STUDENT DETAILS:
-----------------
-Name:          ${formData.name}
-Email:         ${formData.email}
-Mobile:        ${formData.mobile}
-Gender:        ${formData.gender}
-DOB:           ${formData.dob}
-State:         ${formData.state}
+            <div class="section">
+              <div class="section-title">Academic & Payment Summary</div>
+              <div class="grid">
+                <div class="item"><span class="label">School:</span> <span class="value">${formData.school}</span></div>
+                <div class="item"><span class="label">Program:</span> <span class="value">${formData.program}</span></div>
+                <div class="item"><span class="label">Registration Fee:</span> <span class="value" style="font-weight: 700;">₹1,000</span></div>
+                <div class="item"><span class="label">Mode of Payment:</span> <span class="value">Online (Gateway)</span></div>
+              </div>
+            </div>
 
-ACADEMIC CHOICE:
-----------------
-School:        ${formData.school}
-Program:       ${formData.program}
-
-PAYMENT DETAILS:
-----------------
-Application No: CC-2026-89421
-Transaction ID: TXN_${Math.floor(Math.random() * 900000000 + 100000000)}
-Amount Paid:    ₹1,000
-Fee Type:       Admission Registration Fee
-Payment Status: SUCCESSFUL
-
-Note: This is a system-generated receipt. Please preserve it for counseling and future admissions reference.
-=========================================
-    Thank you for choosing Chalapathi!
-=========================================
-`;
-
-    const blob = new Blob([receiptText], { type: "text/plain;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `CIT_Admission_Receipt_${formData.name.replace(/\\s+/g, "_")}.txt`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+            <div class="footer">
+              <p>This is an official system-generated transaction confirmation from Chalapathi University.</p>
+              <p style="font-weight: 600; color: #072A6C; margin-top: 5px;">Thank you for your application!</p>
+            </div>
+            
+            <script>
+              window.onload = function() {
+                window.print();
+                setTimeout(function() { window.close(); }, 500);
+              };
+            </script>
+          </body>
+        </html>
+      `);
+      printWindow.document.close();
+    }
   };
 
   const startOtpFlow = () => {
