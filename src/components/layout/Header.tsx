@@ -4,74 +4,38 @@ import { Search, Menu, X, ChevronDown, ArrowRight, Megaphone } from "lucide-reac
 import { useData } from "../../context/DataContext";
 
 export const UNDERGRADUATE_GROUPS = {
-  "Computer Science & Eng": [
-    { title: "B.Tech. Computer Science & Eng", slug: "btech-cse" },
-    { title: "B.Tech. CSE (AI & Machine Learning)", slug: "btech-cse-ai-ml" },
-    { title: "B.Tech. CSE (Data Science)", slug: "btech-cse-data-science" },
-    { title: "B.Tech. CSE (Cyber Security)", slug: "btech-cse-cyber-security" },
-    { title: "B.Tech. CSE (Internet of Things)", slug: "btech-cse-iot" },
-    { title: "B.Tech. CSE (Cloud Computing)", slug: "btech-cse-cloud-computing" },
-    { title: "B.Tech. CSE (Blockchain)", slug: "btech-cse-blockchain" },
-    { title: "B.Tech. CSE (Software Engineering)", slug: "btech-cse-software-engineering" }
+  "School of Computing Sciences": [
+    { title: "B.Tech in CSE", slug: "btech-cse" },
+    { title: "B.Tech in CSE (AI & ML)", slug: "btech-cse-aiml" },
+    { title: "B.Tech in CSE (Data Science)", slug: "btech-cse-ds" },
+    { title: "B.Tech in IT", slug: "btech-it" },
+    { title: "BCA", slug: "bca" }
   ],
-  "Electronics & Communication": [
-    { title: "B.Tech. Electronics & Comm Eng", slug: "btech-ece" },
-    { title: "B.Tech. ECE (VLSI Design)", slug: "btech-ece-vlsi" },
-    { title: "B.Tech. ECE (Embedded Systems)", slug: "btech-ece-embedded-systems" },
-    { title: "B.Tech. ECE (Robotics & Automation)", slug: "btech-ece-robotics-automation" },
-    { title: "B.Tech. ECE (IoT Specialization)", slug: "btech-ece-iot" }
+  "School of Engineering": [
+    { title: "B.Tech in ECE", slug: "btech-ece" },
+    { title: "B.Tech in EEE", slug: "btech-eee" },
+    { title: "B.Tech in Mechanical Engineering", slug: "btech-mech" },
+    { title: "B.Tech in Civil Engineering", slug: "btech-civil" }
   ],
-  "Electrical & Mechanical": [
-    { title: "B.Tech. Electrical & Electronics Eng", slug: "btech-eee" },
-    { title: "B.Tech. EEE (Electric Vehicles)", slug: "btech-eee-electric-vehicles" },
-    { title: "B.Tech. EEE (Renewable Energy)", slug: "btech-eee-renewable-energy" },
-    { title: "B.Tech. EEE (Smart Grid)", slug: "btech-eee-smart-grid" },
-    { title: "B.Tech. Mechanical Engineering", slug: "btech-mechanical" },
-    { title: "B.Tech. Mechanical (Mechatronics)", slug: "btech-mechanical-mechatronics" },
-    { title: "B.Tech. Mechanical (Robotics)", slug: "btech-mechanical-robotics" },
-    { title: "B.Tech. Mechanical (Automobile)", slug: "btech-mechanical-automobile" },
-    { title: "B.Tech. Mechanical (Manufacturing)", slug: "btech-mechanical-manufacturing" }
-  ],
-  "Civil & Emerging Tech": [
-    { title: "B.Tech. Civil Engineering", slug: "btech-civil" },
-    { title: "B.Tech. Civil (Smart Infrastructure)", slug: "btech-civil-smart-infrastructure" },
-    { title: "B.Tech. Civil (Construction Tech)", slug: "btech-civil-construction-technology" },
-    { title: "B.Tech. Emerging (AI)", slug: "btech-emerging-ai" },
-    { title: "B.Tech. Emerging (Data Science)", slug: "btech-emerging-ds" },
-    { title: "B.Tech. Emerging (Robotics)", slug: "btech-emerging-robotics" },
-    { title: "B.Tech. Biomedical Engineering", slug: "btech-biomedical" },
-    { title: "B.Tech. Biotechnology", slug: "btech-biotechnology" },
-    { title: "B.Tech. Agricultural Engineering", slug: "btech-agricultural" }
+  "School of Business & Management": [
+    { title: "BBA", slug: "bba" },
+    { title: "B.Com", slug: "bcom" }
   ]
 };
 
 export const MEGA_MENU_PROGRAMS: Record<string, { label: string; to: string }[]> = {
   "Undergraduate (UG)": [], // Handled dynamically by UNDERGRADUATE_GROUPS
   "Postgraduate (PG)": [
-    { label: "M.Tech. Computer Science", to: "/academics/mtech-cse" },
-    { label: "M.Tech. Power Systems", to: "/academics/mtech-power-systems" },
-    { label: "M.Tech. VLSI & Embedded Systems", to: "/academics/mtech-vlsi-embedded" },
-    { label: "MBA (Master of Business Administration)", to: "/academics/mba" },
-    { label: "MCA (Master of Computer Applications)", to: "/academics/mca" },
-    { label: "M.Pharm. (Master of Pharmacy)", to: "/academics/mpharm" }
-  ],
-  "Integrated Programs": [
-    { label: "Integrated B.Tech + M.Tech", to: "/academics/integrated-btech-mtech" },
-    { label: "Integrated BBA + MBA", to: "/academics/integrated-bba-mba" }
-  ],
-  "Diploma Programs": [
-    { label: "Diploma in Engineering (Polytechnic)", to: "/academics/diploma-engineering" },
-    { label: "Diploma in Pharmacy (D.Pharm)", to: "/academics/diploma-pharmacy" }
+    { label: "M.Tech in CSE", to: "/academics/mtech-cse" },
+    { label: "M.Tech in VLSI Design", to: "/academics/mtech-vlsi" },
+    { label: "M.Tech in Structural Engineering", to: "/academics/mtech-structural" },
+    { label: "MBA", to: "/academics/mba" },
+    { label: "MCA", to: "/academics/mca" }
   ],
   "Doctoral (Ph.D.)": [
     { label: "Ph.D. in Computer Science", to: "/academics/phd-cse" },
-    { label: "Ph.D. in Electronics", to: "/academics/phd-ece" },
-    { label: "Ph.D. in Management", to: "/academics/phd-management" },
-    { label: "Ph.D. in Pharmacy", to: "/academics/phd-pharmacy" }
-  ],
-  "Honors & Minors": [
-    { label: "Honors Degrees (Special Track)", to: "/academics/flexibilities" },
-    { label: "Minor Specialization Streams", to: "/academics/flexibilities" }
+    { label: "Ph.D. in Engineering", to: "/academics/phd-eng" },
+    { label: "Ph.D. in Management", to: "/academics/phd-mgmt" }
   ]
 };
 
