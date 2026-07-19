@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Search, Menu, X, ChevronDown, ArrowRight, Megaphone } from "lucide-react";
+import { Menu, X, ChevronDown, ArrowRight, Megaphone } from "lucide-react";
 import { useData } from "../../context/DataContext";
 
 export const ACADEMIC_PROGRAMS_STRUCTURE: Record<string, Record<string, { label: string; to: string }[]>> = {
@@ -243,7 +243,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
       <header
         className={`sticky top-0 z-40 w-full bg-white transition-all duration-300 ${
           scrolled ? "shadow-md" : ""
-        } h-[80px]`}
+        } h-[100px]`}
         style={{ borderBottom: "1px solid #E8E8E8" }}
       >
         <div className="max-w-[1440px] mx-auto h-full px-5 flex items-center justify-between gap-6 relative">
@@ -252,7 +252,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
             <img
               src="/logo.png?v=3"
               alt="Chalapathi University"
-              className="h-16 w-auto object-contain no-lift"
+              className="h-20 w-auto object-contain no-lift"
             />
           </Link>
 
@@ -559,12 +559,6 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                 <span className="absolute top-1.5 right-1.5 bg-[#D71920] w-2.5 h-2.5 rounded-full border-2 border-white" />
               )}
             </button>
-            <button
-              onClick={() => setSearchOpen(!searchOpen)}
-              className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-[#222222] hover:text-[#D71920] hover:border-[#D71920] transition-colors cursor-pointer"
-            >
-              <Search size={16} />
-            </button>
           </div>
 
           {/* Mobile menu trigger */}
@@ -579,7 +573,6 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                 <span className="absolute top-1 right-1 bg-[#D71920] w-2 h-2 rounded-full border border-white" />
               )}
             </button>
-            <button onClick={() => setSearchOpen(!searchOpen)} className="p-2 text-[#222222]"><Search size={18} /></button>
             <button onClick={() => setMobileOpen(!mobileOpen)} className="p-2 text-[#222222]">
               {mobileOpen ? <X size={22} /> : <Menu size={22} />}
             </button>
