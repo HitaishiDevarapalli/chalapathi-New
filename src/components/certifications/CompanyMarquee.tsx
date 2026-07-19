@@ -1,0 +1,39 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+
+interface MarqueeProps {
+  companies: string[];
+  color: string;
+}
+
+export default function CompanyMarquee({ companies, color }: MarqueeProps) {
+  const marqueeItems = [...companies, ...companies, ...companies];
+
+  return (
+    <div className="w-full py-16 overflow-hidden bg-gray-50 border-y border-gray-100 relative">
+      <div className="absolute top-0 bottom-0 left-0 w-32 bg-gradient-to-r from-gray-50 to-transparent z-10"></div>
+      <div className="absolute top-0 bottom-0 right-0 w-32 bg-gradient-to-l from-gray-50 to-transparent z-10"></div>
+      
+      <div className="text-center mb-10 relative z-20">
+        <h2 className="text-sm font-black uppercase tracking-[0.2em] text-gray-400">Companies Hiring</h2>
+      </div>
+
+      <div className="flex w-fit">
+        <motion.div
+          animate={{ x: "-33.33%" }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="flex items-center gap-12 px-6"
+        >
+          {marqueeItems.map((company, index) => (
+            <div 
+              key={index} 
+              className="text-2xl md:text-4xl font-black text-gray-300 hover:text-gray-900 transition-colors duration-300 select-none whitespace-nowrap cursor-default"
+            >
+              {company}
+            </div>
+          ))}
+        </motion.div>
+      </div>
+    </div>
+  );
+}

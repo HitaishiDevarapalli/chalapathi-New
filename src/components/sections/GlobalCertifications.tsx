@@ -4,6 +4,7 @@ import { motion, useScroll, AnimatePresence } from "framer-motion";
 import { Award, ChevronRight, ArrowLeft, CheckCircle2, ShieldCheck, Briefcase, Zap, Globe, ArrowRight, X } from "lucide-react";
 
 import { certifications, Certification } from "../../data/certifications";
+import FullscreenModal from "../certifications/FullscreenModal";
 
 export default function GlobalCertifications() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -152,161 +153,11 @@ export default function GlobalCertifications() {
       {createPortal(
         <AnimatePresence>
           {selectedCert && (
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-md p-4 md:p-6"
-            onClick={() => setSelectedCert(null)}
-          >
-            <motion.div 
-              initial={{ scale: 0.95, y: 20 }}
-              animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.95, y: 20 }}
-              transition={{ duration: 0.3, type: "spring", bounce: 0.2 }}
-              className="bg-[#F7F8FC] w-full max-w-[1200px] h-[90vh] md:h-auto md:max-h-[92vh] rounded-[24px] shadow-2xl relative overflow-hidden flex flex-col font-[var(--font-poppins)]"
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Close Button */}
-              <button 
-                onClick={() => setSelectedCert(null)}
-                className="absolute top-4 right-4 z-50 w-10 h-10 bg-white/80 hover:bg-white backdrop-blur rounded-full flex items-center justify-center text-gray-700 shadow-md transition-all hover:scale-105 hover:text-red-500 cursor-pointer border border-gray-100"
-              >
-                <X size={20} />
-              </button>
-
-              <div className="overflow-y-auto scrollbar-none w-full h-full pb-10">
-                {/* 
-                  ========================================
-                  PREMIUM HERO SECTION (Inside Modal)
-                  ========================================
-                */}
-                <div className="relative overflow-hidden bg-white border-b border-gray-100 min-h-[400px]">
-                  
-                  {/* Subtle animated background gradients */}
-                  <div className="absolute inset-0 z-0 opacity-30 pointer-events-none overflow-hidden">
-                    <motion.div 
-                      animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
-                      transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-                      className="absolute top-[-20%] right-[-10%] w-[600px] h-[600px] rounded-full blur-[100px]"
-                      style={{ backgroundColor: selectedCert.color }}
-                    />
-                    <motion.div 
-                      animate={{ scale: [1, 1.2, 1], opacity: [0.2, 0.4, 0.2] }}
-                      transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-                      className="absolute bottom-[-20%] left-[-10%] w-[500px] h-[500px] rounded-full blur-[100px] bg-blue-100"
-                    />
-                  </div>
-
-                  <div className="px-8 lg:px-16 py-12 md:py-16 relative z-10 flex flex-col md:flex-row items-center gap-12">
-                    
-                    {/* Left Text Content */}
-                    <div className="w-full md:w-1/2 space-y-6">
-                      <div className="space-y-4">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-50 border border-gray-100 shadow-sm">
-                          <ShieldCheck size={14} className="text-[#072A6C]" />
-                          <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#072A6C]">Global Certification Partner</span>
-                        </div>
-                        
-                        <h1 className="text-3xl md:text-5xl font-black text-[#072A6C] leading-[1.1] tracking-tight">
-                          {selectedCert.name}
-                        </h1>
-                        
-                        <p className="text-sm md:text-base text-gray-600 font-light leading-relaxed max-w-xl">
-                          {selectedCert.description} Earn globally recognized credentials and master industry-standard tools directly through our integrated curriculum.
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Right Floating Visuals */}
-                    <div className="w-full md:w-1/2 relative h-[300px] flex items-center justify-center">
-                      <motion.div 
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 0.8, type: "spring" }}
-                        className="absolute z-20 w-[240px] h-[280px] bg-white/70 backdrop-blur-xl border border-white rounded-[24px] shadow-[0_20px_60px_rgba(0,0,0,0.05)] p-6 flex flex-col items-center justify-center gap-6 group"
-                      >
-                        <div 
-                          className="absolute inset-0 rounded-[24px] opacity-0 group-hover:opacity-10 transition-opacity duration-500"
-                          style={{ background: `linear-gradient(135deg, ${selectedCert.color}, transparent)` }}
-                        />
-                        
-                        <div className="flex flex-wrap items-center justify-center gap-4">
-                          {selectedCert.images.map((img, i) => (
-                            <img 
-                              key={i} 
-                              src={img} 
-                              alt={`${selectedCert.name} Logo ${i+1}`} 
-                              className="h-16 w-auto max-w-[120px] object-contain drop-shadow-sm transition-transform duration-500 group-hover:scale-110" 
-                            />
-                          ))}
-                        </div>
-                        
-                        <div className="text-center relative z-10">
-                          <p className="text-[9px] font-black uppercase tracking-widest text-gray-400 mb-1">Official Credential</p>
-                          <h3 className="text-base font-bold text-gray-800">{selectedCert.name} Certified</h3>
-                        </div>
-                      </motion.div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* 
-                  ========================================
-                  CONTENT SECTION (Inside Modal)
-                  ========================================
-                */}
-                <div className="px-8 lg:px-16 py-12 relative z-10">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-                    
-                    {/* Main Info */}
-                    <div className="md:col-span-2 space-y-8">
-                      <div>
-                        <h2 className="text-xl font-black text-[#072A6C] mb-3">Why {selectedCert.name}?</h2>
-                        <p className="text-gray-600 leading-relaxed text-[14px] font-light">
-                          Industry certifications like {selectedCert.name} bridge the gap between academic theory and real-world application. By integrating this credential into your degree program, Chalapathi University ensures you graduate with the exact specialized skills that top global employers are actively hiring for.
-                        </p>
-                      </div>
-
-                      <div className="bg-white border border-gray-100 rounded-[20px] p-6 shadow-sm">
-                        <h3 className="text-base font-bold text-gray-800 mb-5 flex items-center gap-2">
-                          <Briefcase size={18} className="text-[#072A6C]" /> Career Outcomes
-                        </h3>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                          {[
-                            "Higher starting salary potential",
-                            "Global recognition across industries",
-                            "Priority consideration for top roles",
-                            "Faster career progression"
-                          ].map((item, i) => (
-                            <div key={i} className="flex items-start gap-2">
-                              <CheckCircle2 size={14} className="text-emerald-500 shrink-0 mt-1" />
-                              <span className="text-[13px] text-gray-600 font-medium">{item}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Sidebar Stats */}
-                    <div className="space-y-4">
-                      <div className="bg-gradient-to-br from-[#072A6C] to-[#0A3D9C] p-6 rounded-[20px] text-white shadow-xl relative overflow-hidden">
-                        <Globe size={24} className="text-blue-300 mb-4" />
-                        <h3 className="text-2xl font-black mb-1">100%</h3>
-                        <p className="text-blue-100 text-[11px] font-medium mb-6">Industry Aligned Curriculum</p>
-                        <hr className="border-white/10 mb-6" />
-                        <h3 className="text-2xl font-black mb-1">Global</h3>
-                        <p className="text-blue-100 text-[11px] font-medium">Valid Credential</p>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
+            <FullscreenModal 
+              cert={selectedCert} 
+              onClose={() => setSelectedCert(null)} 
+            />
+          )}
         </AnimatePresence>,
         document.body
       )}
