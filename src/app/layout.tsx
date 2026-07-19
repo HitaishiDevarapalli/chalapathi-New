@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Source_Sans_3 } from "next/font/google";
+import { Lato, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 
-const cormorantGaramond = Cormorant_Garamond({
+const lato = Lato({
   variable: "--font-poppins",
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["100", "300", "400", "700", "900"],
   display: "swap",
 });
 
@@ -30,7 +30,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${cormorantGaramond.variable} ${sourceSans3.variable} h-full antialiased`}
+      className={`${lato.variable} ${sourceSans3.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-[var(--font-inter)]">
         {children}
