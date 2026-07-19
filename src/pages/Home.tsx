@@ -603,25 +603,25 @@ export default function Home() {
               title: "Smart Campus Infrastructure",
               desc: "Technology-enabled classrooms, modern laboratories, and collaborative learning spaces designed for excellence.",
               icon: Building2,
-              color: "#D32F2F"
+              color: "#123A7A"
             },
             {
               title: "Career & Placement Excellence",
               desc: "Industry partnerships, internships, and placement training help students launch successful careers.",
               icon: Handshake,
-              color: "#123A7A"
+              color: "#1F4FA8"
             },
             {
               title: "Global Learning Opportunities",
               desc: "International certifications, collaborative learning, and global industry exposure.",
               icon: Globe,
-              color: "#1F4FA8"
+              color: "#123A7A"
             },
             {
               title: "Leadership & Holistic Development",
               desc: "Develop leadership, communication, creativity, and life skills through a vibrant campus ecosystem.",
               icon: Sparkles,
-              color: "#D32F2F"
+              color: "#1F4FA8"
             }
           ].map((item, idx) => {
             const Icon = item.icon;
