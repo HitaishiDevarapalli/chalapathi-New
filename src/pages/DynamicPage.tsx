@@ -315,15 +315,6 @@ const getPageContent = (path: string, programs: any[]) => {
 
   // About Pages
   if (cleanPath.startsWith("/about")) {
-    if (cleanPath.includes("genesis")) {
-      return {
-        title: "Our Genesis & Heritage",
-        category: "About Us",
-        desc: "Established with a vision to nurture innovators, Chalapathi University has a rich heritage of educational brilliance dating back over 25 years.",
-        hideHeader: true,
-        body: <HistoryView />
-      };
-    }
     if (cleanPath.includes("vision")) {
       return {
         title: "Vision & Mission",

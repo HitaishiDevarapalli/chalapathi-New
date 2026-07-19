@@ -6,6 +6,7 @@ import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import Home from "./pages/Home";
 import DynamicPage from "./pages/DynamicPage";
+import Genesis from "./pages/Genesis";
 import Events from "./pages/Events";
 import News from "./pages/News";
 import NewsDetails from "./pages/NewsDetails";
@@ -335,7 +336,7 @@ function AppContent() {
             
             {/* About Routes */}
             <Route path="/about" element={<DynamicPage />} />
-            <Route path="/about/genesis" element={<DynamicPage />} />
+            <Route path="/about/genesis" element={<Genesis />} />
             <Route path="/about/vision" element={<DynamicPage />} />
             <Route path="/about/leadership" element={<DynamicPage />} />
             <Route path="/about/advantage" element={<DynamicPage />} />

@@ -729,14 +729,13 @@ export default function Home() {
                   else if (t.includes('artificial intelligence') || t.includes('ai')) imgSrc = imgArtificialIntelligence;
                   else if (t.includes('data science') || t.includes('data')) imgSrc = imgDataScience;
                   else if (t.includes('cyber security') || t.includes('security')) imgSrc = imgCyberSecurity;
-                  else if (t.includes('ph.d') && (t.includes('electronics') || t.includes('ece'))) imgSrc = imgPhdCSE; 
-                  else if (t.includes('ph.d') && (t.includes('structural') || t.includes('civil'))) imgSrc = imgPhdCSE;
+                  else if (t.includes('ph.d')) imgSrc = imgPhdCSE;
                   else if (t.includes('electronics') || t.includes('communication') || t.includes('ece')) imgSrc = imgElectronicsCommunication;
                   else if (t.includes('vlsi') || t.includes('embedded')) imgSrc = imgVLSIEmbedded;
                   else if (t.includes('structural')) imgSrc = imgStructuralEngineering;
                   else if (t.includes('civil')) imgSrc = imgCivilEngineering;
                   else if (t.includes('management') || t.includes('mba')) imgSrc = imgMBA;
-                  else if (t.includes('m.tech') && t.includes('computer science')) imgSrc = imgMtechCSE;
+                  else if (t.includes('m.tech') && t.includes('computer science')) imgSrc = imgArtificialIntelligence;
                   else if (t.includes('master of computer') || t.includes('mca')) imgSrc = imgMCA;
                   else if (t.includes('cse') || t.includes('computer science') || t.includes('software')) imgSrc = imgComputerScience;
                   
@@ -744,7 +743,7 @@ export default function Home() {
                     <img 
                       src={imgSrc} 
                       alt={title} 
-                      style={{ width: size, height: size, objectFit: 'contain', clipPath: t.includes('mba') || t.includes('management') ? 'inset(18% 0% 0% 0%)' : 'none' }}
+                      style={{ width: size, height: size, objectFit: 'contain', clipPath: t.includes('mba') || t.includes('management') ? 'inset(18% 0% 25% 0%)' : 'inset(0% 0% 25% 0%)' }}
                       className="rounded-lg"
                     />
                   );
