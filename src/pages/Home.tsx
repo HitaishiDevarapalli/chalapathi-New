@@ -147,12 +147,12 @@ export default function Home() {
   // Lock body scroll, handle escape key, and scroll to top when Events Drawer opens
   useEffect(() => {
     if (isEventsDrawerOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.classList.add("overflow-hidden");
       if (drawerScrollRef.current) {
         drawerScrollRef.current.scrollTop = 0;
       }
     } else {
-      document.body.style.overflow = "";
+      document.body.classList.remove("overflow-hidden");
     }
 
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -166,7 +166,7 @@ export default function Home() {
     }
 
     return () => {
-      document.body.style.overflow = "";
+      document.body.classList.remove("overflow-hidden");
       window.removeEventListener("keydown", handleKeyDown);
     };
   }, [isEventsDrawerOpen]);

@@ -337,20 +337,6 @@ input, select, textarea {
 }
 
 /* 3. Header Desktop Navigation Fitting & Spacing adjustments */
-@media (min-width: 1280px) {
-  header nav > a,
-  header nav > div > button {
-    padding-left: 0.45rem !important;
-    padding-right: 0.45rem !important;
-    font-size: 13px !important;
-  }
-  header a[class*="bg-[#D71920]"] {
-    padding-left: 0.9rem !important;
-    padding-right: 0.9rem !important;
-    font-size: 12px !important;
-  }
-}
-
 /* Ensure no element overflows the container horizontally */
 img, video, iframe, table, blockquote, pre {
   max-width: 100%;
