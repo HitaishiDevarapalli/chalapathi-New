@@ -799,6 +799,19 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ═══ PLACEMENT SUCCESS STORIES STRIP ═══ */}
+      <section className="bg-white py-10">
+        <div className="max-w-[1440px] mx-auto px-5">
+          <div className="w-full rounded-[16px] overflow-hidden shadow-md border border-gray-100">
+            <img 
+              src="/placement_success.jpg" 
+              alt="Placement Success Stories" 
+              className="w-full h-auto object-cover"
+            />
+          </div>
+        </div>
+      </section>
+
       {/* ═══ NEWS, RANKINGS & EVENTS ═══ */}
       <section className="bg-gray-50 border-y border-gray-100 py-16">
         <div className="max-w-[1440px] mx-auto px-5 grid grid-cols-1 lg:grid-cols-12 gap-6">
