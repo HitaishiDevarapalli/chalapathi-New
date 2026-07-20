@@ -1,4 +1,4 @@
-﻿import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { PROGRAMS_DATA, ProgramDetail } from "../data/programsData";
 
 export type { ProgramDetail };
@@ -398,7 +398,7 @@ const INITIAL_ABOUT_CONTENT: AboutUsContent = {
     ]
   },
   leadership: {
-    chairmanName: "Sri Y. V. Anjaneyulu",
+    chairmanName: "Dr. Y. V Anjaneyulu",
     designation: "Founder Chairman & President",
     messageQuote: "Inspiring Excellence, Integrity & Innovation",
     messageParagraphs: [
