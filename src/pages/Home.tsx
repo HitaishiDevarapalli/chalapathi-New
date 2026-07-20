@@ -704,7 +704,7 @@ export default function Home() {
           {/* Cards Grid */}
           <motion.div
             key={currentDepartment}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            className="flex flex-wrap justify-center gap-8"
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-50px" }}
@@ -752,7 +752,7 @@ export default function Home() {
                  return (
                   <motion.div
                     key={idx}
-                    className="group relative bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden h-[340px]"
+                    className="group relative bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden h-[340px] w-full md:w-[calc(50%-16px)] lg:w-[calc(33.333%-22px)] shrink-0"
                     variants={scaleIn}
                     whileHover="hover"
                     initial="rest"
@@ -1315,7 +1315,7 @@ export default function Home() {
               {localStorage.getItem("chalapathi_chairman_label") || "FROM THE CHAIRMAN"}
             </span>
             <h2 className="text-2xl md:text-4xl font-[900] text-[#072A6C] mb-3">
-              A Vision. A <span className="text-[#072A6C] underline decoration-2 decoration-[#D4AF37]">Commitment.</span> A <span className="text-[#D4AF37]">Legacy.</span>
+              A Vision. A Commitment. A Legacy.
             </h2>
             <p className="text-xs text-gray-500 max-w-xl mx-auto font-light leading-relaxed">
               {localStorage.getItem("chalapathi_chairman_subtitle") || "Guiding generations through excellence, innovation, integrity, and student success."}
@@ -1349,7 +1349,7 @@ export default function Home() {
                   <span className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-wider block mb-0.5">Chairman</span>
                   <h4 className="text-base font-extrabold mb-0.5">{localStorage.getItem("chalapathi_chairman_name") || "Sri G. Anjaneyulu"}</h4>
                   <p className="text-[10px] text-gray-200 font-light leading-snug">
-                    {localStorage.getItem("chalapathi_chairman_group") || "Chalapathi Group of Institutions"}
+                    {localStorage.getItem("chalapathi_chairman_group") || "Chalapathi Educational Society"}
                   </p>
                 </div>
               </div>
@@ -1385,10 +1385,12 @@ export default function Home() {
                 <div className="mt-8 pt-6 border-t border-gray-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 z-10">
                   <div className="space-y-2">
                     {/* Cursive Signature */}
-                    <div className="h-10 flex items-center select-none">
-                      <svg className="h-9 text-[#072A6C]" viewBox="0 0 160 50" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
-                        <path d="M15 28c12-6 22-14 26-1s-8 12-4 4 12-16 16-4-4 12 0 4 10-14 12-2-4 10 4 2 10-12 12 0-4 10 4 2 10-12 12 4-4 8 4 2c10 2 15-4 18-9" />
-                      </svg>
+                    <div className="h-12 flex items-center select-none">
+                      <img
+                        src="/chairman_signature.png"
+                        alt="Chairman Signature"
+                        className="h-12 w-auto object-contain mix-blend-multiply"
+                      />
                     </div>
                     <div>
                       <h5 className="text-xs font-extrabold text-[#072A6C]">{localStorage.getItem("chalapathi_chairman_name") || "Sri G. Anjaneyulu"}</h5>
