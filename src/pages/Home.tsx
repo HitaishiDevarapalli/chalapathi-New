@@ -321,9 +321,10 @@ export default function Home() {
         title="Best University in andhraPradesh -ChalapathiUniversity" 
         description="Chalapathi University offers world-class higher education with premium undergraduate, postgraduate, and research programs. Admissions Open for 2026–2027." 
       />
-      {/* ═══ HERO SECTION (Responsive height, containment-based background) ═══ */}
+      {/* ═══ HERO SECTION (720px height) ═══ */}
       <section 
-        className="relative w-full overflow-hidden bg-white select-none h-[500px] md:h-[620px] lg:h-[720px]" 
+        className="relative w-full overflow-hidden bg-white select-none" 
+        style={{ height: "720px" }}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -367,16 +368,13 @@ export default function Home() {
           }
         `}} />
 
-        {/* Background image container showing the complete image without cropping */}
-        <div className="absolute inset-y-0 left-0 md:left-[30%] lg:left-[35%] right-0 overflow-hidden bg-white select-none pointer-events-none z-0">
-          <img
-            src="/campus_hero.png"
-            alt="Chalapathi University Campus View"
-            className="w-full h-full object-contain object-right"
-          />
-        </div>
-        {/* Smooth gradient transition from left text container to right image content */}
-        <div className="absolute inset-y-0 left-0 md:left-[30%] lg:left-[35%] w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+        {/* Background image covering right side, fading to white/gray on the left */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url('/campus_hero.png')" }}
+        />
+        {/* White gradient overlay restricted to the left side (approx 40% width) for text readability */}
+        <div className="absolute inset-y-0 left-0 w-full md:w-[50%] lg:w-[40%] bg-gradient-to-r from-white via-white/90 to-transparent pointer-events-none" />
 
         {/* Content (1440px Container) */}
         <div className="relative z-10 max-w-[1440px] mx-auto h-full px-5 flex items-center justify-between">
