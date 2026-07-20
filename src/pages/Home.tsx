@@ -321,10 +321,9 @@ export default function Home() {
         title="Best University in andhraPradesh -ChalapathiUniversity" 
         description="Chalapathi University offers world-class higher education with premium undergraduate, postgraduate, and research programs. Admissions Open for 2026–2027." 
       />
-      {/* ═══ HERO SECTION (720px height) ═══ */}
+      {/* ═══ HERO SECTION (Responsive height, containment-based background) ═══ */}
       <section 
-        className="relative w-full overflow-hidden bg-white select-none" 
-        style={{ height: "720px" }}
+        className="relative w-full overflow-hidden bg-white select-none h-[500px] md:h-[620px] lg:h-[720px]" 
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -368,13 +367,16 @@ export default function Home() {
           }
         `}} />
 
-        {/* Background image covering right side, fading to white/gray on the left */}
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url('/campus_hero.png')" }}
-        />
-        {/* White gradient overlay restricted to the left side (approx 40% width) for text readability */}
-        <div className="absolute inset-y-0 left-0 w-full md:w-[50%] lg:w-[40%] bg-gradient-to-r from-white via-white/90 to-transparent pointer-events-none" />
+        {/* Background image container showing the complete image without cropping */}
+        <div className="absolute inset-y-0 left-0 md:left-[30%] lg:left-[35%] right-0 overflow-hidden bg-white select-none pointer-events-none z-0">
+          <img
+            src="/campus_hero.png"
+            alt="Chalapathi University Campus View"
+            className="w-full h-full object-contain object-right"
+          />
+        </div>
+        {/* Smooth gradient transition from left text container to right image content */}
+        <div className="absolute inset-y-0 left-0 md:left-[30%] lg:left-[35%] w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
 
         {/* Content (1440px Container) */}
         <div className="relative z-10 max-w-[1440px] mx-auto h-full px-5 flex items-center justify-between">
@@ -659,27 +661,43 @@ export default function Home() {
             </h2>
             
             {/* Main Tabs (Schools) */}
-            <div className="flex flex-wrap justify-center gap-4 md:gap-8 border-b border-gray-200 w-full max-w-4xl pb-4 mb-8">
-              {schools.map((school) => (
-                <button
-                  key={school}
-                  onClick={() => setActiveSchoolTab(school)}
-                  className={`text-[14px] md:text-[18px] font-[800] pb-2 relative transition-colors ${
-                    activeSchoolTab === school 
-                      ? "text-[#D4AF37]" 
-                      : "text-gray-500 hover:text-gray-800"
-                  }`}
-                >
-                  {school}
-                  {activeSchoolTab === school && (
-                    <motion.div
-                      layoutId="activeSchoolTab"
-                      className="absolute -bottom-4 left-0 right-0 h-[3px] bg-[#D4AF37]"
-                    />
-                  )}
-                </button>
-              ))}
-            </div>
+            {(() => {
+              const schoolIcons: Record<string, string> = {
+                "School of Computing Sciences": "💻",
+                "School of Engineering": "⚙️",
+                "School of Business & Management": "💼",
+                "School of Pharmacy": "⚕️",
+                "School of Law": "⚖️"
+              };
+              return (
+                <div className="flex flex-wrap justify-center gap-4 md:gap-6 w-full max-w-6xl mb-12">
+                  {schools.map((school) => {
+                    const isActive = activeSchoolTab === school;
+                    const icon = schoolIcons[school] || "🏫";
+                    return (
+                      <button
+                        key={school}
+                        onClick={() => setActiveSchoolTab(school)}
+                        className={`px-5 py-4 rounded-2xl flex items-center justify-center gap-2.5 text-[14px] sm:text-[16px] md:text-[22px] font-[700] tracking-[0.5px] border transition-all duration-300 transform active:scale-98 cursor-pointer relative ${
+                          isActive
+                            ? "bg-[#0B3D91] text-white border-transparent shadow-lg shadow-[#0B3D91]/25 scale-105 border-b-[3px] border-b-[#D4AF37]"
+                            : "bg-white text-[#0B3D91] border-[#0B3D91]/20 hover:bg-[#0B3D91] hover:text-white hover:border-transparent hover:shadow-md"
+                        }`}
+                      >
+                        <span className="text-[1.1em]">{icon}</span>
+                        <span>{school}</span>
+                        {isActive && (
+                          <motion.div
+                            layoutId="activeSchoolTabIndicator"
+                            className="absolute -bottom-1 left-8 right-8 h-[3px] bg-[#D4AF37] rounded-full"
+                          />
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+              );
+            })()}
 
             {/* Sub Tabs (Departments) */}
             {activeSchoolTab && ACADEMIC_PROGRAMS_STRUCTURE[activeSchoolTab] && (
@@ -703,12 +721,11 @@ export default function Home() {
 
           {/* Cards Grid */}
           <motion.div
-            key={currentDepartment}
-            className="flex flex-wrap justify-center gap-8"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-50px" }}
-            variants={staggerContainer}
+            key={`${activeSchoolTab}-${currentDepartment}`}
+            className="flex flex-wrap justify-center gap-8 w-full"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
           >
             {activeSchoolTab && currentDepartment && ACADEMIC_PROGRAMS_STRUCTURE[activeSchoolTab][currentDepartment]
               ?.map((courseLink, idx) => {
@@ -1334,7 +1351,7 @@ export default function Home() {
                 {/* Chairman Portrait */}
                 <img 
                   src={localStorage.getItem("chalapathi_chairman_image") || "/chairman_portrait.png"} 
-                  alt="Chairman Sri G. Anjaneyulu" 
+                  alt="Chairman Dr. Y. V Anjaneyulu" 
                   className="w-full h-auto object-cover aspect-[4/5] transition-transform duration-700 group-hover:scale-103"
                 />
                 
@@ -1347,7 +1364,7 @@ export default function Home() {
                 {/* Floating Glass Information Card */}
                 <div className="absolute bottom-5 left-5 right-5 bg-[#072A6C]/75 backdrop-blur-md border border-white/20 rounded-2xl p-4 text-white text-left transition-transform duration-300 group-hover:scale-102">
                   <span className="text-[10px] font-bold text-[#D4AF37] uppercase tracking-wider block mb-0.5">Chairman</span>
-                  <h4 className="text-base font-extrabold mb-0.5">{localStorage.getItem("chalapathi_chairman_name") || "Sri G. Anjaneyulu"}</h4>
+                  <h4 className="text-base font-extrabold mb-0.5">{localStorage.getItem("chalapathi_chairman_name") || "Dr. Y. V Anjaneyulu"}</h4>
                   <p className="text-[10px] text-gray-200 font-light leading-snug">
                     {localStorage.getItem("chalapathi_chairman_group") || "Chalapathi Educational Society"}
                   </p>
@@ -1386,14 +1403,12 @@ export default function Home() {
                   <div className="space-y-2">
                     {/* Cursive Signature */}
                     <div className="h-12 flex items-center select-none">
-                      <img
-                        src="/chairman_signature.png"
-                        alt="Chairman Signature"
-                        className="h-12 w-auto object-contain mix-blend-multiply"
-                      />
+                      <svg className="h-9 text-[#072A6C]" viewBox="0 0 160 50" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+                        <path d="M15 28c12-6 22-14 26-1s-8 12-4 4 12-16 16-4-4 12 0 4 10-14 12-2-4 10 4 2 10-12 12 0-4 10 4 2 10-12 12 4-4 8 4 2c10 2 15-4 18-9" />
+                      </svg>
                     </div>
                     <div>
-                      <h5 className="text-xs font-extrabold text-[#072A6C]">{localStorage.getItem("chalapathi_chairman_name") || "Sri G. Anjaneyulu"}</h5>
+                      <h5 className="text-xs font-extrabold text-[#072A6C]">{localStorage.getItem("chalapathi_chairman_name") || "Dr. Y. V Anjaneyulu"}</h5>
                       <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">{localStorage.getItem("chalapathi_chairman_designation") || "Chairman"}</span>
                     </div>
                   </div>

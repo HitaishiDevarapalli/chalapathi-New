@@ -100,7 +100,7 @@ export default function AdminPortal() {
   // Homepage Chairman states
   const [hChairmanHeading, setHChairmanHeading] = useState(() => localStorage.getItem("chalapathi_chairman_heading") || "A Vision. A Commitment. A Legacy.");
   const [hChairmanSubtitle, setHChairmanSubtitle] = useState(() => localStorage.getItem("chalapathi_chairman_subtitle") || "Guiding generations through excellence, innovation, integrity, and student success.");
-  const [hChairmanName, setHChairmanName] = useState(() => localStorage.getItem("chalapathi_chairman_name") || "Sri G. Anjaneyulu");
+  const [hChairmanName, setHChairmanName] = useState(() => localStorage.getItem("chalapathi_chairman_name") || "Dr. Y. V Anjaneyulu");
   const [hChairmanDesignation, setHChairmanDesignation] = useState(() => localStorage.getItem("chalapathi_chairman_designation") || "Chairman");
   const [hChairmanGroup, setHChairmanGroup] = useState(() => localStorage.getItem("chalapathi_chairman_group") || "Chalapathi Group of Institutions");
   const [hChairmanMessage, setHChairmanMessage] = useState(() => localStorage.getItem("chalapathi_chairman_message") || `At Chalapathi, we believe education is the most powerful transformer of lives and the key to building a better society. Our mission is to empower young minds with knowledge, values, and innovation to help them lead with purpose and create a lasting impact on the world.\n\nWe are committed to providing a nurturing environment, world-class infrastructure, and industry-oriented education to shape future leaders and responsible citizens.`);
