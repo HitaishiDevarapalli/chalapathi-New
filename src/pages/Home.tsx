@@ -435,7 +435,7 @@ export default function Home() {
             {/* Buttons remain static/visible throughout */}
             <div className="flex flex-wrap items-center gap-4 pt-2">
               <Link
-                to="/admissions"
+                to="/campus-life"
                 className="h-11 px-7 bg-[#072A6C] hover:bg-[#051c4a] text-white text-[13px] font-[700] rounded-[12px] inline-flex items-center gap-2 transition-all shadow-sm active:scale-95"
               >
                 Explore Campus <ArrowRight size={15} />
