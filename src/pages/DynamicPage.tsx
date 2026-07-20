@@ -3543,7 +3543,6 @@ function StaffDirectory() {
 
 function FacultyDirectory() {
   const { facultyData } = useData();
-  const [selectedFaculty, setSelectedFaculty] = React.useState<FacultyMember | null>(null);
   
   const location = useLocation();
   const path = location.pathname.toLowerCase();
@@ -3590,8 +3589,7 @@ function FacultyDirectory() {
           {allFacultyMembers.map((faculty, fIdx) => (
             <div 
               key={fIdx}
-              onClick={() => setSelectedFaculty(faculty)}
-              className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 hover:shadow-lg transition-all duration-300 flex items-center gap-5 cursor-pointer group hover:border-red-800/30 min-h-[140px]"
+              className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 flex items-center gap-5 group min-h-[140px]"
             >
               {/* Photo */}
               <div className="w-[100px] h-[110px] shrink-0 rounded-lg overflow-hidden bg-[#072A6C]/5 border border-gray-100 shadow-inner flex items-center justify-center">
@@ -3622,88 +3620,7 @@ function FacultyDirectory() {
       {/* ======================================================== */}
       {/* 🌟 FACULTY DETAILS MODAL POPUP (CENTERED LAYOUT)          */}
       {/* ======================================================== */}
-      {selectedFaculty && createPortal(
-        <div 
-          className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4 animate-fade-in"
-          onClick={() => setSelectedFaculty(null)}
-        >
-          <div 
-            className="bg-white w-full max-w-[500px] rounded-[24px] overflow-hidden shadow-2xl relative flex flex-col text-left border border-gray-100"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Close Button */}
-            <button 
-              onClick={() => setSelectedFaculty(null)}
-              className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-700 flex items-center justify-center transition-colors cursor-pointer outline-none border-none"
-              aria-label="Close modal"
-            >
-              <X size={18} />
-            </button>
-
-            {/* Header Banner (Navy & Gold Accents) */}
-            <div className="bg-[#072A6C] text-white py-8 px-6 text-center relative border-b-4 border-[#D4AF37]">
-              <div className="w-20 h-20 rounded-lg border-2 border-[#D4AF37] bg-white text-[#072A6C] flex items-center justify-center font-black text-2xl shadow-md mx-auto mb-3 select-none overflow-hidden">
-                <img src={getAvatarUrl(selectedFaculty.avatar)} alt={selectedFaculty.name} className="w-full h-full object-cover" />
-              </div>
-              <h3 className="text-lg md:text-xl font-black tracking-tight">{selectedFaculty.name}</h3>
-              <p className="text-[10px] text-[#D4AF37] mt-1 font-black uppercase tracking-widest">{selectedFaculty.title}</p>
-            </div>
-
-            {/* Details Content */}
-            <div className="p-6 space-y-4 text-xs text-gray-600">
-              <div className="grid grid-cols-2 gap-y-3 gap-x-4 border-b border-gray-100 pb-4">
-                <div>
-                  <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Department ID</span>
-                  <span className="font-bold text-gray-700">{selectedFaculty.idNo}</span>
-                </div>
-                <div>
-                  <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Department</span>
-                  <span className="font-bold text-gray-700">{selectedFaculty.department}</span>
-                </div>
-                <div>
-                  <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Experience</span>
-                  <span className="font-bold text-gray-700">{selectedFaculty.experience}</span>
-                </div>
-              </div>
-
-              {/* Education block */}
-              <div className="space-y-1">
-                <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Education Background</span>
-                <p className="font-medium leading-relaxed text-[11px] text-gray-700">
-                  {selectedFaculty.edu}
-                </p>
-              </div>
-
-              {/* Research/Interest block */}
-              <div className="space-y-1">
-                <span className="text-[9px] text-[#D4AF37] font-black uppercase tracking-wider block">Areas of Interest</span>
-                <p className="font-light leading-relaxed text-[11px] text-gray-700">
-                  {selectedFaculty.interests}
-                </p>
-              </div>
-
-              {/* Contact grid */}
-              <div className="pt-2 border-t border-gray-100 flex justify-start items-center text-[11px] text-gray-500 font-semibold">
-                <div className="flex items-center gap-2 truncate">
-                  <Mail size={13} className="text-[#D4AF37] shrink-0" />
-                  <span className="truncate" title={selectedFaculty.email}>{selectedFaculty.email}</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Close footer button */}
-            <div className="p-4 border-t border-gray-100 bg-gray-50 flex justify-end">
-              <button 
-                onClick={() => setSelectedFaculty(null)}
-                className="h-9 px-6 bg-[#072A6C] hover:bg-[#072A6C]/90 text-white text-xs font-bold rounded-xl transition-colors cursor-pointer"
-              >
-                Close Profile
-              </button>
-            </div>
-          </div>
-        </div>,
-        document.body
-      )}
+      {/* Modal removed as per user request */}
     </div>
   );
 }
