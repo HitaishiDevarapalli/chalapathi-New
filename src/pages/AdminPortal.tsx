@@ -1,8 +1,9 @@
-﻿import React, { useState } from "react";
+import React, { useState } from "react";
 import { useData, Announcement, ProgramDetail, NewsArticle, EventItem, AboutUsContent, MonthCalendarData, PlacementsContent, PlacedStudent, Recruiter, SuccessStory } from "../context/DataContext";
 import { 
   Lock, LayoutDashboard, Megaphone, BookOpen, Calendar, FileText, 
-  Settings, LogOut, Plus, Trash2, Edit3, CheckCircle, UploadCloud, Info, Users, Briefcase, Globe
+  Settings, LogOut, Plus, Trash2, Edit3, CheckCircle, UploadCloud, Info, Users, Briefcase, Globe,
+  Eye, EyeOff, User, Shield, BarChart2, Clock, ArrowRight
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -34,7 +35,9 @@ export default function AdminPortal() {
 
   // Authentication states
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [username, setUsername] = useState("");
   const [passcode, setPasscode] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [authError, setAuthError] = useState("");
 
   // Tab navigation states
@@ -235,7 +238,7 @@ export default function AdminPortal() {
       setIsAuthenticated(true);
       setAuthError("");
     } else {
-      setAuthError("Invalid admin passcode! Please try again.");
+      setAuthError("Invalid username or password! Please try again.");
     }
   };
 
@@ -558,34 +561,201 @@ export default function AdminPortal() {
   // Login view
   if (!isAuthenticated) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-tr from-[#020B18] via-[#081A36] to-[#072A6C] px-4 py-16 font-[var(--font-poppins)]">
-        <div className="relative w-full max-w-[420px] bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-3xl shadow-2xl text-left text-white">
-          <div className="flex flex-col items-center mb-6">
-            <div className="w-14 h-14 rounded-full bg-[#D4AF37] flex items-center justify-center mb-3 shadow-md">
-              <Lock className="text-gray-900" size={24} />
-            </div>
-            <h2 className="text-xl font-black uppercase tracking-wider text-center">Chalapathi Admin Portal</h2>
-            <p className="text-xs text-gray-400 text-center mt-1">Please enter passcode to gain editor access</p>
-          </div>
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <label className="block text-[11px] font-bold uppercase tracking-wider text-gray-300 mb-1.5">Passcode</label>
-              <input
-                type="password"
-                placeholder="••••••••"
-                value={passcode}
-                onChange={(e) => setPasscode(e.target.value)}
-                className="w-full h-11 px-4 rounded-xl bg-white/10 border border-white/10 text-white placeholder-gray-500 focus:outline-none focus:border-[#D4AF37] transition-all text-center text-lg tracking-widest"
+      <div className="min-h-screen w-full flex flex-col lg:flex-row bg-[#F8FAFC] font-[var(--font-poppins)] overflow-x-hidden text-left">
+        {/* Left Column: Visual Brand Sidebar */}
+        <div className="relative w-full lg:w-[42%] bg-gradient-to-b from-[#01091b] via-[#051c4a] to-[#072a6c] p-8 md:p-12 xl:p-16 flex flex-col justify-between overflow-hidden shadow-2xl shrink-0 min-h-[500px] lg:min-h-screen">
+          {/* Dot matrix pattern overlay */}
+          <div className="absolute inset-0 opacity-15 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+          
+          <div className="relative z-10 space-y-12">
+            {/* Logo */}
+            <div className="flex items-center">
+              <img
+                src="/logo.png?v=3"
+                alt="Chalapathi University"
+                className="h-16 w-auto object-contain brightness-0 invert"
               />
             </div>
-            {authError && <p className="text-xs font-bold text-[#D4AF37] text-center">{authError}</p>}
+
+            {/* Welcome messages */}
+            <div className="space-y-4">
+              <span className="text-[13px] font-bold text-white/60 tracking-wider uppercase">Welcome to</span>
+              <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight">
+                Chalapathi <span className="text-[#D4AF37]">Admin Portal</span>
+              </h1>
+              <div className="h-1 bg-[#D4AF37] w-16 rounded-full" />
+              <p className="text-sm font-semibold text-[#D4AF37] tracking-wider uppercase mt-6">
+                Secure. Simple. Smart.
+              </p>
+              <p className="text-xs md:text-sm text-white/70 leading-relaxed font-light max-w-sm">
+                Manage, Monitor & Empower the future of education.
+              </p>
+            </div>
+
+            {/* Campus Image Centerpiece */}
+            <div className="relative w-full rounded-[20px] overflow-hidden shadow-2xl border border-white/10 group aspect-video">
+              <img 
+                src="/campus_hero.png" 
+                alt="Chalapathi University Building" 
+                className="w-full h-full object-cover transform scale-100 hover:scale-105 transition-transform duration-700 pointer-events-none select-none" 
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#01091b]/80 via-transparent to-transparent pointer-events-none" />
+            </div>
+          </div>
+
+          {/* Bottom Brand Badges */}
+          <div className="relative z-10 grid grid-cols-4 gap-2 pt-8 border-t border-white/10 mt-12 text-center text-white/80">
+            {[
+              { label: "Secure Access", icon: Shield },
+              { label: "Role Based", icon: Users },
+              { label: "Real-time Analytics", icon: BarChart2 },
+              { label: "24/7 Available", icon: Clock },
+            ].map((badge, idx) => {
+              const BadgeIcon = badge.icon;
+              return (
+                <div key={idx} className="flex flex-col items-center gap-2">
+                  <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-[#D4AF37]">
+                    <BadgeIcon size={14} />
+                  </div>
+                  <span className="text-[9px] font-bold leading-tight uppercase tracking-wider">{badge.label}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Right Column: Interactive Login Box */}
+        <div className="flex-1 flex items-center justify-center p-6 md:p-12 lg:p-16 relative min-h-[600px] lg:min-h-screen">
+          {/* Main White Card */}
+          <div className="w-full max-w-[480px] bg-white rounded-[24px] shadow-2xl border border-gray-100 p-8 md:p-10 relative z-10 transition-all hover:shadow-3xl">
+            {/* Header circular icon badge */}
+            <div className="w-14 h-14 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-4">
+              <Shield size={22} className="stroke-[1.8]" />
+            </div>
+            
+            {/* Title and subtext */}
+            <div className="text-center mb-8">
+              <h2 className="text-xl md:text-2xl font-extrabold text-gray-900">Admin Login</h2>
+              <div className="h-0.5 bg-blue-600 w-12 mx-auto mt-2.5 rounded-full" />
+              <p className="text-xs md:text-[13px] text-gray-400 mt-3 font-medium">
+                Sign in to continue to Chalapathi University Admin Portal
+              </p>
+            </div>
+
+            {/* Inputs & Form */}
+            <form onSubmit={handleLogin} className="space-y-5">
+              <div>
+                <label className="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">Username / Email</label>
+                <div className="relative">
+                  <User size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <input
+                    type="text"
+                    required
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Enter username or email"
+                    className="w-full h-12 pl-11 pr-4 rounded-[12px] border border-gray-200 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all font-medium bg-gray-50/30"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-gray-700 mb-1.5 uppercase tracking-wide">Password</label>
+                <div className="relative">
+                  <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    required
+                    value={passcode}
+                    onChange={(e) => setPasscode(e.target.value)}
+                    placeholder="Enter your password"
+                    className="w-full h-12 pl-11 pr-11 rounded-[12px] border border-gray-200 text-sm text-gray-900 placeholder-gray-400 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all font-medium bg-gray-50/30"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                  >
+                    {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
+                  </button>
+                </div>
+              </div>
+
+              {/* Forgot & Remember Row */}
+              <div className="flex items-center justify-between text-xs pt-1">
+                <label className="flex items-center gap-2 text-gray-600 font-semibold cursor-pointer select-none">
+                  <input 
+                    type="checkbox" 
+                    className="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                  />
+                  Remember me
+                </label>
+                <a href="#forgot" onClick={(e) => e.preventDefault()} className="text-blue-600 font-bold hover:underline">
+                  Forgot Password?
+                </a>
+              </div>
+
+              {/* Error messages */}
+              {authError && (
+                <div className="p-3 bg-amber-50 text-amber-700 text-xs font-bold rounded-lg border border-amber-100 text-center animate-fade-in">
+                  {authError}
+                </div>
+              )}
+
+              {/* Primary button */}
+              <button
+                type="submit"
+                className="w-full h-12 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-[12px] flex items-center justify-center gap-2 transition-all shadow-md hover:shadow-lg active:scale-[0.98] cursor-pointer"
+              >
+                Sign In <ArrowRight size={15} />
+              </button>
+            </form>
+
+            {/* OR separator */}
+            <div className="flex items-center my-6">
+              <div className="flex-1 h-px bg-gray-100" />
+              <span className="px-3 text-[10px] text-gray-400 font-bold uppercase tracking-wider">or</span>
+              <div className="flex-1 h-px bg-gray-100" />
+            </div>
+
+            {/* Google Sign In */}
             <button
-              type="submit"
-              className="w-full h-11 bg-[#D4AF37] hover:bg-[#c29e28] text-gray-900 font-bold text-xs uppercase tracking-wider rounded-xl shadow transition-all cursor-pointer"
+              onClick={() => {
+                setUsername("admin");
+                setPasscode("admin123");
+                setAuthError("");
+              }}
+              className="w-full h-12 border border-gray-200 hover:bg-gray-50 bg-white text-gray-700 font-bold rounded-[12px] flex items-center justify-center gap-3 transition-colors shadow-sm cursor-pointer text-sm"
+              title="Click to auto-fill admin credentials"
             >
-              Sign In ➔
+              <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24">
+                <path
+                  fill="#EA4335"
+                  d="M12.24 10.285V14.4h6.887c-.648 2.41-2.519 4.114-5.136 4.114A5.94 5.94 0 0 1 8 12.5a5.94 5.94 0 0 1 5.99-6.014c1.49 0 2.852.549 3.9 1.455l3.05-3.05C18.99 2.97 16.63 2 13.99 2 8.13 2 3.39 6.73 3.39 12.5s4.74 10.5 10.6 10.5c6.14 0 10.22-4.316 10.22-10.4 0-.616-.06-1.125-.17-1.315H12.24Z"
+                />
+                <path
+                  fill="#FBBC05"
+                  d="M3.39 12.5a8.77 8.77 0 0 0 .54 3.01l3.35-2.61A5.94 5.94 0 0 1 8 12.5v-.01L3.93 9.49a8.77 8.77 0 0 0-.54 3.01Z"
+                />
+                <path
+                  fill="#4285F4"
+                  d="M13.99 12.5v.01l4.57 3.56c.648-2.41.4-4.88-.17-6.01H12.24v2.44h6.887a5.94 5.94 0 0 1-5.136 4.114V12.5Z"
+                />
+                <path
+                  fill="#34A853"
+                  d="M13.99 22.99c2.64 0 5-1.02 6.74-2.73l-3.32-2.58A5.94 5.94 0 0 1 13.99 18.5a5.94 5.94 0 0 1-5.99-6.014v-.01L3.93 15.51A10.6 10.6 0 0 0 13.99 22.99Z"
+                />
+              </svg>
+              Sign in with Google
             </button>
-          </form>
+          </div>
+
+          {/* Copyright footer */}
+          <div className="absolute bottom-6 w-full left-0 text-center pointer-events-none select-none z-0">
+            <p className="text-[11px] text-gray-400 font-semibold tracking-wide">
+              © 2025 Chalapathi University. All Rights Reserved.
+            </p>
+          </div>
         </div>
       </div>
     );
