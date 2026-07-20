@@ -1,7 +1,25 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Menu, X, ChevronDown, ArrowRight, Megaphone, Search } from "lucide-react";
+import { 
+  Menu, X, ChevronDown, ArrowRight, Megaphone, Search,
+  GraduationCap, Code, Laptop, Cpu, Brain, Database, ShieldAlert, Radio, 
+  CircuitBoard, Building, Hammer, Briefcase, Pill, UserPlus, FileSignature, 
+  CreditCard, Award, Compass, Home as HomeIcon, BookOpen, Trophy, Bus, 
+  Users, Tv, FlaskConical, TrendingUp, Building2, Lightbulb, 
+  Info, History, Target, FileText, Globe, CalendarDays, CheckSquare
+} from "lucide-react";
 import { useData } from "../../context/DataContext";
+import { searchIndex, SearchItem } from "../../data/searchIndex";
+
+const SearchIconMap: Record<string, React.ComponentType<any>> = {
+  GraduationCap, Code, Laptop, Cpu, Brain, Database, ShieldAlert, Radio, 
+  CircuitBoard, Building, Hammer, Briefcase, Pill, UserPlus, FileSignature, 
+  CreditCard, Award, Compass, Home: HomeIcon, BookOpen, Trophy, Bus, 
+  Users, Tv, FlaskConical, TrendingUp, Building2, Search, Lightbulb, 
+  Megaphone, Calendar: CalendarDays, MapPin: Info, Info, History, Target, FileText, Globe, 
+  CalendarDays, CheckSquare
+};
+
 
 export const ACADEMIC_PROGRAMS_STRUCTURE: Record<string, Record<string, { label: string; to: string }[]>> = {
   "School of Computing Sciences": {
@@ -106,56 +124,113 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
   const [mobileNewsEventsOpen, setMobileNewsEventsOpen] = useState(false);
   const [activeSchool, setActiveSchool] = useState("School of Computing Sciences");
   const [hoveredCategory, setHoveredCategory] = useState("Programmes Offered");
+  
+  const [suggestions, setSuggestions] = useState<SearchItem[]>([]);
+  const [activeSuggestionIdx, setActiveSuggestionIdx] = useState(-1);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
+
   const location = useLocation();
   const navigate = useNavigate();
 
-  const handleSearchSubmit = () => {
-    if (!searchQuery.trim()) return;
-    const q = searchQuery.toLowerCase();
-
-    if (q.includes("computer") || q.includes("cse") || q.includes("software") || q.includes("b.tech")) {
-      navigate("/academics/btech-cse");
-    } else if (q.includes("ai") || q.includes("ml") || q.includes("artificial") || q.includes("intelligence")) {
-      navigate("/academics/btech-cse-ai-ml");
-    } else if (q.includes("data") || q.includes("ds")) {
-      navigate("/academics/btech-cse-data-science");
-    } else if (q.includes("program") || q.includes("course") || q.includes("academic")) {
-      navigate("/academics");
-    } else if (q.includes("faculty") || q.includes("teacher") || q.includes("professor") || q.includes("hod")) {
-      navigate("/management/faculty");
-    } else if (q.includes("staff") || q.includes("admin") || q.includes("clerk")) {
-      navigate("/management/staff");
-    } else if (q.includes("board") || q.includes("governing") || q.includes("chancellor") || q.includes("registrar")) {
-      navigate("/management/board-members");
-    } else if (q.includes("event") || q.includes("news") || q.includes("announcement")) {
-      navigate("/news");
-    } else if (q.includes("undergrad") || q.includes("ug")) {
-      navigate("/admissions/undergraduate");
-    } else if (q.includes("postgrad") || q.includes("pg") || q.includes("mba") || q.includes("mca")) {
-      navigate("/admissions/postgraduate");
-    } else if (q.includes("fee") || q.includes("cost") || q.includes("tuition")) {
-      navigate("/admissions/fees");
-    } else if (q.includes("scholarship") || q.includes("waiver")) {
-      navigate("/admissions/scholarships");
-    } else if (q.includes("apply") || q.includes("registration") || q.includes("enrol")) {
-      navigate("/admissions/apply");
-    } else if (q.includes("hostel") || q.includes("room") || q.includes("accommodation") || q.includes("dorm") || q.includes("lunch") || q.includes("food") || q.includes("mess") || q.includes("dining") || q.includes("canteen") || q.includes("breakfast") || q.includes("dinner")) {
-      navigate("/campus-life/hostels");
-    } else if (q.includes("library") || q.includes("book") || q.includes("study")) {
-      navigate("/campus-life/library");
-    } else if (q.includes("sports") || q.includes("gym") || q.includes("play") || q.includes("cricket")) {
-      navigate("/campus-life/sports");
-    } else if (q.includes("club") || q.includes("society") || q.includes("extracurricular")) {
-      navigate("/campus-life/clubs");
-    } else if (q.includes("contact") || q.includes("phone") || q.includes("email") || q.includes("map") || q.includes("address")) {
-      navigate("/contact");
-    } else if (q.includes("admission")) {
-      navigate("/admissions");
-    } else {
-      navigate("/academics");
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setSuggestions([]);
+      setActiveSuggestionIdx(-1);
+      return;
     }
-    setSearchQuery("");
-    setSearchOpen(false);
+    const query = searchQuery.toLowerCase().trim();
+    const queryTokens = query.split(/\s+/).filter(Boolean);
+    
+    const matches = searchIndex.map(item => {
+      let score = 0;
+      const titleLower = item.title.toLowerCase();
+      
+      queryTokens.forEach(token => {
+        // Exact start match on title
+        if (titleLower.startsWith(token)) score += 12;
+        else if (titleLower.includes(token)) score += 6;
+        
+        // Exact category match
+        if (item.category.toLowerCase().includes(token)) score += 3;
+        
+        // Keyword matches (supporting fuzzy prefix/suffix containment)
+        item.keywords.forEach(keyword => {
+          if (keyword === token) score += 10;
+          else if (keyword.startsWith(token) || token.startsWith(keyword)) score += 6;
+          else if (keyword.includes(token) || token.includes(keyword)) score += 4;
+        });
+      });
+      
+      return { item, score };
+    })
+    .filter(m => m.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .map(m => m.item);
+    
+    setSuggestions(matches.slice(0, 6));
+    setActiveSuggestionIdx(-1);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target as Node)) {
+        setSearchOpen(false);
+        setSuggestions([]);
+      }
+    };
+    if (searchOpen) {
+      document.addEventListener("mousedown", handleOutsideClick);
+      // Autofocus search input when opened
+      setTimeout(() => searchInputRef.current?.focus(), 100);
+    }
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, [searchOpen]);
+
+  const handleSearchSubmit = () => {
+    const targetItem = activeSuggestionIdx >= 0 && activeSuggestionIdx < suggestions.length
+      ? suggestions[activeSuggestionIdx]
+      : suggestions[0];
+      
+    if (targetItem) {
+      navigate(targetItem.to);
+      setSearchQuery("");
+      setSearchOpen(false);
+      setSuggestions([]);
+    } else if (searchQuery.trim()) {
+      // Fallback exact-match redirects
+      const q = searchQuery.toLowerCase().trim();
+      if (q.includes("computer") || q.includes("cse") || q.includes("software") || q.includes("b.tech")) {
+        navigate("/academics/btech-cse");
+      } else if (q.includes("ai") || q.includes("ml") || q.includes("aiml")) {
+        navigate("/academics/btech-cse-ai-ml");
+      } else if (q.includes("fee") || q.includes("cost") || q.includes("tuition")) {
+        navigate("/admissions/fees");
+      } else if (q.includes("apply") || q.includes("admissions")) {
+        navigate("/admissions/apply");
+      } else {
+        navigate("/academics");
+      }
+      setSearchQuery("");
+      setSearchOpen(false);
+      setSuggestions([]);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setActiveSuggestionIdx(prev => (prev + 1) % Math.max(1, suggestions.length));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setActiveSuggestionIdx(prev => (prev - 1 + suggestions.length) % suggestions.length);
+    } else if (e.key === "Escape") {
+      setSearchOpen(false);
+      setSuggestions([]);
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      handleSearchSubmit();
+    }
   };
 
   useEffect(() => {
@@ -594,22 +669,75 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
         </div>
 
         {searchOpen && (
-          <div className="absolute top-full left-0 w-full bg-[#072A6C] p-4 shadow-xl z-50 animate-slide-down">
-            <div className="max-w-2xl mx-auto flex gap-2">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSearchSubmit()}
-                placeholder="Search programs, faculty, events..."
-                className="flex-1 bg-white/10 text-white border border-white/20 rounded-[12px] px-4 py-2.5 text-sm focus:outline-none focus:border-[#D4AF37] placeholder:text-white/50 font-[var(--font-poppins)]"
-              />
-              <button 
-                onClick={handleSearchSubmit}
-                className="bg-[#D4AF37] text-white font-bold px-6 py-2.5 rounded-[12px] text-sm hover:bg-[#C9A84C] transition-colors font-[var(--font-poppins)]"
-              >
-                Search
-              </button>
+          <div ref={searchContainerRef} className="absolute top-full left-0 w-full bg-[#072A6C] p-4 shadow-xl z-50 animate-slide-down">
+            <div className="max-w-2xl mx-auto relative flex flex-col gap-2">
+              <div className="flex gap-2 w-full">
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder="Search programs, departments, hostels, faculty, NIRF..."
+                  className="flex-1 bg-white/10 text-white border border-white/20 rounded-[12px] px-4 py-2.5 text-sm focus:outline-none focus:border-[#D4AF37] placeholder:text-white/50 font-[var(--font-poppins)]"
+                />
+                <button 
+                  onClick={handleSearchSubmit}
+                  className="bg-[#D4AF37] text-white font-bold px-6 py-2.5 rounded-[12px] text-sm hover:bg-[#C9A84C] transition-colors font-[var(--font-poppins)]"
+                >
+                  Search
+                </button>
+              </div>
+
+              {/* Suggestions Dropdown */}
+              {suggestions.length > 0 && (
+                <div className="absolute top-full left-0 w-full mt-2 bg-white rounded-[16px] shadow-2xl border border-gray-100 overflow-hidden z-50 font-[var(--font-poppins)] text-left">
+                  <div className="px-4 py-2 bg-gray-50/50 border-b border-gray-100 flex items-center justify-between">
+                    <span className="text-[10px] text-gray-400 font-extrabold uppercase tracking-wider">Suggestions</span>
+                    <span className="text-[9px] text-gray-400">Use arrow keys ↑↓ to navigate</span>
+                  </div>
+                  <div className="flex flex-col">
+                    {suggestions.map((item, idx) => {
+                      const IconComponent = SearchIconMap[item.icon] || GraduationCap;
+                      const isActive = idx === activeSuggestionIdx;
+                      return (
+                        <div
+                          key={item.to + idx}
+                          onClick={() => {
+                            navigate(item.to);
+                            setSearchQuery("");
+                            setSearchOpen(false);
+                            setSuggestions([]);
+                          }}
+                          onMouseEnter={() => setActiveSuggestionIdx(idx)}
+                          className={`flex items-center justify-between px-4 py-3 cursor-pointer transition-all ${
+                            isActive 
+                              ? "bg-gray-50 border-l-[3px] border-[#D4AF37] pl-3.5 text-[#072A6C]" 
+                              : "border-l-[3px] border-transparent text-[#222222] hover:bg-gray-50/40"
+                          }`}
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
+                              isActive ? "bg-[#D4AF37]/10 text-[#D4AF37]" : "bg-gray-100 text-gray-500"
+                            }`}>
+                              <IconComponent size={15} />
+                            </div>
+                            <div>
+                              <div className="text-[13px] font-bold leading-tight">{item.title}</div>
+                              <div className="text-[10px] text-gray-400 font-semibold mt-0.5">{item.category}</div>
+                            </div>
+                          </div>
+                          <span className={`text-[11px] font-bold flex items-center gap-1 ${
+                            isActive ? "text-[#D4AF37] translate-x-1" : "text-gray-300"
+                          } transition-all`}>
+                            Go <ArrowRight size={10} />
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}
