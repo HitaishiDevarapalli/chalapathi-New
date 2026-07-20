@@ -578,7 +578,7 @@ export default function Home() {
             })()}
 
             {/* Sub Tabs (Departments) */}
-            {activeSchoolTab && ACADEMIC_PROGRAMS_STRUCTURE[activeSchoolTab] && (
+            {activeSchoolTab && ACADEMIC_PROGRAMS_STRUCTURE[activeSchoolTab] && activeSchoolTab !== "School of Computing Sciences" && (
               <div className="flex flex-wrap justify-center gap-6 md:gap-10 w-full max-w-5xl mb-6">
                 {Object.keys(ACADEMIC_PROGRAMS_STRUCTURE[activeSchoolTab]).map((dept) => (
                   <button
@@ -647,7 +647,11 @@ export default function Home() {
                  return (
                   <motion.div
                     key={idx}
-                    className="group relative bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden h-[340px] w-full md:w-[calc(50%-16px)] lg:w-[calc(33.333%-22px)] shrink-0"
+                    className={`group relative bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 overflow-hidden h-[340px] shrink-0 ${
+                      ACADEMIC_PROGRAMS_STRUCTURE[activeSchoolTab][currentDepartment]?.length === 4
+                        ? "w-full md:w-[calc(50%-16px)] lg:w-[calc(25%-24px)]"
+                        : "w-full md:w-[calc(50%-16px)] lg:w-[calc(33.333%-22px)]"
+                    }`}
                     variants={scaleIn}
                     whileHover="hover"
                     initial="rest"
@@ -1228,7 +1232,7 @@ export default function Home() {
               <div className="relative w-full max-w-[380px] rounded-[32px] overflow-hidden shadow-2xl group border-4 border-white bg-white transition-all duration-500 hover:shadow-3xl hover:-translate-y-1">
                 {/* Chairman Portrait */}
                 <img 
-                  src={localStorage.getItem("chalapathi_chairman_image") || "/chairman_v4.png"} 
+                  src="/chairman_portrait.png" 
                   alt="Chairman Dr. Y. V Anjaneyulu" 
                   className="w-full h-auto object-cover aspect-[4/5] transition-transform duration-700 group-hover:scale-103"
                   style={{ objectPosition: "50% 0%" }}
