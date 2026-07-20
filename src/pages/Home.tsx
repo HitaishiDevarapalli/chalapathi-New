@@ -743,7 +743,7 @@ export default function Home() {
                     <img 
                       src={imgSrc} 
                       alt={title} 
-                      style={{ width: size, height: size, objectFit: 'contain', clipPath: t.includes('mba') || t.includes('management') ? 'inset(18% 0% 25% 0%)' : 'inset(0% 0% 25% 0%)' }}
+                      style={{ width: size, height: size, objectFit: 'contain' }}
                       className="rounded-lg"
                     />
                   );
