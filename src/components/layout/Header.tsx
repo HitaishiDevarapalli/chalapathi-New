@@ -332,7 +332,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
           </Link>
 
           {/* Center nav */}
-          <nav className="hidden xl:flex items-center gap-0.5 min-[1300px]:gap-1 min-[1420px]:gap-2 h-full flex-1 min-w-0">
+          <nav className="hidden min-[1340px]:flex items-center gap-0.5 min-[1420px]:gap-1 min-[1500px]:gap-2 h-full flex-1 min-w-0">
             {navLinks.map((name) => {
               if (name === "About Us") {
                 return (
@@ -344,7 +344,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                   >
                     <button
                       type="button"
-                      className="px-1 py-2 text-[12px] min-[1300px]:px-1.5 min-[1300px]:text-[13px] min-[1420px]:px-3.5 min-[1420px]:text-[14px] font-medium text-[#222222] hover:text-[#D4AF37] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
+                      className="px-0.5 py-2 text-[11px] min-[1400px]:px-2 min-[1400px]:text-[13px] min-[1500px]:px-3.5 min-[1500px]:text-[14px] font-medium text-[#222222] hover:text-[#D4AF37] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
                     >
                       {name} <ChevronDown size={14} className={`transition-transform duration-200 ${aboutOpen ? "rotate-180" : ""}`} />
                     </button>
@@ -379,7 +379,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                   >
                     <button
                       type="button"
-                      className="px-1 py-2 text-[12px] min-[1300px]:px-1.5 min-[1300px]:text-[13px] min-[1420px]:px-3.5 min-[1420px]:text-[14px] font-medium text-[#222222] hover:text-[#D4AF37] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
+                      className="px-0.5 py-2 text-[11px] min-[1400px]:px-2 min-[1400px]:text-[13px] min-[1500px]:px-3.5 min-[1500px]:text-[14px] font-medium text-[#222222] hover:text-[#D4AF37] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
                     >
                       {name} <ChevronDown size={14} className={`transition-transform duration-200 ${academicsOpen ? "rotate-180" : ""}`} />
                     </button>
@@ -506,7 +506,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                   >
                     <button
                       type="button"
-                      className="px-1 py-2 text-[12px] min-[1300px]:px-1.5 min-[1300px]:text-[13px] min-[1420px]:px-3.5 min-[1420px]:text-[14px] font-medium text-[#222222] hover:text-[#D4AF37] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
+                      className="px-0.5 py-2 text-[11px] min-[1400px]:px-2 min-[1400px]:text-[13px] min-[1500px]:px-3.5 min-[1500px]:text-[14px] font-medium text-[#222222] hover:text-[#D4AF37] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
                     >
                       {name} <ChevronDown size={14} className={`transition-transform duration-200 ${managementOpen ? "rotate-180" : ""}`} />
                     </button>
@@ -538,7 +538,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                   >
                     <button
                       type="button"
-                      className="px-1 py-2 text-[12px] min-[1300px]:px-1.5 min-[1300px]:text-[13px] min-[1420px]:px-3.5 min-[1420px]:text-[14px] font-medium text-[#222222] hover:text-[#D4AF37] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
+                      className="px-0.5 py-2 text-[11px] min-[1400px]:px-2 min-[1400px]:text-[13px] min-[1500px]:px-3.5 min-[1500px]:text-[14px] font-medium text-[#222222] hover:text-[#D4AF37] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
                     >
                       {name} <ChevronDown size={14} className={`transition-transform duration-200 ${campusLifeOpen ? "rotate-180" : ""}`} />
                     </button>
@@ -582,7 +582,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                   >
                     <button
                       type="button"
-                      className="px-1 py-2 text-[12px] min-[1300px]:px-1.5 min-[1300px]:text-[13px] min-[1420px]:px-3.5 min-[1420px]:text-[14px] font-medium text-[#222222] hover:text-[#D4AF37] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
+                      className="px-0.5 py-2 text-[11px] min-[1400px]:px-2 min-[1400px]:text-[13px] min-[1500px]:px-3.5 min-[1500px]:text-[14px] font-medium text-[#222222] hover:text-[#D4AF37] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
                     >
                       {name} <ChevronDown size={14} className={`transition-transform duration-200 ${newsEventsOpen ? "rotate-180" : ""}`} />
                     </button>
@@ -608,7 +608,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                 <Link
                   key={name}
                   to={navHrefs[name]}
-                  className="px-1 py-2 text-[12px] min-[1300px]:px-1.5 min-[1300px]:text-[13px] min-[1420px]:px-3.5 min-[1420px]:text-[14px] font-medium text-[#222222] hover:text-[#D4AF37] transition-colors whitespace-nowrap font-[var(--font-poppins)]"
+                  className="px-0.5 py-2 text-[11px] min-[1400px]:px-2 min-[1400px]:text-[13px] min-[1500px]:px-3.5 min-[1500px]:text-[14px] font-medium text-[#222222] hover:text-[#D4AF37] transition-colors whitespace-nowrap font-[var(--font-poppins)]"
                 >
                   {name}
                 </Link>
@@ -617,7 +617,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
           </nav>
 
           {/* Right CTA */}
-          <div className="hidden xl:flex items-center gap-3 shrink-0 ml-auto">
+          <div className="hidden min-[1340px]:flex items-center gap-3 shrink-0 ml-auto">
             <Link
               to="/admissions/apply"
               className="h-10 px-3 text-[12px] min-[1420px]:px-6 min-[1420px]:text-[13px] bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-bold rounded-[12px] inline-flex items-center justify-center transition-colors shadow-sm font-[var(--font-poppins)]"
@@ -644,7 +644,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
           </div>
 
           {/* Mobile menu trigger */}
-          <div className="flex xl:hidden items-center gap-1">
+          <div className="flex min-[1340px]:hidden items-center gap-1">
             <button
               onClick={() => setSearchOpen(!searchOpen)}
               className="p-2 text-[#222222] hover:text-[#D4AF37] transition-colors"
@@ -745,7 +745,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
 
       {/* Mobile drawer */}
       {mobileOpen && (
-        <div className="fixed inset-0 top-[90px] z-30 bg-white flex flex-col p-6 overflow-y-auto xl:hidden shadow-2xl">
+        <div className="fixed inset-0 top-[90px] z-30 bg-white flex flex-col p-6 overflow-y-auto min-[1340px]:hidden shadow-2xl">
           {navLinks.map((name) => {
             if (name === "About Us") {
               return (
