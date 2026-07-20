@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { X } from 'lucide-react';
 import { Certification } from '../../data/certifications';
 
@@ -21,23 +21,42 @@ interface FullscreenModalProps {
 }
 
 export default function FullscreenModal({ cert, onClose }: FullscreenModalProps) {
+  // We can switch ordering based on layoutMode
   const renderLayout = () => {
-    return (
-      <div className="flex flex-col gap-24 pb-32">
-        <HeroSection cert={cert} />
-        <div className="max-w-[1200px] mx-auto w-full px-6 space-y-32">
-          <InteractiveJourney timeline={cert.timeline} color={cert.color} />
-          <FeatureCards features={cert.features} color={cert.color} />
-          <SkillChips skills={cert.skills} color={cert.color} />
-          <IndustryGrid industries={cert.industries} color={cert.color} />
-          <CareerRoadmap roadmap={cert.roadmap} color={cert.color} />
-          <CompanyMarquee companies={cert.companies} color={cert.color} />
-          <ProjectCards projects={cert.projects} color={cert.color} />
-          <GlobalImpact stats={cert.stats} color={cert.color} />
-          <ProcessFlow color={cert.color} />
-        </div>
-      </div>
-    );
+    switch (cert.layoutMode) {
+      case "dashboard":
+      case "pipeline":
+      case "topology":
+      case "journey":
+      case "shield":
+      case "pcb":
+      case "factory":
+      case "code":
+      case "roadmap":
+      case "cloud":
+      case "global":
+      case "database":
+      case "lifecycle":
+      case "funnel":
+      default:
+        // Default rich storytelling layout
+        return (
+          <div className="flex flex-col gap-24 pb-32">
+            <HeroSection cert={cert} />
+            <div className="max-w-[1200px] mx-auto w-full px-6 space-y-32">
+              <InteractiveJourney timeline={cert.timeline} color={cert.color} />
+              <FeatureCards features={cert.features} color={cert.color} />
+              <SkillChips skills={cert.skills} color={cert.color} />
+              <IndustryGrid industries={cert.industries} color={cert.color} />
+              <CareerRoadmap roadmap={cert.roadmap} color={cert.color} />
+              <CompanyMarquee companies={cert.companies} color={cert.color} />
+              <ProjectCards projects={cert.projects} color={cert.color} />
+              <GlobalImpact stats={cert.stats} color={cert.color} />
+              <ProcessFlow color={cert.color} />
+            </div>
+          </div>
+        );
+    }
   };
 
   return (

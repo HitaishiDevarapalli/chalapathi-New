@@ -7,10 +7,12 @@ interface MarqueeProps {
 }
 
 export default function CompanyMarquee({ companies, color }: MarqueeProps) {
+  // Duplicate array to create seamless loop
   const marqueeItems = [...companies, ...companies, ...companies];
 
   return (
     <div className="w-full py-16 overflow-hidden bg-gray-50 border-y border-gray-100 relative">
+      {/* Edge Gradients for smooth fade */}
       <div className="absolute top-0 bottom-0 left-0 w-32 bg-gradient-to-r from-gray-50 to-transparent z-10"></div>
       <div className="absolute top-0 bottom-0 right-0 w-32 bg-gradient-to-l from-gray-50 to-transparent z-10"></div>
       

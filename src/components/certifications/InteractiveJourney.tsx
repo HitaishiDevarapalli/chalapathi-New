@@ -15,6 +15,7 @@ export default function InteractiveJourney({ timeline, color }: JourneyProps) {
       </div>
 
       <div className="relative">
+        {/* Horizontal Line connecting the nodes */}
         <div className="absolute top-6 left-0 right-0 h-1 bg-gray-100 hidden md:block">
           <motion.div 
             initial={{ width: 0 }}
@@ -36,6 +37,7 @@ export default function InteractiveJourney({ timeline, color }: JourneyProps) {
               transition={{ duration: 0.5, delay: index * 0.15 }}
               className="flex flex-col items-center md:items-start relative group"
             >
+              {/* Node Circle */}
               <div 
                 className="w-12 h-12 rounded-full border-4 border-white flex items-center justify-center text-white font-bold text-sm shadow-md mb-6 transition-transform duration-300 group-hover:scale-110"
                 style={{ backgroundColor: color }}

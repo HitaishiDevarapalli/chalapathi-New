@@ -26,6 +26,7 @@ export default function ProjectCards({ projects, color }: ProjectsProps) {
             whileHover={{ y: -5 }}
             className="bg-white border border-gray-200 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all group cursor-pointer flex flex-col h-full"
           >
+            {/* Visual Header */}
             <div 
               className="h-32 w-full flex items-center justify-center relative overflow-hidden transition-colors duration-500"
               style={{ backgroundColor: `${color}10` }}

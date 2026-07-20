@@ -28,6 +28,7 @@ export default function GlobalImpact({ stats, color }: ImpactProps) {
             transition={{ duration: 0.6, delay: index * 0.2, type: "spring" }}
             className="bg-white border border-gray-100 rounded-[32px] p-8 text-center shadow-lg hover:shadow-xl transition-shadow relative overflow-hidden group"
           >
+            {/* Background glow on hover */}
             <div 
               className="absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity duration-500"
               style={{ backgroundColor: color }}

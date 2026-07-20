@@ -10,6 +10,7 @@ interface HeroSectionProps {
 export default function HeroSection({ cert }: HeroSectionProps) {
   return (
     <div className="relative overflow-hidden w-full min-h-[600px] flex items-center justify-center pt-24 pb-12">
+      {/* Animated Particles / Gradients */}
       <div className="absolute inset-0 z-0 opacity-40 pointer-events-none overflow-hidden">
         <motion.div 
           animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
@@ -25,6 +26,8 @@ export default function HeroSection({ cert }: HeroSectionProps) {
       </div>
 
       <div className="max-w-[1200px] mx-auto w-full px-6 relative z-10 flex flex-col md:flex-row items-center gap-16">
+        
+        {/* Left Content */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -76,6 +79,7 @@ export default function HeroSection({ cert }: HeroSectionProps) {
           </motion.div>
         </motion.div>
 
+        {/* Right Badge Graphic */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.8, rotateY: -20 }}
           animate={{ opacity: 1, scale: 1, rotateY: 0 }}
@@ -83,7 +87,10 @@ export default function HeroSection({ cert }: HeroSectionProps) {
           className="w-full md:w-1/2 flex items-center justify-center perspective-[1000px]"
         >
           <div className="relative w-[320px] h-[380px] bg-white/70 backdrop-blur-2xl border border-white/60 rounded-[32px] shadow-[0_30px_80px_rgba(0,0,0,0.1)] p-10 flex flex-col items-center justify-center gap-10 group overflow-hidden">
+            {/* Glossy reflection */}
             <div className="absolute inset-0 bg-gradient-to-tr from-white/10 via-white/40 to-transparent pointer-events-none rounded-[32px]"></div>
+            
+            {/* Color accent glow */}
             <div 
               className="absolute inset-0 rounded-[32px] opacity-10 transition-opacity duration-700"
               style={{ background: `radial-gradient(circle at center, ${cert.color}, transparent 70%)` }}
@@ -108,6 +115,7 @@ export default function HeroSection({ cert }: HeroSectionProps) {
             </div>
           </div>
         </motion.div>
+
       </div>
     </div>
   );

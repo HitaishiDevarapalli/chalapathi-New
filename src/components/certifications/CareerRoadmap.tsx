@@ -15,6 +15,7 @@ export default function CareerRoadmap({ roadmap, color }: RoadmapProps) {
       </div>
 
       <div className="relative max-w-4xl mx-auto pl-8 md:pl-0">
+        {/* Vertical Line */}
         <div className="absolute top-0 bottom-0 left-8 md:left-1/2 md:-ml-[2px] w-[4px] bg-gray-100 rounded-full">
           <motion.div 
             initial={{ height: 0 }}
@@ -31,6 +32,8 @@ export default function CareerRoadmap({ roadmap, color }: RoadmapProps) {
             const isLeft = index % 2 === 0;
             return (
               <div key={index} className={`flex flex-col md:flex-row items-start md:items-center w-full ${isLeft ? 'md:justify-start' : 'md:justify-end'}`}>
+                
+                {/* Mobile dot */}
                 <div 
                   className="absolute left-8 -ml-3 w-6 h-6 rounded-full border-4 border-white shadow-md md:hidden"
                   style={{ backgroundColor: color }}
@@ -45,11 +48,12 @@ export default function CareerRoadmap({ roadmap, color }: RoadmapProps) {
                     isLeft ? 'md:mr-auto md:text-right' : 'md:ml-auto md:text-left'
                   }`}
                 >
+                  {/* Desktop dot */}
                   <div 
                     className={`absolute top-1/2 -translate-y-1/2 w-6 h-6 rounded-full border-4 border-white shadow-md hidden md:block ${
-                      isLeft ? '-right-[41px]' : '-left-[41px]' 
+                      isLeft ? '-right-[calc(11%_-_1px)] md:-right-[calc(11.111%_+_2px)] lg:-right-[calc(11.111%_+_12px)] xl:-right-[calc(11.111%_+_24px)] 2xl:-right-[calc(11.111%_+_34px)] /* Needs precise adjustment based on container, using fixed positioning is better */' : '' 
                     }`}
-                    style={{ backgroundColor: color }}
+                    style={{ backgroundColor: color, ...(isLeft ? { right: '-41px' } : { left: '-41px' }) }}
                   />
 
                   <h4 className="text-lg font-extrabold text-gray-900 mb-1">{step.role}</h4>
