@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { useData } from "../../context/DataContext";
 import { searchIndex, SearchItem } from "../../data/searchIndex";
+import { GlobalSearchModal } from "../common/GlobalSearchModal";
 
 const SearchIconMap: Record<string, React.ComponentType<any>> = {
   GraduationCap, Code, Laptop, Cpu, Brain, Database, ShieldAlert, Radio, 
@@ -127,6 +128,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
   
   const [suggestions, setSuggestions] = useState<SearchItem[]>([]);
   const [activeSuggestionIdx, setActiveSuggestionIdx] = useState(-1);
+  const [isGlobalSearchOpen, setIsGlobalSearchOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const searchContainerRef = useRef<HTMLDivElement>(null);
 
@@ -656,6 +658,13 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
               Apply Now
             </Link>
             <button
+              onClick={() => setIsGlobalSearchOpen(true)}
+              className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-[#072A6C] hover:text-[#D4AF37] hover:border-[#D4AF37] transition-colors cursor-pointer relative shrink-0"
+              title="Search University (Ctrl+K)"
+            >
+              <Search size={17} />
+            </button>
+            <button
               onClick={() => setShowAnnouncementsDrawer(!showAnnouncementsDrawer)}
               className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-[#072A6C] hover:text-[#D4AF37] hover:border-[#D4AF37] transition-colors cursor-pointer relative shrink-0"
               title="View Announcements"
@@ -670,8 +679,8 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
           {/* Mobile menu trigger */}
           <div className="flex min-[1024px]:hidden items-center gap-1">
             <button
-              onClick={() => setSearchOpen(!searchOpen)}
-              className="p-2 text-[#222222] hover:text-[#D4AF37] transition-colors"
+              onClick={() => setIsGlobalSearchOpen(true)}
+              className="p-2 text-[#222222] hover:text-[#D4AF37] transition-colors cursor-pointer"
               title="Search"
             >
               <Search size={18} />
@@ -986,6 +995,12 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
           </div>
         </div>
       )}
+
+      {/* Global Smart Search Modal */}
+      <GlobalSearchModal 
+        isOpen={isGlobalSearchOpen} 
+        onClose={() => setIsGlobalSearchOpen(false)} 
+      />
     </>
   );
 }
