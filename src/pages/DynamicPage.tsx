@@ -1452,17 +1452,15 @@ function InteractiveCalendarWidget({ year, courseKey }: { year: string; courseKe
                 <button
                   key={`day-${day}`}
                   onClick={() => setSelectedDay(day)}
-                  className={`w-8 h-8 mx-auto rounded-full flex flex-col items-center justify-center text-xs font-bold transition-all relative cursor-pointer outline-none ${
+                  className={`w-8 h-8 mx-auto rounded-full flex flex-col items-center justify-center text-[13px] font-bold transition-all relative cursor-pointer outline-none ${
                     isSelected 
                       ? "bg-[#D4AF37] text-white shadow-sm scale-110" 
-                      : "text-[#072A6C] hover:bg-[#072A6C]/10"
+                      : hasEvent 
+                        ? "text-[#072A6C] border-2 border-[#D4AF37] hover:bg-[#D4AF37]/10"
+                        : "text-[#072A6C] hover:bg-[#072A6C]/10"
                   }`}
                 >
                   <span>{day}</span>
-                  {/* Underline matching reference screenshot */}
-                  {hasEvent && (
-                    <span className={`w-3.5 h-[2px] rounded absolute bottom-1.5 ${isSelected ? "bg-white" : "bg-[#D4AF37]"}`} />
-                  )}
                 </button>
               );
             })}

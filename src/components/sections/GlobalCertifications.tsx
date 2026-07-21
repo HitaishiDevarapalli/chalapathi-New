@@ -1,4 +1,4 @@
-﻿import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { motion, useScroll, AnimatePresence } from "framer-motion";
 import { Award, ChevronRight, ArrowLeft, CheckCircle2, ShieldCheck, Briefcase, Zap, Globe, ArrowRight, X } from "lucide-react";
@@ -81,13 +81,13 @@ export default function GlobalCertifications() {
                 <div className="absolute top-0 left-0 right-0 h-3 bg-[#7b8c9e]/80 group-hover:h-4 transition-all duration-300"></div>
                 
                 {/* Rectangular Logo Badge (Supports multiple logos now) */}
-                <div className="absolute top-4 right-4 h-16 min-w-[80px] max-w-[220px] bg-white rounded-md flex items-center justify-center gap-3 shadow-[0_4px_12px_rgba(0,0,0,0.1)] px-3 py-2 z-10 group-hover:scale-110 group-hover:-translate-y-1 transition-all duration-500 border border-gray-100">
+                <div className="absolute top-4 right-4 h-12 min-w-[60px] max-w-[160px] bg-white rounded-md flex items-center justify-center gap-2 shadow-[0_4px_12px_rgba(0,0,0,0.1)] px-3 py-1 z-10 group-hover:scale-105 group-hover:-translate-y-1 transition-all duration-500 border border-gray-100">
                   {cert.images.map((img, idx) => (
                     <img 
                       key={idx}
                       src={img} 
                       alt={`${cert.name} logo ${idx + 1}`} 
-                      className={`${cert.images.length > 1 ? 'h-8 max-w-[120px]' : 'h-full max-w-[200px] scale-110'} w-auto object-contain transition-transform duration-500`}
+                      className={`${cert.images.length > 1 ? 'h-6 max-w-[60px]' : 'h-8 max-w-[100px]'} w-auto object-contain transition-transform duration-500`}
                     />
                   ))}
                 </div>

@@ -417,7 +417,7 @@ const INITIAL_ABOUT_CONTENT: AboutUsContent = {
     cards: [
       { title: "Autonomous Curriculum", desc: "Tailored syllabus modules synced directly with current IT and core sector requirements.", detail: "Allows for rapid curriculum updating, ensuring learners study the newest engineering standards." },
       { title: "Industry Immersion", desc: "Mandatory corporate internships, case study reviews, and MNC leadership seminars.", detail: "Direct connection with industry majors to build practical skills before graduation." },
-      { title: "Accredited Programs", desc: "NBA-accredited courses and NAAC A+ institutional tier ratings verifying excellence.", detail: "High-value credentials recognized globally for higher education and corporate careers." },
+      { title: "Smart Infrastructure", desc: "State-of-the-art laboratories, digital classrooms, and extensive library resources.", detail: "A modern campus designed to foster innovation, collaborative learning, and holistic student development." },
       { title: "Placement Track", desc: "Consistency in recruiting achievements with top MNC software and hardware firms.", detail: "Comprehensive guidance program from pre-final year until successful placement onboarding." }
     ]
   }

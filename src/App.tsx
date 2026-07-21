@@ -146,10 +146,7 @@ function AppContent() {
   const isAdminPage = location.pathname.startsWith("/admin");
   const { announcements, showAnnouncementsDrawer, setShowAnnouncementsDrawer } = useData();
 
-  const [showSplash, setShowSplash] = useState(() => {
-    const visited = sessionStorage.getItem("chalapathy_visited");
-    return !visited;
-  });
+  const [showSplash, setShowSplash] = useState(true); // Changed to always show on reload
 
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const fallbackTimerRef = React.useRef<NodeJS.Timeout | null>(null);

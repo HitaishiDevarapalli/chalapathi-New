@@ -447,7 +447,7 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            Why Choose Chalapathi University?
+            Why To Choose Chalapathi University?
           </motion.h2>
           <motion.p
             className="text-[#64748B] max-w-3xl mx-auto text-[15px] md:text-[17px] leading-relaxed mb-8 font-[500]"
@@ -578,7 +578,7 @@ export default function Home() {
             })()}
 
             {/* Sub Tabs (Departments) */}
-            {activeSchoolTab && ACADEMIC_PROGRAMS_STRUCTURE[activeSchoolTab] && activeSchoolTab !== "School of Computing Sciences" && (
+            {activeSchoolTab && ACADEMIC_PROGRAMS_STRUCTURE[activeSchoolTab] && (
               <div className="flex flex-wrap justify-center gap-6 md:gap-10 w-full max-w-5xl mb-6">
                 {Object.keys(ACADEMIC_PROGRAMS_STRUCTURE[activeSchoolTab]).map((dept) => (
                   <button
@@ -1277,7 +1277,7 @@ export default function Home() {
                 {/* Message Content */}
                 <div className="space-y-5 z-10 relative">
                   <p className="text-xs md:text-sm text-gray-700 font-light leading-relaxed whitespace-pre-line">
-                    {localStorage.getItem("chalapathi_chairman_message") || `At Chalapathi, we believe education is the most powerful transformer of lives and the key to building a better society. Our mission is to empower young minds with knowledge, values, and innovation to help them lead with purpose and create a lasting impact on the world.\n\nWe are committed to providing a nurturing environment, world-class infrastructure, and industry-oriented education to shape future leaders and responsible citizens.`}
+                    {localStorage.getItem("chalapathi_chairman_message") || `At Chalapathi University, we believe education is the most powerful transformer of lives and the key to building a better society. Our mission is to empower young minds with knowledge, values, and innovation to help them lead with purpose and create a lasting impact on the world.\n\nWe are committed to providing a nurturing environment, world-class infrastructure, and industry-oriented education to shape future leaders and responsible citizens.`}
                   </p>
                 </div>
 
