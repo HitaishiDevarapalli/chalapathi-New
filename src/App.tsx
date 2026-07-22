@@ -9,6 +9,7 @@ import DynamicPage from "./pages/DynamicPage";
 import Genesis from "./pages/Genesis";
 import AnnouncementDetails from "./pages/AnnouncementDetails";
 import AdminPortal from "./pages/AdminPortal";
+import LandingPage from "./pages/LandingPage";
 import { DataProvider, useData } from "./context/DataContext";
 
 // Scroll to top helper on route change
@@ -139,6 +140,7 @@ const ENQUIRY_SCHOOLS_DATA = [
 function AppContent() {
   const location = useLocation();
   const isAdminPage = location.pathname.startsWith("/admin");
+  const isLandingPage = location.pathname === "/apply-now" || location.pathname === "/landing";
   const { announcements, showAnnouncementsDrawer, setShowAnnouncementsDrawer } = useData();
 
   const [showSplash, setShowSplash] = useState(true); // Changed to always show on reload
@@ -253,6 +255,13 @@ function AppContent() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const newLead = {
+      id: Date.now().toString(),
+      timestamp: new Date().toISOString(),
+      ...formData
+    };
+    const existingLeads = JSON.parse(localStorage.getItem("chalapathi_enquiry_leads") || "[]");
+    localStorage.setItem("chalapathi_enquiry_leads", JSON.stringify([newLead, ...existingLeads]));
     setFormSubmitted(true);
   };
 
@@ -353,7 +362,7 @@ function AppContent() {
 
       <ScrollToTop />
       <div className="flex flex-col min-h-screen bg-[#F7F8FC]">
-        {!isAdminPage && <Header />}
+        {!isAdminPage && !isLandingPage && <Header />}
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
@@ -393,6 +402,8 @@ function AppContent() {
             <Route path="/admissions/fees" element={<DynamicPage />} />
             <Route path="/admissions/scholarships" element={<DynamicPage />} />
             <Route path="/admissions/apply" element={<DynamicPage />} />
+            <Route path="/apply-now" element={<LandingPage />} />
+            <Route path="/landing" element={<LandingPage />} />
             {/* Campus Life Routes */}
             <Route path="/campus-life" element={<DynamicPage />} />
             <Route path="/campus-life/hostels" element={<DynamicPage />} />
@@ -415,13 +426,13 @@ function AppContent() {
             <Route path="/admin" element={<AdminPortal />} />
           </Routes>
         </main>
-        {!isAdminPage && <Footer />}
+        {!isAdminPage && !isLandingPage && <Footer />}
       </div>
 
       {/* ======================================================== */}
       {/* 🌟 SLIMMED NON-OVERLAPPING STACKED RIGHT-SIDE TABS       */}
       {/* ======================================================== */}
-      {!isAdminPage && (
+      {!isAdminPage && !isLandingPage && (
         <div className="fixed right-0 top-[40%] -translate-y-1/2 z-40 flex flex-col gap-3 items-end font-[var(--font-poppins)]">
           {/* Admission Enquiry Tab (Navy Blue/White Text) */}
           <button

@@ -48,7 +48,7 @@ export default function AdminPortal() {
   const [activeTab, setActiveTab] = useState<
     "dashboard" | "homepage-sections" | "announcements" | "about" | "academics" | 
     "calendar" | "news-events" | "directories" | "placements" | "campus-life" | 
-    "users" | "admissions" | "examinations" | "finance" | "communication" | "library" | "reports" | "settings"
+    "users" | "admissions" | "examinations" | "finance" | "communication" | "library" | "reports" | "settings" | "leads"
   >("dashboard");
   const [newsEventsSection, setNewsEventsSection] = useState<"news" | "events" | "video">("news");
   
@@ -946,6 +946,7 @@ export default function AdminPortal() {
                   { id: "examinations", label: "Examinations", icon: CheckSquare },
                   { id: "placements", label: "Placements", icon: Briefcase },
                   { id: "campus-life", label: "Campus Life", icon: Building },
+                  { id: "leads", label: "Leads Manager", icon: FileSpreadsheet },
                   { id: "finance", label: "Finance", icon: CreditCard },
                   { id: "communication", label: "Communication", icon: MessageSquare },
                   { id: "news-events", label: "Events & News", icon: Calendar },
@@ -2931,7 +2932,133 @@ export default function AdminPortal() {
               )}
             </div>
           )}
-          {activeTab === "campus-life" && (
+          {activeTab === "leads" && (
+            <div className="space-y-6 animate-fade-in text-left">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-4">
+                <div>
+                  <h2 className="text-xl font-extrabold text-gray-900">Admissions Lead Manager</h2>
+                  <p className="text-xs text-gray-500 mt-0.5">View, filter, and export leads collected from the admissions enquiry forms.</p>
+                </div>
+                <div className="flex gap-2">
+                  <button 
+                    onClick={() => {
+                      if (window.confirm("Are you sure you want to clear all leads? This action cannot be undone.")) {
+                        localStorage.removeItem("chalapathi_enquiry_leads");
+                        window.location.reload();
+                      }
+                    }}
+                    className="h-10 px-4 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-600 font-bold text-xs rounded-xl transition-colors inline-flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <Trash2 size={13} />
+                    <span>Clear All</span>
+                  </button>
+                  <button 
+                    onClick={() => {
+                      const leads = JSON.parse(localStorage.getItem("chalapathi_enquiry_leads") || "[]");
+                      if (leads.length === 0) {
+                        alert("No leads available to export!");
+                        return;
+                      }
+                      const headers = ["ID", "Timestamp", "Name", "Mobile", "Email", "City", "State", "Qualification", "Year of Passing", "Program", "Query"];
+                      const csvRows = [headers.join(",")];
+                      leads.forEach((lead: any) => {
+                        const values = [
+                          lead.id || "",
+                          lead.timestamp || "",
+                          `"${(lead.name || "").replace(/"/g, '""')}"`,
+                          lead.mobile || "",
+                          lead.email || "",
+                          `"${(lead.city || "").replace(/"/g, '""')}"`,
+                          lead.state || "",
+                          lead.qualification || "",
+                          lead.yearOfPassing || "",
+                          `"${(lead.program || "").replace(/"/g, '""')}"`,
+                          `"${(lead.query || "").replace(/"/g, '""')}"`
+                        ];
+                        csvRows.push(values.join(","));
+                      });
+                      const csvContent = "data:text/csv;charset=utf-8," + csvRows.join("\n");
+                      const encodedUri = encodeURI(csvContent);
+                      const link = document.createElement("a");
+                      link.setAttribute("href", encodedUri);
+                      link.setAttribute("download", `chalapathi_leads_${new Date().toISOString().split('T')[0]}.csv`);
+                      document.body.appendChild(link);
+                      link.click();
+                      document.body.removeChild(link);
+                    }}
+                    className="h-10 px-5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow transition-colors inline-flex items-center gap-2 cursor-pointer"
+                  >
+                    <FileSpreadsheet size={14} />
+                    <span>Export to CSV</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Leads Table */}
+              <div className="bg-white rounded-2xl border border-gray-150 shadow-2xs overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-xs font-medium">
+                    <thead>
+                      <tr className="border-b border-gray-200 text-[10px] text-gray-400 uppercase tracking-wider bg-gray-50/50">
+                        <th className="py-3.5 px-4">Date</th>
+                        <th className="py-3.5 px-4">Name</th>
+                        <th className="py-3.5 px-4">Contact</th>
+                        <th className="py-3.5 px-4">Location</th>
+                        <th className="py-3.5 px-4">Qualification</th>
+                        <th className="py-3.5 px-4">Interested Program</th>
+                        <th className="py-3.5 px-4">Query</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100 text-gray-700">
+                      {(() => {
+                        const leads = JSON.parse(localStorage.getItem("chalapathi_enquiry_leads") || "[]");
+                        if (leads.length === 0) {
+                          return (
+                            <tr>
+                              <td colSpan={7} className="py-12 text-center text-gray-400 font-light">
+                                No leads have been submitted yet.
+                              </td>
+                            </tr>
+                          );
+                        }
+                        return leads.map((lead: any, i: number) => (
+                          <tr key={i} className="hover:bg-slate-50/50">
+                            <td className="py-3.5 px-4 whitespace-nowrap text-gray-400 font-mono text-[10px]">
+                              {lead.timestamp ? new Date(lead.timestamp).toLocaleDateString("en-IN", {
+                                day: "2-digit",
+                                month: "short",
+                                hour: "2-digit",
+                                minute: "2-digit"
+                              }) : "N/A"}
+                            </td>
+                            <td className="py-3.5 px-4 font-bold text-gray-900">{lead.name}</td>
+                            <td className="py-3.5 px-4 space-y-0.5">
+                              <span className="block font-bold text-gray-800">{lead.mobile}</span>
+                              <span className="block text-[10px] text-gray-400">{lead.email}</span>
+                            </td>
+                            <td className="py-3.5 px-4">
+                              <span className="block text-gray-800">{lead.city}</span>
+                              <span className="block text-[10px] text-gray-400 font-bold uppercase">{lead.state}</span>
+                            </td>
+                            <td className="py-3.5 px-4">
+                              <span className="block text-gray-800">{lead.qualification}</span>
+                              <span className="block text-[10px] text-gray-400">Class of {lead.yearOfPassing}</span>
+                            </td>
+                            <td className="py-3.5 px-4 font-bold text-blue-900">{lead.program}</td>
+                            <td className="py-3.5 px-4 max-w-[200px] truncate text-gray-500 italic" title={lead.query}>
+                              {lead.query || "-"}
+                            </td>
+                          </tr>
+                        ));
+                      })()}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          )}
+
+                    {activeTab === "campus-life" && (
             <form onSubmit={handleSaveCampusLife} className="space-y-6">
               <div>
                 <h1 className="text-xl font-black text-[#072A6C] uppercase tracking-wider">Campus Life Editor</h1>
