@@ -62,12 +62,7 @@ export default function HeroSection({ cert }: HeroSectionProps) {
             transition={{ delay: 0.6 }}
             className="flex items-center gap-4 pt-4"
           >
-            <button 
-              className="px-8 py-4 rounded-full text-white font-bold text-sm transition-all hover:scale-105 shadow-lg shadow-black/10"
-              style={{ backgroundColor: cert.color }}
-            >
-              Start Learning
-            </button>
+
             <div className="flex flex-col">
               <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Duration</span>
               <span className="text-sm font-bold text-gray-800">{cert.duration}</span>

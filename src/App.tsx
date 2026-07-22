@@ -297,7 +297,7 @@ function AppContent() {
 
             <video
               ref={videoRef}
-              src="/chalapathi_logo_intro.mp4"
+              src="/chalapathi_logo_intro.mp4?v=2"
               autoPlay
               muted
               playsInline
@@ -321,7 +321,7 @@ function AppContent() {
                   setShowSplash(false);
                 }, 1000);
               }}
-              className="w-full h-full object-cover"
+              className="absolute inset-0 w-full h-full object-contain md:object-cover bg-white z-0"
             />
             <style dangerouslySetInnerHTML={{__html: `
               .intro-skip-text {
@@ -399,8 +399,6 @@ function AppContent() {
             <Route path="/admissions/postgraduate" element={<DynamicPage />} />
             <Route path="/admissions/phd" element={<DynamicPage />} />
             <Route path="/admissions/international" element={<DynamicPage />} />
-            <Route path="/admissions/fees" element={<DynamicPage />} />
-            <Route path="/admissions/scholarships" element={<DynamicPage />} />
             <Route path="/admissions/apply" element={<DynamicPage />} />
             <Route path="/apply-now" element={<LandingPage />} />
             <Route path="/landing" element={<LandingPage />} />
@@ -518,7 +516,7 @@ function AppContent() {
       {/* ======================================================== */}
       {showEnquiryModal && (
         <div 
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-md p-4 md:p-6 overflow-y-auto"
+          className="fixed inset-0 z-50 flex bg-black/60 backdrop-blur-md p-4 md:p-6 overflow-y-auto"
           onClick={() => setShowEnquiryModal(false)}
         >
           <style dangerouslySetInnerHTML={{__html: `
@@ -535,9 +533,17 @@ function AppContent() {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ duration: 0.35, ease: "easeOut" }}
-            className="bg-white w-full max-w-[1240px] md:h-auto md:max-h-[92vh] rounded-[24px] shadow-2xl relative flex flex-col md:flex-row overflow-hidden border border-gray-100 font-[var(--font-poppins)] text-left select-none"
+            className="m-auto bg-white w-full max-w-[1240px] md:h-auto md:max-h-[92vh] rounded-[24px] shadow-2xl relative flex flex-col md:flex-row overflow-hidden border border-gray-100 font-[var(--font-poppins)] text-left select-none"
             onClick={(e) => e.stopPropagation()}
           >
+            {/* Close Button */}
+            <button 
+              onClick={() => setShowEnquiryModal(false)}
+              className="absolute top-4 right-4 z-[60] w-8 h-8 rounded-full bg-gray-50 hover:bg-gray-100 text-gray-600 border border-gray-155 flex items-center justify-center transition-all hover:scale-105 hover:rotate-90 duration-200 cursor-pointer"
+            >
+              <X size={15} />
+            </button>
+
             {/* Left Panel: Schools & Programs */}
             <div className="w-full md:w-1/2 p-5 md:p-6 border-r border-gray-100 flex flex-col bg-slate-50/30 overflow-y-auto scrollbar-none">
               {/* Logo */}
@@ -626,15 +632,7 @@ function AppContent() {
             </div>
 
             {/* Right Panel: Enquiry Form */}
-            <div className="w-full md:w-1/2 p-5 md:p-6 flex flex-col bg-white relative overflow-y-auto scrollbar-none">
-              {/* Close Button */}
-              <button 
-                onClick={() => setShowEnquiryModal(false)}
-                className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-gray-50 hover:bg-gray-100 text-gray-600 border border-gray-155 flex items-center justify-center transition-all hover:scale-105 hover:rotate-90 duration-200 cursor-pointer"
-              >
-                <X size={15} />
-              </button>
-
+            <div className="w-full md:w-1/2 p-5 md:p-6 flex flex-col bg-white relative overflow-y-auto scrollbar-none pt-12 md:pt-6">
               <div className="mb-3.5">
                 <h2 className="text-[18px] font-black text-[#072A6C] tracking-tight uppercase leading-none">
                   ADMISSIONS OPEN 2026-27

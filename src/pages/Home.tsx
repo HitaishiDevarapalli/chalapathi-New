@@ -269,10 +269,10 @@ export default function Home() {
         title="Best University in andhraPradesh -ChalapathiUniversity" 
         description="Chalapathi University offers world-class higher education with premium undergraduate, postgraduate, and research programs. Admissions Open for 2026–2027." 
       />
-      {/* ═══ HERO SECTION (720px height) ═══ */}
+      {/* ═══ HERO SECTION ═══ */}
       <section 
         className="relative w-full overflow-hidden bg-white select-none" 
-        style={{ height: "720px" }}
+
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -317,12 +317,10 @@ export default function Home() {
         `}} />
 
         {/* Clean full banner image aligned top so the entire logo is visible */}
-        <div
-          className="absolute inset-0 bg-cover bg-top"
-          style={{
-            backgroundImage: "url('/Chalapathimain.png')",
-            backgroundPosition: "center top"
-          }}
+        <img
+          src="/Chalapathimain.png"
+          alt="Chalapathi University Banner"
+          className="w-full h-auto md:h-[720px] md:object-cover md:object-top block no-lift"
         />
       </section>
 
@@ -332,7 +330,6 @@ export default function Home() {
           { text: "Admissions Open for Academic Year 2026–27", link: "" },
           { text: "Applications Closing Soon", link: "" },
           { text: "Apply Now", link: "/admissions" },
-          { text: "Scholarships Available for Meritorious Students", link: "" },
           { text: "Limited Seats", link: "" },
           { text: "Register Today", link: "/admissions" },
           { text: "Highest Placement Opportunities", link: "/placements" },
@@ -472,7 +469,7 @@ export default function Home() {
         >
           {[
             {
-              title: "Education Curriculum",
+              title: "Industry integrated curriculum",
               desc: "Curriculum designed with practical learning and industry collaboration to ensure graduates are career-ready.",
               icon: Trophy,
               color: "#123A7A"
@@ -744,12 +741,11 @@ export default function Home() {
 
           <div className="cert-marquee-track">
             {[...certifications, ...certifications, ...certifications].map((cert, idx) => (
-              <Link
+              <div
                 key={`${cert.id}-${idx}`}
-                to={`/certifications#${cert.id}`}
                 className="flex-shrink-0 mx-8 group"
               >
-                <div className="w-[160px] h-[80px] flex items-center justify-center opacity-90 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="w-[160px] h-[80px] flex items-center justify-center opacity-90 transition-opacity duration-300">
                   <img
                     src={cert.images[0]}
                     alt={cert.name}
@@ -757,7 +753,7 @@ export default function Home() {
                     loading="lazy"
                   />
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         </div>
@@ -1299,38 +1295,45 @@ export default function Home() {
             <img src="/campus_hero.png" alt="Campus View" className="w-full h-full object-cover" />
           </motion.div>
 
+
+        </div>
+      </section>
+
+
+      {/* ═══ FIND YOUR WAY STRIP ═══ */}
+      <section className="bg-white py-12 border-t border-gray-100">
+        <div className="max-w-[1440px] mx-auto px-5">
           <motion.div
-            className="bg-[#072A6C] text-white rounded-[16px] p-5 shadow-sm flex flex-col md:flex-row items-center justify-between gap-4"
+            className="bg-[#072A6C] text-white rounded-[16px] p-6 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.15 }}
+            transition={{ duration: 0.6 }}
           >
             <div className="text-center md:text-left min-w-[200px]">
-              <h3 className="text-[15px] font-[700]">Find Your Way</h3>
-              <p className="text-[11px] text-white font-[300] mt-0.5">Get directions to Chalapathi University</p>
+              <h3 className="text-[18px] font-[800]">Find Your Way</h3>
+              <p className="text-[13px] text-white font-[400] mt-1">Get directions to Chalapathi University</p>
             </div>
 
             {/* Combined Input Bar */}
-            <form onSubmit={handleDirections} className="w-full md:w-auto flex-1 flex max-w-xl bg-white rounded-full p-1 overflow-hidden shadow-sm border border-gray-100">
-              <div className="flex items-center gap-2 pl-3 flex-1">
-                <Search size={15} className="text-gray-400 shrink-0" />
+            <form onSubmit={handleDirections} className="w-full md:w-auto flex-1 flex max-w-2xl bg-white rounded-full p-1.5 overflow-hidden shadow-sm border border-gray-100">
+              <div className="flex items-center gap-2 pl-4 flex-1">
+                <Search size={18} className="text-gray-400 shrink-0" />
                 <input
                   type="text"
                   value={directionsFrom}
                   onChange={(e) => setDirectionsFrom(e.target.value)}
                   placeholder="Enter your location"
-                  className="w-full text-black text-[12px] outline-none bg-transparent"
+                  className="w-full text-black text-[14px] outline-none bg-transparent"
                 />
               </div>
-              <button type="submit" className="bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-[700] px-5 py-2 rounded-full text-[12px] flex items-center gap-1 shrink-0 whitespace-nowrap active:scale-95 transition-transform">
-                Get Directions <MapPin size={12} />
+              <button type="submit" className="bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-[700] px-6 py-3 rounded-full text-[14px] flex items-center gap-2 shrink-0 whitespace-nowrap active:scale-95 transition-transform">
+                Get Directions <MapPin size={14} />
               </button>
             </form>
           </motion.div>
         </div>
       </section>
-
 
       {/* ═══ ADMISSIONS OPEN 2026 STRIP ═══ */}
       <section className="bg-gray-50 py-12 border-t border-gray-100">

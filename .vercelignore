@@ -5,6 +5,5 @@ dist
 build
 .vercel
 dev.db
-*.mp4
 *.zip
 *.tar.gz

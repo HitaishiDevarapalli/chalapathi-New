@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { useData } from "../context/DataContext";
 import { 
@@ -199,8 +199,8 @@ const getAnnouncementExtraInfo = (title: string) => {
         }
       ],
       actions: {
-        label: "View Scholarships & Fees",
-        link: "/admissions/scholarships"
+        label: "View Admissions",
+        link: "/admissions"
       }
     };
   } else {

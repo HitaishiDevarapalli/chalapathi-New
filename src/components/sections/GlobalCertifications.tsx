@@ -128,20 +128,13 @@ export default function GlobalCertifications() {
           transition={{ duration: 0.6 }}
           className="mt-20 bg-[#f8fafc] border border-gray-200 rounded-[12px] p-10 md:p-14 flex flex-col md:flex-row items-center justify-between gap-12"
         >
-          <div className="md:w-2/3">
+          <div className="w-full">
             <h3 className="text-3xl font-black text-[#072A6C] mb-4">
               Ready for the World Stage.
             </h3>
-            <p className="text-gray-600 text-lg leading-relaxed max-w-2xl">
+            <p className="text-gray-600 text-lg leading-relaxed max-w-4xl">
               These certifications, combined with academic learning, ensure students graduate as globally competent, industry-ready professionals — confident to compete not just in national markets, but anywhere in the world.
             </p>
-          </div>
-
-          <div className="md:w-1/3 flex justify-end">
-            <button className="bg-[#072A6C] hover:bg-[#051d4d] text-white px-8 py-4 rounded font-bold shadow-md hover:shadow-lg transition-all duration-300 flex items-center gap-3 w-full sm:w-auto justify-center">
-              <span>View Curriculum</span>
-              <ChevronRight className="w-5 h-5" />
-            </button>
           </div>
         </motion.div>
 

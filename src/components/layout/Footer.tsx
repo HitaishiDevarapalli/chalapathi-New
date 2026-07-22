@@ -1,4 +1,4 @@
-﻿import React from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import {
   MapPin, Phone, Mail, Globe, Users, Briefcase, Play
@@ -11,7 +11,6 @@ export default function Footer() {
     { label: "Leadership", to: "/about/leadership" },
     { label: "Genesis & Heritage", to: "/about/genesis" },
     { label: "Chalapathi Advantage", to: "/about/advantage" },
-    { label: "Accreditations", to: "/about" },
   ];
 
   const academicsLinks = [
@@ -25,8 +24,6 @@ export default function Footer() {
   const admissionsLinks = [
     { label: "Undergraduate", to: "/admissions/undergraduate" },
     { label: "Postgraduate", to: "/admissions/postgraduate" },
-    { label: "Fee Structure", to: "/admissions/fees" },
-    { label: "Scholarships", to: "/admissions/scholarships" },
     { label: "Apply Online", to: "/admissions/apply" },
   ];
 

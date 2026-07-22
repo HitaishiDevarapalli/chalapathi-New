@@ -24,23 +24,19 @@ const KNOWLEDGE_BASE: { keywords: string[]; answer: string; suggestions?: string
   {
     keywords: ["school", "schools", "course", "courses", "engineering", "pharmacy", "management", "law", "program", "programs"],
     answer: "Chalapathy University offers top-tier education through 10 specialised schools:\n\n1. School of Engineering\n2. School of Pharmacy\n3. School of Management\n4. School of Sciences\n5. School of Agriculture\n6. School of Health Sciences\n7. School of Law\n8. School of Humanities\n9. School of Allied Health Sciences\n10. School of Artificial Intelligence\n\nWould you like to try our Smart Program Finder to see which course fits you best?",
-    suggestions: ["Try Program Finder", "Admission Process", "Scholarships Info"]
+    suggestions: ["Try Program Finder", "Admission Process"]
   },
   {
     keywords: ["admission", "apply", "apply now", "joining", "join", "journey"],
     answer: "Admissions for the current academic year are open! Our Digital Admission Journey is 100% online. \n\nSteps:\n1. Fill Personal & Academic Details.\n2. Choose your School & Program.\n3. Upload required documents.\n4. Pay application fee.\n\nYou can click the 'APPLY NOW' button in the header to start immediately!",
-    suggestions: ["Apply Online Now", "Fee Structure", "Scholarships"]
+    suggestions: ["Apply Online Now", "Placement Stats", "Hostel Facilities"]
   },
   {
     keywords: ["placement", "placements", "job", "jobs", "recruiters", "salary"],
     answer: "Chalapathy University has an exceptional placement record with 90%+ placements annually. Our Career Services Cell partners with global brands:\n\n• Highest Package: ₹44 LPA\n• Average Package: ₹6.8 LPA\n• Key Recruiters: TCS, Infosys, Wipro, Amazon, Pfizer, Reddy's Labs, Cognizant.\n• Internships: 100% support in top firms.",
     suggestions: ["Highest Package", "Recruiters List", "Careers Cell"]
   },
-  {
-    keywords: ["fee", "fees", "cost", "scholarship", "scholarships", "concession"],
-    answer: "Fee structures vary by school. Approximate tuition fees are ₹80,000 to ₹1,80,000 per year depending on the stream. \n\nWe offer Merit Scholarships up to 100% based on:\n• JEE Main / AP EAPCET Ranks\n• 10+2 Board Marks (95%+ get full tuition waivers)\n• Sports & Extra-Curricular achievements.\n• Need-based aid for underprivileged families.",
-    suggestions: ["Merit Scholarship", "How to apply for aid", "Refund Policy"]
-  },
+
   {
     keywords: ["hostel", "hostels", "accommodation", "sports", "campus", "canteen"],
     answer: "Our vibrant campus covers 40+ acres with fully air-conditioned and non-A/C separate hostels for boys and girls. Facilities include:\n\n• 24/7 Wi-Fi & security surveillance.\n• Nutritious multi-cuisine food courts.\n• Sports Arena with cricket nets, basketball courts, and gym.\n• Central library open till 10:00 PM.",
@@ -103,7 +99,7 @@ export default function AIAssistant({ isOpen, onClose }: AIAssistantProps) {
       }
 
       if (!matchedAnswer) {
-        matchedAnswer = "I'm sorry, I didn't quite get that. Could you ask about courses, fee structures, hostels, placements, or how to apply?";
+        matchedAnswer = "I'm sorry, I didn't quite get that. Could you ask about courses, hostels, placements, or how to apply?";
       }
 
       setMessages((prev) => [

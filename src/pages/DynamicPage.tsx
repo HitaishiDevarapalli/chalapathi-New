@@ -569,40 +569,17 @@ const getPageContent = (path: string, programs: any[]) => {
         body: <AdmissionsApplyFlow />
       };
     }
-    if (cleanPath.includes("fees")) {
-      return {
-        title: "Academic Fee Structure",
-        category: "Admissions",
-        desc: "Transparent and competitive tuition fee details across all core streams.",
-        body: <FeesView />
-      };
-    }
-    if (cleanPath.includes("scholarships")) {
-      return {
-        title: "Scholarships & Merit Schemes",
-        category: "Admissions",
-        desc: "Ensuring financial need never deters brilliant academic potential.",
-        body: <ScholarshipsView />
-      };
-    }
+
     return {
       title: "Admissions Portal",
       category: "Admissions",
       desc: "Enrollment processes, eligibility guidelines, fee charts, and student aids.",
       body: (
         <div className="space-y-12 mt-4 font-[var(--font-poppins)]">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Link to="/admissions/apply" className="bg-[#072A6C] text-white p-6 rounded-[16px] shadow-sm flex flex-col justify-between min-h-[140px] hover:translate-y-[-2px] transition-transform text-left">
+          <div className="flex justify-center mb-8">
+            <Link to="/admissions/apply" className="w-full max-w-sm bg-[#072A6C] text-white p-6 rounded-[16px] shadow-sm flex flex-col justify-between min-h-[140px] hover:translate-y-[-2px] transition-transform text-left">
               <h4 className="font-bold text-sm">Start Application</h4>
               <span className="text-xs text-blue-200 flex items-center gap-1">Online Application Form <ArrowRight size={12} /></span>
-            </Link>
-            <Link to="/admissions/fees" className="bg-white border border-gray-100 p-6 rounded-[16px] shadow-sm flex flex-col justify-between min-h-[140px] hover:translate-y-[-2px] transition-transform text-left">
-              <h4 className="font-bold text-[#072A6C] text-sm">Fee Structure</h4>
-              <span className="text-xs text-[#D4AF37] flex items-center gap-1">View Stream Details <ArrowRight size={12} /></span>
-            </Link>
-            <Link to="/admissions/scholarships" className="bg-white border border-gray-100 p-6 rounded-[16px] shadow-sm flex flex-col justify-between min-h-[140px] hover:translate-y-[-2px] transition-transform text-left">
-              <h4 className="font-bold text-[#072A6C] text-sm">Scholarships</h4>
-              <span className="text-xs text-[#D4AF37] flex items-center gap-1">Apply for Waivers <ArrowRight size={12} /></span>
             </Link>
           </div>
 
@@ -959,9 +936,7 @@ const getPageContent = (path: string, programs: any[]) => {
             <h4 className="font-extrabold text-[#072A6C] uppercase">Admissions</h4>
             <ul className="space-y-1 text-gray-500 font-medium">
               <li><Link to="/admissions" className="hover:text-[#D4AF37]">Admissions Portal</Link></li>
-              <li><Link to="/admissions/fees" className="hover:text-[#D4AF37]">Academic Fee Structure</Link></li>
-              <li><Link to="/admissions/scholarships" className="hover:text-[#D4AF37]">Scholarships & Waivers</Link></li>
-              <li><Link to="/admissions/apply" className="hover:text-[#D4AF37]">Apply Registration Form</Link></li>
+              <li className="font-bold text-[#072A6C]"><Link to="/admissions/apply">Start Application</Link></li>
             </ul>
           </div>
         </div>
@@ -982,7 +957,7 @@ function AcademicCalendar() {
   const [selectedYear, setSelectedYear] = React.useState("2026-27");
   const [activeCourse, setActiveCourse] = React.useState<string | null>(null);
 
-  const years = ["2026-27", "2025-26", "2024-25", "2023-24", "2022-23"];
+  const years = ["2026-27"];
 
   const universitysData: Record<string, Record<string, Record<string, { label: string; key: string }[]>>> = {
     "2026-27": {
@@ -2704,7 +2679,7 @@ export default function DynamicPage() {
                     <li><Link to="/academics/programmes" className="hover:text-white transition-colors flex items-center justify-between">Academic Programs <ArrowRight size={10} /></Link></li>
                     <li><Link to="/admissions/fees" className="hover:text-white transition-colors flex items-center justify-between">Enrollment & Fees <ArrowRight size={10} /></Link></li>
                     <li><Link to="/placements" className="hover:text-white transition-colors flex items-center justify-between">Placements & Statistics <ArrowRight size={10} /></Link></li>
-                    <li className="col-span-2"><Link to="/contact" className="hover:text-white transition-colors flex items-center justify-between">Contact Support <ArrowRight size={10} /></Link></li>
+                    <li className="col-span-2"><Link to="/contact" className="hover:text-white transition-colors flex items-center justify-between">Contact Support</Link></li>
                   </ul>
                 </div>
               </div>
@@ -2715,9 +2690,9 @@ export default function DynamicPage() {
                   <h3 className="font-extrabold text-sm text-[#072A6C] uppercase tracking-wider">Admission Helpdesk</h3>
                   <p className="text-xs text-gray-500 leading-relaxed font-light">Have questions about registration, courses, or hostels? Reach our advisors directly.</p>
                 </div>
-                <a href="tel:8886630355" className="h-11 px-6 bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition-colors shrink-0 outline-none border-none cursor-pointer">
+                <Link to="/contact" className="h-11 px-6 bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-bold text-xs rounded-xl flex items-center justify-center gap-2 transition-colors shrink-0 outline-none border-none cursor-pointer">
                   <Phone size={14} /> Call Counselor
-                </a>
+                </Link>
               </div>
             </motion.div>
           )}
@@ -3560,28 +3535,16 @@ function AdmissionsApplyFlow() {
     }, 300);
   };
 
-  const processPayment = () => {
-    if (formData.paymentMethod === "Card" && (!formData.cardNumber || !formData.cardExpiry || !formData.cardCvv)) {
-      alert("Please fill all card details.");
-      return;
-    }
-    setIsPaying(true);
-    setTimeout(() => {
-      setIsPaying(false);
-      handleNext();
-    }, 2500);
-  };
-
   const steps = [
     { num: 1, label: "Register" },
     { num: 2, label: "Form" },
     { num: 3, label: "Documents" },
-    { num: 4, label: "Payment" }
+    { num: 4, label: "Success" }
   ];
 
   return (
     <div className="max-w-xl mx-auto bg-white border-2 border-slate-300/90 rounded-3xl p-6 sm:p-9 shadow-2xl shadow-slate-300/50 font-[var(--font-poppins)] text-left relative overflow-hidden">
-      {step <= 5 && (
+      {step <= 4 && (
         <div className="flex justify-between items-center mb-8 border-b-2 border-slate-100 pb-5">
           {steps.map((s) => (
             <div key={s.num} className="flex flex-col items-center gap-1.5 flex-1 relative">
@@ -4037,108 +4000,6 @@ function AdmissionsApplyFlow() {
       )}
 
       {step === 4 && (
-        <div className="space-y-5 animate-fade-in">
-          <div className="border-b border-slate-100 pb-3">
-            <h3 className="text-base sm:text-lg font-black text-[#072A6C] uppercase tracking-wide">Pay Application Fee</h3>
-            <p className="text-xs text-slate-600 font-semibold mt-1">Pay the mandatory application processing fee of <strong className="text-slate-900">₹1,000</strong> to submit your form.</p>
-          </div>
-
-          <div className="space-y-4 pt-2">
-            <div className="flex gap-3 bg-slate-100 p-2 rounded-2xl border-2 border-slate-200">
-              <button 
-                type="button" 
-                onClick={() => setFormData({ ...formData, paymentMethod: "UPI" })}
-                className={`flex-1 py-2.5 text-center text-xs font-black rounded-xl transition-all cursor-pointer outline-none border-2 ${
-                  formData.paymentMethod === "UPI" ? "bg-[#072A6C] text-white border-[#072A6C] shadow-md" : "bg-white text-slate-700 hover:bg-slate-50 border-slate-300"
-                }`}
-              >
-                UPI / QR Code
-              </button>
-              <button 
-                type="button" 
-                onClick={() => setFormData({ ...formData, paymentMethod: "Card" })}
-                className={`flex-1 py-2.5 text-center text-xs font-black rounded-xl transition-all cursor-pointer outline-none border-2 ${
-                  formData.paymentMethod === "Card" ? "bg-[#072A6C] text-white border-[#072A6C] shadow-md" : "bg-white text-slate-700 hover:bg-slate-50 border-slate-300"
-                }`}
-              >
-                Credit / Debit Card
-              </button>
-            </div>
-
-            {formData.paymentMethod === "UPI" ? (
-              <div className="flex flex-col items-center p-6 border-2 border-slate-300 bg-slate-50/50 rounded-2xl space-y-4">
-                <div className="w-44 h-44 bg-white border-2 border-[#072A6C] p-2.5 rounded-2xl flex items-center justify-center shadow-md">
-                  <QrCode size={130} className="text-[#072A6C]" />
-                </div>
-                <span className="text-xs font-black text-[#072A6C] uppercase tracking-wider text-center">Scan QR code using BHIM, GPay, PhonePe, or Paytm</span>
-              </div>
-            ) : (
-              <div className="space-y-3 p-4.5 border-2 border-slate-300 bg-slate-50/50 rounded-2xl">
-                <div>
-                  <label className="block text-xs font-extrabold text-slate-800 uppercase tracking-wider mb-1">Card Number</label>
-                  <input 
-                    type="text" 
-                    value={formData.cardNumber}
-                    onChange={(e) => setFormData({ ...formData, cardNumber: e.target.value.replace(/\D/g, "").slice(0, 16) })}
-                    placeholder="4111 2222 3333 4444"
-                    className="w-full px-3.5 py-2.5 bg-white border-2 border-slate-300 rounded-xl text-xs sm:text-sm font-semibold text-slate-900 outline-none focus:border-[#072A6C] focus:ring-2 focus:ring-[#072A6C]/20 shadow-sm" 
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-extrabold text-slate-800 uppercase tracking-wider mb-1">Expiry Date</label>
-                    <input 
-                      type="text" 
-                      value={formData.cardExpiry}
-                      onChange={(e) => setFormData({ ...formData, cardExpiry: e.target.value.slice(0, 5) })}
-                      placeholder="MM/YY"
-                      className="w-full px-3.5 py-2.5 bg-white border-2 border-slate-300 rounded-xl text-xs sm:text-sm font-semibold text-slate-900 outline-none focus:border-[#072A6C] focus:ring-2 focus:ring-[#072A6C]/20 shadow-sm" 
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-extrabold text-slate-800 uppercase tracking-wider mb-1">CVV</label>
-                    <input 
-                      type="password" 
-                      maxLength={3}
-                      value={formData.cardCvv}
-                      onChange={(e) => setFormData({ ...formData, cardCvv: e.target.value.replace(/\D/g, "") })}
-                      placeholder="123"
-                      className="w-full px-3.5 py-2.5 bg-white border-2 border-slate-300 rounded-xl text-xs sm:text-sm font-semibold text-slate-900 outline-none focus:border-[#072A6C] focus:ring-2 focus:ring-[#072A6C]/20 shadow-sm" 
-                    />
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {isPaying && (
-              <div className="flex items-center justify-center gap-2 py-2 text-xs font-bold text-slate-700">
-                <Clock size={16} className="animate-spin text-[#D4AF37]" /> Processing secure transaction...
-              </div>
-            )}
-          </div>
-
-          <div className="flex gap-4 pt-6">
-            <button 
-              type="button" 
-              onClick={handleBack} 
-              disabled={isPaying}
-              className="flex-1 py-3.5 bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 text-slate-800 font-extrabold text-xs sm:text-sm rounded-xl transition-all uppercase tracking-wider cursor-pointer"
-            >
-              Back
-            </button>
-            <button 
-              type="button" 
-              onClick={processPayment} 
-              disabled={isPaying}
-              className="flex-2 py-3.5 bg-[#072A6C] hover:bg-[#0B3D91] text-white font-black text-xs sm:text-sm rounded-xl shadow-lg shadow-[#072A6C]/25 border-b-4 border-[#D4AF37] transition-all uppercase tracking-wider cursor-pointer flex items-center justify-center gap-2 active:scale-98"
-            >
-              {isPaying ? "Paying..." : "Pay ₹1,000 & Submit"}
-            </button>
-          </div>
-        </div>
-      )}
-
-      {step === 5 && (
         <div className="text-center py-6 space-y-6 animate-fade-in">
           <div className="w-16 h-16 bg-[#072A6C]/10 text-[#072A6C] rounded-full flex items-center justify-center mx-auto shadow-inner">
             <ShieldCheck size={36} />
@@ -4620,7 +4481,7 @@ function ContactUsView() {
       </div>
 
       {/* Grid of Department-wise helplines */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         
         {/* Admissions Office */}
         <div className="bg-white border border-gray-200/80 rounded-2xl p-6 shadow-sm space-y-3 flex flex-col justify-between hover:shadow-md transition-shadow">
@@ -4652,23 +4513,6 @@ function ContactUsView() {
           <div className="space-y-0.5 text-xs text-gray-500 font-light pt-2">
             <span className="block font-semibold text-gray-700">Email:</span>
             <a href="mailto:principal@city.ac.in" className="block text-[#D4AF37] font-semibold hover:underline truncate">principal@city.ac.in</a>
-          </div>
-        </div>
-
-        {/* Placements Cell */}
-        <div className="bg-white border border-gray-200/80 rounded-2xl p-6 shadow-sm space-y-3 flex flex-col justify-between hover:shadow-md transition-shadow">
-          <div>
-            <span className="font-extrabold text-[#072A6C] block uppercase tracking-wide text-xs border-b border-gray-100 pb-2 mb-2">Training & Placements</span>
-            <div className="space-y-1 text-xs text-gray-500 font-light">
-              <span className="block font-semibold text-gray-700">Placement Cell Hotline:</span>
-              <span className="block">+91 88866 30342</span>
-            </div>
-          </div>
-          <div className="space-y-0.5 text-[11px] text-gray-500 font-light pt-2">
-            <span className="block font-semibold text-xs text-gray-700">Recruitment Team:</span>
-            <a href="mailto:jayachandra@city.ac.in" className="block text-[#D4AF37] hover:underline truncate">jayachandra@city.ac.in</a>
-            <a href="mailto:saipraveen@city.ac.in" className="block text-[#D4AF37] hover:underline truncate">saipraveen@city.ac.in</a>
-            <a href="mailto:paulpraveenn@city.ac.in" className="block text-[#D4AF37] hover:underline truncate">paulpraveenn@city.ac.in</a>
           </div>
         </div>
 

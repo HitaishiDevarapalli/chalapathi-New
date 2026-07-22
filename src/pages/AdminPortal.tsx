@@ -78,7 +78,6 @@ export default function AdminPortal() {
       { text: "Admissions Open for Academic Year 2026–27", link: "" },
       { text: "Applications Closing Soon", link: "" },
       { text: "Apply Now", link: "/admissions" },
-      { text: "Scholarships Available for Meritorious Students", link: "" },
       { text: "Limited Seats", link: "" },
       { text: "Register Today", link: "/admissions" },
       { text: "Highest Placement Opportunities", link: "/placements" },

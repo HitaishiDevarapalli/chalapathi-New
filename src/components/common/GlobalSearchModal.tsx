@@ -14,12 +14,16 @@ export interface SearchItem {
   title: string;
   category: "Programs" | "Schools" | "Admissions" | "Placements" | "Facilities" | "Research" | "Governance" | "Leadership" | "Contact" | "Media";
   route: string;
-  keywords: string[];
+  keywords: string[
+  
+];
   description?: string;
   icon: React.ElementType;
 }
 
-export const SEARCH_INDEX: SearchItem[] = [
+export const SEARCH_INDEX: SearchItem[
+  
+] = [
   // Programs
   {
     id: "btech-cse",
@@ -196,24 +200,7 @@ export const SEARCH_INDEX: SearchItem[] = [
     description: "Online Application Portal for 2026–27 Admissions",
     icon: Rocket
   },
-  {
-    id: "fee-structure",
-    title: "Tuition Fee Structure",
-    category: "Admissions",
-    route: "/academics/fee-structure",
-    keywords: ["fees", "fee structure", "fee", "cost", "tuition", "expenses", "payment"],
-    description: "Comprehensive Fee Details for All Degree Programs",
-    icon: FileText
-  },
-  {
-    id: "scholarships",
-    title: "Scholarships & Financial Aid",
-    category: "Admissions",
-    route: "/admissions/scholarships",
-    keywords: ["scholarship", "scholarships", "financial aid", "merit scholarship", "concession"],
-    description: "Merit-based & Need-based Scholarship Schemes",
-    icon: Award
-  },
+
   {
     id: "eligibility",
     title: "Admission Eligibility Criteria",
@@ -674,17 +661,13 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, on
             placeholder="Type any program, department, facility, admissions, fees..."
             className="w-full bg-transparent text-[#072A6C] placeholder-gray-400 font-semibold text-sm md:text-base outline-none border-none"
           />
-          {query ? (
+          {query && (
             <button
               onClick={() => setQuery("")}
               className="p-1 hover:bg-gray-200 rounded-full text-gray-400 hover:text-gray-600 transition-colors mr-2 border-none outline-none cursor-pointer"
             >
               <X size={16} />
             </button>
-          ) : (
-            <div className="hidden sm:flex items-center gap-1 text-[11px] font-bold text-gray-400 bg-gray-200/60 px-2 py-1 rounded-md mr-2">
-              <kbd>ESC</kbd> to close
-            </div>
           )}
           <button
             onClick={onClose}
@@ -705,10 +688,9 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, on
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 {[
-                  { label: "B.Tech CSE", route: "/academics/btech-cse", icon: Laptop },
+                  { label: "Computer Science", route: "/academics/computer-science", icon: Laptop },
                   { label: "Apply Now", route: "/admissions/apply", icon: Rocket },
-                  { label: "Fee Structure", route: "/academics/fee-structure", icon: FileText },
-                  { label: "Placements", route: "/academics/placements", icon: TrendingUp },
+                  { label: "Admissions", route: "/admissions", icon: CheckSquare },
                   { label: "Hostels", route: "/campus-life/hostels", icon: Home },
                   { label: "Contact Us", route: "/contact", icon: Phone }
                 ].map((item) => {
@@ -796,12 +778,7 @@ export const GlobalSearchModal: React.FC<GlobalSearchModalProps> = ({ isOpen, on
         </div>
 
         {/* Footer info bar */}
-        <div className="px-4 py-2.5 bg-gray-50 border-t border-gray-100 flex items-center justify-between text-[11px] text-gray-400 font-semibold">
-          <div className="flex items-center gap-3">
-            <span>Navigation Shortcuts:</span>
-            <span className="flex items-center gap-1 font-mono text-[10px]"><kbd className="bg-white border px-1 rounded">↑</kbd> <kbd className="bg-white border px-1 rounded">↓</kbd> to move</span>
-            <span className="flex items-center gap-1 font-mono text-[10px]"><kbd className="bg-white border px-1 rounded">↵</kbd> to open</span>
-          </div>
+        <div className="px-4 py-2.5 bg-gray-50 border-t border-gray-100 flex items-center justify-center text-[11px] text-gray-400 font-semibold">
           <span className="hidden sm:inline text-[#072A6C] font-bold">Chalapathy University</span>
         </div>
       </div>

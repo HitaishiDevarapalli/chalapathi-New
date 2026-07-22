@@ -150,20 +150,7 @@ export const searchIndex: SearchItem[] = [
     keywords: ["apply", "registration", "enrol", "fill application", "sign up"],
     icon: "FileSignature"
   },
-  {
-    title: "Fee Structure",
-    category: "Admissions",
-    to: "/admissions/fees",
-    keywords: ["fees", "fee structure", "tuition cost", "hostel fee", "payment"],
-    icon: "CreditCard"
-  },
-  {
-    title: "Scholarship Schemes",
-    category: "Admissions",
-    to: "/admissions/scholarships",
-    keywords: ["scholarship", "scholarships", "waiver", "concession", "financial aid", "merit scholarship"],
-    icon: "Award"
-  },
+
 
   // Campus Life
   {

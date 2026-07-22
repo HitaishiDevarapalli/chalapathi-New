@@ -33,10 +33,11 @@ export const footerColumns: FooterColumn[] = [
   {
     title: "Resources",
     links: [
+      { label: "Undergraduate", href: "#" },
+      { label: "Postgraduate", href: "#" },
+      { label: "Apply Online", href: "#" },
       { label: "Downloads", href: "#" },
       { label: "Academic Calendar", href: "#" },
-      { label: "Scholarships", href: "#" },
-      { label: "Fee Structure", href: "#" },
       { label: "Mandatory Disclosure", href: "#" },
     ],
   },
