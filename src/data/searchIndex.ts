@@ -223,75 +223,12 @@ export const searchIndex: SearchItem[] = [
     icon: "FlaskConical"
   },
 
-  // Placements
-  {
-    title: "Placement Statistics & Records",
-    category: "Placements",
-    to: "/placements",
-    keywords: ["placements", "placement success", "job offers", "packages", "salary", "lpa"],
-    icon: "TrendingUp"
-  },
-  {
-    title: "Top Corporate Recruiters",
-    category: "Placements",
-    to: "/placements",
-    keywords: ["recruiters", "corporate partners", "companies", "hiring partners", "tcs", "wipro", "infosys"],
-    icon: "Building2"
-  },
-
-  // Research
-  {
-    title: "Research & Innovation",
-    category: "Research",
-    to: "/research",
-    keywords: ["research", "publications", "patents", "journals", "projects", "innovation"],
-    icon: "Search"
-  },
   {
     title: "Innovation Hub & Incubation Centre",
-    category: "Research",
+    category: "Campus Life",
     to: "/campus-life/innovation-hub",
     keywords: ["innovation", "incubation", "startups", "startup cell", "entrepreneurship", "innovation cell"],
     icon: "Lightbulb"
-  },
-
-  // Administration
-  {
-    title: "Governing Board Members",
-    category: "Administration",
-    to: "/management/board-members",
-    keywords: ["board", "governing body", "management", "chancellor", "vice chancellor", "registrar"],
-    icon: "ShieldAlert"
-  },
-  {
-    title: "Faculty Profiles",
-    category: "Administration",
-    to: "/management/faculty",
-    keywords: ["faculty", "teachers", "professors", "hod", "teaching staff"],
-    icon: "Users"
-  },
-  {
-    title: "Administrative Staff",
-    category: "Administration",
-    to: "/management/staff",
-    keywords: ["staff", "non-teaching staff", "office staff", "administration team"],
-    icon: "Contact"
-  },
-
-  // News & Events
-  {
-    title: "Latest News & Ticker Updates",
-    category: "News & Events",
-    to: "/news",
-    keywords: ["news", "announcements", "ticker", "latest updates", "press release"],
-    icon: "Megaphone"
-  },
-  {
-    title: "Upcoming Campus Events & Festivals",
-    category: "News & Events",
-    to: "/news/events",
-    keywords: ["events", "festivals", "workshops", "seminars", "cultural meets"],
-    icon: "Calendar"
   },
 
   // Institutional

@@ -259,25 +259,17 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
   ];
 
   const navLinks = [
-    "About Us", "Academics", "Admissions", "Research", "Management",
-    "Campus Life", "Placements", "News & Events", "Contact Us",
+    "About Us", "Academics", "Admissions",
+    "Campus Life", "Contact Us",
   ];
 
   const navHrefs: Record<string, string> = {
     "About Us": "/about",
     "Academics": "/academics",
     "Admissions": "/admissions",
-    "Research": "/research",
-    "Management": "/management",
     "Campus Life": "/campus-life",
-    "Placements": "/placements",
     "Contact Us": "/contact",
   };
-
-  const newsEventsItems = [
-    { label: "News", to: "/news" },
-    { label: "Events", to: "/news/events" }
-  ];
 
   const academicsItems = [
     { label: "Programmes Offered", to: "/academics/programmes" },
@@ -505,61 +497,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                 );
               }
 
-              if (name === "Management") {
-                return (
-                  <div
-                    key={name}
-                    className="relative"
-                    onMouseEnter={() => setManagementOpen(true)}
-                    onMouseLeave={() => setManagementOpen(false)}
-                  >
-                    <button
-                      type="button"
-                      className="px-1.5 min-[1280px]:px-2 min-[1440px]:px-2.5 py-2 text-[12.5px] min-[1280px]:text-[13.5px] min-[1440px]:text-[14.5px] font-[600] text-[#072A6C] hover:text-[#D4AF37] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-0.5 cursor-pointer outline-none"
-                    >
-                      {name} <ChevronDown size={13} className={`transition-transform duration-200 ${managementOpen ? "rotate-180" : ""}`} />
-                    </button>
-                    {managementOpen && (
-                      <div className="absolute top-full left-0 mt-0 w-[180px] bg-white border border-gray-200/80 rounded-[12px] shadow-lg py-2.5 z-50 flex flex-col gap-0.5 animate-fade-in font-[var(--font-poppins)]">
-                        {managementItems.map((item) => {
-                          if (item.submenu) {
-                            return (
-                              <div key={item.label} className="relative group/sub">
-                                <div className="px-4 py-2 text-[13px] font-medium text-[#222222] hover:text-[#D4AF37] hover:bg-[#D4AF37]/5 transition-all cursor-default flex justify-between items-center">
-                                  {item.label}
-                                  <ChevronRight size={13} className="text-gray-400 group-hover/sub:text-[#D4AF37]" />
-                                </div>
-                                <div className="absolute left-full top-0 hidden group-hover/sub:flex flex-col w-[240px] bg-white border border-gray-200/80 rounded-[12px] shadow-lg py-2.5 z-50 animate-fade-in -ml-1">
-                                  {item.submenu.map(subItem => (
-                                    <Link
-                                      key={subItem.label}
-                                      to={subItem.to}
-                                      className="px-4 py-2 text-[13px] font-medium text-[#222222] hover:text-[#D4AF37] hover:bg-[#D4AF37]/5 transition-all block"
-                                      onClick={() => setManagementOpen(false)}
-                                    >
-                                      {subItem.label}
-                                    </Link>
-                                  ))}
-                                </div>
-                              </div>
-                            );
-                          }
-                          return (
-                            <Link
-                              key={item.label}
-                              to={item.to}
-                              className="px-4 py-2 text-[13px] font-medium text-[#222222] hover:text-[#D4AF37] hover:bg-[#D4AF37]/5 transition-all block"
-                              onClick={() => setManagementOpen(false)}
-                            >
-                              {item.label}
-                            </Link>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                );
-              }
+
 
               if (name === "Campus Life") {
                 return (
@@ -605,37 +543,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
                 );
               }
 
-              if (name === "News & Events") {
-                return (
-                  <div
-                    key={name}
-                    className="relative"
-                    onMouseEnter={() => setNewsEventsOpen(true)}
-                    onMouseLeave={() => setNewsEventsOpen(false)}
-                  >
-                    <button
-                      type="button"
-                      className="px-1.5 min-[1280px]:px-2 min-[1440px]:px-2.5 py-2 text-[12.5px] min-[1280px]:text-[13.5px] min-[1440px]:text-[14.5px] font-[600] text-[#072A6C] hover:text-[#D4AF37] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-0.5 cursor-pointer outline-none"
-                    >
-                      {name} <ChevronDown size={13} className={`transition-transform duration-200 ${newsEventsOpen ? "rotate-180" : ""}`} />
-                    </button>
-                    {newsEventsOpen && (
-                      <div className="absolute top-full left-0 mt-0 w-[150px] bg-white border border-gray-200/80 rounded-[12px] shadow-lg py-2.5 z-50 flex flex-col gap-0.5 animate-fade-in font-[var(--font-poppins)]">
-                        {newsEventsItems.map((item) => (
-                          <Link
-                            key={item.label}
-                            to={item.to}
-                            className="px-4 py-2 text-[13px] font-medium text-[#222222] hover:text-[#D4AF37] hover:bg-[#D4AF37]/5 transition-all"
-                            onClick={() => setNewsEventsOpen(false)}
-                          >
-                            {item.label}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                );
-              }
+
 
               return (
                 <Link
@@ -893,34 +801,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
               );
             }
 
-            if (name === "Management") {
-              return (
-                <div key={name} className="flex flex-col border-b border-gray-100 py-3">
-                  <button
-                    type="button"
-                    onClick={() => setMobileManagementOpen(!mobileManagementOpen)}
-                    className="w-full flex items-center justify-between text-[15px] font-semibold text-[#222222] hover:text-[#D4AF37] transition-colors font-[var(--font-poppins)] text-left outline-none cursor-pointer"
-                  >
-                    <span>{name}</span>
-                    <ChevronDown size={16} className={`transition-transform duration-200 ${mobileManagementOpen ? "rotate-180" : ""}`} />
-                  </button>
-                  {mobileManagementOpen && (
-                    <div className="pl-4 flex flex-col gap-2 mt-2 pt-2 border-t border-gray-50">
-                      {managementItems.map((item) => (
-                        <Link
-                          key={item.label}
-                          to={item.to}
-                          className="text-[13px] font-medium text-gray-600 hover:text-[#D4AF37] py-1.5 transition-colors font-[var(--font-poppins)]"
-                          onClick={() => setMobileOpen(false)}
-                        >
-                          {item.label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            }
+
 
             if (name === "Campus Life") {
               return (
@@ -951,34 +832,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
               );
             }
 
-            if (name === "News & Events") {
-              return (
-                <div key={name} className="flex flex-col border-b border-gray-100 py-3">
-                  <button
-                    type="button"
-                    onClick={() => setMobileNewsEventsOpen(!mobileNewsEventsOpen)}
-                    className="w-full flex items-center justify-between text-[15px] font-semibold text-[#222222] hover:text-[#D4AF37] transition-colors font-[var(--font-poppins)] text-left outline-none cursor-pointer"
-                  >
-                    <span>{name}</span>
-                    <ChevronDown size={16} className={`transition-transform duration-200 ${mobileNewsEventsOpen ? "rotate-180" : ""}`} />
-                  </button>
-                  {mobileNewsEventsOpen && (
-                    <div className="pl-4 flex flex-col gap-2 mt-2 pt-2 border-t border-gray-50 text-left">
-                      {newsEventsItems.map((item) => (
-                        <Link
-                          key={item.label}
-                          to={item.to}
-                          className="text-[13px] font-medium text-gray-600 hover:text-[#D4AF37] py-1.5 transition-colors font-[var(--font-poppins)]"
-                          onClick={() => setMobileOpen(false)}
-                        >
-                          {item.label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            }
+
 
             return (
               <Link

@@ -18,9 +18,7 @@ export const mainNavLinks: NavLink[] = [
   { label: "About Us", href: ROUTES.about },
   { label: "Admissions", href: ROUTES.admissions },
   { label: "Academics", href: ROUTES.academics },
-  { label: "Research", href: ROUTES.research },
   { label: "Schools", href: ROUTES.schools },
   { label: "Campus Life", href: ROUTES.campusLife },
-  { label: "Placements", href: ROUTES.placements },
   { label: "International", href: ROUTES.international },
 ];

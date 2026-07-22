@@ -17,7 +17,6 @@ export const footerColumns: FooterColumn[] = [
       { label: "About Us", href: ROUTES.about },
       { label: "Admissions", href: ROUTES.admissions },
       { label: "Academics", href: ROUTES.academics },
-      { label: "Research", href: ROUTES.research },
       { label: "Schools", href: ROUTES.schools },
     ],
   },

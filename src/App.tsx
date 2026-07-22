@@ -7,12 +7,7 @@ import Footer from "./components/layout/Footer";
 import Home from "./pages/Home";
 import DynamicPage from "./pages/DynamicPage";
 import Genesis from "./pages/Genesis";
-import Events from "./pages/Events";
-import News from "./pages/News";
-import NewsDetails from "./pages/NewsDetails";
-import EventDetails from "./pages/EventDetails";
 import AnnouncementDetails from "./pages/AnnouncementDetails";
-import AllEvents from "./pages/AllEvents";
 import AdminPortal from "./pages/AdminPortal";
 import { DataProvider, useData } from "./context/DataContext";
 
@@ -398,19 +393,6 @@ function AppContent() {
             <Route path="/admissions/fees" element={<DynamicPage />} />
             <Route path="/admissions/scholarships" element={<DynamicPage />} />
             <Route path="/admissions/apply" element={<DynamicPage />} />
-
-            {/* Research Routes */}
-            <Route path="/research" element={<DynamicPage />} />
-            <Route path="/research/projects" element={<DynamicPage />} />
-            <Route path="/research/publications" element={<DynamicPage />} />
-            <Route path="/research/patents" element={<DynamicPage />} />
-
-            {/* Management Routes */}
-            <Route path="/management" element={<DynamicPage />} />
-            <Route path="/management/board-members" element={<DynamicPage />} />
-            <Route path="/management/faculty/*" element={<DynamicPage />} />
-            <Route path="/management/staff" element={<DynamicPage />} />
-
             {/* Campus Life Routes */}
             <Route path="/campus-life" element={<DynamicPage />} />
             <Route path="/campus-life/hostels" element={<DynamicPage />} />
@@ -419,19 +401,6 @@ function AppContent() {
             <Route path="/campus-life/clubs" element={<DynamicPage />} />
             <Route path="/campus-life/*" element={<DynamicPage />} />
 
-            {/* Placements Routes */}
-            <Route path="/placements" element={<DynamicPage />} />
-            <Route path="/placements/statistics" element={<DynamicPage />} />
-            <Route path="/placements/recruiters" element={<DynamicPage />} />
-            <Route path="/placements/training" element={<DynamicPage />} />
-
-            {/* News Routes */}
-            <Route path="/news" element={<News />} />
-            <Route path="/news/:slug" element={<NewsDetails />} />
-            <Route path="/news/latest" element={<DynamicPage />} />
-            <Route path="/news/events" element={<Events />} />
-            <Route path="/news/events/:slug" element={<EventDetails />} />
-            <Route path="/news/events/all" element={<AllEvents />} />
             <Route path="/announcements/:slug" element={<AnnouncementDetails />} />
 
             {/* Contact Route */}
