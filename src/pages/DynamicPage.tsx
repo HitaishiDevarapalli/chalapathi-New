@@ -305,7 +305,10 @@ const getPageContent = (path: string, programs: any[]) => {
 
               {/* Exit Options Alert */}
               <div className="bg-[#072A6C]/5 border border-[#072A6C]/10 rounded-xl p-4 mt-6">
-                <span className="text-xs font-bold text-[#072A6C] block mb-1">🎓 Flexible Learning Pathways & Exit Points</span>
+                <span className="text-xs font-bold text-[#072A6C] flex items-center gap-2 mb-1">
+                  <GraduationCap className="w-4 h-4 text-[#072A6C]" />
+                  <span>Flexible Learning Pathways & Exit Points</span>
+                </span>
                 <p className="text-[11px] text-gray-500 leading-normal font-light">
                   Aligning with National Education Policy (NEP) guidelines, scholars can choose to exit at varied points:
                   <br />• Exit after 3 Years: Eligible to graduate with a standard Degree in the respective major category.
@@ -1711,8 +1714,9 @@ function AwardOfDegrees() {
 
       {/* Interactive CGPA Classification Slider */}
       <div className="bg-[#072A6C]/5 border border-[#072A6C]/10 rounded-2xl p-5 shadow-sm space-y-4 mt-6">
-        <h5 className="text-xs font-extrabold text-[#072A6C] uppercase tracking-wider">
-          🎓 Interactive Degree Classifier
+        <h5 className="text-xs font-extrabold text-[#072A6C] uppercase tracking-wider flex items-center gap-2">
+          <GraduationCap className="w-4 h-4 text-[#072A6C]" />
+          <span>Interactive Degree Classifier</span>
         </h5>
         <p className="text-[11.5px] text-gray-500 font-light">
           Drag the slider to select a target CGPA and view your expected graduation classification.
@@ -2630,13 +2634,13 @@ export default function DynamicPage() {
   const pathSegments = pathname.split("/").filter((x) => x);
 
   return (
-    <div className="flex-1 w-full bg-[#F7F8FC] py-10 font-[var(--font-poppins)]">
+    <div className="flex-1 w-full bg-slate-100/70 py-10 font-[var(--font-poppins)]">
       <div className="max-w-[1440px] mx-auto px-5">
         
         {/* Breadcrumb Navigation */}
-        <div className="flex items-center gap-1.5 text-xs text-gray-400 mb-6 bg-white py-2.5 px-4 rounded-full border border-gray-100 shadow-sm w-fit">
-          <Link to="/" className="hover:text-[#D4AF37] flex items-center gap-1 transition-colors">
-            <Home size={12} /> Home
+        <div className="flex items-center gap-2 text-xs font-bold text-slate-600 mb-6 bg-white py-3 px-5 rounded-full border-2 border-slate-200 shadow-sm w-fit">
+          <Link to="/" className="hover:text-[#072A6C] flex items-center gap-1.5 transition-colors">
+            <Home size={14} className="text-[#072A6C]" /> Home
           </Link>
           {pathSegments.map((segment, index) => {
             const url = `/${pathSegments.slice(0, index + 1).join("/")}`;
@@ -2645,11 +2649,11 @@ export default function DynamicPage() {
 
             return (
               <React.Fragment key={url}>
-                <ChevronRight size={10} className="text-gray-300 shrink-0" />
+                <ChevronRight size={12} className="text-slate-400 shrink-0" />
                 {isLast ? (
-                  <span className="text-gray-600 font-semibold truncate max-w-[150px]">{cleanLabel}</span>
+                  <span className="text-[#072A6C] font-extrabold truncate max-w-[180px]">{cleanLabel}</span>
                 ) : (
-                  <Link to={url} className="hover:text-[#D4AF37] transition-colors shrink-0">
+                  <Link to={url} className="hover:text-[#072A6C] transition-colors shrink-0">
                     {cleanLabel}
                   </Link>
                 )}
@@ -2662,18 +2666,18 @@ export default function DynamicPage() {
         <div className="space-y-8">
           {/* Main Info */}
           <motion.div
-            className="bg-white border border-gray-200/60 rounded-[16px] p-6 md:p-8 shadow-sm w-full"
+            className="bg-white border-2 border-slate-200/90 rounded-[24px] p-6 md:p-10 shadow-xl shadow-slate-200/50 w-full"
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
           >
             {!content.hideHeader && (
               <>
-                <span className="text-[11px] font-bold text-[#D4AF37] uppercase tracking-wider block mb-1">{content.category}</span>
-                <h1 className="text-[28px] md:text-[34px] font-[800] text-[#072A6C] leading-snug tracking-tight mb-4">
+                <span className="text-xs font-black text-[#D4AF37] uppercase tracking-widest block mb-2">{content.category}</span>
+                <h1 className="text-[30px] md:text-[38px] font-black text-[#072A6C] leading-tight tracking-tight mb-3">
                   {content.title}
                 </h1>
-                <p className="text-[14px] text-gray-500 leading-relaxed font-light mb-8 pb-6 border-b border-gray-100">
+                <p className="text-sm md:text-base text-slate-700 leading-relaxed font-semibold mb-8 pb-6 border-b-2 border-slate-100">
                   {content.desc}
                 </p>
               </>
@@ -3387,7 +3391,19 @@ function AdmissionsApplyFlow() {
     school: "School of Engineering",
     program: "B.Tech. Computer Science & Eng",
     tenthMarks: "",
+    tenthSchool: "",
+    tenthBoard: "State Board",
+    tenthYear: "",
     twelfthMarks: "",
+    interCollege: "",
+    interBoard: "State Board",
+    interYear: "",
+    interStream: "MPC",
+    btechCollege: "",
+    btechUniversity: "",
+    btechYear: "",
+    btechScore: "",
+    btechBranch: "",
     photo: null as File | null,
     marksheet10: null as File | null,
     marksheet12: null as File | null,
@@ -3501,8 +3517,6 @@ function AdmissionsApplyFlow() {
       alert("Please fill all fields to continue.");
       return;
     }
-    setOtpSent(true);
-    setTimer(60);
     handleNext();
   };
 
@@ -3560,74 +3574,77 @@ function AdmissionsApplyFlow() {
 
   const steps = [
     { num: 1, label: "Register" },
-    { num: 2, label: "Verify" },
-    { num: 3, label: "Form" },
-    { num: 4, label: "Documents" },
-    { num: 5, label: "Payment" }
+    { num: 2, label: "Form" },
+    { num: 3, label: "Documents" },
+    { num: 4, label: "Payment" }
   ];
 
   return (
-    <div className="max-w-xl mx-auto bg-white border border-gray-100 rounded-3xl p-8 shadow-md font-[var(--font-poppins)] text-left">
+    <div className="max-w-xl mx-auto bg-white border-2 border-slate-300/90 rounded-3xl p-6 sm:p-9 shadow-2xl shadow-slate-300/50 font-[var(--font-poppins)] text-left relative overflow-hidden">
       {step <= 5 && (
-        <div className="flex justify-between items-center mb-8 border-b border-gray-100 pb-4">
+        <div className="flex justify-between items-center mb-8 border-b-2 border-slate-100 pb-5">
           {steps.map((s) => (
-            <div key={s.num} className="flex flex-col items-center gap-1 flex-1 relative">
+            <div key={s.num} className="flex flex-col items-center gap-1.5 flex-1 relative">
               <div 
-                className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${
+                className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-black transition-all ${
                   step >= s.num 
-                    ? "bg-[#D4AF37] text-white" 
-                    : "bg-gray-100 text-gray-400"
+                    ? "bg-[#072A6C] text-white border-2 border-[#D4AF37] shadow-md shadow-[#072A6C]/30 scale-105" 
+                    : "bg-slate-100 text-slate-600 border-2 border-slate-300 font-bold"
                 }`}
               >
                 {s.num}
               </div>
-              <span className="text-[10px] font-bold text-gray-500 hidden sm:block uppercase tracking-wider">{s.label}</span>
+              <span className={`text-[11px] font-extrabold hidden sm:block uppercase tracking-wider ${
+                step >= s.num ? "text-[#072A6C]" : "text-slate-500"
+              }`}>{s.label}</span>
             </div>
           ))}
         </div>
       )}
 
       {step === 1 && (
-        <div className="space-y-4 animate-fade-in">
-          <h3 className="text-base font-extrabold text-[#072A6C] uppercase tracking-wide">Register Yourself</h3>
-          <p className="text-xs text-gray-500 font-light mb-4">Create your account to start the digital admission journey.</p>
-          <div className="space-y-3.5">
+        <div className="space-y-5 animate-fade-in">
+          <div className="border-b border-slate-100 pb-3">
+            <h3 className="text-base sm:text-lg font-black text-[#072A6C] uppercase tracking-wide">Register Yourself</h3>
+            <p className="text-xs text-slate-600 font-semibold mt-1">Create your official account to start the digital admission journey.</p>
+          </div>
+          <div className="space-y-4">
             <div>
-              <label className="block text-[11px] font-bold text-gray-700 mb-1">Full Name *</label>
+              <label className="block text-xs font-extrabold text-slate-800 mb-1.5">Full Name *</label>
               <input 
                 type="text" 
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920] focus:border-[#D4AF37]" 
+                className="w-full px-3.5 py-2.5 bg-slate-50/50 focus:bg-white border-2 border-slate-300 rounded-xl text-xs sm:text-sm font-semibold text-slate-900 placeholder:text-slate-400 outline-none focus:border-[#072A6C] focus:ring-2 focus:ring-[#072A6C]/20 shadow-sm transition-all" 
                 placeholder="Enter full name" 
               />
             </div>
             <div>
-              <label className="block text-[11px] font-bold text-gray-700 mb-1">Email Address *</label>
+              <label className="block text-xs font-extrabold text-slate-800 mb-1.5">Email Address *</label>
               <input 
                 type="email" 
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920] focus:border-[#D4AF37]" 
+                className="w-full px-3.5 py-2.5 bg-slate-50/50 focus:bg-white border-2 border-slate-300 rounded-xl text-xs sm:text-sm font-semibold text-slate-900 placeholder:text-slate-400 outline-none focus:border-[#072A6C] focus:ring-2 focus:ring-[#072A6C]/20 shadow-sm transition-all" 
                 placeholder="name@domain.com" 
               />
             </div>
             <div>
-              <label className="block text-[11px] font-bold text-gray-700 mb-1">Mobile Number *</label>
+              <label className="block text-xs font-extrabold text-slate-800 mb-1.5">Mobile Number *</label>
               <input 
                 type="tel" 
                 value={formData.mobile}
                 onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920] focus:border-[#D4AF37]" 
+                className="w-full px-3.5 py-2.5 bg-slate-50/50 focus:bg-white border-2 border-slate-300 rounded-xl text-xs sm:text-sm font-semibold text-slate-900 placeholder:text-slate-400 outline-none focus:border-[#072A6C] focus:ring-2 focus:ring-[#072A6C]/20 shadow-sm transition-all" 
                 placeholder="10-digit phone number" 
               />
             </div>
             <div>
-              <label className="block text-[11px] font-bold text-gray-700 mb-1">State *</label>
+              <label className="block text-xs font-extrabold text-slate-800 mb-1.5">State *</label>
               <select 
                 value={formData.state}
                 onChange={(e) => setFormData({ ...formData, state: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920] focus:border-[#D4AF37]"
+                className="w-full px-3.5 py-2.5 bg-slate-50/50 focus:bg-white border-2 border-slate-300 rounded-xl text-xs sm:text-sm font-bold text-slate-900 outline-none focus:border-[#072A6C] focus:ring-2 focus:ring-[#072A6C]/20 shadow-sm transition-all"
               >
                 <option>Andhra Pradesh</option>
                 <option>Telangana</option>
@@ -3640,99 +3657,43 @@ function AdmissionsApplyFlow() {
           <button 
             type="button" 
             onClick={startOtpFlow} 
-            className="w-full py-3 mt-6 bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider"
+            className="w-full py-3.5 mt-6 bg-[#072A6C] hover:bg-[#0B3D91] text-white font-black text-xs sm:text-sm rounded-xl shadow-lg shadow-[#072A6C]/25 border-b-4 border-[#D4AF37] transition-all uppercase tracking-wider cursor-pointer active:scale-98 flex items-center justify-center gap-2"
           >
-            Register & Send Verification Code
+            Register & Continue →
           </button>
         </div>
       )}
 
-      {step === 2 && (
-        <div className="space-y-4 animate-fade-in">
-          <h3 className="text-base font-extrabold text-[#072A6C] uppercase tracking-wide">Verify Mobile / Email</h3>
-          <div className="bg-amber-50 border-l-4 border-[#D4AF37] p-3.5 rounded-r-xl text-[11.5px] text-amber-900 font-semibold mb-2 flex items-center justify-between shadow-sm">
-            <span>📲 Demo Mode: Use OTP <strong className="text-base text-[#D4AF37] tracking-wider font-extrabold">123456</strong></span>
-            <button 
-              type="button"
-              onClick={() => setFormData({ ...formData, otp: "123456" })}
-              className="px-3 py-1 bg-[#D4AF37] hover:bg-[#C9A84C] text-white text-[10px] font-bold rounded-lg cursor-pointer transition-colors border-none outline-none"
-            >
-              Auto-Fill OTP
-            </button>
+      {step === 2 && (() => {
+        const isPG = formData.program.startsWith("M.Tech") || formData.program.startsWith("MBA") || formData.program.startsWith("MCA") || formData.program.startsWith("M.Pharm");
+        const inputCls = "w-full px-3.5 py-2.5 bg-slate-50/50 focus:bg-white border-2 border-slate-300 rounded-xl text-xs sm:text-sm font-semibold text-slate-900 placeholder:text-slate-400 outline-none focus:border-[#072A6C] focus:ring-2 focus:ring-[#072A6C]/20 shadow-sm transition-all";
+        const labelCls = "block text-xs font-extrabold text-slate-800 mb-1.5";
+        const sectionHeadCls = "flex items-center gap-2 text-xs font-black text-[#072A6C] uppercase tracking-wide pb-2 border-b-2 border-slate-200 mb-3";
+        return (
+        <div className="space-y-5 animate-fade-in">
+          <div className="border-b border-slate-100 pb-3">
+            <h3 className="text-base sm:text-lg font-black text-[#072A6C] uppercase tracking-wide">Fill Online Application</h3>
+            <p className="text-xs text-slate-600 font-semibold mt-1">Provide your personal, academic, and previous education details.</p>
           </div>
-          <p className="text-xs text-gray-500 font-light">
-            We have sent a mock 6-digit verification code (OTP) to <strong>{formData.email}</strong> and <strong>{formData.mobile}</strong>.
-          </p>
-          <div className="space-y-4 pt-2">
-            <div>
-              <label className="block text-[11px] font-bold text-gray-700 mb-1">Enter 6-Digit OTP *</label>
-              <input 
-                type="text" 
-                maxLength={6}
-                value={formData.otp}
-                onChange={(e) => setFormData({ ...formData, otp: e.target.value.replace(/\D/g, "") })}
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl text-center text-lg font-bold tracking-[8px] outline-none focus:border-[#D4AF37]" 
-                placeholder="******" 
-              />
-            </div>
-            
-            <div className="flex justify-between items-center text-xs">
-              <span className="text-gray-400">
-                {timer > 0 ? `Resend in ${timer}s` : "Didn't receive code?"}
-              </span>
-              {timer === 0 && (
-                <button 
-                  onClick={() => { setOtpSent(true); setTimer(60); }} 
-                  className="text-[#D4AF37] font-bold hover:underline"
-                >
-                  Resend OTP
-                </button>
-              )}
-            </div>
-          </div>
-
-          <div className="flex gap-4 pt-4">
-            <button 
-              type="button" 
-              onClick={handleBack} 
-              className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs rounded-xl transition-colors uppercase tracking-wider"
-            >
-              Back
-            </button>
-            <button 
-              type="button" 
-              onClick={verifyOtp} 
-              disabled={isVerifying}
-              className="flex-2 py-3 bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider flex items-center justify-center gap-2"
-            >
-              {isVerifying ? "Verifying..." : "Verify & Continue"}
-            </button>
-          </div>
-        </div>
-      )}
-
-      {step === 3 && (
-        <div className="space-y-4 animate-fade-in">
-          <h3 className="text-base font-extrabold text-[#072A6C] uppercase tracking-wide">Fill Online Application</h3>
-          <p className="text-xs text-gray-500 font-light">Provide your basic academic and personal details.</p>
           
-          <div className="space-y-3.5">
+          <div className="space-y-4">
+            {/* ── Personal Details ── */}
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-[11px] font-bold text-gray-700 mb-1">Date of Birth *</label>
+                <label className={labelCls}>Date of Birth *</label>
                 <input 
                   type="date" 
                   value={formData.dob}
                   onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920]" 
+                  className={inputCls}
                 />
               </div>
               <div>
-                <label className="block text-[11px] font-bold text-gray-700 mb-1">Gender *</label>
+                <label className={labelCls}>Gender *</label>
                 <select 
                   value={formData.gender}
                   onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920]"
+                  className={inputCls}
                 >
                   <option>Male</option>
                   <option>Female</option>
@@ -3741,126 +3702,314 @@ function AdmissionsApplyFlow() {
               </div>
             </div>
 
+            {/* ── School & Program Selection ── */}
             <div>
-              <label className="block text-[11px] font-bold text-gray-700 mb-1">Select School *</label>
+              <label className={labelCls}>Select School *</label>
               <select 
                 value={formData.school}
                 onChange={(e) => setFormData({ ...formData, school: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920]"
+                className={inputCls}
               >
                 <option>School of Engineering</option>
                 <option>School of Management</option>
                 <option>School of Pharmacy</option>
+                <option>School of Sciences</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-[11px] font-bold text-gray-700 mb-1">Selected Program *</label>
+              <label className={labelCls}>Selected Program *</label>
               <select 
                 value={formData.program}
                 onChange={(e) => setFormData({ ...formData, program: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920]"
+                className={inputCls}
               >
-                <option>B.Tech. Computer Science & Eng</option>
-                <option>B.Tech. CSE (AI & Machine Learning)</option>
-                <option>B.Tech. CSE (Data Science)</option>
-                <option>B.Tech. Electronics & Comm Eng</option>
-                <option>MBA (Master of Business Administration)</option>
-                <option>MCA (Master of Computer Applications)</option>
-                <option>B.Pharm. (Bachelor of Pharmacy)</option>
+                <optgroup label="Undergraduate (UG)">
+                  <option>B.Tech. Computer Science &amp; Eng</option>
+                  <option>B.Tech. CSE (AI &amp; Machine Learning)</option>
+                  <option>B.Tech. CSE (Data Science)</option>
+                  <option>B.Tech. CSE (Cyber Security)</option>
+                  <option>B.Tech. Electronics &amp; Comm Eng</option>
+                  <option>B.Tech. Electrical &amp; Electronics Eng</option>
+                  <option>B.Tech. Civil Engineering</option>
+                  <option>B.Tech. Mechanical Engineering</option>
+                  <option>B.Pharm. (Bachelor of Pharmacy)</option>
+                </optgroup>
+                <optgroup label="Postgraduate (PG)">
+                  <option>M.Tech. Computer Science &amp; Eng</option>
+                  <option>M.Tech. AI &amp; Machine Learning</option>
+                  <option>M.Tech. Data Science</option>
+                  <option>M.Tech. VLSI &amp; Embedded Systems</option>
+                  <option>M.Tech. Structural Engineering</option>
+                  <option>MBA (Master of Business Administration)</option>
+                  <option>MCA (Master of Computer Applications)</option>
+                  <option>M.Pharm. (Master of Pharmacy)</option>
+                </optgroup>
               </select>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div>
-                <label className="block text-[11px] font-bold text-gray-700 mb-1">Class X Marks (%) *</label>
-                <input 
-                  type="text" 
-                  value={formData.tenthMarks}
-                  onChange={(e) => setFormData({ ...formData, tenthMarks: e.target.value })}
-                  placeholder="e.g. 92.4"
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920]" 
-                />
+            {/* ── Programme Type Indicator ── */}
+            <div className={`px-4 py-3 rounded-xl text-xs font-extrabold flex items-center gap-2 ${isPG ? 'bg-purple-100/70 text-purple-900 border-2 border-purple-200' : 'bg-blue-100/70 text-blue-900 border-2 border-blue-200'}`}>
+              <span className={`w-2.5 h-2.5 rounded-full ${isPG ? 'bg-purple-600' : 'bg-blue-600'}`} />
+              {isPG ? '📋 Postgraduate — 10th, Inter/12th & Graduation details required' : '📋 Undergraduate — 10th & Inter/12th details required'}
+            </div>
+
+            {/* ═══ SECTION: Class 10th (SSC) Details ═══ */}
+            <div className="bg-slate-50 p-4.5 rounded-2xl border-2 border-slate-200 space-y-3 shadow-sm">
+              <div className={sectionHeadCls}>
+                <span className="w-6 h-6 rounded-lg bg-[#072A6C] text-white text-[10px] font-black flex items-center justify-center">1</span>
+                Class 10th (SSC) Details
               </div>
-              <div>
-                <label className="block text-[11px] font-bold text-gray-700 mb-1">Class XII Marks (%) *</label>
-                <input 
-                  type="text" 
-                  value={formData.twelfthMarks}
-                  onChange={(e) => setFormData({ ...formData, twelfthMarks: e.target.value })}
-                  placeholder="e.g. 95.8"
-                  className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920]" 
-                />
+              <div className="grid grid-cols-2 gap-3">
+                <div className="col-span-2">
+                  <label className={labelCls}>School Name *</label>
+                  <input 
+                    type="text" 
+                    value={formData.tenthSchool}
+                    onChange={(e) => setFormData({ ...formData, tenthSchool: e.target.value })}
+                    placeholder="e.g. Sri Chaitanya High School"
+                    className={inputCls}
+                  />
+                </div>
+                <div>
+                  <label className={labelCls}>Board *</label>
+                  <select 
+                    value={formData.tenthBoard}
+                    onChange={(e) => setFormData({ ...formData, tenthBoard: e.target.value })}
+                    className={inputCls}
+                  >
+                    <option>State Board</option>
+                    <option>CBSE</option>
+                    <option>ICSE</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label className={labelCls}>Year of Passing *</label>
+                  <input 
+                    type="text" 
+                    value={formData.tenthYear}
+                    onChange={(e) => setFormData({ ...formData, tenthYear: e.target.value })}
+                    placeholder="e.g. 2020"
+                    maxLength={4}
+                    className={inputCls}
+                  />
+                </div>
+                <div>
+                  <label className={labelCls}>Marks / Percentage (%) *</label>
+                  <input 
+                    type="text" 
+                    value={formData.tenthMarks}
+                    onChange={(e) => setFormData({ ...formData, tenthMarks: e.target.value })}
+                    placeholder="e.g. 92.4"
+                    className={inputCls}
+                  />
+                </div>
               </div>
             </div>
+
+            {/* ═══ SECTION: Intermediate / 12th Details ═══ */}
+            <div className="bg-slate-50 p-4.5 rounded-2xl border-2 border-slate-200 space-y-3 shadow-sm">
+              <div className={sectionHeadCls}>
+                <span className="w-6 h-6 rounded-lg bg-[#072A6C] text-white text-[10px] font-black flex items-center justify-center">2</span>
+                Intermediate / 12th (HSC) Details
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="col-span-2">
+                  <label className={labelCls}>College / School Name *</label>
+                  <input 
+                    type="text" 
+                    value={formData.interCollege}
+                    onChange={(e) => setFormData({ ...formData, interCollege: e.target.value })}
+                    placeholder="e.g. Narayana Junior College"
+                    className={inputCls}
+                  />
+                </div>
+                <div>
+                  <label className={labelCls}>Board *</label>
+                  <select 
+                    value={formData.interBoard}
+                    onChange={(e) => setFormData({ ...formData, interBoard: e.target.value })}
+                    className={inputCls}
+                  >
+                    <option>State Board</option>
+                    <option>CBSE</option>
+                    <option>ICSE</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label className={labelCls}>Stream / Group *</label>
+                  <select 
+                    value={formData.interStream}
+                    onChange={(e) => setFormData({ ...formData, interStream: e.target.value })}
+                    className={inputCls}
+                  >
+                    <option>MPC</option>
+                    <option>BiPC</option>
+                    <option>MEC</option>
+                    <option>CEC</option>
+                    <option>HEC</option>
+                    <option>Vocational</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+                <div>
+                  <label className={labelCls}>Year of Passing *</label>
+                  <input 
+                    type="text" 
+                    value={formData.interYear}
+                    onChange={(e) => setFormData({ ...formData, interYear: e.target.value })}
+                    placeholder="e.g. 2022"
+                    maxLength={4}
+                    className={inputCls}
+                  />
+                </div>
+                <div>
+                  <label className={labelCls}>Marks / Percentage (%) *</label>
+                  <input 
+                    type="text" 
+                    value={formData.twelfthMarks}
+                    onChange={(e) => setFormData({ ...formData, twelfthMarks: e.target.value })}
+                    placeholder="e.g. 95.8"
+                    className={inputCls}
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* ═══ SECTION: Graduation / B.Tech Details (PG Only) ═══ */}
+            {isPG && (
+              <div className="bg-purple-50 p-4.5 rounded-2xl border-2 border-purple-200 space-y-3 shadow-sm">
+                <div className={sectionHeadCls}>
+                  <span className="w-6 h-6 rounded-lg bg-purple-700 text-white text-[10px] font-black flex items-center justify-center">3</span>
+                  Graduation / B.Tech Details
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="col-span-2">
+                    <label className={labelCls}>College Name *</label>
+                    <input 
+                      type="text" 
+                      value={formData.btechCollege}
+                      onChange={(e) => setFormData({ ...formData, btechCollege: e.target.value })}
+                      placeholder="e.g. Chalapathi Institute of Engineering & Technology"
+                      className={inputCls}
+                    />
+                  </div>
+                  <div>
+                    <label className={labelCls}>University *</label>
+                    <input 
+                      type="text" 
+                      value={formData.btechUniversity}
+                      onChange={(e) => setFormData({ ...formData, btechUniversity: e.target.value })}
+                      placeholder="e.g. JNTUK"
+                      className={inputCls}
+                    />
+                  </div>
+                  <div>
+                    <label className={labelCls}>Branch / Specialization *</label>
+                    <input 
+                      type="text" 
+                      value={formData.btechBranch}
+                      onChange={(e) => setFormData({ ...formData, btechBranch: e.target.value })}
+                      placeholder="e.g. Computer Science & Engineering"
+                      className={inputCls}
+                    />
+                  </div>
+                  <div>
+                    <label className={labelCls}>Year of Passing *</label>
+                    <input 
+                      type="text" 
+                      value={formData.btechYear}
+                      onChange={(e) => setFormData({ ...formData, btechYear: e.target.value })}
+                      placeholder="e.g. 2024"
+                      maxLength={4}
+                      className={inputCls}
+                    />
+                  </div>
+                  <div>
+                    <label className={labelCls}>CGPA / Percentage (%) *</label>
+                    <input 
+                      type="text" 
+                      value={formData.btechScore}
+                      onChange={(e) => setFormData({ ...formData, btechScore: e.target.value })}
+                      placeholder="e.g. 8.5 CGPA or 82.3%"
+                      className={inputCls}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="flex gap-4 pt-4">
             <button 
               type="button" 
               onClick={handleBack} 
-              className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs rounded-xl transition-colors uppercase tracking-wider"
+              className="flex-1 py-3.5 bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 text-slate-800 font-extrabold text-xs sm:text-sm rounded-xl transition-all uppercase tracking-wider cursor-pointer"
             >
               Back
             </button>
             <button 
               type="button" 
               onClick={handleNext} 
-              className="flex-2 py-3 bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider"
+              className="flex-2 py-3.5 bg-[#072A6C] hover:bg-[#0B3D91] text-white font-black text-xs sm:text-sm rounded-xl shadow-lg shadow-[#072A6C]/25 border-b-4 border-[#D4AF37] transition-all uppercase tracking-wider cursor-pointer active:scale-98"
             >
-              Save & Continue
+              Save & Continue →
             </button>
           </div>
         </div>
-      )}
+      );})()}
 
-      {step === 4 && (
-        <div className="space-y-4 animate-fade-in">
-          <h3 className="text-base font-extrabold text-[#072A6C] uppercase tracking-wide">Upload Required Documents</h3>
-          <p className="text-xs text-gray-500 font-light">Upload scanned files in PDF or JPEG formats.</p>
+      {step === 3 && (
+        <div className="space-y-5 animate-fade-in">
+          <div className="border-b border-slate-100 pb-3">
+            <h3 className="text-base sm:text-lg font-black text-[#072A6C] uppercase tracking-wide">Upload Required Documents</h3>
+            <p className="text-xs text-slate-600 font-semibold mt-1">Upload clear scanned files in PDF or JPEG formats.</p>
+          </div>
 
           <div className="space-y-4 pt-2">
-            <div className="border border-dashed border-gray-200 rounded-2xl p-4 flex items-center justify-between">
+            <div className="border-2 border-dashed border-slate-300 bg-slate-50 hover:bg-white rounded-2xl p-4 flex items-center justify-between transition-all">
               <div>
-                <span className="block text-xs font-bold text-gray-700">Passport Size Photo *</span>
-                <span className="text-[10px] text-gray-400 font-light">{formData.photo ? formData.photo.name : "JPEG, under 2MB"}</span>
+                <span className="block text-xs font-extrabold text-slate-900">Passport Size Photo *</span>
+                <span className="text-xs text-slate-500 font-semibold">{formData.photo ? formData.photo.name : "JPEG format, under 2MB"}</span>
               </div>
-              <label className="px-4 py-2 bg-gray-50 hover:bg-gray-100 border border-gray-200 text-[#072A6C] font-bold text-[11px] rounded-xl cursor-pointer select-none">
-                {formData.photo ? "Change" : "Browse"}
+              <label className="px-4 py-2 bg-[#072A6C] hover:bg-[#0B3D91] text-white font-extrabold text-xs rounded-xl shadow-sm cursor-pointer select-none transition-all">
+                {formData.photo ? "Change File" : "Browse File"}
                 <input type="file" accept="image/*" onChange={(e) => handleFileUpload("photo", e.target.files)} className="hidden" />
               </label>
             </div>
 
-            <div className="border border-dashed border-gray-200 rounded-2xl p-4 flex items-center justify-between">
+            <div className="border-2 border-dashed border-slate-300 bg-slate-50 hover:bg-white rounded-2xl p-4 flex items-center justify-between transition-all">
               <div>
-                <span className="block text-xs font-bold text-gray-700">Class X Marksheet *</span>
-                <span className="text-[10px] text-gray-400 font-light">{formData.marksheet10 ? formData.marksheet10.name : "PDF/JPEG, under 5MB"}</span>
+                <span className="block text-xs font-extrabold text-slate-900">Class X Marksheet *</span>
+                <span className="text-xs text-slate-500 font-semibold">{formData.marksheet10 ? formData.marksheet10.name : "PDF/JPEG, under 5MB"}</span>
               </div>
-              <label className="px-4 py-2 bg-gray-50 hover:bg-gray-100 border border-gray-200 text-[#072A6C] font-bold text-[11px] rounded-xl cursor-pointer select-none">
-                {formData.marksheet10 ? "Change" : "Browse"}
+              <label className="px-4 py-2 bg-[#072A6C] hover:bg-[#0B3D91] text-white font-extrabold text-xs rounded-xl shadow-sm cursor-pointer select-none transition-all">
+                {formData.marksheet10 ? "Change File" : "Browse File"}
                 <input type="file" accept="image/*,application/pdf" onChange={(e) => handleFileUpload("marksheet10", e.target.files)} className="hidden" />
               </label>
             </div>
 
-            <div className="border border-dashed border-gray-200 rounded-2xl p-4 flex items-center justify-between">
+            <div className="border-2 border-dashed border-slate-300 bg-slate-50 hover:bg-white rounded-2xl p-4 flex items-center justify-between transition-all">
               <div>
-                <span className="block text-xs font-bold text-gray-700">Class XII Marksheet *</span>
-                <span className="text-[10px] text-gray-400 font-light">{formData.marksheet12 ? formData.marksheet12.name : "PDF/JPEG, under 5MB"}</span>
+                <span className="block text-xs font-extrabold text-slate-900">Class XII Marksheet *</span>
+                <span className="text-xs text-slate-500 font-semibold">{formData.marksheet12 ? formData.marksheet12.name : "PDF/JPEG, under 5MB"}</span>
               </div>
-              <label className="px-4 py-2 bg-gray-50 hover:bg-gray-100 border border-gray-200 text-[#072A6C] font-bold text-[11px] rounded-xl cursor-pointer select-none">
-                {formData.marksheet12 ? "Change" : "Browse"}
+              <label className="px-4 py-2 bg-[#072A6C] hover:bg-[#0B3D91] text-white font-extrabold text-xs rounded-xl shadow-sm cursor-pointer select-none transition-all">
+                {formData.marksheet12 ? "Change File" : "Browse File"}
                 <input type="file" accept="image/*,application/pdf" onChange={(e) => handleFileUpload("marksheet12", e.target.files)} className="hidden" />
               </label>
             </div>
 
             {isUploading && (
               <div className="space-y-1.5 pt-2">
-                <div className="flex justify-between text-[11px] font-semibold text-gray-500">
+                <div className="flex justify-between text-xs font-bold text-slate-700">
                   <span>Uploading files...</span>
                   <span>{uploadProgress}%</span>
                 </div>
-                <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
-                  <div className="h-full bg-[#D4AF37] transition-all duration-300" style={{ width: `${uploadProgress}%` }} />
+                <div className="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden">
+                  <div className="h-full bg-[#072A6C] transition-all duration-300" style={{ width: `${uploadProgress}%` }} />
                 </div>
               </div>
             )}
@@ -3871,7 +4020,7 @@ function AdmissionsApplyFlow() {
               type="button" 
               onClick={handleBack} 
               disabled={isUploading}
-              className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs rounded-xl transition-colors uppercase tracking-wider"
+              className="flex-1 py-3.5 bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 text-slate-800 font-extrabold text-xs sm:text-sm rounded-xl transition-all uppercase tracking-wider cursor-pointer"
             >
               Back
             </button>
@@ -3879,26 +4028,28 @@ function AdmissionsApplyFlow() {
               type="button" 
               onClick={startUpload} 
               disabled={isUploading}
-              className="flex-2 py-3 bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider flex items-center justify-center gap-2"
+              className="flex-2 py-3.5 bg-[#072A6C] hover:bg-[#0B3D91] text-white font-black text-xs sm:text-sm rounded-xl shadow-lg shadow-[#072A6C]/25 border-b-4 border-[#D4AF37] transition-all uppercase tracking-wider cursor-pointer flex items-center justify-center gap-2 active:scale-98"
             >
-              {isUploading ? "Uploading..." : "Upload & Continue"}
+              {isUploading ? "Uploading..." : "Upload & Continue →"}
             </button>
           </div>
         </div>
       )}
 
-      {step === 5 && (
-        <div className="space-y-4 animate-fade-in">
-          <h3 className="text-base font-extrabold text-[#072A6C] uppercase tracking-wide">Pay Application Fee</h3>
-          <p className="text-xs text-gray-500 font-light">Pay the mandatory application processing fee of <strong>₹1,000</strong> to submit your form.</p>
+      {step === 4 && (
+        <div className="space-y-5 animate-fade-in">
+          <div className="border-b border-slate-100 pb-3">
+            <h3 className="text-base sm:text-lg font-black text-[#072A6C] uppercase tracking-wide">Pay Application Fee</h3>
+            <p className="text-xs text-slate-600 font-semibold mt-1">Pay the mandatory application processing fee of <strong className="text-slate-900">₹1,000</strong> to submit your form.</p>
+          </div>
 
           <div className="space-y-4 pt-2">
-            <div className="flex gap-3 bg-gray-50 p-2.5 rounded-xl border border-gray-100">
+            <div className="flex gap-3 bg-slate-100 p-2 rounded-2xl border-2 border-slate-200">
               <button 
                 type="button" 
                 onClick={() => setFormData({ ...formData, paymentMethod: "UPI" })}
-                className={`flex-1 py-2 text-center text-xs font-bold rounded-lg transition-colors cursor-pointer outline-none border-none ${
-                  formData.paymentMethod === "UPI" ? "bg-[#072A6C] text-white" : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
+                className={`flex-1 py-2.5 text-center text-xs font-black rounded-xl transition-all cursor-pointer outline-none border-2 ${
+                  formData.paymentMethod === "UPI" ? "bg-[#072A6C] text-white border-[#072A6C] shadow-md" : "bg-white text-slate-700 hover:bg-slate-50 border-slate-300"
                 }`}
               >
                 UPI / QR Code
@@ -3906,8 +4057,8 @@ function AdmissionsApplyFlow() {
               <button 
                 type="button" 
                 onClick={() => setFormData({ ...formData, paymentMethod: "Card" })}
-                className={`flex-1 py-2 text-center text-xs font-bold rounded-lg transition-colors cursor-pointer outline-none border-none ${
-                  formData.paymentMethod === "Card" ? "bg-[#072A6C] text-white" : "bg-white text-gray-600 hover:bg-gray-100 border border-gray-200"
+                className={`flex-1 py-2.5 text-center text-xs font-black rounded-xl transition-all cursor-pointer outline-none border-2 ${
+                  formData.paymentMethod === "Card" ? "bg-[#072A6C] text-white border-[#072A6C] shadow-md" : "bg-white text-slate-700 hover:bg-slate-50 border-slate-300"
                 }`}
               >
                 Credit / Debit Card
@@ -3915,44 +4066,44 @@ function AdmissionsApplyFlow() {
             </div>
 
             {formData.paymentMethod === "UPI" ? (
-              <div className="flex flex-col items-center p-6 border border-gray-200 rounded-2xl space-y-4">
-                <div className="w-40 h-40 bg-white border-2 border-[#072A6C] p-2 rounded-xl flex items-center justify-center shadow-inner">
-                  <QrCode size={120} className="text-[#072A6C]" />
+              <div className="flex flex-col items-center p-6 border-2 border-slate-300 bg-slate-50/50 rounded-2xl space-y-4">
+                <div className="w-44 h-44 bg-white border-2 border-[#072A6C] p-2.5 rounded-2xl flex items-center justify-center shadow-md">
+                  <QrCode size={130} className="text-[#072A6C]" />
                 </div>
-                <span className="text-[11px] font-bold text-[#072A6C] uppercase tracking-wider text-center">Scan QR code using BHIM, GPay, PhonePe, or Paytm</span>
+                <span className="text-xs font-black text-[#072A6C] uppercase tracking-wider text-center">Scan QR code using BHIM, GPay, PhonePe, or Paytm</span>
               </div>
             ) : (
-              <div className="space-y-3 p-4 border border-gray-200 rounded-2xl">
+              <div className="space-y-3 p-4.5 border-2 border-slate-300 bg-slate-50/50 rounded-2xl">
                 <div>
-                  <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Card Number</label>
+                  <label className="block text-xs font-extrabold text-slate-800 uppercase tracking-wider mb-1">Card Number</label>
                   <input 
                     type="text" 
                     value={formData.cardNumber}
                     onChange={(e) => setFormData({ ...formData, cardNumber: e.target.value.replace(/\D/g, "").slice(0, 16) })}
                     placeholder="4111 2222 3333 4444"
-                    className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920]" 
+                    className="w-full px-3.5 py-2.5 bg-white border-2 border-slate-300 rounded-xl text-xs sm:text-sm font-semibold text-slate-900 outline-none focus:border-[#072A6C] focus:ring-2 focus:ring-[#072A6C]/20 shadow-sm" 
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">Expiry Date</label>
+                    <label className="block text-xs font-extrabold text-slate-800 uppercase tracking-wider mb-1">Expiry Date</label>
                     <input 
                       type="text" 
                       value={formData.cardExpiry}
                       onChange={(e) => setFormData({ ...formData, cardExpiry: e.target.value.slice(0, 5) })}
                       placeholder="MM/YY"
-                      className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920]" 
+                      className="w-full px-3.5 py-2.5 bg-white border-2 border-slate-300 rounded-xl text-xs sm:text-sm font-semibold text-slate-900 outline-none focus:border-[#072A6C] focus:ring-2 focus:ring-[#072A6C]/20 shadow-sm" 
                     />
                   </div>
                   <div>
-                    <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-1">CVV</label>
+                    <label className="block text-xs font-extrabold text-slate-800 uppercase tracking-wider mb-1">CVV</label>
                     <input 
                       type="password" 
                       maxLength={3}
                       value={formData.cardCvv}
                       onChange={(e) => setFormData({ ...formData, cardCvv: e.target.value.replace(/\D/g, "") })}
                       placeholder="123"
-                      className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs outline-none focus:ring-1 focus:ring-[#D71920]" 
+                      className="w-full px-3.5 py-2.5 bg-white border-2 border-slate-300 rounded-xl text-xs sm:text-sm font-semibold text-slate-900 outline-none focus:border-[#072A6C] focus:ring-2 focus:ring-[#072A6C]/20 shadow-sm" 
                     />
                   </div>
                 </div>
@@ -3960,8 +4111,8 @@ function AdmissionsApplyFlow() {
             )}
 
             {isPaying && (
-              <div className="flex items-center justify-center gap-2 py-2 text-xs font-bold text-gray-500">
-                <Clock size={14} className="animate-spin text-[#D4AF37]" /> Processing secure transaction...
+              <div className="flex items-center justify-center gap-2 py-2 text-xs font-bold text-slate-700">
+                <Clock size={16} className="animate-spin text-[#D4AF37]" /> Processing secure transaction...
               </div>
             )}
           </div>
@@ -3971,7 +4122,7 @@ function AdmissionsApplyFlow() {
               type="button" 
               onClick={handleBack} 
               disabled={isPaying}
-              className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold text-xs rounded-xl transition-colors uppercase tracking-wider"
+              className="flex-1 py-3.5 bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 text-slate-800 font-extrabold text-xs sm:text-sm rounded-xl transition-all uppercase tracking-wider cursor-pointer"
             >
               Back
             </button>
@@ -3979,7 +4130,7 @@ function AdmissionsApplyFlow() {
               type="button" 
               onClick={processPayment} 
               disabled={isPaying}
-              className="flex-2 py-3 bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-bold text-xs rounded-xl transition-colors uppercase tracking-wider flex items-center justify-center gap-2"
+              className="flex-2 py-3.5 bg-[#072A6C] hover:bg-[#0B3D91] text-white font-black text-xs sm:text-sm rounded-xl shadow-lg shadow-[#072A6C]/25 border-b-4 border-[#D4AF37] transition-all uppercase tracking-wider cursor-pointer flex items-center justify-center gap-2 active:scale-98"
             >
               {isPaying ? "Paying..." : "Pay ₹1,000 & Submit"}
             </button>
@@ -3987,7 +4138,7 @@ function AdmissionsApplyFlow() {
         </div>
       )}
 
-      {step === 6 && (
+      {step === 5 && (
         <div className="text-center py-6 space-y-6 animate-fade-in">
           <div className="w-16 h-16 bg-[#072A6C]/10 text-[#072A6C] rounded-full flex items-center justify-center mx-auto shadow-inner">
             <ShieldCheck size={36} />
@@ -4200,8 +4351,9 @@ function ScholarshipsView() {
             </div>
           </div>
 
-          <div className="bg-blue-50 border-l-4 border-blue-500 p-4.5 rounded-r-xl text-xs text-blue-900 font-medium">
-            💡 Our dedicated student support team assists eligible candidates throughout the entire application and documentation process on the National Scholarship Portal (NSP) schemes.
+          <div className="bg-blue-50 border-l-4 border-blue-500 p-4.5 rounded-r-xl text-xs text-blue-900 font-medium flex items-start gap-2.5">
+            <Info className="w-4 h-4 text-blue-600 shrink-0 mt-0.5" />
+            <span>Our dedicated student support team assists eligible candidates throughout the entire application and documentation process on the National Scholarship Portal (NSP) schemes.</span>
           </div>
         </div>
       </div>

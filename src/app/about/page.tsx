@@ -21,8 +21,9 @@ export default function AboutPage() {
           <p className="text-xs text-zinc-300 max-w-xl leading-relaxed">
             As the Best University in Andhra Pradesh, Chalapathy University stands as a beacon of academic rigor and transformative education.
           </p>
-          <div className="text-[11px] text-zinc-400 font-medium max-w-2xl border-t border-white/10 pt-3 leading-relaxed">
-            🎓 <strong>Branding Heritage:</strong> Chalapathy, being the name of the "Lord Venkateswara" in his adolescence, suggests the noble restlessness of questioning minds who advance humanity in their search for answers. Every institution promoted by our society proudly bears "Chalapathy" as its prefix.
+          <div className="text-[11px] text-zinc-400 font-medium max-w-2xl border-t border-white/10 pt-3 leading-relaxed flex items-start gap-2">
+            <Award className="w-4 h-4 text-primary-gold shrink-0 mt-0.5" />
+            <span><strong>Branding Heritage:</strong> Chalapathy, being the name of the "Lord Venkateswara" in his adolescence, suggests the noble restlessness of questioning minds who advance humanity in their search for answers. Every institution promoted by our society proudly bears "Chalapathy" as its prefix.</span>
           </div>
         </div>
       </section>

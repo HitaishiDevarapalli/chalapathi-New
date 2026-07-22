@@ -46,7 +46,7 @@ export default function AdminPortal() {
   // Tab navigation & layout states
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [activeTab, setActiveTab] = useState<
-    "dashboard" | "homepage-sections" | "announcements" | "about" | "academics" | 
+    "dashboard" | "homepage-sections" | "marquee-ticker" | "announcements" | "about" | "academics" | 
     "calendar" | "news-events" | "directories" | "placements" | "campus-life" | 
     "users" | "admissions" | "examinations" | "finance" | "communication" | "library" | "reports" | "settings" | "leads"
   >("dashboard");
@@ -66,6 +66,24 @@ export default function AdminPortal() {
       certifications: true,
       virtualTour: true
     };
+  });
+
+  // Marquee Ticker Items state
+  const [marqueeItems, setMarqueeItems] = useState<{ text: string; link: string }[]>(() => {
+    try {
+      const saved = localStorage.getItem("chalapathi_marquee_items");
+      if (saved) return JSON.parse(saved);
+    } catch (e) {}
+    return [
+      { text: "Admissions Open for Academic Year 2026–27", link: "" },
+      { text: "Applications Closing Soon", link: "" },
+      { text: "Apply Now", link: "/admissions" },
+      { text: "Scholarships Available for Meritorious Students", link: "" },
+      { text: "Limited Seats", link: "" },
+      { text: "Register Today", link: "/admissions" },
+      { text: "Highest Placement Opportunities", link: "/placements" },
+      { text: "Admissions Open for 2026–27", link: "" }
+    ];
   });
 
   const handleToggleSection = (key: string) => {
@@ -278,6 +296,37 @@ export default function AdminPortal() {
   const showNotification = () => {
     setSaveSuccess(true);
     setTimeout(() => setSaveSuccess(false), 3000);
+  };
+
+  // Marquee Ticker Handlers
+  const handleAddMarqueeItem = () => {
+    const updated = [...marqueeItems, { text: "", link: "" }];
+    setMarqueeItems(updated);
+  };
+
+  const handleUpdateMarqueeItem = (index: number, field: "text" | "link", value: string) => {
+    const updated = [...marqueeItems];
+    updated[index] = { ...updated[index], [field]: value };
+    setMarqueeItems(updated);
+  };
+
+  const handleDeleteMarqueeItem = (index: number) => {
+    const updated = marqueeItems.filter((_, i) => i !== index);
+    setMarqueeItems(updated);
+  };
+
+  const handleSaveMarqueeItems = () => {
+    localStorage.setItem("chalapathi_marquee_items", JSON.stringify(marqueeItems));
+    showNotification();
+  };
+
+  const handleMoveMarqueeItem = (index: number, direction: "up" | "down") => {
+    if (direction === "up" && index === 0) return;
+    if (direction === "down" && index === marqueeItems.length - 1) return;
+    const updated = [...marqueeItems];
+    const swapIdx = direction === "up" ? index - 1 : index + 1;
+    [updated[index], updated[swapIdx]] = [updated[swapIdx], updated[index]];
+    setMarqueeItems(updated);
   };
 
   // Add Announcement
@@ -953,6 +1002,7 @@ export default function AdminPortal() {
                   { id: "library", label: "Library", icon: Library },
                   { id: "reports", label: "Reports", icon: BarChart2 },
                   { id: "homepage-sections", label: "Homepage Control", icon: Layers },
+                  { id: "marquee-ticker", label: "Marquee Ticker", icon: Megaphone },
                   { id: "settings", label: "Settings", icon: Settings }
                 ].map(item => {
                   const Icon = item.icon;
@@ -1115,6 +1165,113 @@ export default function AdminPortal() {
               </div>
             </div>
           )}
+
+            {/* ═══ Marquee Ticker Manager Tab ═══ */}
+            {activeTab === "marquee-ticker" && (
+              <div className="space-y-6 animate-fade-in text-left">
+                <div className="flex justify-between items-center">
+                  <div>
+                    <h2 className="text-xl font-extrabold text-gray-900">Marquee Ticker Manager</h2>
+                    <p className="text-xs text-gray-500 mt-0.5">Add, edit, reorder, and link marquee ticker items. Each item scrolls across the homepage banner — click text opens its link.</p>
+                  </div>
+                  <button
+                    onClick={handleAddMarqueeItem}
+                    className="h-10 px-5 bg-[#071A3A] hover:bg-blue-900 text-white font-bold text-xs rounded-xl shadow transition-colors cursor-pointer flex items-center gap-2"
+                  >
+                    <Plus size={14} /> Add Item
+                  </button>
+                </div>
+
+                <div className="bg-white p-6 rounded-2xl border border-gray-150 shadow-2xs space-y-3">
+                  <div className="flex items-center justify-between border-b border-gray-100 pb-3">
+                    <h3 className="text-sm font-extrabold text-gray-900">Ticker Items ({marqueeItems.length})</h3>
+                    <span className="text-[10px] text-gray-400 font-medium">Drag numbered items to reorder • leave Link empty for non-clickable text</span>
+                  </div>
+
+                  {marqueeItems.length === 0 && (
+                    <div className="text-center py-12 text-gray-400">
+                      <Megaphone size={40} className="mx-auto mb-3 opacity-30" />
+                      <p className="text-sm font-bold">No ticker items yet</p>
+                      <p className="text-xs mt-1">Click "Add Item" to create your first marquee message.</p>
+                    </div>
+                  )}
+
+                  {marqueeItems.map((item, index) => (
+                    <div key={index} className="flex items-start gap-3 p-4 bg-gray-50 border border-gray-100 rounded-xl group hover:border-blue-200 transition-colors">
+                      {/* Number Badge */}
+                      <div className="flex flex-col items-center gap-1 pt-2">
+                        <span className="w-7 h-7 rounded-lg bg-[#071A3A] text-white text-xs font-black flex items-center justify-center shrink-0">
+                          {index + 1}
+                        </span>
+                        <button
+                          type="button"
+                          onClick={() => handleMoveMarqueeItem(index, "up")}
+                          disabled={index === 0}
+                          className="text-gray-400 hover:text-blue-600 disabled:opacity-20 cursor-pointer disabled:cursor-not-allowed transition-colors"
+                          title="Move up"
+                        >
+                          <ChevronDown size={14} className="rotate-180" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleMoveMarqueeItem(index, "down")}
+                          disabled={index === marqueeItems.length - 1}
+                          className="text-gray-400 hover:text-blue-600 disabled:opacity-20 cursor-pointer disabled:cursor-not-allowed transition-colors"
+                          title="Move down"
+                        >
+                          <ChevronDown size={14} />
+                        </button>
+                      </div>
+
+                      {/* Text & Link Fields */}
+                      <div className="flex-1 space-y-2">
+                        <div className="space-y-1">
+                          <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Ticker Text</label>
+                          <input
+                            type="text"
+                            value={item.text}
+                            onChange={(e) => handleUpdateMarqueeItem(index, "text", e.target.value)}
+                            placeholder="Enter ticker message..."
+                            className="w-full h-10 px-3 border border-gray-200 rounded-xl text-xs font-medium focus:border-blue-400 focus:ring-1 focus:ring-blue-100 outline-none transition-all"
+                          />
+                        </div>
+                        <div className="space-y-1">
+                          <label className="text-[10px] font-bold text-gray-500 uppercase tracking-wider">Link URL <span className="text-gray-300 font-normal">(optional — e.g. /admissions or https://...)</span></label>
+                          <input
+                            type="text"
+                            value={item.link}
+                            onChange={(e) => handleUpdateMarqueeItem(index, "link", e.target.value)}
+                            placeholder="/admissions or https://example.com"
+                            className="w-full h-10 px-3 border border-gray-200 rounded-xl text-xs font-medium focus:border-blue-400 focus:ring-1 focus:ring-blue-100 outline-none transition-all"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Delete Button */}
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteMarqueeItem(index)}
+                        className="mt-2 p-2 text-gray-300 hover:text-rose-500 hover:bg-rose-50 rounded-lg transition-all cursor-pointer"
+                        title="Delete item"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Save Button */}
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={handleSaveMarqueeItems}
+                    className="h-11 px-8 bg-[#071A3A] hover:bg-blue-900 text-white font-bold text-xs rounded-xl shadow-lg transition-colors cursor-pointer flex items-center gap-2"
+                  >
+                    <CheckCircle size={16} /> Save Ticker Changes
+                  </button>
+                  <span className="text-[10px] text-gray-400">Changes are saved to the homepage marquee banner instantly.</span>
+                </div>
+              </div>
+            )}
 
           {/* 🌟 Tab 1: Dashboard Overview matching reference image */}
           {activeTab === "dashboard" && (

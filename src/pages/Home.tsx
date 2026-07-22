@@ -8,7 +8,7 @@ import {
   Compass, FileText, Award, Phone, MapPin, Mail, Sparkles, Building2, HelpCircle, Search, Globe,
   UserPlus, ShieldCheck, UploadCloud, CreditCard, Settings, Briefcase, Code, FlaskConical, Wrench, Atom, X, Calendar, Clock, Coffee, Bus,
   Brain, Database, Monitor, Cpu, Shield, CircuitBoard, Network, HardHat,
-  Share2, ChevronLeft, ChevronRight
+  Share2, ChevronLeft, ChevronRight, Scale
 } from "lucide-react";
 import SEO from "../components/SEO";
 
@@ -19,6 +19,7 @@ const FEATURED_IMAGES = [
   "/prog_pharmacy.png"
 ];
 import { useData } from "../context/DataContext";
+import { certifications } from "../data/certifications";
 import { ACADEMIC_PROGRAMS_STRUCTURE } from "../components/layout/Header";
 import imgComputerScience from "../assets/illustrations/computer_science.png";
 import imgMtechCSE from "../assets/illustrations/mtech_cse.png";
@@ -326,27 +327,83 @@ export default function Home() {
       </section>
 
       {/* ═══ ADMISSION ALERT TICKER ═══ */}
-      <section className="relative z-10 w-full h-[50px] bg-[#F4B400] text-[#0A2D6D] flex items-center overflow-hidden select-none font-[var(--font-poppins)] font-[700] text-[18px] shadow-[inset_0_4px_6px_rgba(0,0,0,0.08),0_2px_4px_rgba(0,0,0,0.05)] border-none">
-        <style dangerouslySetInnerHTML={{__html: `
-          @keyframes marquee {
-            0% { transform: translateX(0%); }
-            100% { transform: translateX(-50%); }
+      {(() => {
+        const defaultMarqueeItems = [
+          { text: "Admissions Open for Academic Year 2026–27", link: "" },
+          { text: "Applications Closing Soon", link: "" },
+          { text: "Apply Now", link: "/admissions" },
+          { text: "Scholarships Available for Meritorious Students", link: "" },
+          { text: "Limited Seats", link: "" },
+          { text: "Register Today", link: "/admissions" },
+          { text: "Highest Placement Opportunities", link: "/placements" },
+          { text: "Admissions Open for 2026–27", link: "" }
+        ];
+        let marqueeItems = defaultMarqueeItems;
+        try {
+          const saved = localStorage.getItem("chalapathi_marquee_items");
+          if (saved) {
+            const parsed = JSON.parse(saved);
+            if (Array.isArray(parsed) && parsed.length > 0) marqueeItems = parsed;
           }
-          .marquee-inner {
-            display: flex;
-            width: max-content;
-            animation: marquee 20s linear infinite;
-            will-change: transform;
-          }
-          .marquee-inner:hover {
-            animation-play-state: paused;
-          }
-        `}} />
-        <div className="marquee-inner">
-          <span className="px-4 whitespace-nowrap">🚨 Admissions Open for Academic Year 2026–27 • Applications Closing Soon • Apply Now • Scholarships Available for Meritorious Students • Limited Seats • Register Today • Highest Placement Opportunities • Admissions Open for 2026–27 •</span>
-          <span className="px-4 whitespace-nowrap" aria-hidden="true">🚨 Admissions Open for Academic Year 2026–27 • Applications Closing Soon • Apply Now • Scholarships Available for Meritorious Students • Limited Seats • Register Today • Highest Placement Opportunities • Admissions Open for 2026–27 •</span>
-        </div>
-      </section>
+        } catch (e) {}
+
+        const renderMarqueeContent = (ariaHidden?: boolean) => (
+          <span className="px-4 whitespace-nowrap flex items-center gap-0" {...(ariaHidden ? { 'aria-hidden': 'true' } : {})}>
+            {marqueeItems.map((item: { text: string; link: string }, idx: number) => (
+              <React.Fragment key={idx}>
+                {item.link ? (
+                  item.link.startsWith("http") ? (
+                    <a
+                      href={item.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hover:underline hover:text-[#072A6C] transition-colors cursor-pointer"
+                    >
+                      {item.text}
+                    </a>
+                  ) : (
+                    <Link
+                      to={item.link}
+                      className="hover:underline hover:text-[#072A6C] transition-colors cursor-pointer"
+                    >
+                      {item.text}
+                    </Link>
+                  )
+                ) : (
+                  <span>{item.text}</span>
+                )}
+                {idx < marqueeItems.length - 1 && <span className="mx-2"> • </span>}
+              </React.Fragment>
+            ))}
+            <span className="mx-2"> • </span>
+          </span>
+        );
+
+        return (
+          <section className="relative z-10 w-full h-[50px] bg-[#F4B400] text-[#0A2D6D] flex items-center overflow-hidden select-none font-[var(--font-poppins)] font-[700] text-[18px] shadow-[inset_0_4px_6px_rgba(0,0,0,0.08),0_2px_4px_rgba(0,0,0,0.05)] border-none">
+            <style dangerouslySetInnerHTML={{__html: `
+              @keyframes marquee {
+                0% { transform: translateX(0%); }
+                100% { transform: translateX(-50%); }
+              }
+              .marquee-inner {
+                display: flex;
+                width: max-content;
+                animation: marquee 20s linear infinite;
+                will-change: transform;
+              }
+              .marquee-inner:hover {
+                animation-play-state: paused;
+              }
+            `}} />
+            <div className="marquee-inner">
+              {renderMarqueeContent()}
+              {renderMarqueeContent(true)}
+              {renderMarqueeContent(true)}
+            </div>
+          </section>
+        );
+      })()}
 
       {/* ═══ STATISTICS BAR (Dark Blue - 14px border-radius container) ═══ */}
       <section className="bg-[#072A6C] w-full text-white py-8 select-none relative z-20 overflow-hidden">
@@ -487,29 +544,33 @@ export default function Home() {
             
             {/* Main Tabs (Schools) */}
             {(() => {
-              const schoolIcons: Record<string, string> = {
-                "School of Computing Sciences": "💻",
-                "School of Engineering": "⚙️",
-                "School of Business & Management": "💼",
-                "School of Pharmacy": "⚕️",
-                "School of Law": "⚖️"
+              const schoolIcons: Record<string, React.ReactNode> = {
+                "School of Computing Sciences": <Monitor className="w-5 h-5 md:w-6 md:h-6 shrink-0" />,
+                "School of Engineering": <Cpu className="w-5 h-5 md:w-6 md:h-6 shrink-0" />,
+                "School of Business & Management": <Briefcase className="w-5 h-5 md:w-6 md:h-6 shrink-0" />,
+                "School of Pharmacy": <FlaskConical className="w-5 h-5 md:w-6 md:h-6 shrink-0" />,
+                "School of Law": <Scale className="w-5 h-5 md:w-6 md:h-6 shrink-0" />
               };
               return (
                 <div className="flex flex-wrap justify-center gap-4 md:gap-6 w-full max-w-6xl mb-12">
                   {schools.map((school) => {
                     const isActive = activeSchoolTab === school;
-                    const icon = schoolIcons[school] || "🏫";
+                    const IconComponent = schoolIcons[school] || <GraduationCap className="w-5 h-5 md:w-6 md:h-6 shrink-0" />;
                     return (
                       <button
                         key={school}
                         onClick={() => setActiveSchoolTab(school)}
-                        className={`px-5 py-4 rounded-2xl flex items-center justify-center gap-2.5 text-[14px] sm:text-[16px] md:text-[22px] font-[700] tracking-[0.5px] border transition-all duration-300 transform active:scale-98 cursor-pointer relative ${
+                        className={`group px-5 py-3.5 rounded-2xl flex items-center justify-center gap-3 text-[14px] sm:text-[16px] md:text-[20px] font-[700] tracking-[0.5px] border transition-all duration-300 transform active:scale-98 cursor-pointer relative ${
                           isActive
                             ? "bg-[#0B3D91] text-white border-transparent shadow-lg shadow-[#0B3D91]/25 scale-105 border-b-[3px] border-b-[#D4AF37]"
                             : "bg-white text-[#0B3D91] border-[#0B3D91]/20 hover:bg-[#0B3D91] hover:text-white hover:border-transparent hover:shadow-md"
                         }`}
                       >
-                        <span className="text-[1.1em]">{icon}</span>
+                        <span className={`p-2 rounded-xl flex items-center justify-center transition-colors ${
+                          isActive ? "bg-white/20 text-white" : "bg-[#0B3D91]/10 text-[#0B3D91] group-hover:bg-white/20 group-hover:text-white"
+                        }`}>
+                          {IconComponent}
+                        </span>
                         <span>{school}</span>
                         {isActive && (
                           <motion.div
@@ -636,6 +697,69 @@ export default function Home() {
                 );
             })}
           </motion.div>
+        </div>
+      </section>
+
+      {/* ═══ GLOBAL CERTIFICATIONS MARQUEE ═══ */}
+      <section className="relative w-full py-14 bg-gradient-to-b from-white via-gray-50/40 to-white overflow-hidden font-[var(--font-poppins)]">
+        <style dangerouslySetInnerHTML={{__html: `
+          @keyframes certMarquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          .cert-marquee-track {
+            display: flex;
+            align-items: center;
+            width: max-content;
+            animation: certMarquee 30s linear infinite;
+            will-change: transform;
+          }
+          .cert-marquee-track:hover {
+            animation-play-state: paused;
+          }
+        `}} />
+
+        <div className="max-w-[1440px] mx-auto px-5 mb-8">
+          <div className="flex items-end justify-between">
+            <div>
+              <p className="text-sm font-bold text-[#D4AF37] uppercase tracking-[0.2em] mb-2">Industry-Recognized</p>
+              <h2 className="text-3xl md:text-5xl font-[950] text-[#072A6C] uppercase tracking-tight leading-none">
+                Global <span className="text-[#D4AF37]">Certifications</span>
+              </h2>
+            </div>
+            <Link
+              to="/certifications"
+              className="hidden md:flex items-center gap-2 text-sm font-bold text-[#072A6C] hover:text-[#D4AF37] transition-colors"
+            >
+              View All <ArrowRight size={16} />
+            </Link>
+          </div>
+        </div>
+
+        {/* Logo Marquee Track */}
+        <div className="relative">
+          {/* Fade edges */}
+          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
+
+          <div className="cert-marquee-track">
+            {[...certifications, ...certifications, ...certifications].map((cert, idx) => (
+              <Link
+                key={`${cert.id}-${idx}`}
+                to={`/certifications#${cert.id}`}
+                className="flex-shrink-0 mx-8 group"
+              >
+                <div className="w-[160px] h-[80px] flex items-center justify-center opacity-90 group-hover:opacity-100 transition-opacity duration-300">
+                  <img
+                    src={cert.images[0]}
+                    alt={cert.name}
+                    className="max-w-full max-h-full object-contain"
+                    loading="lazy"
+                  />
+                </div>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 

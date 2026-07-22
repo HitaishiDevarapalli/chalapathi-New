@@ -99,113 +99,116 @@ export default function Genesis() {
           </motion.div>
         </div>
 
-        {/* MAIN VISUAL: 3D GLASS STAIRCASE */}
-        <div className="max-w-[1400px] mx-auto w-full relative z-20 mt-20 md:mt-16 h-auto md:h-[650px] flex flex-col md:flex-row items-center md:items-end justify-between gap-24 md:gap-6 lg:gap-8 pb-10 pt-10 md:pt-0">
+        {/* MAIN VISUAL: PERFECT 3D STAIRCASE TIMELINE */}
+        <div className="max-w-[1440px] mx-auto w-full relative z-20 mt-8 md:mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 md:gap-5 lg:gap-6 items-start px-5 pb-16">
           
-          {/* Glowing Horizon at the End */}
-          <div className="absolute top-[-150px] right-[-50px] w-[500px] h-[500px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-200/40 via-blue-200/10 to-transparent blur-3xl z-0 pointer-events-none"></div>
+          {/* Glowing Horizon Flare */}
+          <div className="absolute top-[-100px] right-[-50px] w-[500px] h-[500px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-amber-200/40 via-blue-200/10 to-transparent blur-3xl z-0 pointer-events-none" />
 
-
-
-          {/* The Steps */}
+          {/* The Staircase Steps */}
           {[
             { 
               year: "1995", 
               title: "The Beginning", 
               desc: "Chalapathi Educational Society (CES) established with a mission to serve society through quality education.",
-              img: "genesis/1995.jpg", 
-              height: "30%",
+              img: "/genesis/1995.jpg", 
+              offset: "md:mt-24",
               alt: "Seed of education"
             },
             { 
               year: "1995–2005", 
               title: "Building the Foundation", 
               desc: "Laid the groundwork with schools and junior & degree colleges, nurturing young minds.",
-              img: "genesis/2005.jpg", 
-              height: "45%",
+              img: "/genesis/2005.jpg", 
+              offset: "md:mt-18",
               alt: "Traditional academic institution"
             },
             { 
               year: "2005–2015", 
               title: "Expanding Horizons", 
               desc: "Ventured into professional and technical education, creating opportunities for future-ready careers.",
-              img: "genesis/2015.jpg", 
-              height: "60%",
+              img: "/3rd.jpeg", 
+              offset: "md:mt-12",
               alt: "Modern engineering campus"
             },
             { 
               year: "2015–2025", 
               title: "Strengthening Excellence", 
               desc: "Chalapathi Institute of Technology at Mothadaka grew into a center for quality technical education and innovation.",
-              img: "genesis/2025.jpg", 
-              height: "75%",
+              img: "/4th.jpg", 
+              offset: "md:mt-6",
               alt: "Premium research campus"
             },
             { 
               year: "2026", 
               title: "A New Chapter", 
               desc: "Chalapathi University — a multidisciplinary, research-driven, future-ready institution shaping global leaders.",
-              img: "genesis/2026.jpg", 
-              height: "90%",
+              img: "/Chalapathimain.png", 
+              offset: "md:mt-0",
               alt: "Iconic future-ready Chalapathi University",
               active: true
             }
           ].map((step, i) => (
             <motion.div 
               key={i}
-              initial={{ opacity: 0, y: 150 }}
+              initial={{ opacity: 0, y: 100 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 1.2, delay: 0.2 + (i * 0.3), type: "spring", bounce: 0.2 }}
-              className="relative w-[85%] max-w-[320px] md:max-w-none md:w-auto md:flex-1 flex flex-col items-center justify-end z-20 h-[280px] md:h-[var(--md-height)]"
-              style={{ '--md-height': step.height } as React.CSSProperties}
+              transition={{ duration: 0.9, delay: 0.15 * i, ease: "easeOut" }}
+              className={`flex flex-col h-full group ${step.offset}`}
             >
-              {/* 3D Illustration / Asset */}
+              {/* Top Photo Header */}
               <motion.div 
-                initial={{ opacity: 0, scale: 0.8, y: 50 }}
+                initial={{ opacity: 0, scale: 0.9, y: 30 }}
                 whileInView={{ opacity: 1, scale: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 1, delay: 0.8 + (i * 0.3), type: "spring" }}
-                className="absolute bottom-[100%] mb-[-15px] md:mb-[-30px] w-[130%] sm:w-[150%] md:w-[170%] max-w-[280px] md:max-w-[340px] z-30 drop-shadow-2xl pointer-events-none"
+                transition={{ duration: 0.8, delay: 0.3 + (i * 0.15), type: "spring" }}
+                className="w-full mb-3.5 z-30 shrink-0"
               >
                 <img 
-                  src={`/${step.img}`} 
+                  src={step.img} 
                   alt={step.alt}
-                  className="w-full h-auto object-contain transform origin-bottom hover:scale-105 transition-transform duration-500 mix-blend-multiply"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x300/e0f2fe/123A7A.png?text=" + step.img;
-                  }}
+                  className={`w-full h-[165px] sm:h-[180px] md:h-[190px] object-cover rounded-2xl transition-all duration-500 group-hover:scale-105 ${
+                    step.active 
+                      ? "border-2 border-sky-400 shadow-[0_15px_35px_rgba(56,189,248,0.4)]" 
+                      : "border border-slate-200/90 shadow-xl"
+                  }`}
                 />
               </motion.div>
 
-
-
-              {/* Premium Glassmorphism Block */}
-              <div className="w-full h-full relative group perspective-1000">
-                {/* 3D Top Face */}
-                <div className={`absolute top-0 left-0 w-full h-10 md:h-16 -mt-5 md:-mt-8 rounded-t-2xl z-20 ${step.active ? 'bg-gradient-to-br from-[#1E4B9C] to-[#0A2044]' : 'bg-white/60 backdrop-blur-xl border-white'} shadow-[inset_0_2px_10px_rgba(255,255,255,0.9),0_-10px_30px_rgba(18,58,122,0.1)] border-t border-x ${step.active ? 'border-[#38bdf8]/50' : 'border-white/80'} skew-x-12 transform origin-bottom-left transition-transform duration-500 group-hover:brightness-110`}></div>
-                
-                {/* 3D Front Face */}
-                <div className={`absolute top-5 md:top-8 left-0 w-full h-[calc(100%-1.25rem)] md:h-[calc(100%-2rem)] rounded-b-2xl z-10 p-4 md:p-8 flex flex-col items-center justify-start ${step.active ? 'bg-gradient-to-b from-[#123A7A] to-[#081b3a] border-[#123A7A] shadow-[0_30px_60px_rgba(18,58,122,0.4)]' : 'bg-white/80 backdrop-blur-2xl border-white/80 shadow-[0_20px_50px_rgba(0,0,0,0.05)]'} border-x border-b overflow-hidden transition-colors duration-500`}>
-                  
-                  {/* Subtle inner reflection */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent pointer-events-none rounded-b-2xl"></div>
-
-                  <div className={`text-center py-1 md:py-2 px-3 md:px-5 rounded-full inline-flex items-center justify-center shadow-inner backdrop-blur-md mb-3 md:mb-4 ${step.active ? 'bg-white/10 text-white border border-white/20' : 'bg-[#123A7A]/5 text-[#123A7A] border border-[#123A7A]/10'}`}>
-                    <h3 className="font-[800] tracking-wider text-[11px] md:text-[14px]">{step.year}</h3>
-                  </div>
-                  
-                  <h4 className={`font-[900] text-[13px] md:text-[18px] text-center leading-tight mb-2 ${step.active ? 'text-white' : 'text-[#0F172A]'}`}>
-                    {step.title}
-                  </h4>
-
-                  {/* Decorative line */}
-                  <div className={`h-[2px] w-8 rounded-full mb-3 block ${step.active ? 'bg-sky-400/50' : 'bg-[#123A7A]/20'}`}></div>
-
-                  <p className={`text-[12px] md:text-[13px] leading-relaxed text-center font-[500] block ${step.active ? 'text-white/80' : 'text-[#0F172A]/70'}`}>
-                    {step.desc}
-                  </p>
+              {/* Column Body Card */}
+              <div className={`w-full flex-1 rounded-3xl p-5 md:p-6 flex flex-col items-center justify-between text-center transition-all duration-500 shadow-xl min-h-[220px] ${
+                step.active 
+                  ? "bg-gradient-to-b from-[#0c2e68] via-[#0A2540] to-[#06182e] border-2 border-sky-400/40 text-white shadow-[#072A6C]/40" 
+                  : "bg-white/95 backdrop-blur-2xl border border-slate-200/90 text-slate-800 shadow-slate-200/50 group-hover:shadow-2xl"
+              }`}>
+                {/* Year Pill */}
+                <div className={`py-1 px-4 rounded-full inline-flex items-center justify-center mb-3 shadow-inner ${
+                  step.active 
+                    ? "bg-white/15 text-white border border-white/25" 
+                    : "bg-blue-50 text-[#072A6C] border border-blue-100"
+                }`}>
+                  <h3 className="font-extrabold tracking-wider text-xs md:text-sm">{step.year}</h3>
                 </div>
+
+                {/* Title */}
+                <h4 className={`font-black text-base md:text-lg tracking-tight leading-tight mb-2 ${
+                  step.active ? "text-white" : "text-[#072A6C]"
+                }`}>
+                  {step.title}
+                </h4>
+
+                {/* Accent Line */}
+                <div className={`h-[2px] w-8 rounded-full mb-3 ${
+                  step.active ? "bg-sky-400" : "bg-[#072A6C]/25"
+                }`} />
+
+                {/* Description */}
+                <p className={`text-xs md:text-sm leading-relaxed font-medium ${
+                  step.active ? "text-blue-100/90" : "text-slate-600"
+                }`}>
+                  {step.desc}
+                </p>
               </div>
             </motion.div>
           ))}

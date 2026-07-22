@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React, { useState } from "react";
 import Link from "next/link";
@@ -8,7 +8,7 @@ import AIAssistant from "@/components/features/AIAssistant";
 import { 
   User, Shield, GraduationCap, ClipboardList, 
   Calendar, CreditCard, Award, UserCheck, 
-  Plus, Edit, Eye, Trash2, ArrowLeft, LogOut, CheckCircle, BarChart3 
+  Plus, Edit, Eye, Trash2, ArrowLeft, LogOut, CheckCircle, BarChart3, Info 
 } from "lucide-react";
 
 type Role = "student" | "faculty" | "parent" | "admin" | null;
@@ -102,8 +102,9 @@ export default function ErpSimulator() {
                   placeholder="e.g. ST-2026-004 (or FA- / PA- / AD-)"
                   className="w-full bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-primary-gold focus:bg-white"
                 />
-                <span className="block text-[10px] text-zinc-400 font-semibold leading-normal mt-1">
-                  💡 Hint: Enter <strong>ST-101</strong> for Student, <strong>FA-101</strong> for Faculty, <strong>PA-101</strong> for Parent, or <strong>AD-101</strong> for Admin dashboards.
+                <span className="block text-[10px] text-zinc-400 font-semibold leading-normal mt-1 flex items-center gap-1">
+                  <Info size={12} className="text-zinc-400 shrink-0" />
+                  <span>Hint: Enter <strong>ST-101</strong> for Student, <strong>FA-101</strong> for Faculty, <strong>PA-101</strong> for Parent, or <strong>AD-101</strong> for Admin dashboards.</span>
                 </span>
               </div>
 
