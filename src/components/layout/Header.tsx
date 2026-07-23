@@ -499,49 +499,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
 
 
 
-              if (name === "Campus Life") {
-                return (
-                  <div
-                    key={name}
-                    className="relative"
-                    onMouseEnter={() => setCampusLifeOpen(true)}
-                    onMouseLeave={() => setCampusLifeOpen(false)}
-                  >
-                    <button
-                      type="button"
-                      className="px-3 min-[1280px]:px-4 min-[1440px]:px-5 py-2 text-[14px] min-[1280px]:text-[15px] min-[1440px]:text-[16px] font-[600] text-[#072A6C] hover:text-[#D4AF37] transition-colors whitespace-nowrap font-[var(--font-poppins)] inline-flex items-center gap-1 cursor-pointer outline-none"
-                    >
-                      {name} <ChevronDown size={13} className={`transition-transform duration-200 ${campusLifeOpen ? "rotate-180" : ""}`} />
-                    </button>
-                    {campusLifeOpen && (
-                      <div 
-                        className="absolute left-0 mt-0 w-[240px] max-h-[380px] overflow-y-auto bg-white border border-gray-200/80 rounded-[20px] shadow-2xl p-4 z-50 flex flex-col gap-1 animate-fade-in text-left font-[var(--font-poppins)]"
-                        style={{ overscrollBehavior: "contain", scrollPaddingTop: "16px", scrollPaddingBottom: "16px" }}
-                        onMouseEnter={() => setCampusLifeOpen(true)}
-                        onMouseLeave={() => setCampusLifeOpen(false)}
-                      >
-                        {campusLifeItems.map((item) => (
-                          <Link
-                            key={item.label}
-                            to={item.to}
-                            className={`px-3 py-2 text-[12px] font-bold rounded-lg transition-all ${
-                              location.pathname === item.to
-                                ? "text-[#D4AF37] bg-[#D4AF37]/5"
-                                : "text-gray-700 hover:text-[#D4AF37] hover:bg-gray-50"
-                            }`}
-                            onMouseEnter={(e) => {
-                              e.currentTarget.scrollIntoView({ block: "nearest", behavior: "smooth" });
-                            }}
-                            onClick={() => setCampusLifeOpen(false)}
-                          >
-                            {item.label}
-                          </Link>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                );
-              }
+
 
 
 
