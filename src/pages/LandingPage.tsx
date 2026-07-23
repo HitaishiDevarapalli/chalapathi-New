@@ -457,9 +457,15 @@ export default function LandingPage() {
                       type="tel" 
                       required
                       pattern="[0-9]{10}"
-                      placeholder="Enter 10 digit number"
+                      placeholder="10-digit phone number"
                       value={formData.mobile}
-                      onChange={(e) => setFormData({ ...formData, mobile: e.target.value })}
+                      onChange={(e) => {
+                        const val = e.target.value.replace(/\D/g, "");
+                        if (val.length <= 10) {
+                          setFormData({ ...formData, mobile: val });
+                        }
+                      }}
+                      maxLength={10}
                       className="w-full h-10 px-3.5 border border-slate-200 rounded-xl focus:outline-none focus:border-blue-500 font-semibold"
                     />
                   </div>
