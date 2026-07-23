@@ -145,7 +145,7 @@ export default function Genesis() {
               year: "2026", 
               title: "A New Chapter", 
               desc: "Chalapathi University — a multidisciplinary, research-driven, future-ready institution shaping global leaders.",
-              img: "/Chalapathimain.png", 
+              img: "/Chalapathimain.jpeg", 
               offset: "md:mt-0",
               alt: "Iconic future-ready Chalapathi University",
               active: true

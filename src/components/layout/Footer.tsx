@@ -6,11 +6,11 @@ import {
 
 export default function Footer() {
   const quickLinks = [
-    { label: "About Us", to: "/about" },
-    { label: "Vision & Mission", to: "/about/vision" },
-    { label: "Leadership", to: "/about/leadership" },
-    { label: "Genesis & Heritage", to: "/about/genesis" },
-    { label: "Chalapathi Advantage", to: "/about/advantage" },
+    { label: "About Us", to: "/#about-us" },
+    { label: "Academics", to: "/academics" },
+    { label: "Admissions", to: "/admissions" },
+    { label: "Campus Life", to: "/campus-life" },
+    { label: "Contact Us", to: "/contact" },
   ];
 
   const academicsLinks = [

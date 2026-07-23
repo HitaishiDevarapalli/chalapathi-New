@@ -8,9 +8,11 @@ import {
   Compass, FileText, Award, Phone, MapPin, Mail, Sparkles, Building2, HelpCircle, Search, Globe,
   UserPlus, ShieldCheck, UploadCloud, CreditCard, Settings, Briefcase, Code, FlaskConical, Wrench, Atom, X, Calendar, Clock, Coffee, Bus,
   Brain, Database, Monitor, Cpu, Shield, CircuitBoard, Network, HardHat,
-  Share2, ChevronLeft, ChevronRight, Scale
+  Share2, ChevronLeft, ChevronRight, Scale, BookOpen
 } from "lucide-react";
 import SEO from "../components/SEO";
+import { AdmissionsApplyFlow } from "./DynamicPage";
+import { EnquiryFormContent } from "../components/EnquiryFormContent";
 
 const FEATURED_IMAGES = [
   "/prog_computer.png",
@@ -120,7 +122,17 @@ export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [progress, setProgress] = useState(0);
-  // Active tab state
+  const [activeFormTab, setActiveFormTab] = useState<"admission" | "enquiry">("admission");
+  const [inlineFormSubmitted, setInlineFormSubmitted] = useState<string | null>(null);
+  const [inlineFormData, setInlineFormData] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    program: "B.Tech Computer Science & Engineering",
+    city: "",
+    qualifyingMarks: "",
+    message: ""
+  });
   const schools = Object.keys(ACADEMIC_PROGRAMS_STRUCTURE);
   const [activeSchoolTab, setActiveSchoolTab] = useState<string>(schools[0]);
   const [activeDepartmentTab, setActiveDepartmentTab] = useState<string | null>(null);
@@ -225,6 +237,24 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    const handleHashScroll = () => {
+      const hash = window.location.hash;
+      if (hash === "#about-us") {
+        setTimeout(() => {
+          document.getElementById("about-us")?.scrollIntoView({ behavior: "smooth" });
+        }, 150);
+      } else if (hash === "#academics") {
+        setTimeout(() => {
+          document.getElementById("academics")?.scrollIntoView({ behavior: "smooth" });
+        }, 150);
+      }
+    };
+    handleHashScroll();
+    window.addEventListener("hashchange", handleHashScroll);
+    return () => window.removeEventListener("hashchange", handleHashScroll);
+  }, []);
+
+  useEffect(() => {
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
@@ -269,62 +299,7 @@ export default function Home() {
         title="Best University in andhraPradesh -ChalapathiUniversity" 
         description="Chalapathi University offers world-class higher education with premium undergraduate, postgraduate, and research programs. Admissions Open for 2026–2027." 
       />
-      {/* ═══ HERO SECTION ═══ */}
-      <section 
-        className="relative w-full overflow-hidden bg-white select-none" 
-
-        onTouchStart={handleTouchStart}
-        onTouchMove={handleTouchMove}
-        onTouchEnd={handleTouchEnd}
-      >
-        <style dangerouslySetInnerHTML={{__html: `
-          @keyframes slideEntrance {
-            0% {
-              opacity: 0;
-              transform: translateY(40px);
-              filter: blur(8px);
-            }
-            100% {
-              opacity: 1;
-              transform: translateY(0);
-              filter: blur(0);
-            }
-          }
-          @keyframes letter-fade {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-          }
-          .animate-letter-fade {
-            opacity: 0;
-            animation: letter-fade 300ms ease-out forwards;
-          }
-          @keyframes tagline-fade {
-            0% { opacity: 0; transform: translateY(10px); }
-            100% { opacity: 1; transform: translateY(0); }
-          }
-          .animate-tagline-fade {
-            opacity: 0;
-            animation: tagline-fade 500ms ease-out forwards;
-          }
-          @keyframes scale-width {
-            0% { transform: scaleX(0); }
-            100% { transform: scaleX(1); }
-          }
-          .animate-scale-width {
-            transform: scaleX(0);
-            animation: scale-width 600ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
-          }
-        `}} />
-
-        {/* Clean full banner image aligned top so the entire logo is visible */}
-        <img
-          src="/Chalapathimain.png"
-          alt="Chalapathi University Banner"
-          className="w-full h-auto md:h-[720px] md:object-cover md:object-top block no-lift"
-        />
-      </section>
-
-      {/* ═══ ADMISSION ALERT TICKER ═══ */}
+      {/* ═══ ADMISSION ALERT TICKER (EXACTLY BELOW NAV BAR) ═══ */}
       {(() => {
         const defaultMarqueeItems = [
           { text: "Admissions Open for Academic Year 2026–27", link: "" },
@@ -401,6 +376,60 @@ export default function Home() {
           </section>
         );
       })()}
+
+      {/* ═══ HERO SECTION ═══ */}
+      <section 
+        className="relative w-full overflow-hidden bg-white select-none" 
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        <style dangerouslySetInnerHTML={{__html: `
+          @keyframes slideEntrance {
+            0% {
+              opacity: 0;
+              transform: translateY(40px);
+              filter: blur(8px);
+            }
+            100% {
+              opacity: 1;
+              transform: translateY(0);
+              filter: blur(0);
+            }
+          }
+          @keyframes letter-fade {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+          }
+          .animate-letter-fade {
+            opacity: 0;
+            animation: letter-fade 300ms ease-out forwards;
+          }
+          @keyframes tagline-fade {
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
+          }
+          .animate-tagline-fade {
+            opacity: 0;
+            animation: tagline-fade 500ms ease-out forwards;
+          }
+          @keyframes scale-width {
+            0% { transform: scaleX(0); }
+            100% { transform: scaleX(1); }
+          }
+          .animate-scale-width {
+            transform: scaleX(0);
+            animation: scale-width 600ms cubic-bezier(0.25, 1, 0.5, 1) forwards;
+          }
+        `}} />
+
+        {/* Full banner image centered at 70% vertical focus */}
+        <img
+          src="/Chalapathimain.jpeg"
+          alt="Chalapathi University Banner"
+          className="w-full h-auto max-h-[85vh] md:h-[680px] object-cover object-[center_70%] block no-lift relative z-0"
+        />
+      </section>
 
       {/* ═══ STATISTICS BAR (Dark Blue - 14px border-radius container) ═══ */}
       <section className="bg-[#072A6C] w-full text-white py-8 select-none relative z-20 overflow-hidden">
@@ -532,7 +561,7 @@ export default function Home() {
       </section>
 
       {/* ═══ OUR PROGRAMS SECTION (Tabbed Layout) ═══ */}
-      <section className="bg-[#f8f9fa] border-t border-gray-100 py-10 md:py-12">
+      <section id="academics" className="bg-[#f8f9fa] border-t border-gray-100 py-10 md:py-12">
         <div className="max-w-[1280px] mx-auto w-full px-5">
           <div className="flex flex-col items-center justify-center mb-6">
             <h2 className="text-[32px] md:text-[38px] font-[800] text-[#072A6C] tracking-tight mb-4">
@@ -697,361 +726,232 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══ GLOBAL CERTIFICATIONS MARQUEE ═══ */}
-      <section className="relative w-full py-14 bg-gradient-to-b from-white via-gray-50/40 to-white overflow-hidden font-[var(--font-poppins)]">
-        <style dangerouslySetInnerHTML={{__html: `
-          @keyframes certMarquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-          }
-          .cert-marquee-track {
-            display: flex;
-            align-items: center;
-            width: max-content;
-            animation: certMarquee 30s linear infinite;
-            will-change: transform;
-          }
-          .cert-marquee-track:hover {
-            animation-play-state: paused;
-          }
-        `}} />
-
-        <div className="max-w-[1440px] mx-auto px-5 mb-8">
-          <div className="flex items-end justify-between">
-            <div>
-              <p className="text-sm font-bold text-[#D4AF37] uppercase tracking-[0.2em] mb-2">Industry-Recognized</p>
-              <h2 className="text-3xl md:text-5xl font-[950] text-[#072A6C] uppercase tracking-tight leading-none">
-                Global <span className="text-[#D4AF37]">Certifications</span>
-              </h2>
-            </div>
-            <Link
-              to="/certifications"
-              className="hidden md:flex items-center gap-2 text-sm font-bold text-[#072A6C] hover:text-[#D4AF37] transition-colors"
+      {/* ═══ ADMISSION FORM & ADMISSION ENQUIRY INLINE TABS & FORM ═══ */}
+      <section className="bg-gradient-to-b from-[#f8f9fa] to-white py-14 border-t border-gray-100 font-[var(--font-poppins)]">
+        <div className="max-w-[1280px] mx-auto px-5">
+          
+          {/* Option Selector Cards (Side-by-Side Tabs) */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 select-none max-w-[940px] mx-auto">
+            
+            {/* LEFT CARD: Admission Form */}
+            <div 
+              onClick={() => {
+                setActiveFormTab("admission");
+                setInlineFormSubmitted(null);
+              }}
+              className={`rounded-[20px] p-5 shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-left relative overflow-hidden group cursor-pointer transition-all duration-300 border ${
+                activeFormTab === "admission"
+                  ? "bg-gradient-to-br from-[#072A6C] to-indigo-950 text-white border-[#D4AF37] ring-4 ring-[#D4AF37]/30 scale-[1.01] shadow-xl"
+                  : "bg-white text-gray-800 border-gray-200 hover:border-[#072A6C] hover:shadow-lg"
+              }`}
             >
-              View All <ArrowRight size={16} />
-            </Link>
-          </div>
-        </div>
-
-        {/* Logo Marquee Track */}
-        <div className="relative">
-          {/* Fade edges */}
-          <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
-          <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
-
-          <div className="cert-marquee-track">
-            {[...certifications, ...certifications, ...certifications].map((cert, idx) => (
-              <div
-                key={`${cert.id}-${idx}`}
-                className="flex-shrink-0 mx-8 group"
-              >
-                <div className="w-[160px] h-[80px] flex items-center justify-center opacity-90 transition-opacity duration-300">
-                  <img
-                    src={cert.images[0]}
-                    alt={cert.name}
-                    className="max-w-full max-h-full object-contain"
-                    loading="lazy"
-                  />
+              <div className="space-y-1.5 max-w-[300px]">
+                <div className="flex items-center gap-2">
+                  <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${
+                    activeFormTab === "admission" ? "bg-white/10 text-[#D4AF37]" : "bg-[#072A6C]/10 text-[#072A6C]"
+                  }`}>
+                    <GraduationCap size={17} />
+                  </div>
+                  {activeFormTab === "admission" && (
+                    <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-[#D4AF37] text-white tracking-wider">
+                      Selected Form
+                    </span>
+                  )}
                 </div>
+                <h4 className={`text-sm sm:text-base font-black uppercase tracking-wider ${
+                  activeFormTab === "admission" ? "text-white" : "text-[#072A6C]"
+                }`}>
+                  Admission Form 2026-27
+                </h4>
+                <p className={`text-[11px] leading-relaxed font-light ${
+                  activeFormTab === "admission" ? "text-white/80" : "text-gray-500"
+                }`}>
+                  Complete your official online application to secure your seat for B.Tech, M.Tech, MBA & Ph.D.
+                </p>
               </div>
-            ))}
+              
+              <button
+                type="button"
+                className={`h-9 px-4 text-[11px] font-black uppercase tracking-wider rounded-lg transition-all shrink-0 shadow flex items-center gap-1.5 cursor-pointer outline-none border-none ${
+                  activeFormTab === "admission"
+                    ? "bg-[#D4AF37] text-white"
+                    : "bg-[#072A6C] text-white group-hover:bg-[#D4AF37]"
+                }`}
+              >
+                Admission Form <ArrowRight size={13} />
+              </button>
+            </div>
+
+            {/* RIGHT CARD: Admission Enquiry Form */}
+            <div 
+              onClick={() => {
+                setActiveFormTab("enquiry");
+                setInlineFormSubmitted(null);
+              }}
+              className={`rounded-[20px] p-5 shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-left relative overflow-hidden group cursor-pointer transition-all duration-300 border ${
+                activeFormTab === "enquiry"
+                  ? "bg-gradient-to-br from-[#D4AF37] to-amber-950 text-white border-[#072A6C] ring-4 ring-[#072A6C]/30 scale-[1.01] shadow-xl"
+                  : "bg-white text-gray-800 border-gray-200 hover:border-[#D4AF37] hover:shadow-lg"
+              }`}
+            >
+              <div className="space-y-1.5 max-w-[300px]">
+                <div className="flex items-center gap-2">
+                  <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${
+                    activeFormTab === "enquiry" ? "bg-white/10 text-white" : "bg-amber-500/10 text-[#D4AF37]"
+                  }`}>
+                    <HelpCircle size={17} />
+                  </div>
+                  {activeFormTab === "enquiry" && (
+                    <span className="text-[9px] font-black uppercase px-2 py-0.5 rounded-full bg-[#072A6C] text-white tracking-wider">
+                      Selected Form
+                    </span>
+                  )}
+                </div>
+                <h4 className={`text-sm sm:text-base font-black uppercase tracking-wider ${
+                  activeFormTab === "enquiry" ? "text-white" : "text-[#072A6C]"
+                }`}>
+                  Admission Enquiry Form
+                </h4>
+                <p className={`text-[11px] leading-relaxed font-light ${
+                  activeFormTab === "enquiry" ? "text-white/80" : "text-gray-500"
+                }`}>
+                  Have questions about eligibility, fee structure, or hostels? Get in touch with our expert counselors.
+                </p>
+              </div>
+
+              <button
+                type="button"
+                className={`h-9 px-4 text-[11px] font-black uppercase tracking-wider rounded-lg transition-all shrink-0 shadow flex items-center gap-1.5 cursor-pointer outline-none border-none ${
+                  activeFormTab === "enquiry"
+                    ? "bg-white text-[#072A6C]"
+                    : "bg-[#D4AF37] text-white group-hover:bg-[#072A6C]"
+                }`}
+              >
+                Admission Enquiry <ArrowRight size={13} />
+              </button>
+            </div>
+
           </div>
+
+          {/* INLINE FORM (DIRECTLY BELOW THE OPTIONS) */}
+          <div className="mt-8 max-w-[1240px] mx-auto">
+            {activeFormTab === "admission" ? (
+              <AdmissionsApplyFlow />
+            ) : (
+              <EnquiryFormContent />
+            )}
+          </div>
+
         </div>
       </section>
 
-
-      {/* ═══ CAMPUS LIFE SECTION ═══ */}
-      <section className="bg-white py-20 relative overflow-hidden font-[var(--font-poppins)] border-t border-gray-100">
-        {/* Soft Radial Gradients & floating elements */}
-        <div className="absolute top-40 left-0 w-96 h-96 rounded-full bg-blue-50/20 blur-3xl -z-10" />
-        <div className="absolute bottom-20 right-0 w-80 h-80 rounded-full bg-yellow-50/10 blur-3xl -z-10" />
-
+      {/* ═══ THE CHALAPATHI ADVANTAGE (ABOUT US) SECTION ═══ */}
+      <section id="about-us" className="bg-white py-16 border-t border-gray-100 font-[var(--font-poppins)]">
         <div className="max-w-[1440px] mx-auto px-5">
-          
-          {/* Section Header */}
-          <div className="text-left mb-16">
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-[950] text-[#072A6C] uppercase tracking-tight mb-4 leading-none">
-              {(() => {
-                const label = localStorage.getItem("chalapathi_campus_label") || "CAMPUS LIFE";
-                if (label.toLowerCase() === "campus life") {
-                  return <>Campus <span className="text-[#D4AF37]">Life</span></>;
-                }
-                return label;
-              })()}
+          {/* Header block */}
+          <div className="text-left mb-10">
+            <span className="text-[12px] font-[800] text-[#D4AF37] tracking-wider uppercase block mb-1">
+              ABOUT US
+            </span>
+            <h2 className="text-[32px] md:text-[40px] font-[800] text-[#072A6C] tracking-tight mb-2">
+              The Chalapathi Advantage
             </h2>
-            <p className="text-xs md:text-sm text-gray-500 max-w-2xl font-light leading-relaxed">
-              Beyond Classrooms. Beyond Limits. {localStorage.getItem("chalapathi_campus_subtitle") || "A vibrant campus where students learn, innovate, explore, compete, and create unforgettable memories."}
+            <p className="text-[#64748B] text-[15px] font-[500] max-w-3xl">
+              Discover why Chalapathi University stands out as a leading hub of educational excellence and innovation.
             </p>
           </div>
 
-          {/* Main Layout Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch mb-20">
-            
-            {/* LEFT SIDE: 2x4 Feature Cards Grid (55% / lg:col-span-7) */}
-            <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-5 select-none">
-              {((): any[] => {
-                try {
-                  const saved = localStorage.getItem("chalapathi_campus_cards");
-                  if (saved) return JSON.parse(saved);
-                } catch (e) {}
-                return [
-                  { title: "Vibrant Community", desc: "A diverse and inclusive campus with students from across India and the world.", icon: "Users", border: "border-blue-500" },
-                  { title: "Clubs & Activities", desc: "50+ student clubs to explore passions and build leadership skills.", icon: "GraduationCap", border: "border-[#D4AF37]" },
-                  { title: "Sports & Fitness", desc: "World-class sports facilities to keep you active, healthy and motivated.", icon: "Trophy", border: "border-green-500" },
-                  { title: "Arts & Culture", desc: "Celebrate creativity with events, fests, and cultural extravaganzas.", icon: "Sparkles", border: "border-pink-500" },
-                  { title: "Smart Learning Spaces", desc: "Modern classrooms, advanced labs, and digital resources for future-ready learning.", icon: "Building2", border: "border-purple-500" },
-                  { title: "Hostel Life", desc: "Safe, comfortable and modern hostels that feel like a second home.", icon: "Landmark", border: "border-orange-500" },
-                  { title: "Food & Cafeteria", desc: "Hygienic, affordable and variety-rich meals for every taste.", icon: "Coffee", border: "border-teal-500" },
-                  { title: "Transport Facility", desc: "Convenient and reliable transportation across city routes.", icon: "Bus", border: "border-indigo-500" }
-                ];
-              })().map((card, idx) => {
-                const getIcon = (iconName: string) => {
-                  switch (iconName) {
-                    case "Users": return <Users size={18} className="text-[#072A6C]" />;
-                    case "GraduationCap": return <GraduationCap size={18} className="text-[#072A6C]" />;
-                    case "Trophy": return <Trophy size={18} className="text-[#072A6C]" />;
-                    case "Sparkles": return <Sparkles size={18} className="text-[#072A6C]" />;
-                    case "Building2": return <Building2 size={18} className="text-[#072A6C]" />;
-                    case "Landmark": return <Landmark size={18} className="text-[#072A6C]" />;
-                    case "Coffee": return <Coffee size={18} className="text-[#072A6C]" />;
-                    case "Bus": return <Bus size={18} className="text-[#072A6C]" />;
-                    default: return <Sparkles size={18} className="text-[#072A6C]" />;
-                  }
-                };
-                const getCardPath = (titleStr: string) => {
-                    switch (titleStr) {
-                      case "Clubs & Activities": return "/campus-life/clubs";
-                      case "Sports & Fitness": return "/campus-life/sports";
-                      case "Hostel Life": return "/campus-life/hostels";
-                      case "Smart Learning Spaces": return "/campus-life/library";
-                      default: return "/campus-life";
-                    }
-                  };
+          <div className="border-t border-gray-100 pt-10">
+            <div className="text-center mb-8">
+              <span className="text-[10px] text-[#D4AF37] font-extrabold uppercase tracking-widest block mb-1">
+                WHY CHOOSE US
+              </span>
+              <h3 className="text-xl md:text-2xl font-black text-[#072A6C] uppercase tracking-wide">
+                THE CHALAPATHI ADVANTAGE
+              </h3>
+              <div className="w-16 h-1 bg-[#D4AF37] mx-auto rounded-full mt-2" />
+            </div>
+
+            {/* 4 Cards Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 pt-6">
+              {[
+                {
+                  num: "01",
+                  title: "AUTONOMOUS CURRICULUM",
+                  desc: "Tailored syllabus modules synced directly with current IT and core sector requirements.",
+                  detail: "Allows for rapid curriculum updating, ensuring learners study the newest engineering standards.",
+                  icon: GraduationCap,
+                  bgClass: "bg-purple-600",
+                  textClass: "text-purple-600",
+                  borderClass: "border-purple-200"
+                },
+                {
+                  num: "02",
+                  title: "INDUSTRY IMMERSION",
+                  desc: "Mandatory corporate internships, case study reviews, and MNC leadership seminars.",
+                  detail: "Direct connection with industry majors to build practical skills before graduation.",
+                  icon: BookOpen,
+                  bgClass: "bg-blue-600",
+                  textClass: "text-blue-600",
+                  borderClass: "border-blue-200"
+                },
+                {
+                  num: "03",
+                  title: "SMART INFRASTRUCTURE",
+                  desc: "State-of-the-art laboratories, digital classrooms, and extensive library resources.",
+                  detail: "A modern campus designed to foster innovation, collaborative learning, and holistic student development.",
+                  icon: Landmark,
+                  bgClass: "bg-amber-600",
+                  textClass: "text-amber-600",
+                  borderClass: "border-amber-200"
+                },
+                {
+                  num: "04",
+                  title: "PLACEMENT TRACK",
+                  desc: "Consistency in recruiting achievements with top MNC software and hardware firms.",
+                  detail: "Comprehensive guidance program from pre-final year until successful placement onboarding.",
+                  icon: Award,
+                  bgClass: "bg-teal-600",
+                  textClass: "text-teal-600",
+                  borderClass: "border-teal-200"
+                }
+              ].map((card, idx) => {
+                const IconComp = card.icon;
                 return (
-                  <div 
-                    key={idx}
-                    onClick={() => navigate(getCardPath(card.title))}
-                    className="bg-white border border-gray-150 rounded-[20px] p-5 shadow-xs hover:shadow-md transition-all duration-300 hover:-translate-y-1 text-left flex flex-col justify-between group relative overflow-hidden cursor-pointer"
-                  >
-                    <div>
-                      {/* Icon */}
-                      <div className="w-10 h-10 rounded-xl bg-gray-50 flex items-center justify-center mb-4 transition-transform group-hover:scale-105">
-                        {getIcon(card.icon)}
+                  <div key={idx} className="flex flex-col items-center relative group">
+                    {/* Top Hexagon Number Badge */}
+                    <div className="relative z-10 -mb-6 flex flex-col items-center">
+                      <div 
+                        className={`w-14 h-14 ${card.bgClass} text-white font-black text-lg flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-transform duration-300`}
+                        style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
+                      >
+                        {card.num}
                       </div>
-                      {/* Title */}
-                      <h4 className="text-xs font-black text-gray-800 mb-1.5 uppercase tracking-wide group-hover:text-[#072A6C] transition-colors">
-                        {card.title}
-                      </h4>
-                      {/* Description */}
-                      <p className="text-[10px] text-gray-400 font-light leading-relaxed">
-                        {card.desc}
-                      </p>
+                      <div className={`w-8 h-2 rounded-full opacity-60 mt-1 ${card.bgClass}`} />
                     </div>
-                    {/* Color accent line at bottom */}
-                    <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#072A6C] opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                    {/* Main Card Body */}
+                    <div className="bg-white border border-gray-150 rounded-2xl p-6 pt-10 shadow-sm hover:shadow-md transition-all flex flex-col items-center text-center space-y-3 w-full h-full relative z-0">
+                      <div className={`p-2.5 rounded-full ${card.bgClass}/10 ${card.textClass}`}>
+                        <IconComp size={20} />
+                      </div>
+                      <h4 className="font-extrabold text-sm text-[#072A6C] uppercase tracking-wider">{card.title}</h4>
+                      <p className="text-xs text-gray-500 font-light leading-relaxed max-w-[90%]">{card.desc}</p>
+                      <p className="text-[10px] text-gray-400 font-light leading-relaxed max-w-[90%]">{card.detail}</p>
+                      <div className="pt-2 flex justify-center w-full">
+                        <div 
+                          className={`w-6 h-6 border-2 ${card.borderClass} bg-white flex items-center justify-center`}
+                          style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }}
+                        >
+                          <div className={`w-2 h-2 ${card.bgClass}`} style={{ clipPath: "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)" }} />
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 );
               })}
             </div>
-
-            {/* RIGHT SIDE: Campus Tour Video Card (45% / lg:col-span-5) */}
-            <div className="lg:col-span-5 flex flex-col justify-between bg-[#072A6C] text-white rounded-[32px] overflow-hidden shadow-2xl relative min-h-[480px]">
-              
-              {/* HTML5 Video Player */}
-              <div 
-                className="relative w-full h-[300px] bg-[#072A6C] cursor-pointer group"
-                onClick={() => {
-                  if (campusVideoRef.current) {
-                    if (campusVideoRef.current.paused) {
-                      campusVideoRef.current.play().catch((e) => console.log("Video play error:", e));
-                    } else {
-                      campusVideoRef.current.pause();
-                    }
-                  }
-                }}
-              >
-                <video
-                  ref={campusVideoRef}
-                  src={campusVideos[activeCampusVideoIdx]?.url}
-                  poster="/Chalapathimain.png"
-                  className="w-full h-full object-cover"
-                  autoPlay
-                  muted={isCampusTourMuted}
-                  loop
-                  playsInline
-                  key={activeCampusVideoIdx}
-                  onCanPlay={(e) => (e.target as HTMLVideoElement).play().catch(() => {})}
-                  onLoadedData={(e) => (e.target as HTMLVideoElement).play().catch(() => {})}
-                />
-                
-                {/* Watch Campus Tour top-left badge */}
-                <div className="absolute top-4 left-4 bg-black/40 backdrop-blur-md px-3.5 py-1.5 rounded-full flex items-center gap-1.5 border border-white/10 z-10">
-                  <Play size={10} fill="currentColor" className="text-[#D4AF37]" />
-                  <span className="text-[9px] font-black uppercase tracking-wider">Watch Campus Tour</span>
-                </div>
-
-                {/* Mute/Unmute top-right control */}
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsCampusTourMuted(!isCampusTourMuted);
-                  }}
-                  className="absolute top-4 right-4 w-7 h-7 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white border border-white/10 hover:bg-black/60 cursor-pointer outline-none z-10"
-                >
-                  <span className="text-[10px] font-bold">
-                    {isCampusTourMuted ? "🔇" : "🔊"}
-                  </span>
-                </button>
-
-                {/* Center overlay play button */}
-                <div className="absolute inset-0 flex items-center justify-center z-10 group-hover:scale-110 transition-transform">
-                  <div className="w-14 h-14 rounded-full bg-[#072A6C]/90 backdrop-blur-md flex items-center justify-center text-white border border-[#D4AF37]/50 shadow-xl">
-                    <Play size={20} fill="currentColor" className="ml-0.5 text-[#D4AF37]" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Quote details block at bottom */}
-              <div className="p-6 md:p-8 flex-1 flex flex-col justify-between text-left relative z-10">
-                <span className="text-4xl font-serif text-white/10 absolute top-4 left-4 select-none pointer-events-none">“</span>
-                <p className="text-xs md:text-sm font-light leading-relaxed max-w-md relative pl-2">
-                  "Life at Chalapathi is about learning, growing and celebrating every moment together."
-                </p>
-
-                {/* Slider controls & slide counter */}
-                <div className="flex items-center justify-between border-t border-white/10 pt-5 mt-6">
-                  {/* Slider counter label */}
-                  <span className="text-[10px] font-black uppercase tracking-widest text-[#D4AF37]">
-                    {String(activeCampusVideoIdx + 1).padStart(2, "0")} / {String(campusVideos.length).padStart(2, "0")}
-                  </span>
-                  
-                  {/* Previous / Next buttons */}
-                  <div className="flex gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setActiveCampusVideoIdx((prev) => (prev - 1 + campusVideos.length) % campusVideos.length)}
-                      className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 border-none text-white flex items-center justify-center cursor-pointer transition-colors"
-                    >
-                      ←
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setActiveCampusVideoIdx((prev) => (prev + 1) % campusVideos.length)}
-                      className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 border-none text-white flex items-center justify-center cursor-pointer transition-colors"
-                    >
-                      →
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
           </div>
-
-          {/* CAMPUS GALLERY CAROUSEL */}
-          <div className="mb-20">
-            <div className="flex items-center justify-between border-b border-gray-100 pb-4 mb-8">
-              <h3 className="text-lg md:text-xl font-[900] text-left text-[#072A6C]">
-                Moments that make <span className="text-[#D4AF37]">Memories</span>
-              </h3>
-            </div>
-
-            {/* Horizontal infinite gallery grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4 select-none">
-              {((): any[] => {
-                try {
-                  const saved = localStorage.getItem("chalapathi_campus_gallery");
-                  if (saved) return JSON.parse(saved);
-                } catch (e) {}
-                return [
-                  { title: "Annual Fest", image: "/gallery_annual_fest.png" },
-                  { title: "Sports Meet", image: "/gallery_sports_meet.png" },
-                  { title: "Tech Events", image: "/gallery_tech_events.png" },
-                  { title: "NSS Activities", image: "/gallery_nss_activities.png" },
-                  { title: "Cultural Events", image: "/gallery_cultural_events.png" },
-                  { title: "Workshops", image: "/gallery_workshops.png" },
-                  { title: "Student Clubs", image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?q=80&w=600&auto=format&fit=crop" },
-                  { title: "Innovation Expo", image: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=600&auto=format&fit=crop" }
-                ];
-              })().map((item, idx) => (
-                <div 
-                  key={idx}
-                  className="bg-white border border-gray-150 rounded-xl overflow-hidden shadow-xs hover:shadow-md transition-all duration-300 hover:-translate-y-1 group cursor-pointer"
-                >
-                  <div className="relative aspect-square overflow-hidden bg-gray-50">
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=300&auto=format&fit=crop";
-                      }}
-                    />
-                    {/* Shine gradient reflection */}
-                    <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
-                  </div>
-                  <div className="p-2.5 text-center">
-                    <span className="text-[9.5px] font-black text-gray-700 block truncate tracking-wide uppercase">
-                      {item.title}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* BOTTOM CTA: Two Equal Premium Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 select-none">
-            
-            {/* LEFT CARD: Blue Gradient */}
-            <div 
-              onClick={() => navigate("/campus-life")}
-              className="bg-gradient-to-br from-[#072A6C] to-indigo-950 text-white rounded-[24px] p-8 shadow-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 text-left relative overflow-hidden group cursor-pointer"
-            >
-              <div className="absolute right-0 top-0 w-24 h-24 bg-white/5 rounded-full blur-xl pointer-events-none" />
-              <div className="space-y-2.5 max-w-[340px]">
-                <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center">
-                  <Users size={16} className="text-[#D4AF37]" />
-                </div>
-                <h4 className="text-sm font-black uppercase tracking-wider">Be a Part of Our Community</h4>
-                <p className="text-[10px] text-white/80 font-light leading-relaxed">
-                  Experience life beyond academics and build a brighter future.
-                </p>
-              </div>
-              <button
-                type="button"
-                className="h-10 px-5 bg-white hover:bg-[#D4AF37] text-[#072A6C] hover:text-white text-[9.5px] font-black uppercase tracking-wider rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer outline-none border-none shrink-0"
-              >
-                Explore Campus Life →
-              </button>
-            </div>
-
-            {/* RIGHT CARD: Gold Gradient */}
-            <div 
-              onClick={() => navigate("/admissions")}
-              className="bg-gradient-to-br from-[#D4AF37] to-amber-950 text-white rounded-[24px] p-8 shadow-lg flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 text-left relative overflow-hidden group cursor-pointer"
-            >
-              <div className="absolute right-0 top-0 w-24 h-24 bg-white/5 rounded-full blur-xl pointer-events-none" />
-              <div className="space-y-2.5 max-w-[340px]">
-                <div className="w-9 h-9 rounded-xl bg-white/10 flex items-center justify-center">
-                  <GraduationCap size={16} className="text-white" />
-                </div>
-                <h4 className="text-sm font-black uppercase tracking-wider">Admissions Open 2026-27</h4>
-                <p className="text-[10px] text-white/80 font-light leading-relaxed">
-                  Join one of Andhra Pradesh's premier private universities today.
-                </p>
-              </div>
-              <button
-                type="button"
-                className="h-10 px-5 bg-white hover:bg-[#072A6C] text-[#072A6C] hover:text-white text-[9.5px] font-black uppercase tracking-wider rounded-xl transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer outline-none border-none shrink-0"
-              >
-                Apply Now →
-              </button>
-            </div>
-
-          </div>
-
         </div>
       </section>
 
@@ -1300,40 +1200,7 @@ export default function Home() {
       </section>
 
 
-      {/* ═══ FIND YOUR WAY STRIP ═══ */}
-      <section className="bg-white py-12 border-t border-gray-100">
-        <div className="max-w-[1440px] mx-auto px-5">
-          <motion.div
-            className="bg-[#072A6C] text-white rounded-[16px] p-6 shadow-sm flex flex-col md:flex-row items-center justify-between gap-6"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-          >
-            <div className="text-center md:text-left min-w-[200px]">
-              <h3 className="text-[18px] font-[800]">Find Your Way</h3>
-              <p className="text-[13px] text-white font-[400] mt-1">Get directions to Chalapathi University</p>
-            </div>
 
-            {/* Combined Input Bar */}
-            <form onSubmit={handleDirections} className="w-full md:w-auto flex-1 flex max-w-2xl bg-white rounded-full p-1.5 overflow-hidden shadow-sm border border-gray-100">
-              <div className="flex items-center gap-2 pl-4 flex-1">
-                <Search size={18} className="text-gray-400 shrink-0" />
-                <input
-                  type="text"
-                  value={directionsFrom}
-                  onChange={(e) => setDirectionsFrom(e.target.value)}
-                  placeholder="Enter your location"
-                  className="w-full text-black text-[14px] outline-none bg-transparent"
-                />
-              </div>
-              <button type="submit" className="bg-[#D4AF37] hover:bg-[#C9A84C] text-white font-[700] px-6 py-3 rounded-full text-[14px] flex items-center gap-2 shrink-0 whitespace-nowrap active:scale-95 transition-transform">
-                Get Directions <MapPin size={14} />
-              </button>
-            </form>
-          </motion.div>
-        </div>
-      </section>
 
       {/* ═══ ADMISSIONS OPEN 2026 STRIP ═══ */}
       <section className="bg-gray-50 py-12 border-t border-gray-100">
@@ -1428,9 +1295,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══ Glassmorphism Modal ═══ */}
-      <AnimatePresence>
-      </AnimatePresence>
+      {/* ═══ THE CHALAPATHI ADVANTAGE (ABOUT US) SECTION ═══ */}
     </div>
   );
 }

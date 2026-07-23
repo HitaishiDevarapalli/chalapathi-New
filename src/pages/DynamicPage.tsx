@@ -3349,7 +3349,7 @@ const FEES_DATA = [
   }
 ];
 
-function AdmissionsApplyFlow() {
+export function AdmissionsApplyFlow() {
   const [step, setStep] = React.useState(1);
   const [formData, setFormData] = React.useState({
     name: "",

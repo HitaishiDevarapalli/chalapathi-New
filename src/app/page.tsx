@@ -52,7 +52,7 @@ export default function Home() {
         <div
           className="absolute inset-0 bg-cover bg-top"
           style={{
-            backgroundImage: "url('/Chalapathimain.png')",
+            backgroundImage: "url('/Chalapathimain.jpeg')",
             backgroundPosition: "center top"
           }}
         />
