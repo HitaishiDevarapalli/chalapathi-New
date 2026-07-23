@@ -803,34 +803,7 @@ export default function Header({ onToggleAi }: { onToggleAi?: () => void } = {})
 
 
 
-            if (name === "Campus Life") {
-              return (
-                <div key={name} className="flex flex-col border-b border-gray-100 py-3">
-                  <button
-                    type="button"
-                    onClick={() => setMobileCampusLifeOpen(!mobileCampusLifeOpen)}
-                    className="w-full flex items-center justify-between text-[15px] font-semibold text-[#222222] hover:text-[#D4AF37] transition-colors font-[var(--font-poppins)] text-left outline-none cursor-pointer"
-                  >
-                    <span>{name}</span>
-                    <ChevronDown size={16} className={`transition-transform duration-200 ${mobileCampusLifeOpen ? "rotate-180" : ""}`} />
-                  </button>
-                  {mobileCampusLifeOpen && (
-                    <div className="pl-4 flex flex-col gap-2 mt-2 pt-2 border-t border-gray-50 max-h-[260px] overflow-y-auto">
-                      {campusLifeItems.map((item) => (
-                        <Link
-                          key={item.label}
-                          to={item.to}
-                          className="text-[13px] font-medium text-gray-600 hover:text-[#D4AF37] py-1.5 transition-colors font-[var(--font-poppins)]"
-                          onClick={() => setMobileOpen(false)}
-                        >
-                          {item.label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              );
-            }
+
 
 
 
