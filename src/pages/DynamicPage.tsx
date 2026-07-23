@@ -595,13 +595,10 @@ const getPageContent = (path: string, programs: any[]) => {
               <div className="w-16 h-1 bg-[#D4AF37] mt-3 rounded" />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 items-stretch relative">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch relative">
               {[
                 { id: 1, label: "Register Yourself", desc: "Create your admission account.", icon: UserPlus },
-                { id: 2, label: "Verify Email / Mobile", desc: "Confirm your contact details.", icon: ShieldCheck },
-                { id: 3, label: "Fill Online Application", desc: "Enter academic and personal information.", icon: FileText },
-                { id: 4, label: "Upload Required Documents", desc: "Upload certificates and supporting documents.", icon: UploadCloud },
-                { id: 5, label: "Pay Application Fee", desc: "Complete the payment and submit the application.", icon: CreditCard }
+                { id: 2, label: "Fill Online Application", desc: "Enter academic and personal information.", icon: FileText }
               ].map((step) => {
                 const StepIcon = step.icon;
                 return (
@@ -3434,7 +3431,6 @@ function AdmissionsApplyFlow() {
               <div class="logo">Chalapathi University</div>
               <div class="subtitle">Accredited & Visionary Institution</div>
               <div class="title">Admission Application Receipt</div>
-              <div class="receipt-badge">Payment Successful</div>
             </div>
             
             <div class="section">
@@ -3442,8 +3438,6 @@ function AdmissionsApplyFlow() {
               <div class="grid">
                 <div class="item"><span class="label">Application No:</span> <span class="value" style="font-weight: 700; color: #072A6C;">CC-2026-89421</span></div>
                 <div class="item"><span class="label">Date/Time:</span> <span class="value">${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}</span></div>
-                <div class="item"><span class="label">Transaction ID:</span> <span class="value">TXN_${Math.floor(Math.random() * 900000000 + 100000000)}</span></div>
-                <div class="item"><span class="label">Status:</span> <span class="value" style="font-weight: 700; color: #10B981;">PAID</span></div>
               </div>
             </div>
 
@@ -3464,8 +3458,6 @@ function AdmissionsApplyFlow() {
               <div class="grid">
                 <div class="item"><span class="label">School:</span> <span class="value">${formData.school}</span></div>
                 <div class="item"><span class="label">Program:</span> <span class="value">${formData.program}</span></div>
-                <div class="item"><span class="label">Registration Fee:</span> <span class="value" style="font-weight: 700;">₹1,000</span></div>
-                <div class="item"><span class="label">Mode of Payment:</span> <span class="value">Online (Gateway)</span></div>
               </div>
             </div>
 
@@ -3538,13 +3530,12 @@ function AdmissionsApplyFlow() {
   const steps = [
     { num: 1, label: "Register" },
     { num: 2, label: "Form" },
-    { num: 3, label: "Documents" },
-    { num: 4, label: "Success" }
+    { num: 3, label: "Success" }
   ];
 
   return (
     <div className="max-w-xl mx-auto bg-white border-2 border-slate-300/90 rounded-3xl p-6 sm:p-9 shadow-2xl shadow-slate-300/50 font-[var(--font-poppins)] text-left relative overflow-hidden">
-      {step <= 4 && (
+      {step <= 3 && (
         <div className="flex justify-between items-center mb-8 border-b-2 border-slate-100 pb-5">
           {steps.map((s) => (
             <div key={s.num} className="flex flex-col items-center gap-1.5 flex-1 relative">
@@ -3918,88 +3909,13 @@ function AdmissionsApplyFlow() {
               onClick={handleNext} 
               className="flex-2 py-3.5 bg-[#072A6C] hover:bg-[#0B3D91] text-white font-black text-xs sm:text-sm rounded-xl shadow-lg shadow-[#072A6C]/25 border-b-4 border-[#D4AF37] transition-all uppercase tracking-wider cursor-pointer active:scale-98"
             >
-              Save & Continue →
+              Submit Application →
             </button>
           </div>
         </div>
       );})()}
 
       {step === 3 && (
-        <div className="space-y-5 animate-fade-in">
-          <div className="border-b border-slate-100 pb-3">
-            <h3 className="text-base sm:text-lg font-black text-[#072A6C] uppercase tracking-wide">Upload Required Documents</h3>
-            <p className="text-xs text-slate-600 font-semibold mt-1">Upload clear scanned files in PDF or JPEG formats.</p>
-          </div>
-
-          <div className="space-y-4 pt-2">
-            <div className="border-2 border-dashed border-slate-300 bg-slate-50 hover:bg-white rounded-2xl p-4 flex items-center justify-between transition-all">
-              <div>
-                <span className="block text-xs font-extrabold text-slate-900">Passport Size Photo *</span>
-                <span className="text-xs text-slate-500 font-semibold">{formData.photo ? formData.photo.name : "JPEG format, under 2MB"}</span>
-              </div>
-              <label className="px-4 py-2 bg-[#072A6C] hover:bg-[#0B3D91] text-white font-extrabold text-xs rounded-xl shadow-sm cursor-pointer select-none transition-all">
-                {formData.photo ? "Change File" : "Browse File"}
-                <input type="file" accept="image/*" onChange={(e) => handleFileUpload("photo", e.target.files)} className="hidden" />
-              </label>
-            </div>
-
-            <div className="border-2 border-dashed border-slate-300 bg-slate-50 hover:bg-white rounded-2xl p-4 flex items-center justify-between transition-all">
-              <div>
-                <span className="block text-xs font-extrabold text-slate-900">Class X Marksheet *</span>
-                <span className="text-xs text-slate-500 font-semibold">{formData.marksheet10 ? formData.marksheet10.name : "PDF/JPEG, under 5MB"}</span>
-              </div>
-              <label className="px-4 py-2 bg-[#072A6C] hover:bg-[#0B3D91] text-white font-extrabold text-xs rounded-xl shadow-sm cursor-pointer select-none transition-all">
-                {formData.marksheet10 ? "Change File" : "Browse File"}
-                <input type="file" accept="image/*,application/pdf" onChange={(e) => handleFileUpload("marksheet10", e.target.files)} className="hidden" />
-              </label>
-            </div>
-
-            <div className="border-2 border-dashed border-slate-300 bg-slate-50 hover:bg-white rounded-2xl p-4 flex items-center justify-between transition-all">
-              <div>
-                <span className="block text-xs font-extrabold text-slate-900">Class XII Marksheet *</span>
-                <span className="text-xs text-slate-500 font-semibold">{formData.marksheet12 ? formData.marksheet12.name : "PDF/JPEG, under 5MB"}</span>
-              </div>
-              <label className="px-4 py-2 bg-[#072A6C] hover:bg-[#0B3D91] text-white font-extrabold text-xs rounded-xl shadow-sm cursor-pointer select-none transition-all">
-                {formData.marksheet12 ? "Change File" : "Browse File"}
-                <input type="file" accept="image/*,application/pdf" onChange={(e) => handleFileUpload("marksheet12", e.target.files)} className="hidden" />
-              </label>
-            </div>
-
-            {isUploading && (
-              <div className="space-y-1.5 pt-2">
-                <div className="flex justify-between text-xs font-bold text-slate-700">
-                  <span>Uploading files...</span>
-                  <span>{uploadProgress}%</span>
-                </div>
-                <div className="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden">
-                  <div className="h-full bg-[#072A6C] transition-all duration-300" style={{ width: `${uploadProgress}%` }} />
-                </div>
-              </div>
-            )}
-          </div>
-
-          <div className="flex gap-4 pt-6">
-            <button 
-              type="button" 
-              onClick={handleBack} 
-              disabled={isUploading}
-              className="flex-1 py-3.5 bg-slate-100 hover:bg-slate-200 border-2 border-slate-300 text-slate-800 font-extrabold text-xs sm:text-sm rounded-xl transition-all uppercase tracking-wider cursor-pointer"
-            >
-              Back
-            </button>
-            <button 
-              type="button" 
-              onClick={startUpload} 
-              disabled={isUploading}
-              className="flex-2 py-3.5 bg-[#072A6C] hover:bg-[#0B3D91] text-white font-black text-xs sm:text-sm rounded-xl shadow-lg shadow-[#072A6C]/25 border-b-4 border-[#D4AF37] transition-all uppercase tracking-wider cursor-pointer flex items-center justify-center gap-2 active:scale-98"
-            >
-              {isUploading ? "Uploading..." : "Upload & Continue →"}
-            </button>
-          </div>
-        </div>
-      )}
-
-      {step === 4 && (
         <div className="text-center py-6 space-y-6 animate-fade-in">
           <div className="w-16 h-16 bg-[#072A6C]/10 text-[#072A6C] rounded-full flex items-center justify-center mx-auto shadow-inner">
             <ShieldCheck size={36} />
@@ -4019,10 +3935,6 @@ function AdmissionsApplyFlow() {
             <div className="flex justify-between border-b border-gray-200 pb-1.5">
               <span className="text-gray-400">Stream:</span>
               <span className="font-bold text-[#072A6C]">B.Tech. Program</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-gray-400">Fee Status:</span>
-              <span className="font-bold text-[#D4AF37] uppercase tracking-wider">Paid (₹1,000)</span>
             </div>
           </div>
 
